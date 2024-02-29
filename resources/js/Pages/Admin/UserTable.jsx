@@ -97,7 +97,7 @@ const UserTable = ({ TABLE_HEAD, users, currentPage, totalPages, setCurrentPage 
     return (
         <div>
             {isSuccessMessage && <StatusMessage color="green" info="User Deleted Successfully" />}
-            <Card className="h-full w-full p-1">
+            <Card className="h-full w-full p-4 ">
                 <CardHeader floated={false} shadow={false} className="rounded-none">
                     <div className="mb-8 flex items-center justify-between gap-8">
                         <div>
@@ -117,21 +117,19 @@ const UserTable = ({ TABLE_HEAD, users, currentPage, totalPages, setCurrentPage 
                     </div>
                     <div className="flex gap-2 flex-col items-center justify-end md:flex-row  ">
                         <div className='flex justify-start gap-2'>
-                            <div className='bg-blue-500 text-white px-2 py-2 rounded-md'>
+                            <div className='border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md'>
 
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                                    <path fillRule="evenodd" d="M3.792 2.938A49.069 49.069 0 0 1 12 2.25c2.797 0 5.54.236 8.209.688a1.857 1.857 0 0 1 1.541 1.836v1.044a3 3 0 0 1-.879 2.121l-6.182 6.182a1.5 1.5 0 0 0-.439 1.061v2.927a3 3 0 0 1-1.658 2.684l-1.757.878A.75.75 0 0 1 9.75 21v-5.818a1.5 1.5 0 0 0-.44-1.06L3.13 7.938a3 3 0 0 1-.879-2.121V4.774c0-.897.64-1.683 1.542-1.836Z" clipRule="evenodd" />
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
                                 </svg>
 
 
                             </div>
-                            <div className='bg-blue-500 text-white px-2 py-2 rounded-md'>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                                    <path d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v.75c0 1.036.84 1.875 1.875 1.875h17.25c1.035 0 1.875-.84 1.875-1.875v-.75C22.5 3.839 21.66 3 20.625 3H3.375Z" />
-                                    <path fillRule="evenodd" d="m3.087 9 .54 9.176A3 3 0 0 0 6.62 21h10.757a3 3 0 0 0 2.995-2.824L20.913 9H3.087ZM12 10.5a.75.75 0 0 1 .75.75v4.94l1.72-1.72a.75.75 0 1 1 1.06 1.06l-3 3a.75.75 0 0 1-1.06 0l-3-3a.75.75 0 1 1 1.06-1.06l1.72 1.72v-4.94a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
+                            <div className='border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md'>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                                    <path fillRule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875Zm6.905 9.97a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.72-1.72V18a.75.75 0 0 0 1.5 0v-4.19l1.72 1.72a.75.75 0 1 0 1.06-1.06l-3-3Z" clipRule="evenodd" />
+                                    <path d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z" />
                                 </svg>
-
-
 
                             </div>
                         </div>
@@ -146,7 +144,7 @@ const UserTable = ({ TABLE_HEAD, users, currentPage, totalPages, setCurrentPage 
                         </div>
                     </div>
                 </CardHeader>
-                <CardBody className="overflow-scroll px-0">
+                <CardBody className="overflow-scroll px-0 ">
                     <table className="mt-4 w-full min-w-max table-auto text-left">
                         <thead>
                             <tr>
@@ -221,7 +219,7 @@ const UserTable = ({ TABLE_HEAD, users, currentPage, totalPages, setCurrentPage 
                                                     </Typography>
                                                 </td>
                                                 <td className='p-5'>
-                                                    <Typography variant="small" color="blue-gray" className={`text-white font-semibold text-center rounded-md py-2  ${email_verified_at ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                                    <Typography variant="small" color="blue-gray" className={`text-white font-semibold text-center rounded-md  px-2 py-2  ${email_verified_at ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                                                         {email_verified_at ? "VERIFIED" : "UNVERIFIED"}
                                                     </Typography>
                                                 </td>

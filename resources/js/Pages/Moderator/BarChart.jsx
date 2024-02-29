@@ -8,7 +8,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Input } from '@material-tailwind/react';
+
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 

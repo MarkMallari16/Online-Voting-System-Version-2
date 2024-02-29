@@ -3,37 +3,14 @@ import axios from 'axios';
 import ModeratorOverview from './ModeratorOverview'
 import { Select, Option } from "@material-tailwind/react";
 
-import ChartContainer from './ChartContainer';
+
 import { Input } from "@material-tailwind/react";
+import BarChartContainer from './BarChartContainer';
+import PieChartContainer from './PieChartContainer';
 const ModeratorDashboard = () => {
-
-    const [users, setUsers] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-
-    const TABLE_HEAD = ["ID", "Candidate Name", "Email", "Role", "Created At", "Updated At", "Action"];
-
-
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await axios.get(`/users?perPage=10&page=${currentPage}`);
-                setUsers(response.data.data);
-                setCurrentPage(response.data.current_page);
-                setTotalPages(response.data.last_page);
-            } catch (error) {
-
-            } finally {
-
-            }
-        };
-
-        fetchUsers();
-    }, [currentPage]);
-
     return (
         <div>
-
+           
             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-3">
                 <div className="p-6 text-gray-900">
                     <h1 className="text-xl font-bold">Welcome, Moderator!</h1>
@@ -57,16 +34,17 @@ const ModeratorDashboard = () => {
                         <div className='flex justify-end'>
 
                             <div className="w-72">
-                                <Select label="Select Version">
-                                    <Option>Material Tailwind HTML</Option>
-                                    <Option>Material Tailwind React</Option>
-                                    <Option>Material Tailwind Vue</Option>
-                                    <Option>Material Tailwind Angular</Option>
-                                    <Option>Material Tailwind Svelte</Option>
+                                <Select label="Select Positions">
+                                    <Option>President</Option>
+                                    <Option>Vice President</Option>
+                                    <Option>Secretary</Option>
+                                    <Option>Treasurer</Option>
+                                    <Option>Auditor</Option>
+                                    <Option>P.R.O</Option>
                                 </Select>
                             </div>
                         </div>
-                        <ChartContainer />
+                        <BarChartContainer />
                     </div>
                 </div>
 
@@ -79,16 +57,14 @@ const ModeratorDashboard = () => {
                         <div className='flex justify-end'>
 
                             <div className="w-72">
-                                <Select label="Select Version">
-                                    <Option>Material Tailwind HTML</Option>
-                                    <Option>Material Tailwind React</Option>
-                                    <Option>Material Tailwind Vue</Option>
-                                    <Option>Material Tailwind Angular</Option>
-                                    <Option>Material Tailwind Svelte</Option>
+                                <Select label="Votes">
+                                    <Option>Voters Voted</Option>
+                                    <Option>Voter Not Voted</Option>
+
                                 </Select>
                             </div>
                         </div>
-                        <ChartContainer />
+                        <PieChartContainer />
                     </div>
                 </div>
             </div>
