@@ -39,13 +39,15 @@ const ActivityLog = ({ auth }) => {
                 return ' bg-gray-100 text-gray-800 rounded';
         }
     };
+
+   
     return (
         <AuthenticatedLayout user={auth.user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Activity Log</h2>}>
             <main className="flex-1 py-12">
                 <div className="max-w-full mx-auto px-4 sm:max-w-3xl md:max-w-4xl lg:max-w-6xl xl:max-w-7xl">
                     <div className="bg-white shadow-md rounded-md overflow-hidden">
                         <div className="bg-blue-200 px-4 py-3">
-                            <div className='flex items-center'>
+                            <div className='flex items-center gap-2'>
 
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 ">
                                     <path fillRule="evenodd" d="M2.625 6.75a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0A.75.75 0 0 1 8.25 6h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75ZM2.625 12a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0ZM7.5 12a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12A.75.75 0 0 1 7.5 12Zm-4.875 5.25a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
@@ -75,7 +77,11 @@ const ActivityLog = ({ auth }) => {
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">{log.created_at}</td>
-                                            <td className={`font-bold whitespace-no-wrap text-sm leading-5$`}><span className={`${getClassByAction(log.action)}  px-2 py-2`}>{log.action}</span></td>
+                                            <td className={`font-bold whitespace-no-wrap text-sm sm:text-base leading-5`}>
+                                                <span className={`${getClassByAction(log.action)} px-2 py-1 sm:px-3 sm:py-2 inline-block`}>
+                                                    {log.action}
+                                                </span>
+                                            </td>
                                             <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500 ">{log.details}</td>
                                         </tr>
                                     ))}
