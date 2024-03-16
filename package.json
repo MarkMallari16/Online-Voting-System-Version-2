@@ -26,7 +26,7 @@
         "@heroicons/react": "^2.1.1",
         "@inertiajs/inertia-react": "^0.8.1",
         "@material-tailwind/react": "^2.1.8",
-        "@react-pdf/renderer": "^3.3.8",
+        "@react-pdf/renderer": "^3.4.0",
         "chart.js": "^3.9.1",
         "react-chartjs-2": "^5.2.0"
     }

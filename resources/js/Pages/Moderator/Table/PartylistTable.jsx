@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from '@inertiajs/inertia-react';
+
 import {
   MagnifyingGlassIcon,
   ChevronUpDownIcon,
@@ -118,6 +119,7 @@ export function PartylistTable() {
                 <form onSubmit={handleSubmit}>
                   <div>
                     <InputLabel htmlFor="partylistName" value="Enter Partylist Name" />
+                    
                     <TextInput
                       id="partylistName"
                       className="mt-1 block w-full"

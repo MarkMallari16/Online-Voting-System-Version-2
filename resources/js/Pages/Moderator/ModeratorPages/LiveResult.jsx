@@ -24,7 +24,7 @@ const LiveResult = ({ auth }) => {
                 </div>
 
             </div>
-            <div className="flex flex-row md:flex-row min-h-screen">
+            <div className="flex flex-row md:flex-row min-h-screen ">
 
                 <main className="flex-1 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-3">
                     <div className="bg-white p-5 max-w-full mx-auto px-4 sm:max-w-3xl md:max-w-4xl lg:max-w-6xl xl:max-w-7xl">
