@@ -59,11 +59,12 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::get('/live-result', function () {
         return Inertia::render('Moderator/ModeratorPages/LiveResult');
     })->name('live-result');
-
-  
 });
 Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::post('/elections', [ElectionController::class, 'store']);
+
+    Route::put('/elections/{election}/activate', [ElectionController::class, 'activate']);
+    Route::put('/elections/{election}/deactivate', [ElectionController::class, 'deactivate']);
 });
 Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     // Retrieve all partylists
@@ -79,11 +80,10 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::delete('/partylists/{partylist}', [PartylistController::class, 'destroy']);
 });
 Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
-  
-
-    Route::post('/positions', [PositionController::class, 'store']);
-    Route::put('/positions/{id}', [PositionController::class, 'update']);
-    Route::delete('/positions/{id}', [PositionController::class, 'destroy']);
+    // Route::get('/positions', [PositionController::class, 'index'])->name('positions.index');
+    Route::post('/positions', [PositionController::class, 'store'])->name('positions.store');
+    Route::put('/positions/{id}', [PositionController::class, 'update'])->name('positions.update');
+    Route::delete('/positions/{id}', [PositionController::class, 'destroy'])->name('positions.delete');
 });
 //render
 Route::get('/dashboard', function () {

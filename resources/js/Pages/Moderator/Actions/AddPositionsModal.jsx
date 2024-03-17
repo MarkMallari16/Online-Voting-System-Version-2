@@ -7,23 +7,23 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 
-const AddPositionsModal = ({ openModal, setOpenModal }) => {
+const AddPositionsModal = ({ openModal, setOpenModal, handleConfirm, handleCloseModal }) => {
   
 
   return (
     <Dialog open={openModal} onClose={handleCloseModal}>
-      <DialogTitle>Add Position</DialogTitle>
-      <DialogContent>
+      <DialogHeader>Add Position</DialogHeader>
+      <DialogBody>
         {/* Your content goes here */}
-      </DialogContent>
-      <DialogActions>
+      </DialogBody>
+      <DialogFooter>
         <Button onClick={handleCloseModal} color="red">
           Cancel
         </Button>
-        <Button onClick={handleConfirm} color="primary">
+        <Button onClick={handleConfirm} color="blue">
           Confirm
         </Button>
-      </DialogActions>
+      </DialogFooter>
     </Dialog>
   );
 };

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->enum('status', ['Open', 'Closed'])->default('Open');
+            $table->enum('status', ['Active', 'Inactive'])->default('Inactive');
             $table->timestamps();
         });
     }

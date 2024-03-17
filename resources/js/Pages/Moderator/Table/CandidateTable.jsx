@@ -26,12 +26,13 @@ import {
   DialogFooter,
   Select, Option,
   Textarea
+
 } from "@material-tailwind/react";
 import DefaultProfile from '../../../../../public/profile_photos/1707753026.png';
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
-
+import Logo from "@/assets/cover.jpg";
 
 const TABLE_HEAD = ["Candidate ID", "Profile", "First Name", "Last Name", "Partylist", "Position", "Manifesto", "Action"];
 
@@ -52,6 +53,10 @@ export function CandidateTable() {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
+
+  const handleSubmit = () => {
+
+  }
   return (
     <Card className="h-full w-full">
       <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -71,51 +76,23 @@ export function CandidateTable() {
               Add candidate
             </Button>
 
-            <Dialog open={open} handler={handleOpen}>
-              <DialogHeader>Add Position</DialogHeader>
-              <DialogBody>
-                <div>
-                  <InputLabel htmlFor="position" value="Enter Position Name" />
 
-                  <TextInput
-                    id="position"
-                    className="mt-1 block w-full"
-
-
-                    required
-                    isFocused
-                    autoComplete="name"
-                  />
-
-                  <InputError className="mt-2" />
-                </div>
-              </DialogBody>
-              <DialogFooter>
-                <Button
-                  variant="text"
-                  color="red"
-                  onClick={handleOpen}
-                  className="mr-1"
-                >
-                  <span>Cancel</span>
-                </Button>
-                <Button variant="gradient" color="blue" onClick={handleOpen}>
-                  <span>Confirm</span>
-                </Button>
-              </DialogFooter>
-            </Dialog>
             {/**Add Position*/}
-            <Dialog open={open} handler={handleOpen}>
+            <Dialog open={open} handler={handleOpen} className="overflow-y-auto">
               <DialogHeader>Add Candidate</DialogHeader>
               <DialogBody>
                 <div>
-                  <form action="">
+                  <form action={handleSubmit}>
                     <div className="mb-2">
-                      <InputLabel htmlFor="position" value="Candidate Profile" />
+                      <InputLabel htmlFor="position" value="Candidate Profile" className="mb-4" />
+                      <div className="mb-2">
+                        <Avatar src={Logo} alt="avatar" size="xxl" className="border border-black p-0.5" />
+                      </div>
+                      <div>
+                        <input type="file" />
 
-                      <input type="file" />
-
-                      <InputError className="mt-2" />
+                        <InputError className="mt-2" />
+                      </div>
                     </div>
                     <div>
                       <InputLabel htmlFor="firstName" value="Enter Candidate First Name" />
@@ -176,7 +153,7 @@ export function CandidateTable() {
                     <div className="mt-4">
                       <InputLabel htmlFor="partylist" value="Enter Manifesto" />
 
-                      <Textarea size="md" label="Textarea Medium" />
+                      <Textarea size="md" label="Enter manifesto" />
                       <InputError className="mt-2" />
                     </div>
                   </form>

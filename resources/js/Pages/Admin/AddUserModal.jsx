@@ -45,7 +45,6 @@ const AddUserModal = ({ open, handleClose }) => {
             }
         });
 
-        console.log('hello');
     };
     return (
         <Dialog open={open} handler={handleClose}>

@@ -44,4 +44,30 @@ class ElectionController extends Controller
 
         return redirect()->back()->with('success', 'Election updated successfully.');
     }
+
+    public function activate(Request $request)
+    {
+        // Assuming you have an 'id' parameter in the request
+        $election = Election::find($request->id);
+        if ($election) {
+            $election->activated = true;
+            $election->save();
+            return response()->json(['message' => 'Election activated successfully']);
+        } else {
+            return response()->json(['message' => 'Election not found'], 404);
+        }
+    }
+
+    public function deactivate(Request $request)
+    {
+        // Assuming you have an 'id' parameter in the request
+        $election = Election::find($request->id);
+        if ($election) {
+            $election->activated = false;
+            $election->save();
+            return response()->json(['message' => 'Election deactivated successfully']);
+        } else {
+            return response()->json(['message' => 'Election not found'], 404);
+        }
+    }
 }

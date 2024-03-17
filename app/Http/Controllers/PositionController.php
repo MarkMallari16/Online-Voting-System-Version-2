@@ -5,23 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Positions;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
 
 class PositionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $positions = Positions::all();
+        $perPage = $request->input('perPage', 10); // Get the perPage value from the request, default to 10 if not provided
+        $positions = Positions::paginate($perPage); // Paginate positions using the perPage value
 
-        return Inertia::render('Positions/Index', [
-            'positions' => $positions,
-        ]);
+        return response()->json($positions); // Return just the items (positions) without pagination metadata
     }
     public function store(Request $request)
     {
         // Validate the request data
         $request->validate([
-            'name' => 'required|unique:positions',
+            'name' => ['required', Rule::unique('positions')->ignore($request->id)],
         ]);
 
         try {
@@ -30,14 +30,11 @@ class PositionController extends Controller
                 'name' => $request->name,
             ]);
 
-            // Return a JSON response with the created position and a success message
-            return response()->json([
-                'position' => $position,
-                'message' => 'Position created successfully'
-            ], 201);
+           
+            return redirect()->back()->with('success', 'Positions created successfully');
         } catch (\Exception $e) {
-            // Return an error response if an exception occurs
-            return response()->json(['message' => 'Failed to create position'], 500);
+            
+            return redirect::back()->with('error', 'Failed to create position');
         }
     }
     public function update(Request $request, Positions $position)

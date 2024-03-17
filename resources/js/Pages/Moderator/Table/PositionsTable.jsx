@@ -12,12 +12,7 @@ import {
     Typography,
     Button,
     CardBody,
-    Chip,
     CardFooter,
-    Tabs,
-    TabsHeader,
-    Tab,
-    Avatar,
     IconButton,
     Tooltip,
     Dialog,
@@ -25,68 +20,71 @@ import {
     DialogBody,
     DialogFooter,
 } from "@material-tailwind/react";
+
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import { useForm } from '@inertiajs/inertia-react';
+import { useEffect } from "react";
 
 
 const TABLE_HEAD = ["Partylist ID", "Position", "Action"];
 
-const TABLE_ROWS = [
-    {
-        id: 1,
-        position: "President",
-
-
-    },
-    {
-        id: 2,
-        position: "Vice President",
-
-    },
-    {
-        id: 3,
-        position: "Secretary",
-
-    },
-    {
-        id: 4,
-        position: "Auditor",
-
-
-    },
-    {
-        id: 5,
-        position: "P.R.O",
-
-    },
-];
 
 export function PositionsTable() {
     const [open, setOpen] = useState(false);
-    const { data, setData, post } = useForm();
+
+    const [positions, setPositions] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
 
+    const { data, setData, post, errors } = useForm({
+        positionName: ''
+    });
+
+    const fetchPositions = async (page) => {
+        try {
+            const response = await axios.get(`/positions.index?perPage=10&page=${page}`);
+            setPositions(response.data.data);
+            setTotalPages(response.data.last_page);
+        } catch (error) {
+            console.error("Failed to fetch positions:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchPositions(currentPage);
+    }, [currentPage]);
+
+    const handlePreviousPage = () => {
+
+        setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+    };
+
+    const handleNextPage = () => {
+
+        setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+    };
+
+    //modal
     const handleOpen = () => setOpen(!open);
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Send a POST request to the backend to create a position
-            await post('/positions', {
-                data: { name: data.positionName },
-                onSuccess: () => handleOpen(), // Handle success by closing dialog
-            });
+            await post(route('positions.store'));
+            setOpen(false);
+            setData('name', ''); // Reset the form field
         } catch (error) {
             console.error('Failed to create position:', error);
         }
     };
 
     const handleChange = (event) => {
-        setData(event.target.name, event.target.value); // Update form data
+        setData(event.target.name, event.target.value);
     };
+
     return (
         <Card className="h-full w-full">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -112,31 +110,28 @@ export function PositionsTable() {
 
 
                     </div>
+                    {/*Dialog* */}
                     <Dialog open={open} handler={handleOpen}>
                         <DialogHeader>Add Position</DialogHeader>
                         <DialogBody>
                             <form onSubmit={handleSubmit}>
                                 <div>
-                                    <InputLabel htmlFor="position" value="Enter Position Name" />
+                                    <InputLabel htmlFor="positionName" value="Enter Position Name" />
                                     <TextInput
-                                        id="position"
+                                        id="name"
                                         className="mt-1 block w-full"
-                                        name="positionName" 
-                                        value={data.positionName || ''}
+                                        name="name"
+                                        value={data.name || ''}
                                         onChange={handleChange}
                                         required
-                                        isFocused
-                                        autoComplete="name"
+                                        autoFocus
                                     />
-                                    <InputError className="mt-2">{data.error}</InputError>
+                                    {errors.name && (
+                                        <InputError>{errors.name}</InputError>
+                                    )}
                                 </div>
                                 <DialogFooter>
-                                    <Button
-                                        variant="text"
-                                        color="red"
-                                        onClick={handleOpen}
-                                        className="mr-1"
-                                    >
+                                    <Button variant="text" color="red" onClick={handleOpen} className="mr-1">
                                         <span>Cancel</span>
                                     </Button>
                                     <Button variant="gradient" color="blue" type="submit">
@@ -146,7 +141,6 @@ export function PositionsTable() {
                             </form>
                         </DialogBody>
                     </Dialog>
-
                 </div>
                 <div className="flex flex-col items-center justify-end gap-4 md:flex-row">
                     <div className='flex justify-start gap-2'>
@@ -198,80 +192,96 @@ export function PositionsTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {TABLE_ROWS.map(
-                            ({ id, position }, index) => {
-                                const isLast = index === TABLE_ROWS.length - 1;
-                                const classes = isLast
-                                    ? "p-4"
-                                    : "p-4 border-b border-blue-gray-50";
 
-                                return (
-                                    <tr key={position}>
-                                        <td className={classes}>
-                                            <div className="flex items-center gap-3">
+                        {positions.map(({ id, name, created_at, updated_at }) => {
 
-                                                <div className="flex flex-col">
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {id}
-                                                    </Typography>
+                            const classes = "p-4 border-b border-blue-gray-50";
 
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className={classes}>
+                            const formatDate = (dateString) => {
+                                const date = new Date(dateString);
+                                return date.toLocaleString(); // or use other methods to format the date
+                            };
+                            return (
+                                <tr key={id}>
+                                    <td className={classes}>
+                                        <div className="flex items-center gap-3">
                                             <div className="flex flex-col">
                                                 <Typography
                                                     variant="small"
                                                     color="blue-gray"
                                                     className="font-normal"
                                                 >
-                                                    {position}
+                                                    {id}
                                                 </Typography>
-
                                             </div>
-                                        </td>
-
-
-                                        <td className={classes}>
-                                            <div className="flex gap-2">
-                                                <Tooltip content="Edit Position">
-                                                    <IconButton variant="text" className="bg-amber-700 text-white">
-                                                        <PencilIcon className="h-5 w-5" />
-                                                    </IconButton>
-
-                                                </Tooltip>
-
-                                                <Tooltip content="Delete Position">
-                                                    <IconButton variant="text" className="bg-red-700 text-white">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                                                            <path fillRule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clipRule="evenodd" />
-                                                        </svg>
-
-                                                    </IconButton>
-
-                                                </Tooltip>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                );
-                            },
-                        )}
+                                        </div>
+                                    </td>
+                                    <td className={classes}>
+                                        <div className="flex flex-col">
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal"
+                                            >
+                                                {name}
+                                            </Typography>
+                                        </div>
+                                    </td>
+                                    <td className={classes}>
+                                        <div className="flex flex-col">
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal"
+                                            >
+                                                {formatDate(created_at)}
+                                            </Typography>
+                                        </div>
+                                    </td>
+                                    <td className={classes}>
+                                        <div className="flex flex-col">
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal"
+                                            >
+                                                {formatDate(updated_at)}
+                                            </Typography>
+                                        </div>
+                                    </td>
+                                    <td className={classes}>
+                                        <div className="flex gap-2">
+                                            <Tooltip content="Edit Position">
+                                                <IconButton variant="text" className="bg-amber-700 text-white">
+                                                    <PencilIcon className="h-5 w-5" />
+                                                </IconButton>
+                                            </Tooltip>
+                                            <Tooltip content="Delete Position">
+                                                <IconButton variant="text" className="bg-red-700 text-white">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                                                        <path fillRule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clipRule="evenodd" />
+                                                    </svg>
+                                                </IconButton>
+                                            </Tooltip>
+                                        </div>
+                                    </td>
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
             </CardBody>
             <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
-                    Page 1 of 10
+                    Page {currentPage} of {totalPages}
                 </Typography>
                 <div className="flex gap-2">
-                    <Button variant="outlined" size="sm">
+                    <Button variant="outlined" size="sm" disabled={currentPage === 1}
+                        onClick={handlePreviousPage}>
                         Previous
                     </Button>
-                    <Button variant="outlined" size="sm">
+                    <Button variant="outlined" size="sm" disabled={currentPage === totalPages}
+                        onClick={handleNextPage}>
                         Next
                     </Button>
                 </div>

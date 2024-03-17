@@ -1,18 +1,24 @@
 import { Link } from '@inertiajs/react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Cover from '../assets/undraw_upvote_re_qn2k.svg';
-
+import Wave from '../assets/wave.svg';
+import Background from '../assets/pattern.png';
 export default function Welcome({ auth }) {
+    const bgStyle = {
+       
+        backgroundColor: 'hsla(0, 0%, 100%, 1)',
+        backgroundImage: 'radial-gradient(at 40% 20%, hsla(32,100%,88%,1) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(212, 100%, 76%, 1) 0px, transparent 50%)'
+
+    }
+   
+   
     return (
         <>
             {/* */}
 
             <div
-                className="absolute inset-0 -z-10 h-full w-full bg-white bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] bg-radial-gradient"
-                style={{
-                    backgroundColor: 'hsla(0, 0%, 100%, 1)',
-                    backgroundImage: 'radial-gradient(at 40% 20%, hsla(32,100%,88%,1) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(212, 100%, 76%, 1) 0px, transparent 50%)'
-                }}
+                className="absolute inset-0 -z-10 h-full w-full"
+                style={bgStyle}
             >
 
                 <div className='flex sticky top-0 mx-5 sm:mx-24  md:mx-20' >
@@ -42,7 +48,7 @@ export default function Welcome({ auth }) {
                     </div>
                 </div>
 
-                <div className=" mt-20 flex flex-col md:flex-row items-center gap-5 sm:gap-24 mx-5 sm:mx-24  md:mx-20">
+                <div className="mt-20 flex flex-col-reverse sm:flex-col-reverse md:flex-row items-center gap-5 sm:gap-24 mx-5 sm:mx-24  md:mx-20">
                     <div className='flex-1'>
                         <div>
                             <p className='tracking-wide font-bold text-gray-900 text-center md:text-left'><span >STAND UP, SPEAK OUT, AND CREATE CHANGE!</span></p>
@@ -59,7 +65,7 @@ export default function Welcome({ auth }) {
                             </Link>
                             <Link
                                 href={route('login')}
-                                className="bg-gray-200  px-4 py-2 rounded-md text-black    "
+                                className="bg-blue-50  px-4 py-2 rounded-md text-black    "
                             >
                                 Already have an account?
                             </Link>
@@ -69,11 +75,14 @@ export default function Welcome({ auth }) {
 
                         </div>
                     </div>
-                    <div className="flex-1 justify-center" >
-                        <img src={Cover} alt="hero-section" className="w-[80%] h-auto" />
+                    <div className="flex-1 " >
+                        <img src={Cover} alt="hero-section" className="w-auto sm:w-[80%] md:w-100" />
                     </div>
+
                 </div>
+
             </div >
+
         </>
 
     );

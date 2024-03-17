@@ -11,6 +11,9 @@ const VoterDashboard = () => {
                     <h1 className="text-xl font-bold">Welcome, Voter!</h1>
                 </div>
             </div>
+            <div className='text-center font-bold text-4xl mt-10 mb-2 '>
+                STI Student Election 2023
+            </div>
             <div className="text-2xl mt-10 mb-2 font-light">
                 You May Now Cast Your Vote
             </div>
