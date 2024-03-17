@@ -86,7 +86,7 @@ export function CandidateTable() {
                     <div className="mb-2">
                       <InputLabel htmlFor="position" value="Candidate Profile" className="mb-4" />
                       <div className="mb-2">
-                        <Avatar src={Logo} alt="avatar" size="xxl" className="border border-black p-0.5" />
+                        <Avatar src={Logo} alt="avatar" size="xxl" withBorder={true} className="p-0.5" />
                       </div>
                       <div>
                         <input type="file" />

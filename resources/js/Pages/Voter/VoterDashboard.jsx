@@ -40,25 +40,28 @@ const VoterDashboard = () => {
 
             </div>
             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-7">
-                <div className='mt-11 text-xl text-center'>Vote for President</div>
+                <div className='mt-11 text-2xl text-center'>Vote for President</div>
+                <div className='text-center text-gray-600'>Select your preferred candidate for the position of President</div>
                 <div className="p-6 text-gray-900">
                     <CandidateContainer />
                 </div>
             </div>
             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-7">
-                <div className='mt-11 text-xl text-center'>Vote for Vice President</div>
+                <div className='mt-11 text-2xl text-center  mb-1'>Vote for Vice President</div>
+                <div className='text-center text-gray-600'>Select your preferred candidate for the position of Vice President</div>
                 <div className="p-6 text-gray-900">
                     <CandidateContainer />
                 </div>
             </div>
             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-7">
-                <div className='mt-11 text-xl text-center'>Vote for Secretary</div>
+                <div className='mt-11 text-2xl text-center mb-1'>Vote for Secretary</div>
+                <div className='text-center text-gray-600'>Select your preferred candidate for the position of Secretary</div>
                 <div className="p-6 text-gray-900">
                     <CandidateContainer />
                 </div>
             </div>
             <div className='text-center mt-7'>
-                <button className='bg-blue-500  text-white px-4 py-2 rounded-md'>Submit</button>
+                <button className='bg-blue-500  text-white px-7 py-2 rounded-md'>Submit</button>
             </div>
 
         </div>

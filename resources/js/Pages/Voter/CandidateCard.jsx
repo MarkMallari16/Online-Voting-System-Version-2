@@ -23,13 +23,13 @@ const CandidateCard = () => {
     const handleOpen = () => setOpen(!open);
     return (
         <>
-            <Card className="mt-6 w-full md:w-96 h-auto cursor-pointer hover:border-2 border-blue focus:border border-blue-500 p-5">
+            <Card className="p-5 mt-6 w-full md:w-96 h-auto cursor-pointer hover:border-2 border-blue focus:border border-blue-500">
                 <div className='flex justify-center'>
                     <Avatar src={profile} size="xxl" />
                 </div>
                 <CardBody className='text-center'>
                     <Typography variant="h5" color="blue-gray" className="mb-2">
-                        Jobert Jobert
+                        Jobert Cruz
                     </Typography>
                     <span>Sandigan</span>
                 </CardBody>
