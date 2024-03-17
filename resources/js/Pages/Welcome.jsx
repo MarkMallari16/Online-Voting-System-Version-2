@@ -1,8 +1,7 @@
 import { Link } from '@inertiajs/react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
-import Cover from '../assets/undraw_upvote_re_qn2k.svg';
-import Wave from '../assets/wave.svg';
-import Background from '../assets/pattern.png';
+import Cover from '../assets/Voting-amico.svg';
+
 export default function Welcome({ auth }) {
     const bgStyle = {
        
@@ -10,7 +9,6 @@ export default function Welcome({ auth }) {
         backgroundImage: 'radial-gradient(at 40% 20%, hsla(32,100%,88%,1) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(212, 100%, 76%, 1) 0px, transparent 50%)'
 
     }
-   
    
     return (
         <>
@@ -48,7 +46,7 @@ export default function Welcome({ auth }) {
                     </div>
                 </div>
 
-                <div className="mt-20 flex flex-col-reverse sm:flex-col-reverse md:flex-row items-center gap-5 sm:gap-24 mx-5 sm:mx-24  md:mx-20">
+                <div className="sm:mt-5 mt-24 flex flex-col-reverse sm:flex-col-reverse md:flex-row items-center gap-5 sm:gap-24 mx-5 sm:mx-24  md:mx-20">
                     <div className='flex-1'>
                         <div>
                             <p className='tracking-wide font-bold text-gray-900 text-center md:text-left'><span >STAND UP, SPEAK OUT, AND CREATE CHANGE!</span></p>
@@ -65,7 +63,7 @@ export default function Welcome({ auth }) {
                             </Link>
                             <Link
                                 href={route('login')}
-                                className="bg-blue-50  px-4 py-2 rounded-md text-black    "
+                                className="bg-blue-50  px-4 py-2 rounded-md text-black "
                             >
                                 Already have an account?
                             </Link>
@@ -75,8 +73,8 @@ export default function Welcome({ auth }) {
 
                         </div>
                     </div>
-                    <div className="flex-1 " >
-                        <img src={Cover} alt="hero-section" className="w-auto sm:w-[80%] md:w-100" />
+                    <div className="flex-1 drop-shadow-2xl" >
+                        <img src={Cover} alt="hero-section" className="w-auto sm:w-[89%] md:w-50" />
                     </div>
 
                 </div>
