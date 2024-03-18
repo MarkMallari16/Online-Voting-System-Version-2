@@ -26,6 +26,7 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         // other middleware
         'moderator' => \App\Http\Middleware\ModeratorMiddleware::class,
+        'partylist_editor' => \App\Http\Middleware\PartylistEditorMiddleware::class,
     ];
 
     /**

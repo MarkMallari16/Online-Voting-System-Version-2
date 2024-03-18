@@ -3,6 +3,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo';
 import Cover from '../assets/Voting-amico.svg';
 
 export default function Welcome({ auth }) {
+    
     const bgStyle = {
        
         backgroundColor: 'hsla(0, 0%, 100%, 1)',

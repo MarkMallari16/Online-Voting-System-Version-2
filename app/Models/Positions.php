@@ -14,4 +14,5 @@ class Positions extends Model
     {
         return $this->hasMany(Candidate::class);
     }
+    
 }

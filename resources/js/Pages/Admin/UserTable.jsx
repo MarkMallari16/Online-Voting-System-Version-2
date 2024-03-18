@@ -14,6 +14,7 @@ import {
     IconButton,
     Tooltip,
     Avatar,
+    Spinner
 } from "@material-tailwind/react";
 
 import AddUserModal from './AddUserModal';
@@ -44,12 +45,12 @@ const UserTable = ({ TABLE_HEAD, users, currentPage, totalPages, setCurrentPage 
 
     //handle previous page
     const handlePreviousPage = () => {
-     
+
         setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
     };
     //handle next page
     const handleNextPage = () => {
-        
+
         setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
     };
 
@@ -151,10 +152,11 @@ const UserTable = ({ TABLE_HEAD, users, currentPage, totalPages, setCurrentPage 
 
                         </div>
                     </div>
+                   
                 </CardHeader>
                 <CardBody className="overflow-scroll">
 
-                    <table className="mt-4 table-auto text-left">
+                    <table className="mt-4 overflow-x-auto">
                         <thead>
                             <tr>
                                 {TABLE_HEAD.map((head, index) => (
@@ -179,7 +181,7 @@ const UserTable = ({ TABLE_HEAD, users, currentPage, totalPages, setCurrentPage 
                         <tbody>
                             {filteredUsers.length === 0 ? (
                                 <tr className='text-center'>
-                                    <td colSpan="8" className="py-8">No matching users found.</td>
+                                    <td colSpan="14" className="py-10">No matching users found.</td>
                                 </tr>
                             ) :
 

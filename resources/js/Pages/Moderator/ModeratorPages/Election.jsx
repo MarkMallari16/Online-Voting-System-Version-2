@@ -36,6 +36,9 @@ const Election = ({ auth }) => {
   const handleActivate = async () => {
     try {
       const response = await axios.post('/api/elections/activate');
+      const existingElectionData = response.data;
+
+
       setActivated(true);
       setSuccessMessage(response.data.message);
     } catch (error) {

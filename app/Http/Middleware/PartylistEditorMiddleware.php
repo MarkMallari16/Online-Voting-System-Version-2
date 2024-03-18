@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ModeratorMiddleware
+class PartylistEditorMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,7 +15,7 @@ class ModeratorMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user() && $request->user()->role !== 'moderator') {
+        if ($request->user() && $request->user()->role !== 'partylist_editor') {
             abort(404, 'Unauthorized');
         }
         return $next($request);

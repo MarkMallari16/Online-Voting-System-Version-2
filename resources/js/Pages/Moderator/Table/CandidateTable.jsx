@@ -33,6 +33,7 @@ import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
 import Logo from "@/assets/cover.jpg";
+import { useForm } from '@inertiajs/inertia-react';
 
 const TABLE_HEAD = ["Candidate ID", "Profile", "First Name", "Last Name", "Partylist", "Position", "Manifesto", "Action"];
 
@@ -54,9 +55,43 @@ export function CandidateTable() {
 
   const handleOpen = () => setOpen(!open);
 
-  const handleSubmit = () => {
+  const { data, setData, post, errors } = useForm({
+    image_url: null,
+    firstName: '',
+    lastName: '',
+    position: '',
+    manifesto: '',
 
-  }
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await post('/candidates'); // Send form data to the backend
+      setOpen(false);
+      // Reset the form fields
+      setData({
+        firstName: '',
+        middleName: '',
+        lastName: '',
+        partylist: '',
+        position: '',
+        manifesto: '',
+      });
+    } catch (error) {
+      console.error("Failed to create candidate:", error);
+    }
+  };
+
+  const handleChange = (event) => {
+    setData({
+      ...data,
+      [event.target.name]:
+        event.target.type === "checkbox"
+          ? event.target.checked
+          : event.target.value,
+    });
+  };
   return (
     <Card className="h-full w-full">
       <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -78,101 +113,147 @@ export function CandidateTable() {
 
 
             {/**Add Position*/}
-            <Dialog open={open} handler={handleOpen} className="overflow-y-auto">
-              <DialogHeader>Add Candidate</DialogHeader>
-              <DialogBody>
-                <div>
-                  <form action={handleSubmit}>
+
+            <Dialog size="xl" open={open} handler={handleOpen} className="overflow-y-auto">
+              <form onSubmit={handleSubmit}>
+                <DialogHeader>Add Candidate</DialogHeader>
+                <DialogBody>
+                  <div>
                     <div className="mb-2">
-                      <InputLabel htmlFor="position" value="Candidate Profile" className="mb-4" />
+                      <InputLabel htmlFor="candidateProfile" value="Candidate Profile" className="mb-4" />
                       <div className="mb-2">
                         <Avatar src={Logo} alt="avatar" size="xxl" withBorder={true} className="p-0.5" />
                       </div>
                       <div>
-                        <input type="file" />
+                        <label htmlFor="candidateImage" class="relative cursor-pointer bg-gray-300 rounded-md font-medium py-2 px-4 mb-2 inline-flex items-center">
+                          <span class="mr-2">Choose a file</span>
+                          <input type="file" id="candidateImage" name="candidateImage" class="hidden" onChange={(e) => {
+                            const file = e.target.files[0];
+                            const formData = new FormData();
+                            formData.append('candidateImage', file);
+                          }} />
+                        </label>
 
                         <InputError className="mt-2" />
                       </div>
                     </div>
-                    <div>
-                      <InputLabel htmlFor="firstName" value="Enter Candidate First Name" />
+                    <div className="md:flex md:flex-wrap md:gap-2">
+                      <div className="flex-1">
+                        <InputLabel htmlFor="firstName" value="Enter Candidate First Name" />
 
-                      <TextInput
-                        id="firstName"
-                        className="mt-1 block w-full"
+                        <TextInput
+                          id="firstName"
+                          className="mt-1 block w-full"
+                          name="firstName"
+                          value={data.firstName || ''}
+
+                          onChange={handleChange}
+                          required
+                          autoFocus
+                        />
+
+                        <InputError className="mt-2" />
+                      </div>
+
+                      <div className="flex-1">
+                        <InputLabel htmlFor="lastName" value="Enter Candidate Middle Name" />
+
+                        <TextInput
+                          id="middleName"
+                          className="mt-1 block w-full"
+                          value={data.middleName || ''}
+                          name="middleName"
+                          onChange={handleChange}
+                          required
+                          autoFocus
+                          autoComplete="middleName"
+                        />
+
+                        <InputError className="mt-2" />
+                      </div>
+
+                      <div className="flex-1">
+                        <InputLabel htmlFor="lastName" value="Enter Candidate Last Name" />
+
+                        <TextInput
+                          id="lastName"
+                          className="mt-1 block w-full"
+                          name="lastName"
+                          value={data.lastName || ''}
+                          onChange={handleChange}
+                          required
+                          autoFocus
+                          autoComplete="lastName"
+                        />
+
+                        <InputError className="mt-2" />
+                      </div>
+                    </div>
 
 
-                        required
-                        isFocused
-                        autoComplete="name"
-                      />
+
+
+                    <div className="mt-4">
+
+                      <Select
+                        id="positions"
+                        label="Select Partylist"
+                        value={data.partylist}
+                        onChange={handleChange}
+                        name="position"
+                      >
+                        <Option>Sandigan</Option>
+                      </Select>
 
                       <InputError className="mt-2" />
                     </div>
-                    <div className="mt-4">
-                      <InputLabel htmlFor="lastName" value="Enter Candidate Last Name" />
-
-                      <TextInput
-                        id="lastName"
-                        className="mt-1 block w-full"
-
-
-                        required
-                        isFocused
-                        autoComplete="name"
-                      />
-
-                      <InputError className="mt-2" />
-                    </div>
 
                     <div className="mt-4">
-                      <InputLabel htmlFor="lastName" value="Enter Candidate Last Name" />
 
-                      <TextInput
-                        id="lastName"
-                        className="mt-1 block w-full"
-
-
-                        required
-                        isFocused
-                        autoComplete="name"
-                      />
-
-                      <InputError className="mt-2" />
-                    </div>
-
-                    <div className="mt-4">
-                      <InputLabel htmlFor="partylist" value="Select Partylist" />
-
-                      <Select label="Select Partylist">
+                      <Select
+                        id="positions"
+                        label="Select Candidate Position"
+                        value={data.position}
+                        onChange={handleChange}
+                        name="position"
+                      >
                         <Option>President</Option>
+                        <Option>Vice President</Option>
                       </Select>
 
                       <InputError className="mt-2" />
                     </div>
                     <div className="mt-4">
-                      <InputLabel htmlFor="partylist" value="Enter Manifesto" />
 
-                      <Textarea size="md" label="Enter manifesto" />
+                      <Textarea
+                        position="manifesto"
+                        size="lg"
+                        label="Enter manifesto"
+                        value={data.manifesto}
+                        onChange={handleChange}
+                        name="manifesto"
+                      />
                       <InputError className="mt-2" />
                     </div>
-                  </form>
-                </div>
-              </DialogBody>
-              <DialogFooter>
-                <Button
-                  variant="text"
-                  color="red"
-                  onClick={handleOpen}
-                  className="mr-1"
-                >
-                  <span>Cancel</span>
-                </Button>
-                <Button variant="gradient" color="blue" onClick={handleOpen}>
-                  <span>Confirm</span>
-                </Button>
-              </DialogFooter>
+
+                  </div>
+                </DialogBody>
+                <DialogFooter>
+                  <Button
+                    variant="text"
+                    color="red"
+                    onClick={handleOpen}
+                    className="mr-1"
+                  >
+                    <span>Cancel</span>
+                  </Button>
+                  <Button variant="gradient" color="blue" type="submit">
+                    <span>Confirm</span>
+                  </Button>
+                </DialogFooter>
+              </form>
             </Dialog>
+
           </div>
         </div>
         <div className="flex flex-col items-center justify-end gap-4 md:flex-row">
@@ -348,7 +429,7 @@ export function CandidateTable() {
         </div>
       </CardFooter>
 
-    </Card>
+    </Card >
 
 
   );

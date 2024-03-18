@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('candidates', function (Blueprint $table) {
             $table->id();
             $table->string('first_name');
+            $table->string('middle_name');
             $table->string('last_name');
             $table->unsignedBigInteger('partylist_id');
             $table->unsignedBigInteger('position_id');
             $table->string('position');
             $table->text('manifesto');
-            $table->string('candidate_profile')->nullable();
+            $table->string('candidate_profile')->default('profile_photos/default_profile.png');
             $table->timestamps();
 
             $table->foreign('partylist_id')->references('id')->on('partylists')->onDelete('cascade');

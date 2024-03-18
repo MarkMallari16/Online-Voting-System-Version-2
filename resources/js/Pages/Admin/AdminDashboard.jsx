@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import UserTable from './UserTable';
-import election_pic from '../../../../public/election_picture.png';
 import AdminDashboardOverview from './AdminDashboardOverview';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 

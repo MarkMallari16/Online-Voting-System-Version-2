@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -35,10 +36,7 @@ Route::get('/activitylog', function () {
 })->name('activitylog');
 //for moderator page
 Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
-    Route::get('/partylist', function () {
-        //render
-        return Inertia::render('Moderator/ModeratorPages/Partylist');
-    })->name('partylist');
+
 
     Route::get('/election', function () {
         return Inertia::render('Moderator/ModeratorPages/Election');
@@ -55,6 +53,10 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::get('/candidate', function () {
         return Inertia::render('Moderator/ModeratorPages/Candidate');
     })->name('candidate');
+
+    Route::get('/ballots', function () {
+        return Inertia::render('Moderator/ModeratorPages/Ballots');
+    })->name('ballots');
 
     Route::get('/live-result', function () {
         return Inertia::render('Moderator/ModeratorPages/LiveResult');
@@ -78,6 +80,18 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
 
     // Delete a partylist
     Route::delete('/partylists/{partylist}', [PartylistController::class, 'destroy']);
+
+
+    //candidate
+
+    //get candidate
+    Route::get('/candidates', [CandidateController::class, 'index']);
+    //add candidate
+    Route::post('/candidates', [CandidateController::class, 'store']);
+    //update candidate
+    Route::put('/candidates/{candidate}', [CandidateController::class, 'update']);
+    //delete candidate
+    Route::delete('/candidates/{candidate}', [CandidateController::class, 'destroy']);
 });
 Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     // Route::get('/positions', [PositionController::class, 'index'])->name('positions.index');
@@ -85,6 +99,14 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::put('/positions/{id}', [PositionController::class, 'update'])->name('positions.update');
     Route::delete('/positions/{id}', [PositionController::class, 'destroy'])->name('positions.delete');
 });
+
+Route::middleware(['auth', 'verified', 'partylist_editor'])->group(function () {
+    Route::get('/partylist', function () {
+        //render
+        return Inertia::render('Partylist_Editor/PartylistEditorPages/Partylist');
+    })->name('partylist');
+});
+
 //render
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

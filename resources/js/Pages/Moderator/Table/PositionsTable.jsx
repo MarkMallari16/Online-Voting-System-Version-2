@@ -43,18 +43,21 @@ export function PositionsTable() {
         positionName: ''
     });
 
-    const fetchPositions = async (page) => {
-        try {
-            const response = await axios.get(`/positions.index?perPage=10&page=${page}`);
-            setPositions(response.data.data);
-            setTotalPages(response.data.last_page);
-        } catch (error) {
-            console.error("Failed to fetch positions:", error);
-        }
-    };
+    console.log(errors);
 
     useEffect(() => {
-        fetchPositions(currentPage);
+        const fetchPositions = async () => {
+            try {
+                const response = await axios.get(`/positions.index?perPage=10&page=${currentPage}`);
+                setPositions(response.data.data);
+                setCurrentPage(response.data.current_page);
+                setTotalPages(response.data.last_page);
+            } catch (error) {
+                console.error("Failed to fetch positions:", error);
+            }
+        };
+
+        fetchPositions();
     }, [currentPage]);
 
     const handlePreviousPage = () => {
@@ -73,9 +76,9 @@ export function PositionsTable() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await post(route('positions.store'));
+            await post('/positions');
             setOpen(false);
-            setData('name', ''); // Reset the form field
+            setData('positionName', ''); // Reset the form field
         } catch (error) {
             console.error('Failed to create position:', error);
         }
@@ -118,7 +121,7 @@ export function PositionsTable() {
                                 <div>
                                     <InputLabel htmlFor="positionName" value="Enter Position Name" />
                                     <TextInput
-                                        id="name"
+                                        id="positionName"
                                         className="mt-1 block w-full"
                                         name="name"
                                         value={data.name || ''}
@@ -126,9 +129,7 @@ export function PositionsTable() {
                                         required
                                         autoFocus
                                     />
-                                    {errors.name && (
-                                        <InputError>{errors.name}</InputError>
-                                    )}
+                                    <InputError>{errors.positionName}</InputError>
                                 </div>
                                 <DialogFooter>
                                     <Button variant="text" color="red" onClick={handleOpen} className="mr-1">
@@ -191,84 +192,85 @@ export function PositionsTable() {
                             ))}
                         </tr>
                     </thead>
-                    <tbody>
+                    {positions.length > 0 && (
+                        <tbody>
+                            {positions.map(({ id, name, created_at, updated_at }) => {
 
-                        {positions.map(({ id, name, created_at, updated_at }) => {
+                                const classes = "p-4 border-b border-blue-gray-50";
 
-                            const classes = "p-4 border-b border-blue-gray-50";
-
-                            const formatDate = (dateString) => {
-                                const date = new Date(dateString);
-                                return date.toLocaleString(); // or use other methods to format the date
-                            };
-                            return (
-                                <tr key={id}>
-                                    <td className={classes}>
-                                        <div className="flex items-center gap-3">
+                                const formatDate = (dateString) => {
+                                    const date = new Date(dateString);
+                                    return date.toLocaleString(); // or use other methods to format the date
+                                };
+                                return (
+                                    <tr key={id}>
+                                        <td className={classes}>
+                                            <div className="flex items-center gap-3">
+                                                <div className="flex flex-col">
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {id}
+                                                    </Typography>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className={classes}>
                                             <div className="flex flex-col">
                                                 <Typography
                                                     variant="small"
                                                     color="blue-gray"
                                                     className="font-normal"
                                                 >
-                                                    {id}
+                                                    {name}
                                                 </Typography>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td className={classes}>
-                                        <div className="flex flex-col">
-                                            <Typography
-                                                variant="small"
-                                                color="blue-gray"
-                                                className="font-normal"
-                                            >
-                                                {name}
-                                            </Typography>
-                                        </div>
-                                    </td>
-                                    <td className={classes}>
-                                        <div className="flex flex-col">
-                                            <Typography
-                                                variant="small"
-                                                color="blue-gray"
-                                                className="font-normal"
-                                            >
-                                                {formatDate(created_at)}
-                                            </Typography>
-                                        </div>
-                                    </td>
-                                    <td className={classes}>
-                                        <div className="flex flex-col">
-                                            <Typography
-                                                variant="small"
-                                                color="blue-gray"
-                                                className="font-normal"
-                                            >
-                                                {formatDate(updated_at)}
-                                            </Typography>
-                                        </div>
-                                    </td>
-                                    <td className={classes}>
-                                        <div className="flex gap-2">
-                                            <Tooltip content="Edit Position">
-                                                <IconButton variant="text" className="bg-amber-700 text-white">
-                                                    <PencilIcon className="h-5 w-5" />
-                                                </IconButton>
-                                            </Tooltip>
-                                            <Tooltip content="Delete Position">
-                                                <IconButton variant="text" className="bg-red-700 text-white">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                                                        <path fillRule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clipRule="evenodd" />
-                                                    </svg>
-                                                </IconButton>
-                                            </Tooltip>
-                                        </div>
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
+                                        </td>
+                                        <td className={classes}>
+                                            <div className="flex flex-col">
+                                                <Typography
+                                                    variant="small"
+                                                    color="blue-gray"
+                                                    className="font-normal"
+                                                >
+                                                    {formatDate(created_at)}
+                                                </Typography>
+                                            </div>
+                                        </td>
+                                        <td className={classes}>
+                                            <div className="flex flex-col">
+                                                <Typography
+                                                    variant="small"
+                                                    color="blue-gray"
+                                                    className="font-normal"
+                                                >
+                                                    {formatDate(updated_at)}
+                                                </Typography>
+                                            </div>
+                                        </td>
+                                        <td className={classes}>
+                                            <div className="flex gap-2">
+                                                <Tooltip content="Edit Position">
+                                                    <IconButton variant="text" className="bg-amber-700 text-white">
+                                                        <PencilIcon className="h-5 w-5" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                                <Tooltip content="Delete Position">
+                                                    <IconButton variant="text" className="bg-red-700 text-white">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                                                            <path fillRule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clipRule="evenodd" />
+                                                        </svg>
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    )}
                 </table>
             </CardBody>
             <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
