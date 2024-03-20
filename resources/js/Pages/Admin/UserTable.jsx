@@ -1,5 +1,9 @@
 import React, { useState } from 'react'
 import UsersPDF from './UsersPDF';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+
+import { saveAs } from 'file-saver';
 import { MagnifyingGlassIcon, ChevronUpDownIcon, PencilIcon, UserPlusIcon } from "@heroicons/react/24/outline";
 import StatusMessage from '@/Components/StatusMessage';
 import {
@@ -21,6 +25,8 @@ import AddUserModal from './AddUserModal';
 import EditUserModal from './EditUserModal';
 import DeleteUserModal from './DeleteUserModal';
 import { Inertia } from '@inertiajs/inertia';
+import { useRef } from 'react';
+import { PDFViewer } from '@react-pdf/renderer';
 
 const UserTable = ({ TABLE_HEAD, users, currentPage, totalPages, setCurrentPage }) => {
 
@@ -97,13 +103,33 @@ const UserTable = ({ TABLE_HEAD, users, currentPage, totalPages, setCurrentPage 
 
     //this will generate a pdf file for all users
 
+
+
+    const pdfRef = useRef();
+
     const generatePDF = () => {
+        const input = pdfRef.current;
+        html2canvas(input).then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4', true);
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+            const imgWidth = canvas.width;
+            const imgHeight = canvas.height;
+            const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+            const imgX = (pdfWidth - imgWidth * ratio) / 2;
+            const imgY = 30;
+            pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+            pdf.save('users.pdf');
+        })
+
+    
+
 
     };
-
-
     return (
         <div>
+
             {isSuccessMessage && <StatusMessage color="green" info="User Deleted Successfully" />}
             <Card className="h-full w-full p-4 ">
                 <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -152,11 +178,11 @@ const UserTable = ({ TABLE_HEAD, users, currentPage, totalPages, setCurrentPage 
 
                         </div>
                     </div>
-                   
+
                 </CardHeader>
                 <CardBody className="overflow-scroll">
 
-                    <table className="mt-4 overflow-x-auto">
+                    <table className="mt-4 overflow-x-auto" ref={pdfRef}>
                         <thead>
                             <tr>
                                 {TABLE_HEAD.map((head, index) => (
@@ -317,6 +343,7 @@ const UserTable = ({ TABLE_HEAD, users, currentPage, totalPages, setCurrentPage 
                 handleDeleteUser={handleDeleteUser}
                 userId={selectedUserId}
             />
+
         </div >
     )
 }
