@@ -17,7 +17,7 @@ export default function Dashboard({ auth }) {
         case 'moderator':
             dashboardContent = <ModeratorDashboard />;
             break;
-        case 'party_list_editor':
+        case 'partylist_editor':
             dashboardContent = <PartylistEditorDashboard />;
             break;
         case 'voter':

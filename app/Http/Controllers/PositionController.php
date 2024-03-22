@@ -12,10 +12,10 @@ class PositionController extends Controller
 {
     public function index(Request $request)
     {
-        $perPage = $request->input('perPage', 10); // Get the perPage value from the request, default to 10 if not provided
-        $positions = Positions::paginate($perPage); // Paginate positions using the perPage value
+        $perPage = $request->input('perPage', 10);
+        $positions = Positions::paginate($perPage); 
 
-        return response()->json($positions); // Return just the items (positions) without pagination metadata
+        return response()->json($positions); 
     }
     public function store(Request $request)
     {
@@ -30,7 +30,6 @@ class PositionController extends Controller
                 'name' => $request->name,
             ]);
 
-           
             return redirect()->back()->with('success', 'Positions created successfully');
         } catch (\Exception $e) {
             

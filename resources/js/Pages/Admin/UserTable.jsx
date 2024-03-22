@@ -2,15 +2,16 @@ import React, { useState } from "react";
 import UsersPDF from "./UsersPDF";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-
 import { saveAs } from "file-saver";
+
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
     PencilIcon,
     UserPlusIcon,
+
 } from "@heroicons/react/24/outline";
-import StatusMessage from "@/Components/StatusMessage";
+
 import {
     Card,
     CardHeader,
@@ -22,14 +23,16 @@ import {
     IconButton,
     Tooltip,
     Avatar,
-    Spinner,
+    Alert,
+    Select,
+    Option
+
 } from "@material-tailwind/react";
 
 import AddUserModal from "./AddUserModal";
 import EditUserModal from "./EditUserModal";
 import DeleteUserModal from "./DeleteUserModal";
 import { Inertia } from "@inertiajs/inertia";
-import { useRef } from "react";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 
 const UserTable = ({
@@ -46,6 +49,9 @@ const UserTable = ({
     const [isDeleteUserModalOpen, setIsDeleteUserModalOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
     const [selectedUserId, setSelectedUserId] = useState(null);
+    //message
+    const [message, setMessage] = useState(null);
+    const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
     //filtered users
     const filteredUsers = users.filter((user) =>
@@ -57,6 +63,7 @@ const UserTable = ({
         )
     );
 
+
     //handle previous page
     const handlePreviousPage = () => {
         setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
@@ -66,35 +73,35 @@ const UserTable = ({
         setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
     };
 
-    //message
-    const [isSuccessMessage, setIsSuccessMessage] = useState(false);
-
     //handle add in add user modal
     const handleAddUser = async () => {
         try {
             setIsSuccessMessage(true);
+            setMessage("User added successfully!");
             setIsAddUserModalOpen(false);
         } catch (error) {
             console.error("Error adding user:", error);
-            setIsSuccessMessage(false); // Set success message to false in case of an error
+            setIsSuccessMessage(false);
         }
     };
     //handle the user in edit user modal
     const handleEditUser = async () => {
         try {
             setIsSuccessMessage(true);
+            setMessage("User updated successfully!");
             setIsEditUserModalOpen(false); // Close the edit user modal
         } catch (error) {
-            // Handle error and show error message if needed
+
             console.error("Error editing user:", error);
-            setIsSuccessMessage(false); // Set success message to false in case of an error
+            setIsSuccessMessage(false);
         }
     };
     //handle the user in delete user modal
     const handleDeleteUser = async (userId) => {
         try {
             await Inertia.delete(`/users/${userId}`);
-            // setIsSuccessMessage(true);
+            setIsSuccessMessage(true);
+            setMessage("User deleted successfully");
             setIsDeleteUserModalOpen(false);
         } catch (error) {
             console.error("Error deleting user:", error.message);
@@ -105,7 +112,10 @@ const UserTable = ({
     //this will generate a pdf file for all users
 
 
-
+    const handleFilter = filterValue => {
+        setSearchQuery(filterValue);
+        console.log(filterValue);
+    }
     // const generatePDF = () => {
     //     const input = pdfRef.current;
     //     html2canvas(input).then((canvas) => {
@@ -131,9 +141,11 @@ const UserTable = ({
     // };
     return (
         <div>
-            {isSuccessMessage && (
-                <StatusMessage color="green" info="User Deleted Successfully" />
-            )}
+            <div >
+                {isSuccessMessage && (
+                    <Alert color="green">{message}</Alert>
+                )}
+            </div>
             <Card className="h-full w-full p-4 ">
                 <CardHeader
                     floated={false}
@@ -170,7 +182,7 @@ const UserTable = ({
                         <div className="flex justify-start gap-2">
                             <div
                                 className="flex items-center gap-2 cursor-pointer border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md"
-                                
+
                             >
                                 <div>
                                     {" "}
@@ -199,23 +211,23 @@ const UserTable = ({
                                             : "Download PDF"
                                     }
                                 </PDFDownloadLink>
-                                
+
                             </div>
-                            <div className="cursor-pointer border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={1.5}
-                                    stroke="currentColor"
-                                    className="w-6 h-6"
+                            <div className="flex gap-2 cursor-pointer border-1  text-black px-2 py-2 rounded-md" >
+
+                                {/*<Select
+                                    variant="outlined"
+                                    label="Filter by"
+                                    onChange={(value) => handleFilter(value)}
                                 >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
-                                    />
-                                </svg>
+
+                                    <Option value="admin">Admin</Option>
+                                    <Option value="moderator">Moderator</Option>
+                                    <Option value="voter">Voter</Option>
+                                    <Option value="partylist_editor">Partylist Editor</Option>
+
+                                </Select> */}
+
                             </div>
                         </div>
                         <div className="w-full md:w-72">
@@ -246,11 +258,11 @@ const UserTable = ({
                                             {head}{" "}
                                             {index !==
                                                 TABLE_HEAD.length - 1 && (
-                                                <ChevronUpDownIcon
-                                                    strokeWidth={2}
-                                                    className="h-4 w-4"
-                                                />
-                                            )}
+                                                    <ChevronUpDownIcon
+                                                        strokeWidth={2}
+                                                        className="h-4 w-4"
+                                                    />
+                                                )}
                                         </Typography>
                                     </th>
                                 ))}
@@ -357,11 +369,10 @@ const UserTable = ({
                                                     <Typography
                                                         variant="small"
                                                         color="blue-gray"
-                                                        className={`text-white font-semibold text-center rounded-md  px-2 py-2  ${
-                                                            email_verified_at
-                                                                ? "bg-green-100 text-green-700"
-                                                                : "bg-red-100 text-red-700"
-                                                        }`}
+                                                        className={`text-white font-semibold text-center rounded-md  px-2 py-2  ${email_verified_at
+                                                            ? "bg-green-100 text-green-700"
+                                                            : "bg-red-100 text-red-700"
+                                                            }`}
                                                     >
                                                         {email_verified_at
                                                             ? "VERIFIED"
