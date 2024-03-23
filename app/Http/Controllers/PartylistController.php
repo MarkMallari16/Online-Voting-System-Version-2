@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Partylist;
-
+use Inertia\Inertia;
 class PartylistController extends Controller
 {
     public function index()
     {
         $partylists = Partylist::all();
-        return response()->json($partylists);
+        return Inertia::render('Partylist_Editor/PartylistEditorPages/Partylist', [
+            'partylists' => $partylists
+        ]);
     }
 
     public function store(Request $request)
@@ -25,7 +27,7 @@ class PartylistController extends Controller
             'description' => $request->description,
         ]);
 
-        return response()->json($partylist, 201);
+        return redirect()->back();
     }
 
     public function update(Request $request, Partylist $partylist)

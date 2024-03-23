@@ -16,15 +16,14 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('middle_name');
             $table->string('last_name');
-            $table->unsignedBigInteger('partylist_id');
-            $table->unsignedBigInteger('position_id');
+            $table->string('partylist');
             $table->string('position');
+         
             $table->text('manifesto');
             $table->string('candidate_profile')->default('profile_photos/default_profile.png');
             $table->timestamps();
 
-            $table->foreign('partylist_id')->references('id')->on('partylists')->onDelete('cascade');
-            $table->foreign('position_id')->references('id')->on('positions')->onDelete('cascade');
+       
         });
     }
 

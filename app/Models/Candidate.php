@@ -8,15 +8,7 @@ use App\Models\Positions;
 class Candidate extends Model
 {
     use HasFactory;
-    protected $fillable = ['first_name', 'last_name', 'position', 'manifesto', 'candidate_profile'];
+    protected $fillable = ['first_name', 'last_name', 'middle_name','position', 'partylist', 'manifesto'];
 
-    public function position()
-    {
-        return $this->belongsTo(Positions::class);
-    }
-
-    public function partylist()
-    {
-        return $this->belongsTo(Partylist::class);
-    }
+  
 }

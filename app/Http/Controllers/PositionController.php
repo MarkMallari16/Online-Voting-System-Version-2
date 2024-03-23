@@ -11,11 +11,13 @@ use Illuminate\Validation\Rule;
 class PositionController extends Controller
 {
     public function index(Request $request)
-    {
-        $perPage = $request->input('perPage', 10);
-        $positions = Positions::paginate($perPage); 
+    {   
+      
+        $positions = Positions::all();
 
-        return response()->json($positions); 
+        return Inertia::render('Moderator/ModeratorPages/Positions', [
+            'positions' => $positions
+        ]);
     }
     public function store(Request $request)
     {
@@ -25,7 +27,7 @@ class PositionController extends Controller
         ]);
 
         try {
-            // Create the position
+        
             $position = Positions::create([
                 'name' => $request->name,
             ]);

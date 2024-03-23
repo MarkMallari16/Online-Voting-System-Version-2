@@ -33,7 +33,8 @@ import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
 import Logo from "@/assets/cover.jpg";
-import { useForm } from '@inertiajs/inertia-react';
+import { useForm } from '@inertiajs/react';
+
 
 const TABLE_HEAD = ["Candidate ID", "Profile", "First Name", "Last Name", "Partylist", "Position", "Manifesto", "Action"];
 
@@ -49,31 +50,63 @@ const TABLE_ROWS = [
 
 ];
 
-export function CandidateTable() {
+export function CandidateTable({partylist_list, position_list, candidates}) {
 
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
 
+  const [setFirstName, firstName] = useState('');
+  const [setLastName, lastName] = useState('');
+  const [setMiddleName, middleName] = useState('');
+  const [setParty,party] = useState(''); 
+  const [setPos,pos] = useState(''); 
+  const [setManifesto,manifesto] = useState('');
+  
+  const handlFirstName = (event) => {
+    setFirstName(event.target.value);
+  };
+
+  const handleLastName = (event) => {
+    setLastName(event.target.value);
+  };
+  const handleMiddleName = (event) => {
+    setMiddleName(event.target.value);
+  }
+
+  const handleParty = (event) => {
+    setParty(event.target.value);
+  }
+
+  const handlePos = (event) => {
+    setPos(event.target.value);
+  }
+
+  const handleManifesto = (event) => {
+    setManifesto(event.target.value);
+  }
   const { data, setData, post, errors } = useForm({
-    image_url: null,
-    firstName: '',
-    lastName: '',
+    
+    first_name: '',
+    middle_name: '',
+    last_name: '',
+    partylist: '',
     position: '',
     manifesto: '',
+   
 
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      await post('/candidates'); // Send form data to the backend
+       post(route('candidate.post'), data); // Send form data to the backend
       setOpen(false);
       // Reset the form fields
       setData({
-        firstName: '',
-        middleName: '',
-        lastName: '',
+        first_name: '',
+        middle_name: '',
+        last_name: '',
         partylist: '',
         position: '',
         manifesto: '',
@@ -83,15 +116,7 @@ export function CandidateTable() {
     }
   };
 
-  const handleChange = (event) => {
-    setData({
-      ...data,
-      [event.target.name]:
-        event.target.type === "checkbox"
-          ? event.target.checked
-          : event.target.value,
-    });
-  };
+  console.log(data.position)
   return (
     <Card className="h-full w-full">
       <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -145,9 +170,8 @@ export function CandidateTable() {
                           id="firstName"
                           className="mt-1 block w-full"
                           name="firstName"
-                          value={data.firstName || ''}
-
-                          onChange={handleChange}
+                          value={data.first_name}
+                          onChange={(e) => setData('first_name', e.target.value)}
                           required
                           autoFocus
                         />
@@ -161,9 +185,9 @@ export function CandidateTable() {
                         <TextInput
                           id="middleName"
                           className="mt-1 block w-full"
-                          value={data.middleName || ''}
+                          value={data.middle_name || ''}
                           name="middleName"
-                          onChange={handleChange}
+                          onChange={(e) => setData('middle_name', e.target.value)}
                           required
                           autoFocus
                           autoComplete="middleName"
@@ -179,8 +203,8 @@ export function CandidateTable() {
                           id="lastName"
                           className="mt-1 block w-full"
                           name="lastName"
-                          value={data.lastName || ''}
-                          onChange={handleChange}
+                          value={data.last_name || ''}
+                          onChange={(e) => setData('last_name', e.target.value)}
                           required
                           autoFocus
                           autoComplete="lastName"
@@ -196,13 +220,19 @@ export function CandidateTable() {
                     <div className="mt-4">
 
                       <Select
-                        id="positions"
+                    
                         label="Select Partylist"
                         value={data.partylist}
-                        onChange={handleChange}
-                        name="position"
+                        onChange={(e) => setData('partylist', e)}
+                        name="partylist"
                       >
-                        <Option>Sandigan</Option>
+                   
+                        {
+                          partylist_list?.map((list) => (
+                            <Option  key={list.id} value={list.name}>{list?.name}</Option>
+                          ))
+                        }
+                      
                       </Select>
 
                       <InputError className="mt-2" />
@@ -210,16 +240,22 @@ export function CandidateTable() {
 
                     <div className="mt-4">
 
-                      <Select
-                        id="positions"
-                        label="Select Candidate Position"
-                        value={data.position}
-                        onChange={handleChange}
-                        name="position"
-                      >
-                        <Option>President</Option>
-                        <Option>Vice President</Option>
-                      </Select>
+                    <Select
+                      label="Select Position"
+                      value={data.position}
+                      onChange={(e) => {
+                        console.log("Event:", e);
+                        setData('position', e)
+                        // Other code
+                      }}
+                      name="position"
+                    >
+                      {
+                        position_list?.map((list) => (
+                          <Option value={list.name}>{list.name}</Option>
+                        ))
+                      }
+                    </Select>
 
                       <InputError className="mt-2" />
                     </div>
@@ -230,7 +266,7 @@ export function CandidateTable() {
                         size="lg"
                         label="Enter manifesto"
                         value={data.manifesto}
-                        onChange={handleChange}
+                        onChange={(e) => setData('manifesto', e.target.value)}
                         name="manifesto"
                       />
                       <InputError className="mt-2" />
@@ -306,9 +342,9 @@ export function CandidateTable() {
             </tr>
           </thead>
           <tbody>
-            {TABLE_ROWS.map(
-              ({ id, firstName, lastName, partylist, position, manifesto }, index) => {
-                const isLast = index === TABLE_ROWS.length - 1;
+            {candidates?.map(
+              ({ id, first_name, last_name, partylist, position, manifesto }, index) => {
+                const isLast = index === candidates.length - 1;
                 const classes = isLast
                   ? "p-4"
                   : "p-4 border-b border-blue-gray-50";
@@ -349,7 +385,7 @@ export function CandidateTable() {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {firstName}
+                        {first_name}
                       </Typography>
                     </td>
                     <td className={classes}>
@@ -358,7 +394,7 @@ export function CandidateTable() {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {lastName}
+                        {last_name}
                       </Typography>
                     </td>
                     <td className={classes}>

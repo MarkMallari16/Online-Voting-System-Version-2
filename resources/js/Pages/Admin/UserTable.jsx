@@ -141,7 +141,7 @@ const UserTable = ({
     // };
     return (
         <div>
-            <div >
+            <div className="mb-5">
                 {isSuccessMessage && (
                     <Alert color="green">{message}</Alert>
                 )}

@@ -13,8 +13,5 @@ class Partylist extends Model
         'description',
         
     ];
-    public function candidates()
-    {
-        return $this->hasMany(Candidate::class);
-    }
+
 }

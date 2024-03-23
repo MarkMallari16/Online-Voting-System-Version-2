@@ -51,7 +51,7 @@ export default function Welcome({ auth }) {
                     <div className='flex-1'>
                         <div>
                             <p className='tracking-wide font-bold text-gray-900 text-center md:text-left'><span >STAND UP, SPEAK OUT, AND CREATE CHANGE!</span></p>
-                            <h1 className="text-5xl md:text-8xl font-extrabold text-center md:text-left mb-3">MAKE YOUR <span className='text-yellow-500'>VOICE</span> <span className='text-blue-500'>HEARD</span></h1>
+                            <h1 className="text-5xl md:text-7xl font-extrabold text-center md:text-left mb-3">MAKE YOUR <span className='text-yellow-500'>VOICE</span> <span className='text-blue-500'>HEARD</span></h1>
 
                         </div>
                         <p className='text-lg text-center md:text-left'>Exercise your right to vote and elect your senior high school student leaders.</p>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from '@inertiajs/inertia-react';
-
+import { router } from '@inertiajs/react'
 import {
   MagnifyingGlassIcon,
   ChevronUpDownIcon,
@@ -35,17 +35,10 @@ import InputError from "@/Components/InputError";
 
 const TABLE_HEAD = ["Partylist ID", "Partylist Name", "Partylist Description", "Action"];
 
-const TABLE_ROWS = [
-  {
-    id: 1,
-    name: "Sandigan",
-    description: "Hello world"
 
-  },
 
-];
-
-export function PartylistTable() {
+export function PartylistTable({partylists}) {
+  console.log(partylists)
   const { data, setData, post, processing } = useForm({
     name: '',
     description: ''
@@ -58,29 +51,11 @@ export function PartylistTable() {
 
   const handleOpen = () => setOpen(!open);
 
-  const handleSubmit = async () => {
-    try {
-      const response = await axios.post('/api/partylists', {
-        name: partylistName,
-        description: partylistDescription
-      });
-
-      if (response.status === 201) {
-        // Assuming the response contains the newly created partylist data
-        const newPartylist = response.data;
-
-        // Update the table with the new partylist data
-        setTableRows([...TABLE_ROWS, newPartylist]);
-
-        // Close the dialog
-        handleOpen();
-      } else {
-        console.error('Failed to create partylist:', response.data.message);
-      }
-    } catch (error) {
-      console.error('Failed to create partylist:', error);
-    }
-  };
+  function submit(e) {
+    e.preventDefault()
+    post('/partylists')
+    setOpen(false)
+  }
 
   const handleChangePartylistName = (event) => {
     setPartylistName(event.target.value);
@@ -116,7 +91,7 @@ export function PartylistTable() {
             <DialogHeader>Add Partylist</DialogHeader>
             <DialogBody>
               <div>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={submit}>
                   <div>
                     <InputLabel htmlFor="partylistName" value="Enter Partylist Name" />
                     
@@ -207,9 +182,9 @@ export function PartylistTable() {
             </tr>
           </thead>
           <tbody>
-            {TABLE_ROWS.map(
+            {partylists.map(
               ({ id, name, description }, index) => {
-                const isLast = index === TABLE_ROWS.length - 1;
+                const isLast = index === partylists.length - 1;
                 const classes = isLast
                   ? "p-4"
                   : "p-4 border-b border-blue-gray-50";

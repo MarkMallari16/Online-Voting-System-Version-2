@@ -5,19 +5,17 @@ import Dropdown from '@/Components/Dropdown'
 const ModeratorNavigation = () => {
     return (
         <>
-            {/* <NavLink href={route('dashboard')} active={route().current('partylist')} className={`${route().current('partylist')}`}>Create Partylist</NavLink>
-            <NavLink href={route('dashboard')} active={route().current('dashboard')} className={`${route().current('dashboard')}`}>View Partylists</NavLink>
-
-            <NavLink href={route('dashboard')} active={route().current('dashboard')} className={`${route().current('dashboard')}`}>Create E-Ballots</NavLink>
-            <NavLink href={route('dashboard')} active={route().current('dashboard')} className={`${route().current('dashboard')}`}>View Ballots</NavLink>
-
-
-            <NavLink href={route('dashboard')} active={route().current('dashboard')} className={`${route().current('dashboard')}`}>Set Schedule</NavLink>
-            <NavLink href={route('dashboard')} active={route().current('dashboard')} className={`${route().current('dashboard')}`}>View Schedule</NavLink> */}
 
             <NavLink href={route('election')} active={route().current('election')} className={`${route().current('election')}`}><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5 me-1">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M7.864 4.243A7.5 7.5 0 0 1 19.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 0 0 4.5 10.5a7.464 7.464 0 0 1-1.15 3.993m1.989 3.559A11.209 11.209 0 0 0 8.25 10.5a3.75 3.75 0 1 1 7.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 0 1-3.6 9.75m6.633-4.596a18.666 18.666 0 0 1-2.485 5.33" />
             </svg>Election</NavLink>
+
+            <NavLink href={route('votes')} active={route().current('votes')} className={`${route().current('votes')}`}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 me-1">
+                <path fillRule="evenodd" d="M6.912 3a3 3 0 0 0-2.868 2.118l-2.411 7.838a3 3 0 0 0-.133.882V18a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3v-4.162c0-.299-.045-.596-.133-.882l-2.412-7.838A3 3 0 0 0 17.088 3H6.912Zm13.823 9.75-2.213-7.191A1.5 1.5 0 0 0 17.088 4.5H6.912a1.5 1.5 0 0 0-1.434 1.059L3.265 12.75H6.11a3 3 0 0 1 2.684 1.658l.256.513a1.5 1.5 0 0 0 1.342.829h3.218a1.5 1.5 0 0 0 1.342-.83l.256-.512a3 3 0 0 1 2.684-1.658h2.844Z" clipRule="evenodd" />
+            </svg>
+
+
+                Votes</NavLink >
 
 
 
@@ -44,7 +42,7 @@ const ModeratorNavigation = () => {
                 Ballots</NavLink>
 
 
-            <NavLink href={route('live-result')} active={route().current('live-result')} className={`${route().current('live-result')}`}><PresentationChartBarIcon className="h-5 w-5 me-1" /> Live Results</NavLink>
+            {/*<NavLink href={route('live-result')} active={route().current('live-result')} className={`${route().current('live-result')}`}><PresentationChartBarIcon className="h-5 w-5 me-1" /> Live Results</NavLink> */}
 
 
         </>

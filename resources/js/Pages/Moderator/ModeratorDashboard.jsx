@@ -5,7 +5,7 @@ import { Select, Option } from "@material-tailwind/react";
 import { Input } from "@material-tailwind/react";
 import BarChartContainer from './BarChartContainer';
 import PieChartContainer from './PieChartContainer';
-const ModeratorDashboard = () => {
+const ModeratorDashboard = ({voters,candidates, election}) => {
     return (
         <div>
            
@@ -17,7 +17,7 @@ const ModeratorDashboard = () => {
 
             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-3">
                 <div className="p-6 text-gray-900">
-                    <ModeratorOverview />
+                    <ModeratorOverview voters={voters} election={election} candidates={candidates}/>
 
                 </div>
             </div>

@@ -11,7 +11,5 @@ class Election extends Model
 
     protected $fillable = ['title','start_date','end_date','status'];
 
-    public function positions(){
-        return $this->hasMany(Positions::class);
-    }
+   
 }
