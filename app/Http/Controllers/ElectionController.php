@@ -4,6 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Election;
+
+
+use App\Notifications\ElectionDeactivated;
+use App\Notifications\ElectionActivated;
+
+use Illuminate\Support\Facades\Notification;
+
+
 class ElectionController extends Controller
 {
     public function index(Request $request)
@@ -55,16 +63,19 @@ class ElectionController extends Controller
 
         if ($election) {
             // Deactivate any currently activated election
-            Election::where('status', 'Active')->update(['status' => 'Inactive']);
-
+            Election::where('status', true)->update(['status' => false]);
+    
             // Activate the retrieved election
             $election->status = true;
             $election->save();
+    
+            // Send email notification for election activation
+            Notification::send($election, new ElectionActivated());
+    
             return redirect()->back()->with('success', 'Election created successfully.');
 
         } else {
             return redirect()->back()->with('success', 'Election created successfully.');
-
         }
     }
 
@@ -77,6 +88,9 @@ class ElectionController extends Controller
             // Deactivate the election
             $election->status = 'Inactive';
             $election->save();
+            //send email notification
+            Notification::send($election, new ElectionDeactivated());
+            
             return redirect()->back()->with('success', 'Election created successfully.');
 
         } else {
