@@ -3,7 +3,7 @@ import CandidateContainer from './CandidateContainer'
 import Countdown from '@/Components/Countdown'
 const VoterDashboard = ({election}) => {
 
-    const { title, start_date, end_date, status } = election;
+    const { title } = election;
 
 
     console.log(title);
@@ -11,7 +11,7 @@ const VoterDashboard = ({election}) => {
         <div>
             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             </div>
-            <div className='text-center font-bold text-4xl mt-10 mb-2 '>
+            <div className='text-center font-bold text-4xl mt-10 mb-2 w-100'>
                 {title}
             </div>
          

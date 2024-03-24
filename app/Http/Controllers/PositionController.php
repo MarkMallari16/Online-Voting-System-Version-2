@@ -11,8 +11,8 @@ use Illuminate\Validation\Rule;
 class PositionController extends Controller
 {
     public function index(Request $request)
-    {   
-      
+    {
+
         $positions = Positions::all();
 
         return Inertia::render('Moderator/ModeratorPages/Positions', [
@@ -27,14 +27,14 @@ class PositionController extends Controller
         ]);
 
         try {
-        
+
             $position = Positions::create([
                 'name' => $request->name,
             ]);
 
             return redirect()->back()->with('success', 'Positions created successfully');
         } catch (\Exception $e) {
-            
+
             return redirect::back()->with('error', 'Failed to create position');
         }
     }
@@ -47,14 +47,16 @@ class PositionController extends Controller
 
         $position->update($request->all());
 
-        return redirect()->route('positions.index')
+        return redirect()->back()
             ->with('success', 'Position updated successfully.');
     }
     public function destroy(Positions $position)
     {
-        $position->delete();
-
-        return redirect()->route('positions.index')
-            ->with('success', 'Position deleted successfully.');
+        try {
+            $position->delete();
+            return redirect()->back()->with('success', 'Position deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to delete position: ' . $e->getMessage());
+        }
     }
 }

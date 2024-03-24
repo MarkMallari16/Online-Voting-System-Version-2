@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Countdown from '@/Components/Countdown';
+
 
 const PartylistEditorDashboard = () => {
  
@@ -10,7 +10,7 @@ const PartylistEditorDashboard = () => {
                     <h1 className="text-xl font-bold">Welcome, Partylist Editor!</h1>
                 </div>
             </div>
-          <Countdown/>
+          
         </div>
     )
 }

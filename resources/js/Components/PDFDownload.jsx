@@ -23,11 +23,11 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-evenly",
+        justifyContent: "space-between",
     },
     topHeading: {
         flex: 1,
-        fontSize: 16,
+        fontSize: "14px",
         marginBottom: 10,
         fontWeight: "bold",
         textAlign: "center",
@@ -40,24 +40,24 @@ const styles = StyleSheet.create({
 
     table: {
         display: "table",
-        width: "100%", 
+        width: "100%",
         borderStyle: "solid",
         borderWidth: 1,
         borderColor: "#bfbfbf",
         marginBottom: 10,
     },
     tableRow: {
-        
+
         flexDirection: "row",
     },
     tableCell: {
-        flex: 1, 
+        flex: 1,
         fontSize: 12,
         padding: 5,
         borderStyle: "solid",
         borderWidth: 1,
         borderColor: "#bfbfbf",
-        textAlign: "center", 
+        textAlign: "center",
     },
     logoImage: {
         width: 100,
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
 });
-const UsersPDF = ({ users }) => {
+const PDFDownload = ({ data, title, headerData }) => {
     return (
         <Document>
             <Page size="A4" style={styles.page}>
@@ -78,38 +78,22 @@ const UsersPDF = ({ users }) => {
                     <View style={styles.container}>
                         <Image style={styles.logoImage} src={SHSLogo} />
                         <Text style={styles.topHeading}>
-                            Online Voting System For SHS Student
+                            Online Voting System For Senior High School Student
                             Council
                         </Text>
                         <Image style={styles.stiLogo} src={STIBacoorLogo} />
                     </View>
-                    <Text style={styles.heading}>Users List</Text>
+                    <Text style={styles.heading}>{title} List</Text>\
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableCell}></Text>
+                        {headerData.map((header, index) => (
+                            <Text key={index} style={styles.tableCell}>{header}</Text>
+                        ))}
+                    </View>
                     <View style={styles.table}>
-                        <View style={styles.tableRow}>
-                            <Text style={styles.tableCell}>ID</Text>
-                            <Text style={styles.tableCell}>Name</Text>
-                            <Text style={styles.tableCell}>Email</Text>
-                            <Text style={styles.tableCell}>Role</Text>
-                            <Text style={styles.tableCell}>Status</Text>
-                        </View>
-                        {users.map((user) => (
-                            <View key={user.id} style={styles.tableRow}>
-                                <Text style={styles.tableCell}>{user.id}</Text>
-                                <Text style={styles.tableCell}>
-                                    {user.name}
-                                </Text>
-                                <Text style={styles.tableCell}>
-                                    {user.email}
-                                </Text>
-                                <Text style={styles.tableCell}>
-                                    {user.role}
-                                </Text>
-                                <Text style={styles.tableCell}>
-                                    {user.email_verified_at
-                                        ? "Verified"
-                                        : "Unverified"}
-                                </Text>
-                            </View>
+
+                        {data.map((rowData, index) => (
+                            <TableRow key={index} rowData={rowData} />
                         ))}
                     </View>
                 </View>
@@ -117,5 +101,18 @@ const UsersPDF = ({ users }) => {
         </Document>
     );
 };
+const TableHeaders = ({ headerData }) => {
+    <View style={styles.tableRow}>
+        <Text key={index} style={styles.tableCell}>ID</Text>
+    </View>
 
-export default UsersPDF;
+}
+const TableRow = ({ rowData }) => {
+    <View style={styles.tableRow}>
+        <Text key={index} style={styles.tableCell}>
+            {rowData}
+        </Text>
+    </View>
+}
+
+export default PDFDownload;

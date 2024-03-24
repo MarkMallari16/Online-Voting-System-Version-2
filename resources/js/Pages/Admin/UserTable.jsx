@@ -34,6 +34,8 @@ import EditUserModal from "./EditUserModal";
 import DeleteUserModal from "./DeleteUserModal";
 import { Inertia } from "@inertiajs/inertia";
 import { PDFDownloadLink } from "@react-pdf/renderer";
+import { CSVLink } from "react-csv";
+import ExportButtons from "@/Components/ExportButtons";
 
 const UserTable = ({
     TABLE_HEAD,
@@ -179,13 +181,31 @@ const UserTable = ({
                         </div>
                     </div>
                     <div className="flex gap-2 flex-col items-center justify-end md:flex-row">
+                        <div className="w-72">
+                            <Select label="Select Download" >
+                                <Option>
+                                    <PDFDownloadLink
+                                        document={<UsersPDF users={users} />}
+                                        fileName="users.pdf"
+                                    >
+                                        {({ blob, url, loading, error }) =>
+                                            "Export to PDF"
+                                        }
+                                    </PDFDownloadLink>
+                                </Option>
+                                <Option>
+                                    <CSVLink data={users} filename="user_data.csv">Export to Excel</CSVLink>
+                                </Option>
+
+                            </Select>
+                        </div>
                         <div className="flex justify-start gap-2">
                             <div
                                 className="flex items-center gap-2 cursor-pointer border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md"
 
                             >
                                 <div>
-                                    {" "}
+
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
@@ -213,6 +233,24 @@ const UserTable = ({
                                 </PDFDownloadLink>
 
                             </div>
+                            <div className="flex items-center bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md cursor-pointer gap-2">
+                                
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={1.5}
+                                    stroke="currentColor"
+                                    className="w-6 h-6"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+                                    />
+                                </svg>
+                                <CSVLink data={users} filename="user_data.csv">Export to Excel</CSVLink>
+                            </div>
                             <div className="flex gap-2 cursor-pointer border-1  text-black px-2 py-2 rounded-md" >
 
                                 {/*<Select
@@ -230,6 +268,7 @@ const UserTable = ({
 
                             </div>
                         </div>
+                       
                         <div className="w-full md:w-72">
                             <Input
                                 label="Search"

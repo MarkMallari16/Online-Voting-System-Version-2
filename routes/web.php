@@ -6,7 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\Dashboard;
+
 use App\Models\Election;
 use App\Http\Controllers\ProfilePictureController;
 use App\Http\Controllers\ElectionController;
@@ -62,19 +62,16 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::post('/election', [ElectionController::class, 'store']);
     Route::put('/election/activate', [ElectionController::class, 'activate']);
     Route::put('/election/deactivate', [ElectionController::class, 'deactivate']);
-});
 
+    Route::get('/candidate', [CandidateController::class, 'index'])->name('candidate');
+    Route::post('/candidate', [CandidateController::class, 'store'])->name('candidate.post');
 
-Route::get('/candidate', [CandidateController::class, 'index'])->name('candidate');
-Route::post('/candidate', [CandidateController::class, 'store'])->name('candidate.post');
-
-
-Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::get('/positions', [PositionController::class, 'index'])->name('positions');
     Route::post('/positions', [PositionController::class, 'store'])->name('positions.store');
     Route::put('/positions/{id}', [PositionController::class, 'update'])->name('positions.update');
     Route::delete('/positions/{id}', [PositionController::class, 'destroy'])->name('positions.delete');
 });
+
 
 Route::middleware(['auth', 'verified', 'partylist_editor'])->group(function () {
     Route::get('/partylists', [PartylistController::class, 'index'])->name('partylists');
@@ -87,7 +84,6 @@ Route::middleware(['auth', 'verified', 'partylist_editor'])->group(function () {
 
     // Delete a partylist
     Route::delete('/partylists/{partylist}', [PartylistController::class, 'destroy']);
-
 });
 
 //render

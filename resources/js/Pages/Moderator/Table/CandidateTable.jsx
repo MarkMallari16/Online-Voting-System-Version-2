@@ -38,20 +38,10 @@ import { useForm } from '@inertiajs/react';
 
 const TABLE_HEAD = ["Candidate ID", "Profile", "First Name", "Last Name", "Partylist", "Position", "Manifesto", "Action"];
 
-const TABLE_ROWS = [
-  {
-    id: 1,
-    firstName: "John",
-    lastName: "Cruz",
-    partylist: "Sandigan",
-    position: "President",
-    manifesto: "Once in a blue moon"
-  },
 
-];
+export function CandidateTable({ partylist_list, position_list, candidates }) {
 
-export function CandidateTable({partylist_list, position_list, candidates}) {
-
+  console.log(candidates)
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
@@ -59,10 +49,10 @@ export function CandidateTable({partylist_list, position_list, candidates}) {
   const [setFirstName, firstName] = useState('');
   const [setLastName, lastName] = useState('');
   const [setMiddleName, middleName] = useState('');
-  const [setParty,party] = useState(''); 
-  const [setPos,pos] = useState(''); 
-  const [setManifesto,manifesto] = useState('');
-  
+  const [setParty, party] = useState('');
+  const [setPos, pos] = useState('');
+  const [setManifesto, manifesto] = useState('');
+
   const handlFirstName = (event) => {
     setFirstName(event.target.value);
   };
@@ -86,21 +76,21 @@ export function CandidateTable({partylist_list, position_list, candidates}) {
     setManifesto(event.target.value);
   }
   const { data, setData, post, errors } = useForm({
-    
+
     first_name: '',
     middle_name: '',
     last_name: '',
     partylist: '',
     position: '',
     manifesto: '',
-   
+
 
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
-       post(route('candidate.post'), data); // Send form data to the backend
+      post(route('candidate.post'), data); // Send form data to the backend
       setOpen(false);
       // Reset the form fields
       setData({
@@ -110,6 +100,7 @@ export function CandidateTable({partylist_list, position_list, candidates}) {
         partylist: '',
         position: '',
         manifesto: '',
+        candidateImage: null
       });
     } catch (error) {
       console.error("Failed to create candidate:", error);
@@ -152,11 +143,18 @@ export function CandidateTable({partylist_list, position_list, candidates}) {
                       <div>
                         <label htmlFor="candidateImage" class="relative cursor-pointer bg-gray-300 rounded-md font-medium py-2 px-4 mb-2 inline-flex items-center">
                           <span class="mr-2">Choose a file</span>
-                          <input type="file" id="candidateImage" name="candidateImage" class="hidden" onChange={(e) => {
-                            const file = e.target.files[0];
-                            const formData = new FormData();
-                            formData.append('candidateImage', file);
-                          }} />
+                          <input
+                            type="file"
+                            id="candidateImage"
+                            name="candidateImage"
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files[0];
+                              const formData = new FormData();
+                              formData.append('candidateImage', file);
+                              setData('candidateImage', formData);
+                            }}
+                          />
                         </label>
 
                         <InputError className="mt-2" />
@@ -169,7 +167,7 @@ export function CandidateTable({partylist_list, position_list, candidates}) {
                         <TextInput
                           id="firstName"
                           className="mt-1 block w-full"
-                          name="firstName"
+                          name="first_name"
                           value={data.first_name}
                           onChange={(e) => setData('first_name', e.target.value)}
                           required
@@ -220,19 +218,19 @@ export function CandidateTable({partylist_list, position_list, candidates}) {
                     <div className="mt-4">
 
                       <Select
-                    
+
                         label="Select Partylist"
                         value={data.partylist}
                         onChange={(e) => setData('partylist', e)}
                         name="partylist"
                       >
-                   
+
                         {
                           partylist_list?.map((list) => (
-                            <Option  key={list.id} value={list.name}>{list?.name}</Option>
+                            <Option key={list.id} value={list.name}>{list?.name}</Option>
                           ))
                         }
-                      
+
                       </Select>
 
                       <InputError className="mt-2" />
@@ -240,22 +238,22 @@ export function CandidateTable({partylist_list, position_list, candidates}) {
 
                     <div className="mt-4">
 
-                    <Select
-                      label="Select Position"
-                      value={data.position}
-                      onChange={(e) => {
-                        console.log("Event:", e);
-                        setData('position', e)
-                        // Other code
-                      }}
-                      name="position"
-                    >
-                      {
-                        position_list?.map((list) => (
-                          <Option value={list.name}>{list.name}</Option>
-                        ))
-                      }
-                    </Select>
+                      <Select
+                        label="Select Position"
+                        value={data.position}
+                        onChange={(e) => {
+                          console.log("Event:", e);
+                          setData('position', e)
+
+                        }}
+                        name="position"
+                      >
+                        {
+                          position_list?.map((list) => (
+                            <Option value={list.name}>{list.name}</Option>
+                          ))
+                        }
+                      </Select>
 
                       <InputError className="mt-2" />
                     </div>
@@ -346,6 +344,7 @@ export function CandidateTable({partylist_list, position_list, candidates}) {
               ({ id, first_name, last_name, partylist, position, manifesto }, index) => {
                 const isLast = index === candidates.length - 1;
                 const classes = isLast
+
                   ? "p-4"
                   : "p-4 border-b border-blue-gray-50";
 

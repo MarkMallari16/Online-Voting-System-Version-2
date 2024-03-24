@@ -10,30 +10,24 @@ use App\Notifications\ElectionDeactivated;
 use App\Notifications\ElectionActivated;
 
 use Illuminate\Support\Facades\Notification;
-
+use Inertia\Inertia;
 
 class ElectionController extends Controller
 {
-    public function index(Request $request)
-    {   
-      
-        $election = Election::all();
-
-        return Inertia::render('Voter/VoterDashboard', [
-            'election' => $election
-        ]);
-    }
+ 
     public function store(Request $request)
     {
         // Check if there is an existing election
-        $existingElection = Election::first();
-
+        
         // Validate the request data
         $request->validate([
             'title' => 'required|string',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
         ]);
+
+        $existingElection = Election::first();
+
 
         // If there is an existing election, update it; otherwise, create a new one
         if ($existingElection) {
@@ -63,19 +57,15 @@ class ElectionController extends Controller
 
         if ($election) {
             // Deactivate any currently activated election
-            Election::where('status', true)->update(['status' => false]);
+            Election::where('status', 'Active')->update(['status' => 'Inactive']);
     
             // Activate the retrieved election
-            $election->status = true;
+            $election->status = 'Active';
             $election->save();
     
-            // Send email notification for election activation
-            Notification::send($election, new ElectionActivated());
-    
-            return redirect()->back()->with('success', 'Election created successfully.');
-
+            return redirect()->back()->with('success', 'Election activated successfully.');
         } else {
-            return redirect()->back()->with('success', 'Election created successfully.');
+            return redirect()->back()->with('success', 'Election activated successfully.');
         }
     }
 
@@ -88,14 +78,12 @@ class ElectionController extends Controller
             // Deactivate the election
             $election->status = 'Inactive';
             $election->save();
-            //send email notification
-            Notification::send($election, new ElectionDeactivated());
+           
             
-            return redirect()->back()->with('success', 'Election created successfully.');
+            return redirect()->back()->with('success', 'Election deactivated successfully.');
 
         } else {
-            return redirect()->back()->with('success', 'Election created successfully.');
-
+            return redirect()->back()->with('success', 'Election deactivated successfully.');
         }
     }
 }

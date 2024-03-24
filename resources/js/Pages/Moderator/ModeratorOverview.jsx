@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 
 const ModeratorOverview = ({voters,candidates,election}) => {
     const status = election.status;
-    const [electionStatus, setElectionStatus] = useState('Inactive');
-    const [currentVoters, setCurrentVoters] = useState(300);
-    const [remainingTime, setRemainingTime] = useState('2 days');
 
     return (
         <div className='flex flex-col md:flex-row sm:flex-row justify-between gap-4'>
