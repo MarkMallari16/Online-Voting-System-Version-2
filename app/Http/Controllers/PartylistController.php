@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Partylist;
 use Inertia\Inertia;
+
 class PartylistController extends Controller
 {
     public function index()
@@ -30,24 +31,27 @@ class PartylistController extends Controller
         return redirect()->back();
     }
 
-    public function update(Request $request, Partylist $partylist)
+    public function update(Request $request,  $id)
     {
+        $partylist = Partylist::findOrFail($id);
+        
         $request->validate([
             'name' => 'required',
             'description' => 'required',
         ]);
 
-        $partylist->update([
-            'name' => $request->name,
-            'description' => $request->description,
-        ]);
+        $partylist->update($request->all());
 
-        return response()->json($partylist, 200);
+        return redirect()->back()->with('success', 'partylist updated successfully');
     }
 
-    public function destroy(Partylist $partylist)
+    public function destroy($id)
     {
+        $partylist = Partylist::findOrFail($id);
+
         $partylist->delete();
-        return response()->json(['message' => 'Partylist deleted successfully']);
+
+
+        return redirect()->back()->with('success', 'partylist deleted successfully');
     }
 }

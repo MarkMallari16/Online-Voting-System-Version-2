@@ -12,7 +12,6 @@ class PositionController extends Controller
 {
     public function index(Request $request)
     {
-
         $positions = Positions::all();
 
         return Inertia::render('Moderator/ModeratorPages/Positions', [
@@ -38,8 +37,10 @@ class PositionController extends Controller
             return redirect::back()->with('error', 'Failed to create position');
         }
     }
-    public function update(Request $request, Positions $position)
+    public function update(Request $request, $id)
     {
+        $position = Positions::findOrFail($id);
+
         $request->validate([
             'name' => ['required', Rule::unique('positions')->ignore($position)],
             // Add any other validation rules here
@@ -54,9 +55,8 @@ class PositionController extends Controller
     {
         try {
             $position = Positions::findOrFail($id);
-
             $position->delete();
-            return redirect()->back()->with('successs', 'Position successfully deleted');
+            return redirect()->back()->with('success', 'Position successfully deleted');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to delete position: ' . $e->getMessage());
         }

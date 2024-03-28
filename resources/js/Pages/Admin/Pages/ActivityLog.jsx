@@ -8,6 +8,7 @@ const ActivityLog = ({ auth }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [isLoading, setIsLoading] = useState(true)
+
     const fetchActivityLog = async (page) => {
         try {
             const response = await axios.get('/activity-logs', {
@@ -23,6 +24,7 @@ const ActivityLog = ({ auth }) => {
             setIsLoading(false);
         }
     };
+
     useEffect(() => {
         fetchActivityLog();
     }, []);
@@ -90,7 +92,7 @@ const ActivityLog = ({ auth }) => {
                                                             <span>{log.user.name}</span>
                                                         </div>
                                                     </td>
-                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">{log.created_at}</td>
+                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">{new Date(log.created_at).toLocaleString()}</td>
                                                     <td className={`font-bold whitespace-no-wrap text-sm sm:text-base leading-5`}>
                                                         <span className={`${getClassByAction(log.action)} px-2 py-1 sm:px-3 sm:py-2 inline-block`}>
                                                             {log.action}

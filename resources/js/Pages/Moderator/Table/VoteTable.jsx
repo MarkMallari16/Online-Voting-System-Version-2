@@ -26,18 +26,17 @@ import InputError from "@/Components/InputError";
 import { useForm } from '@inertiajs/inertia-react';
 
 
-const TABLE_HEAD = ["ID", "Voter ID", "Vote Timestamp", "Action"];
-const VoteTable = (props) => {
+
+const VoteTable = ({ votes, voters, candidates }) => {
+
+    const TABLE_HEAD = ["ID", "Voter ID", "Voter's Name", "Candidate Voted For", "Election ID", "Vote Timestamp", "Action"];
     const [open, setOpen] = useState(false);
 
-    const [votes, setVotes] = useState([
-        { id: 1, name: 'John Doe', created_at: '2024-03-23T12:00:00' },
-        { id: 2, name: 'Jane Smith', created_at: '2024-03-24T09:30:00' },
-        { id: 3, name: 'Alice Johnson', created_at: '2024-03-25T15:45:00' },
-    ]);
+
+    console.log(votes);
 
     const { data, setData, post, errors } = useForm({
-        positionName: ''
+
     });
 
     const handleOpen = () => {
@@ -143,76 +142,117 @@ const VoteTable = (props) => {
                             ))}
                         </tr>
                     </thead>
-                    {votes.length > 0 && (
-                        <tbody>
-                            {votes.map(({ id, name, }) => {
 
-                                const classes = "p-4 border-b border-blue-gray-50";
+                    <tbody>
+                        {votes.map(({ id, voter_id, user, candidate, vote_timestamp }) => {
 
-                                const formatDate = (dateString) => {
-                                    const date = new Date(dateString);
-                                    return date.toLocaleString(); // or use other methods to format the date
-                                };
-                                return (
-                                    <tr key={id}>
-                                        <td className={classes}>
-                                            <div className="flex items-center gap-3">
-                                                <div className="flex flex-col">
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {id}
-                                                    </Typography>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className={classes}>
-                                            <div className="flex items-center gap-3">
-                                                <div className="flex flex-col">
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {id}
-                                                    </Typography>
-                                                </div>
-                                            </div>
-                                        </td>
+                            const classes = "p-4 border-b border-blue-gray-50";
 
+                            const formatDate = (dateString) => {
+                                const date = new Date(dateString);
+                                return date.toLocaleString(); // or use other methods to format the date
+                            };
 
-                                        <td className={classes}>
+                            return (
+                                <tr key={id}>
+                                    <td className={classes}>
+                                        <div className="flex items-center gap-3">
                                             <div className="flex flex-col">
                                                 <Typography
                                                     variant="small"
                                                     color="blue-gray"
                                                     className="font-normal"
                                                 >
-                                                    {name}
+                                                    {id}
                                                 </Typography>
                                             </div>
-                                        </td>
+                                        </div>
+                                    </td>
 
-                                        <td className={classes}>
-                                            <div className="flex gap-2">
-                                                <Tooltip content="View Vote">
-                                                    <IconButton variant="text" className="bg-blue-700 text-white">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                        </svg>
-                                                    </IconButton>
-                                                </Tooltip>
-
+                                    <td className={classes}>
+                                        <div className="flex items-center gap-3">
+                                            <div className="flex flex-col">
+                                                <Typography
+                                                    variant="small"
+                                                    color="blue-gray"
+                                                    className="font-normal"
+                                                >
+                                                    {voter_id}
+                                                </Typography>
                                             </div>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    )}
+                                        </div>
+                                    </td>
+
+                                    <td className={classes}>
+                                        <div className="flex items-center gap-3">
+                                            <div className="flex flex-col">
+                                                <Typography
+                                                    variant="small"
+                                                    color="blue-gray"
+                                                    className="font-normal"
+                                                >
+                                                    {user.name}
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                    </td>
+
+
+                                    <td className={classes}>
+                                        <div className="flex flex-col">
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal"
+                                            >
+                                                {`${candidate.first_name} ${candidate.last_name}`}
+                                            </Typography>
+                                        </div>
+                                    </td>
+
+
+                                    <td className={classes}>
+                                        <div className="flex flex-col">
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal"
+                                            >
+                                                {candidate.position}
+                                            </Typography>
+                                        </div>
+                                    </td>
+
+                                    <td className={classes}>
+                                        <div className="flex flex-col">
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal"
+                                            >
+                                                {vote_timestamp}
+                                            </Typography>
+                                        </div>
+                                    </td>
+
+                                    <td className={classes}>
+                                        <div className="flex gap-2">
+                                            <Tooltip content="View Vote">
+                                                <IconButton variant="text" className="bg-blue-700 text-white">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                    </svg>
+                                                </IconButton>
+                                            </Tooltip>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+
                 </table>
             </CardBody>
             <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">

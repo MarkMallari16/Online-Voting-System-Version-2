@@ -150,6 +150,41 @@ export default function Authenticated({ user, header, children }) {
                                 className={` ${route().current('dashboard')}`}
                             >Activity Log</ResponsiveNavLink>
                         }
+                        {user.role === 'moderator' &&
+                            <>
+                                <ResponsiveNavLink
+                                    href={route('election')}
+                                    active={route().current('election')}
+                                    className={` ${route().current('election')}`}
+                                >Election</ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    href={route('votes')}
+                                    active={route().current('votes')}
+                                    className={` ${route().current('votes')}`}
+                                >Votes</ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    href={route('candidate')}
+                                    active={route().current('candidate')}
+                                    className={` ${route().current('candidate')}`}
+                                >Positions</ResponsiveNavLink>
+
+                                <ResponsiveNavLink
+                                    href={route('ballots')}
+                                    active={route().current('ballots')}
+                                    className={` ${route().current('ballots')}`}
+                                >Ballot</ResponsiveNavLink>
+                            </>
+
+                        }
+                        {user.role === 'partylist_editor' &&
+                            <ResponsiveNavLink
+                                href={route('partylists')}
+                                active={route().current('partylists')}
+                                className={`${route().current('partylists') ? 'active' : ''}`}
+                            >
+                                Partylist
+                            </ResponsiveNavLink>
+                        }
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200">
@@ -166,17 +201,19 @@ export default function Authenticated({ user, header, children }) {
                         </div>
                     </div>
                 </div>
-            </nav>
+            </nav >
             <div className='z-40'>
 
             </div>
-            {header && (
-                <header className="bg-white shadow">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
-                </header>
-            )}
+            {
+                header && (
+                    <header className="bg-white shadow">
+                        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
+                    </header>
+                )
+            }
 
             <main>{children}</main>
-        </div>
+        </div >
     );
 }

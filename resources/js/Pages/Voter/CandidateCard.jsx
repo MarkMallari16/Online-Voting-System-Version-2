@@ -23,7 +23,7 @@ const CandidateCard = () => {
     const handleOpen = () => setOpen(!open);
     return (
         <>
-            <Card className="p-5 mt-6 w-full md:w-96 h-auto cursor-pointer hover:border-2 border-blue focus:border border-blue-500">
+            <Card className="p-5 mt-6 w-full md:w-96 h-auto cursor-pointer hover:border-2 border-blue focus:border border-blue-600">
                 <div className='flex justify-center'>
                     <Avatar src={profile} size="xxl" />
                 </div>

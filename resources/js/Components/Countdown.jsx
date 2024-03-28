@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from "framer-motion";
 
 const CountdownItem = ({ num, text }) => {
@@ -26,9 +26,10 @@ const CountdownItem = ({ num, text }) => {
 };
 
 function Countdown({ election }) {
-    const startingDate = election.status === 'Inactive' ? '2024-03-23 14:55:00' : election.start_date
-    const endingDate = election.status === 'Inactive' ? '2024-03-23 14:55:00' : election.end_date
 
+
+    const memoizedStartingDate = useMemo(() => election.status === 'Inactive' ? '' : election.start_date, [election.start_date, election.status]);
+    const memoizedEndingDate = useMemo(() => election.status === 'Inactive' ? '' : election.end_date, [election.end_date, election.status]);
 
     // console.log(startingDate)
     // console.log(endingDate)
@@ -40,39 +41,35 @@ function Countdown({ election }) {
         seconds: 0,
     });
 
-
-
     useEffect(() => {
         const countdownInterval = setInterval(handleCountdown, 1000);
         return () => clearInterval(countdownInterval);
-    }, []);
+    }, [memoizedStartingDate, memoizedEndingDate]);
 
     const handleCountdown = () => {
-
-        const startDate = new Date(startingDate).getTime();
-        const endDate = new Date(endingDate).getTime();
-        const now = new Date().getTime();
-
-        // Check if the current date is after the start date
-        if (now < startDate) {
-            // Countdown hasn't started yet, set remaining time to start date
-            setRemaining(calculateRemaining(startDate, now));
-        } else if (now >= startDate && now <= endDate) {
-            // Countdown is ongoing, set remaining time to end date
-            setRemaining(calculateRemaining(endDate, now));
-        } else {
-            // Countdown has ended, set remaining time to 0
-            setRemaining({
-                days: 0,
-                hours: 0,
-                minutes: 0,
-                seconds: 0,
-            });
+        const startDate = memoizedStartingDate ? new Date(memoizedStartingDate) : new Date(0);
+        const endDate = memoizedEndingDate ? new Date(memoizedEndingDate) : new Date(0);
+        const now = new Date();
+    
+        if (startDate && endDate) {
+            if (now < startDate) {
+                setRemaining(calculateRemaining(startDate.getTime(), now.getTime()));
+            } else if (now > endDate) {
+                setRemaining({
+                    days: 0,
+                    hours: 0,
+                    minutes: 0,
+                    seconds: 0,
+                });
+            } else {
+                setRemaining(calculateRemaining(endDate.getTime(), now.getTime()));
+            }
         }
     };
 
     const calculateRemaining = (targetDate, currentDate) => {
         const distance = targetDate - currentDate;
+
 
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -87,8 +84,7 @@ function Countdown({ election }) {
         };
     };
 
-    const status = election.status === 'active' || election.status === 'Active';
-
+    const status = election.status === 'Active';
 
     return (
         <div className="mt-5 bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -100,10 +96,10 @@ function Countdown({ election }) {
                             <p className="text-sm text-blue-gray-600">Cast your vote before the deadline to have your voice heard!</p>
                         </div>
                         <div className="w-full max-w-5xl mx-auto flex items-center justify-around bg-white text-blue-gray-800">
-                            <CountdownItem num={remaining.days} text="Days" />
-                            <CountdownItem num={remaining.hours} text="Hours" />
-                            <CountdownItem num={remaining.minutes} text="Minutes" />
-                            <CountdownItem num={remaining.seconds} text="Seconds" />
+                            <CountdownItem num={remaining.days} text={`${remaining.days > 1 ? "Days" : "Day"}`} />
+                            <CountdownItem num={remaining.hours} text={`${remaining.hours > 1 ? "Hours" : "Hour"}`} />
+                            <CountdownItem num={remaining.minutes} text={`${remaining.minutes > 1 ? "Minutes" : "Minute"}`} />
+                            <CountdownItem num={remaining.seconds} text={`${remaining.seconds > 1 ? "Seconds" : "Second"}`} />
                         </div>
                     </div>
                 </div>
@@ -115,10 +111,10 @@ function Countdown({ election }) {
                             <p className="text-sm text-black">Stay tuned for updates!</p>
                         </div>
                         <div className="w-full max-w-5xl mx-auto flex items-center justify-around bg-white text-blue-gray-800">
-                            <CountdownItem num={remaining.days} text="Days" />
-                            <CountdownItem num={remaining.hours} text="Hours" />
-                            <CountdownItem num={remaining.minutes} text="Minutes" />
-                            <CountdownItem num={remaining.seconds} text="Seconds" />
+                            <CountdownItem num={remaining.days} text="Day" />
+                            <CountdownItem num={remaining.hours} text="Hour" />
+                            <CountdownItem num={remaining.minutes} text="Minute" />
+                            <CountdownItem num={remaining.seconds} text="Second" />
                         </div>
                     </div>
                 </div>

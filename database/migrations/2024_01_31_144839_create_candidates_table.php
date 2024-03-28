@@ -17,13 +17,16 @@ return new class extends Migration
             $table->string('middle_name');
             $table->string('last_name');
             $table->string('partylist');
-            $table->string('position');
          
+            $table->unsignedBigInteger('partylist_id'); 
+            $table->unsignedBigInteger('position_id');
+
             $table->text('manifesto');
             $table->string('candidate_profile')->default('profile_photos/default_profile.png');
             $table->timestamps();
 
-       
+            $table->foreignId('partylist_id')->constrained('partylists'); 
+            $table->foreignId('position_id')->constrained('positions');
         });
     }
 

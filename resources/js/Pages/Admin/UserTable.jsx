@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import UsersPDF from "./UsersPDF";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
-import { saveAs } from "file-saver";
-
+import { FaRegFilePdf, FaRegFileExcel } from "react-icons/fa6";
+import { SiMicrosoftexcel } from "react-icons/si";
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
@@ -24,8 +22,6 @@ import {
     Tooltip,
     Avatar,
     Alert,
-    Select,
-    Option
 
 } from "@material-tailwind/react";
 
@@ -34,8 +30,7 @@ import EditUserModal from "./EditUserModal";
 import DeleteUserModal from "./DeleteUserModal";
 import { Inertia } from "@inertiajs/inertia";
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import { CSVLink } from "react-csv";
-import ExportButtons from "@/Components/ExportButtons";
+import ExcelExport from "@/Components/ExcelExport";
 
 const UserTable = ({
     TABLE_HEAD,
@@ -45,25 +40,46 @@ const UserTable = ({
     setCurrentPage,
 }) => {
     const [searchQuery, setSearchQuery] = useState("");
+    const [filterValue, setFilterValue] = useState("");
+
     const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
 
     const [isEditUserModalOpen, setIsEditUserModalOpen] = useState(false);
     const [isDeleteUserModalOpen, setIsDeleteUserModalOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
     const [selectedUserId, setSelectedUserId] = useState(null);
+
     //message
     const [message, setMessage] = useState(null);
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
     //filtered users
-    const filteredUsers = users.filter((user) =>
-        Object.values(user).some(
-            (value) =>
-                value &&
-                typeof value === "string" &&
-                value.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-    );
+    const filteredUsers = users.filter((user) => {
+        if (filterValue && searchQuery) {
+
+            return (
+                user.role.toLowerCase() === filterValue.toLowerCase() &&
+                Object.values(user).some(
+                    (value) =>
+                        value &&
+                        typeof value === "string" &&
+                        value.toLowerCase().includes(searchQuery.toLowerCase())
+                )
+            );
+        } else if (filterValue) {
+            return user.role.toLowerCase() === filterValue.toLowerCase();
+        } else if (searchQuery) {
+            return Object.values(user).some(
+                (value) =>
+                    value &&
+                    typeof value === "string" &&
+                    value.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+        } else {
+            return true;
+        }
+
+    });
 
 
     //handle previous page
@@ -86,6 +102,7 @@ const UserTable = ({
             setIsSuccessMessage(false);
         }
     };
+
     //handle the user in edit user modal
     const handleEditUser = async () => {
         try {
@@ -98,6 +115,7 @@ const UserTable = ({
             setIsSuccessMessage(false);
         }
     };
+
     //handle the user in delete user modal
     const handleDeleteUser = async (userId) => {
         try {
@@ -111,43 +129,23 @@ const UserTable = ({
         }
     };
 
-    //this will generate a pdf file for all users
 
-
-    const handleFilter = filterValue => {
-        setSearchQuery(filterValue);
-        console.log(filterValue);
+    const handleFilter = (e) => {
+        const selectedValue = e.target.value;
+        setFilterValue(selectedValue);
+        console.log(selectedValue);
     }
-    // const generatePDF = () => {
-    //     const input = pdfRef.current;
-    //     html2canvas(input).then((canvas) => {
-    //         const imgData = canvas.toDataURL("image/png");
-    //         const pdf = new jsPDF("p", "mm", "a4", true);
-    //         const pdfWidth = pdf.internal.pageSize.getWidth();
-    //         const pdfHeight = pdf.internal.pageSize.getHeight();
-    //         const imgWidth = canvas.width;
-    //         const imgHeight = canvas.height;
-    //         const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-    //         const imgX = (pdfWidth - imgWidth * ratio) / 2;
-    //         const imgY = 30;
-    //         pdf.addImage(
-    //             imgData,
-    //             "PNG",
-    //             imgX,
-    //             imgY,
-    //             imgWidth * ratio,
-    //             imgHeight * ratio
-    //         );
-    //         pdf.save("users.pdf");
-    //     });
-    // };
+
+
     return (
         <div>
+
             <div className="mb-5">
                 {isSuccessMessage && (
                     <Alert color="green">{message}</Alert>
                 )}
             </div>
+
             <Card className="h-full w-full p-4 ">
                 <CardHeader
                     floated={false}
@@ -181,24 +179,7 @@ const UserTable = ({
                         </div>
                     </div>
                     <div className="flex gap-2 flex-col items-center justify-end md:flex-row">
-                        <div className="w-72">
-                            <Select label="Select Download" >
-                                <Option>
-                                    <PDFDownloadLink
-                                        document={<UsersPDF users={users} />}
-                                        fileName="users.pdf"
-                                    >
-                                        {({ blob, url, loading, error }) =>
-                                            "Export to PDF"
-                                        }
-                                    </PDFDownloadLink>
-                                </Option>
-                                <Option>
-                                    <CSVLink data={users} filename="user_data.csv">Export to Excel</CSVLink>
-                                </Option>
 
-                            </Select>
-                        </div>
                         <div className="flex justify-start gap-2">
                             <div
                                 className="flex items-center gap-2 cursor-pointer border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md"
@@ -206,76 +187,65 @@ const UserTable = ({
                             >
                                 <div>
 
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={1.5}
-                                        stroke="currentColor"
-                                        className="w-6 h-6"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
-                                        />
-                                    </svg>
+                                    <FaRegFilePdf className="text-xl" />
+
                                 </div>
                                 <PDFDownloadLink
                                     document={<UsersPDF users={users} />}
                                     fileName="users.pdf"
                                 >
                                     {({ blob, url, loading, error }) =>
-                                        loading
-                                            ? "Loading document..."
-                                            : "Download PDF"
+                                        "Export to PDF"
                                     }
                                 </PDFDownloadLink>
 
                             </div>
-                            <div className="flex items-center bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md cursor-pointer gap-2">
-                                
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={1.5}
-                                    stroke="currentColor"
-                                    className="w-6 h-6"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
-                                    />
-                                </svg>
-                                <CSVLink data={users} filename="user_data.csv">Export to Excel</CSVLink>
+                            <div className="flex items-center bg-gray-200 border-black text-black px-2 py-3 rounded-md cursor-pointer gap-2">
+
+                                <div>
+                                    <SiMicrosoftexcel  className="text-xl"/>
+                                </div>
+
+
+                                <ExcelExport data={users} fileName="user" />
                             </div>
-                            <div className="flex gap-2 cursor-pointer border-1  text-black px-2 py-2 rounded-md" >
 
-                                {/*<Select
-                                    variant="outlined"
-                                    label="Filter by"
-                                    onChange={(value) => handleFilter(value)}
-                                >
-
-                                    <Option value="admin">Admin</Option>
-                                    <Option value="moderator">Moderator</Option>
-                                    <Option value="voter">Voter</Option>
-                                    <Option value="partylist_editor">Partylist Editor</Option>
-
-                                </Select> */}
-
-                            </div>
                         </div>
-                       
+
+
+
+                        <div className="relative flex gap-2 cursor-pointer border-1  text-gray-800 px-2 py-2 rounded-md" >
+                            <div className="absolute p-3 textblue">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
+                                </svg>
+
+                            </div>
+
+                            <select
+                                variant="outlined"
+                                label="Filter by"
+                                onChange={handleFilter}
+                                className="border-1 text-right rounded-lg w-52"
+                                value={filterValue}
+                            >
+                                <option value="" >Filter by</option>
+                                <option value="admin">Admin</option>
+                                <option value="moderator">Moderator</option>
+                                <option value="voter">Voter</option>
+                                <option value="partylist_editor">Partylist Editor</option>
+                            </select>
+                        </div>
                         <div className="w-full md:w-72">
                             <Input
                                 label="Search"
                                 icon={
                                     <MagnifyingGlassIcon className="h-5 w-5" />
                                 }
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={(e) => {
+                                    setSearchQuery(e.target.value)
+                                    console.log(searchQuery);
+                                }}
                             />
                         </div>
                     </div>
@@ -313,6 +283,7 @@ const UserTable = ({
                                     <td colSpan="14" className="py-10">
                                         No matching users found.
                                     </td>
+
                                 </tr>
                             ) : (
                                 filteredUsers.map(
@@ -392,7 +363,7 @@ const UserTable = ({
                                                         color="blue-gray"
                                                         className="font-normal"
                                                     >
-                                                        {created_at}
+                                                        {new Date(created_at).toLocaleString()}
                                                     </Typography>
                                                 </td>
                                                 <td className="p-4">
@@ -401,7 +372,7 @@ const UserTable = ({
                                                         color="blue-gray"
                                                         className="font-normal"
                                                     >
-                                                        {updated_at}
+                                                        {new Date(updated_at).toLocaleString()}
                                                     </Typography>
                                                 </td>
                                                 <td className="p-5">

@@ -37,7 +37,8 @@ class ElectionDeactivated extends Notification
         return (new MailMessage)
             ->subject('Election Deactivated')
             ->line('The election has been deactivated.')
-            ->action('View Election', url('/election'))
+            ->line('Please wait for the notification with further instructions.')
+            ->action('View', url('/dashboard'))
             ->line('Thank you for using our application!');
     }
 

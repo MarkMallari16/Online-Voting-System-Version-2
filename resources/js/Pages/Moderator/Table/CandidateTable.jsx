@@ -12,11 +12,7 @@ import {
   Typography,
   Button,
   CardBody,
-  Chip,
   CardFooter,
-  Tabs,
-  TabsHeader,
-  Tab,
   Avatar,
   IconButton,
   Tooltip,
@@ -26,14 +22,14 @@ import {
   DialogFooter,
   Select, Option,
   Textarea
-
 } from "@material-tailwind/react";
-import DefaultProfile from '../../../../../public/profile_photos/1707753026.png';
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
 import Logo from "@/assets/cover.jpg";
-import { useForm } from '@inertiajs/react';
+
+import { useForm } from "@inertiajs/react";
+import DeleteModal from "@/Components/DeleteModal";
 
 
 const TABLE_HEAD = ["Candidate ID", "Profile", "First Name", "Last Name", "Partylist", "Position", "Manifesto", "Action"];
@@ -41,9 +37,10 @@ const TABLE_HEAD = ["Candidate ID", "Profile", "First Name", "Last Name", "Party
 
 export function CandidateTable({ partylist_list, position_list, candidates }) {
 
-  console.log(candidates)
   const [open, setOpen] = useState(false);
 
+  const [openDeleteModal, setDeleteModal] = useState(false);
+  const [id, setId] = useState(null);
   const handleOpen = () => setOpen(!open);
 
   const [setFirstName, firstName] = useState('');
@@ -53,28 +50,30 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
   const [setPos, pos] = useState('');
   const [setManifesto, manifesto] = useState('');
 
-  const handlFirstName = (event) => {
-    setFirstName(event.target.value);
-  };
+  // const handlFirstName = (event) => {
+  //   setFirstName(event.target.value);
+  // };
 
-  const handleLastName = (event) => {
-    setLastName(event.target.value);
-  };
-  const handleMiddleName = (event) => {
-    setMiddleName(event.target.value);
-  }
+  // const handleLastName = (event) => {
+  //   setLastName(event.target.value);
+  // };
+  // const handleMiddleName = (event) => {
+  //   setMiddleName(event.target.value);
+  // }
 
-  const handleParty = (event) => {
-    setParty(event.target.value);
-  }
+  // const handleParty = (event) => {
+  //   setParty(event.target.value);
+  // }
 
-  const handlePos = (event) => {
-    setPos(event.target.value);
-  }
+  // const handlePos = (event) => {
+  //   setPos(event.target.value);
+  // }
 
-  const handleManifesto = (event) => {
-    setManifesto(event.target.value);
-  }
+  // const handleManifesto = (event) => {
+  //   setManifesto(event.target.value);
+  // }
+
+
   const { data, setData, post, errors } = useForm({
 
     first_name: '',
@@ -87,12 +86,13 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
 
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      post(route('candidate.post'), data); // Send form data to the backend
+      await post(route('candidate.store'), data); // Await the post request
       setOpen(false);
-      // Reset the form fields
+
+
       setData({
         first_name: '',
         middle_name: '',
@@ -100,14 +100,32 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
         partylist: '',
         position: '',
         manifesto: '',
-        candidateImage: null
       });
     } catch (error) {
-      console.error("Failed to create candidate:", error);
+
     }
+    console.log(data);
+  };
+  const handleDeleteOpen = (id) => {
+    setDeleteModal(!openDeleteModal)
+    setId(id);
   };
 
-  console.log(data.position)
+  const handleDeleteCandidate = (candidateId) => {
+    try {
+      // Send a DELETE request to delete the candidate
+      Inertia.delete(`/candidate/${candidateId}`);
+
+      // Update the positions state by filtering out the deleted position
+      setPositions(prevCandidate => prevCandidate.filter(candidate => candidate.id !== candidateId));
+      setMessage(`Position successfully deleted`);
+      // setIsSuccessMessage(true);
+      // Close the delete modal
+      setDeleteModal(false);
+    } catch (error) {
+      console.error('Failed to delete position:', error);
+    }
+  };
   return (
     <Card className="h-full w-full">
       <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -136,28 +154,35 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                 <DialogBody>
                   <div>
                     <div className="mb-2">
-                      <InputLabel htmlFor="candidateProfile" value="Candidate Profile" className="mb-4" />
-                      <div className="mb-2">
-                        <Avatar src={Logo} alt="avatar" size="xxl" withBorder={true} className="p-0.5" />
-                      </div>
-                      <div>
-                        <label htmlFor="candidateImage" class="relative cursor-pointer bg-gray-300 rounded-md font-medium py-2 px-4 mb-2 inline-flex items-center">
-                          <span class="mr-2">Choose a file</span>
-                          <input
-                            type="file"
-                            id="candidateImage"
-                            name="candidateImage"
-                            className="hidden"
-                            onChange={(e) => {
-                              const file = e.target.files[0];
-                              const formData = new FormData();
-                              formData.append('candidateImage', file);
-                              setData('candidateImage', formData);
-                            }}
-                          />
-                        </label>
 
-                        <InputError className="mt-2" />
+                      <InputLabel htmlFor="candidateProfile" value="Candidate Profile" className="mb-4" />
+                      <div className="flex items-center gap-3">
+                        <div className="mb-2">
+                          {data.candidate_profile ? (
+                            <Avatar src={URL.createObjectURL(data.candidate_profile)} alt="Candidate Avatar" size="xxl" withBorder={true} className="p-0.5" />
+                          ) : (
+                            <Avatar src={Logo} alt="Default Avatar" size="xxl" withBorder={true} className="p-0.5" />
+                          )}
+                        </div>
+                        <div>
+                          <label htmlFor="candidateImage" className="relative cursor-pointer bg-gray-300 rounded-md font-medium py-2 px-4 mb-2 inline-flex items-center">
+                            <span className="mr-2">Choose a file</span>
+                            <input
+                              type="file"
+                              id="candidateImage"
+                              name="candidate_profile"
+                              className="hidden"
+                              onChange={(e) => {
+                                const file = e.target.files[0];
+                                const formData = new FormData();
+                                formData.append('candidate_profile', file); // This should match the name expected by the backend
+                                setData('candidate_profile', file); // Set only the file as the data
+                              }}
+                            />
+                          </label>
+
+                          <InputError className="mt-2" />
+                        </div>
                       </div>
                     </div>
                     <div className="md:flex md:flex-wrap md:gap-2">
@@ -168,7 +193,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                           id="firstName"
                           className="mt-1 block w-full"
                           name="first_name"
-                          value={data.first_name}
+                          value={data.first_name || ''} // Ensure that the value is not undefined
                           onChange={(e) => setData('first_name', e.target.value)}
                           required
                           autoFocus
@@ -184,7 +209,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                           id="middleName"
                           className="mt-1 block w-full"
                           value={data.middle_name || ''}
-                          name="middleName"
+                          name="middle_name"
                           onChange={(e) => setData('middle_name', e.target.value)}
                           required
                           autoFocus
@@ -200,7 +225,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                         <TextInput
                           id="lastName"
                           className="mt-1 block w-full"
-                          name="lastName"
+                          name="last_name"
                           value={data.last_name || ''}
                           onChange={(e) => setData('last_name', e.target.value)}
                           required
@@ -247,10 +272,11 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
 
                         }}
                         name="position"
+
                       >
                         {
                           position_list?.map((list) => (
-                            <Option value={list.name}>{list.name}</Option>
+                            <Option key={list.id} value={list.name}>{list.name}</Option>
                           ))
                         }
                       </Select>
@@ -341,7 +367,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
           </thead>
           <tbody>
             {candidates?.map(
-              ({ id, first_name, last_name, partylist, position, manifesto }, index) => {
+              ({ id, first_name, last_name, partylist, position, manifesto, candidate_profile }, index) => {
                 const isLast = index === candidates.length - 1;
                 const classes = isLast
 
@@ -372,7 +398,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          <Avatar src={DefaultProfile} />
+                          <Avatar src={candidate_profile} />
                         </Typography>
 
                       </div>
@@ -402,7 +428,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {partylist}
+                        {partylist || 'Unknown'}
                       </Typography>
                     </td>
                     <td className={classes}>
@@ -433,7 +459,8 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                         </Tooltip>
 
                         <Tooltip content="Delete Candidate">
-                          <IconButton variant="text" className="bg-red-700 text-white">
+                          <IconButton variant="text" className="bg-red-700 text-white"
+                            onClick={() => handleDeleteOpen(id)}>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
                               <path fillRule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clipRule="evenodd" />
                             </svg>

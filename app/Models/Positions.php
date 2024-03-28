@@ -9,5 +9,9 @@ class Positions extends Model
 {
     use HasFactory;
     protected $fillable = ['name'];
-    
+
+    public function position()
+    {
+        return $this->belongsTo(Positions::class);
+    }
 }

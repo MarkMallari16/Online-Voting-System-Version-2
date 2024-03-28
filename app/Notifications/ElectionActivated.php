@@ -37,7 +37,7 @@ class ElectionActivated extends Notification
         return (new MailMessage)
             ->subject('Election Activated')
             ->line('The election has been activated successfully.')
-            ->action('View Election', url('/election'))
+            ->action('View', url('/dashboard'))
             ->line('Thank you for using our application!');
     }
 

@@ -2,7 +2,7 @@ import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { CandidateTable } from '../Table/CandidateTable'
 const Candidate = ({auth, partylist_list, position_list, candidates}) => {
-  console.log(candidates)
+
   return (
     
     <AuthenticatedLayout user={auth.user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Manage Candidate</h2>} >

@@ -14,6 +14,7 @@ import {
   Switch
 } from "@material-tailwind/react";
 import { Alert } from "@material-tailwind/react";
+import InfoIcon from '@/Components/InfoIcon';
 
 const Election = ({ auth, existingElection, election }) => {
 
@@ -26,7 +27,7 @@ const Election = ({ auth, existingElection, election }) => {
     status: status ? status : false
   });
 
-  console.log(existingElection);
+
 
   // console.log(data.end_date)
 
@@ -36,7 +37,8 @@ const Election = ({ auth, existingElection, election }) => {
 
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  console.log(election);
+
+
   useEffect(() => {
     setData({
       title: status ? election.title : '',
@@ -46,23 +48,26 @@ const Election = ({ auth, existingElection, election }) => {
     });
   }, [existingElection]);
 
-  console.log(existingElection);
+
   const handleActivateOpen = () => setActivateOpen(!activateOpen);
   const handleDeactivateOpen = () => setDeactivateOpen(!deactivateOpen);
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const route = existingElection ? `/election/${existingElection.id}` : '/election';
-      post(route);
+      await post(route);
 
-      setSuccessMessage(existingElection ? 'Election updated successfully.' : 'Election created successfully.');
+      setSuccessMessage(status ? 'Election updated successfully.' : 'Election created successfully.');
       reset();
     } catch (error) {
       console.error(error);
-      setError('Failed to create/update election. Please try again.');
+      if (error.response.status === 422) {
+        setError('Validation error. Please check your input.');
+      } else {
+        setError('Failed to create/update election. Please try again.');
+      }
     }
   };
 
@@ -98,7 +103,7 @@ const Election = ({ auth, existingElection, election }) => {
       <div className="flex flex-col md:flex-row min-h-screen">
         <main className="flex-1 py-12">
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            {successMessage && <Alert color="green" className="mt-2">{successMessage}</Alert>}
+            {successMessage && <Alert icon={<InfoIcon />} color="green" className="mt-3">{successMessage}</Alert>}
             <form onSubmit={handleSubmit}>
               <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg mb-5">
                 <div className='flex gap-3'>
