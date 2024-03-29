@@ -26,6 +26,10 @@ const CountdownItem = ({ num, text }) => {
 };
 
 function Countdown({ election }) {
+    if (!election) {
+        // Render a loading state or return null if election is not defined
+        return null;
+    }
 
 
     const memoizedStartingDate = useMemo(() => election.status === 'Inactive' ? '' : election.start_date, [election.start_date, election.status]);

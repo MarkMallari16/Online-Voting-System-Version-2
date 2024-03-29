@@ -82,6 +82,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
     partylist: '',
     position: '',
     manifesto: '',
+    candidate_profile: null,
 
 
   });
@@ -91,8 +92,8 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
     try {
       await post(route('candidate.store'), data); // Await the post request
       setOpen(false);
-
-
+  
+      // Reset form data and state for partylist and position
       setData({
         first_name: '',
         middle_name: '',
@@ -100,11 +101,14 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
         partylist: '',
         position: '',
         manifesto: '',
+        candidate_profile: null,
       });
+      // Reset state for partylist and position
+      setParty('');
+      setPos('');
     } catch (error) {
-
+      console.error('Error submitting form:', error);
     }
-    console.log(data);
   };
   const handleDeleteOpen = (id) => {
     setDeleteModal(!openDeleteModal)
@@ -175,8 +179,8 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                               onChange={(e) => {
                                 const file = e.target.files[0];
                                 const formData = new FormData();
-                                formData.append('candidate_profile', file); // This should match the name expected by the backend
-                                setData('candidate_profile', file); // Set only the file as the data
+                                formData.append('candidate_profile', file);
+                                setData('candidate_profile', file);
                               }}
                             />
                           </label>
@@ -197,6 +201,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                           onChange={(e) => setData('first_name', e.target.value)}
                           required
                           autoFocus
+                          autoComplete="firstName"
                         />
 
                         <InputError className="mt-2" />

@@ -10,8 +10,8 @@ class Positions extends Model
     use HasFactory;
     protected $fillable = ['name'];
 
-    public function position()
+    public function candidatePosition()
     {
-        return $this->belongsTo(Positions::class);
+        return $this->belongsTo(Positions::class, 'position');
     }
 }

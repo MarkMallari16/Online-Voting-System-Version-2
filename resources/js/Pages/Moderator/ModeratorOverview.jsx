@@ -8,6 +8,7 @@ const ModeratorOverview = ({ voters, candidates, election }) => {
 
     return (
         <div className='flex flex-col md:flex-row sm:flex-row justify-between gap-4'>
+        
             <div className='w-full md:w-1/3 flex justify-between sm:w-full h-50   bg-amber-300 rounded-lg p-10 mb-2 md:mb-0'>
                 <div>
                     <h2 className='text-3xl mb-8 font-bold'>{status}</h2>

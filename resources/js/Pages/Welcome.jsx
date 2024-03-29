@@ -1,6 +1,7 @@
 import { Link } from '@inertiajs/react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Cover from '../assets/Voting-amico.svg';
+
 import {
     Accordion,
     AccordionHeader,
@@ -37,9 +38,9 @@ export default function Welcome({ auth }) {
     return (
         <>
             {/* absolute inset-0 -z-10*/}
-            <div>
+            <div >
                 <div
-                    className=" h-full w-full"
+                    className="h-full w-full"
                     style={bgStyle}
                 >
 
@@ -108,8 +109,8 @@ export default function Welcome({ auth }) {
                     </div>
 
                 </div >
-                <div>
-                    <div className='mt-24 mb-10 text-center text-4xl font-bold'>Frequently Asked Question</div>
+                <div >
+                    <div className='mt-24 mb-10 text-center text-4xl font-bold' >Frequently Asked Question</div>
                     <div className=' flex justify-center'>
                         <div className='w-[90%]'>
                             <Accordion open={open === 1}>
@@ -141,6 +142,8 @@ export default function Welcome({ auth }) {
                         </div>
                     </div>
                 </div>
+
+              
             </div>
 
         </>

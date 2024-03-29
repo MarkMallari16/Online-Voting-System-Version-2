@@ -15,8 +15,8 @@ class Candidate extends Model
         return $this->hasMany(Vote::class, 'candidate_id');
     }
 
-    public function position()
+    public function candidatePosition()
     {
-        return $this->belongsTo(Positions::class);
+        return $this->belongsTo(Positions::class, 'position');
     }
 }

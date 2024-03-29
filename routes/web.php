@@ -88,9 +88,9 @@ Route::middleware(['auth', 'verified', 'partylist_editor'])->group(function () {
 
 //render
 Route::get('/dashboard', [CandidateController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/moderator-overview', [CandidateController::class, 'moderatorOverview'])->middleware(['auth', 'verified']);
+Route::get('/moderator-overview', [CandidateController::class, 'moderatorOverview'])->middleware(['auth', 'verified','moderator']);
 
-Route::middleware(['auth','verified'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
 
     // Route for displaying a specific vote
     Route::get('/votes/{id}', [VoteController::class, 'show'])->name('votes.show');

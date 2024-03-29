@@ -61,13 +61,26 @@ class ElectionController extends Controller
         // Retrieve the first (and only) election
         $election = Election::first();
 
-        if ($election) {
-            // Deactivate any currently activated election
-            Election::where('status', 'Active')->update(['status' => 'Inactive']);
+        try {
+            if ($election) {
+                // Deactivate any currently activated election
+                Election::where('status', 'Active')->update(['status' => 'Inactive']);
+            }
 
-            // Activate the retrieved election
+            // If there is no existing election, create a new one
+            else {
+                $election = Election::create([
+                    // Add default values for the new election here
+                    'title' => 'Default Election Title',
+                    'start_date' => now(), // Set the start date to the current datetime
+                    'end_date' => now()->addDays(7), // Set the end date to 7 days from now
+                    'status' => 'Active' // Set the status to Active for the new election
+                ]);
+            }
+            // Activate the retrieved or newly created election
             $election->status = 'Active';
             $election->save();
+
             // Get all users
             $users = User::where('role', 'voter')->get();
 
@@ -77,8 +90,9 @@ class ElectionController extends Controller
             }
 
             return redirect()->back()->with('success', 'Election activated successfully.');
-        } else {
-            return redirect()->back()->with('success', 'Election activated successfully.');
+        } catch (\Exception $e) {
+            // Handle any errors that occur during the activation process
+            return redirect()->back()->with('error', 'Failed to activate election. Please try again.');
         }
     }
 

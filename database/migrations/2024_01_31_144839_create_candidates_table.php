@@ -16,20 +16,12 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('middle_name');
             $table->string('last_name');
-            $table->string('partylist');
-         
-            $table->unsignedBigInteger('partylist_id'); 
-            $table->unsignedBigInteger('position_id');
-
             $table->text('manifesto');
-            $table->string('candidate_profile')->default('profile_photos/default_profile.png');
+            $table->string('candidate_profile')->nullable();
             $table->timestamps();
 
-            $table->foreignId('partylist_id')->constrained('partylists'); 
-            $table->foreignId('position_id')->constrained('positions');
         });
     }
-
     /**
      * Reverse the migrations.
      */

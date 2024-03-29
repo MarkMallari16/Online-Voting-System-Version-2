@@ -18,7 +18,7 @@ import InfoIcon from '@/Components/InfoIcon';
 
 const Election = ({ auth, existingElection, election }) => {
 
-  const status = election?.status == 'Active' ? true : false
+  const status = election?.status == 'Active' ? true : false;
 
   const { data, setData, post, put, errors, reset } = useForm({
     title: status ? election.title : '',
@@ -46,7 +46,7 @@ const Election = ({ auth, existingElection, election }) => {
       end_date: status ? election.end_date : '',
       status: status ? election.status : false
     });
-  }, [existingElection]);
+  }, [election]);
 
 
   const handleActivateOpen = () => setActivateOpen(!activateOpen);
@@ -77,7 +77,7 @@ const Election = ({ auth, existingElection, election }) => {
       setData('status', true);
       setSuccessMessage('Election activated successfully.');
       setActivateOpen(false)
-      window.location.reload()
+
 
     } catch (error) {
       console.error(error);
@@ -91,7 +91,7 @@ const Election = ({ auth, existingElection, election }) => {
       setData('status', false);
       setSuccessMessage('Election deactivated successfully.');
       setDeactivateOpen(false)
-      window.location.reload()
+
     } catch (error) {
       console.error(error);
       setError('Failed to deactivate election. Please try again.');
@@ -107,7 +107,7 @@ const Election = ({ auth, existingElection, election }) => {
             <form onSubmit={handleSubmit}>
               <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg mb-5">
                 <div className='flex gap-3'>
-                  <div>Activate Election</div>
+                  <div className='text-lg font-medium'>Activate Election</div>
                   <Switch onClick={() => {
                     if (!status) {
                       setActivateOpen(true);
@@ -144,7 +144,7 @@ const Election = ({ auth, existingElection, election }) => {
                   <h2 className="text-lg font-medium text-gray-900">Election Date</h2>
                   <p className="mt-1 text-sm text-gray-600">Set Election Date</p>
                 </header>
-                <div className='flex gap-4'>
+                <div className='flex flex-col md:flex-row lg:flex-row gap-4'>
                   <div>
                     <InputLabel htmlFor="start_date" value="Start Date" />
                     <TextInput
@@ -186,7 +186,10 @@ const Election = ({ auth, existingElection, election }) => {
         <DialogBody>
           <div className='flex justify-center mb-5'>
             <div>
-              {/* Insert the SVG component here */}
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-32 h-32 text-blue-500">
+                <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+              </svg>
+
             </div>
           </div>
 
@@ -198,11 +201,11 @@ const Election = ({ auth, existingElection, election }) => {
             color="red"
             onClick={handleActivateOpen}
             className="mr-1"
-
           >
+            Cancel
           </Button>
           <Button variant="gradient" color="blue" onClick={handleActivate}>
-            <span>Activate Election</span>
+            Activate Election
           </Button>
         </DialogFooter>
       </Dialog>

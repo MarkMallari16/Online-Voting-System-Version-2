@@ -61,7 +61,7 @@ class CandidateController extends Controller
             'candidates' => $candidate
         ]);
     }
-    
+
     public function uploadImage(Request $request)
     {
         $request->validate([
@@ -86,36 +86,36 @@ class CandidateController extends Controller
                 'last_name' => 'required|string',
                 'partylist' => 'required|string',
                 'position' => 'required|string',
-                'manifesto' => 'required|text', 
-                'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
+                'manifesto' => 'required|string', // Change 'text' to 'string'
+                'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
 
-            $candidateImagePath = null; // Initialize variable to hold candidate image path
+            $candidateImagePath = null;
 
-            // Upload candidate profile image if present
             if ($request->hasFile('candidate_profile')) {
                 $candidateImagePath = $request->file('candidate_profile')->store('candidate_profiles', 'public');
             }
 
-            // Retrieve the Partylist and Position IDs based on their names
-            $partylist = Partylist::where('name', $validatedData['partylist'])->firstOrFail();
-            $position = Positions::where('name', $validatedData['position'])->firstOrFail(); 
+            $candidate = Candidate::create([
+                'first_name' => $validatedData['first_name'],
+                'middle_name' => $validatedData['middle_name'],
+                'last_name' => $validatedData['last_name'],
+                'partylist' => $validatedData['partylist'],
+                'position' => $validatedData['position'],
+                'manifesto' => $validatedData['manifesto'],
+                'candidate_profile' => $candidateImagePath,
+            ]);
 
-            // Create the candidate with the validated data and related IDs
-            $candidate = Candidate::create($validatedData);
-
-            // Redirect to the candidate index page upon successful creation
             return redirect()->back()->with('success', 'Candidate added successfully');
         } catch (\Exception $e) {
-            // Redirect back with an error message
             return redirect()->back()->with('error', 'Failed to create candidate');
         }
     }
- 
 
 
-    public function update(Request $request,Candidate $candidate){
-        
+
+    public function update(Request $request, Candidate $candidate)
+    {
     }
 
     public function destroy($id)
