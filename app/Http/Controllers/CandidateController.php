@@ -68,49 +68,51 @@ class CandidateController extends Controller
             'candidate_profile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        if ($request->file('image')->isValid()) {
-            $candidateProfile = time() . '.' . $request->candidateProfile->extension();
-            $request->candidateProfile->storeAs('public/images', $candidateProfile);
+        if ($request->hasFile('candidate_profile')) {
+            $candidateProfileName = time() . '.' . $request->file('candidate_profile')->getClientOriginalExtension();
 
-            return $candidateProfile;
+            // Move the file to the public/candidate_profile_photos directory
+            $request->file('candidate_profile')->move(public_path('candidate_profile_photos'), $candidateProfileName);
+
+            // Return the path relative to the public directory
+            return 'candidate_profile_photos/' . $candidateProfileName;
         }
 
+        // If no file is uploaded, return null
         return null;
     }
+
     public function store(Request $request)
     {
-        try {
-            $validatedData = $request->validate([
-                'first_name' => 'required|string',
-                'middle_name' => 'required|string',
-                'last_name' => 'required|string',
-                'partylist' => 'required|string',
-                'position' => 'required|string',
-                'manifesto' => 'required|string', // Change 'text' to 'string'
-                'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            ]);
+        $validatedData = $request->validate([
+            'first_name' => 'required|string',
+            'middle_name' => 'required|string',
+            'last_name' => 'required|string',
+            'manifesto' => 'required|string',
+            'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'partylist_id' => 'required|exists:partylists,id',
+            'position_id' => 'required|exists:positions,id'
+        ]);
 
-            $candidateImagePath = null;
+        $candidateImagePath = null;
 
-            if ($request->hasFile('candidate_profile')) {
-                $candidateImagePath = $request->file('candidate_profile')->store('candidate_profiles', 'public');
-            }
-
-            $candidate = Candidate::create([
-                'first_name' => $validatedData['first_name'],
-                'middle_name' => $validatedData['middle_name'],
-                'last_name' => $validatedData['last_name'],
-                'partylist' => $validatedData['partylist'],
-                'position' => $validatedData['position'],
-                'manifesto' => $validatedData['manifesto'],
-                'candidate_profile' => $candidateImagePath,
-            ]);
-
-            return redirect()->back()->with('success', 'Candidate added successfully');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to create candidate');
+        if ($request->hasFile('candidate_profile')) {
+            $candidateImagePath = $this->uploadImage($request);
         }
+
+        Candidate::create([
+            'first_name' => $validatedData['first_name'],
+            'middle_name' => $validatedData['middle_name'],
+            'last_name' => $validatedData['last_name'],
+            'manifesto' => $validatedData['manifesto'],
+            'candidate_profile' => $candidateImagePath,
+            'partylist_id' => $validatedData['partylist_id'],
+            'position_id' => $validatedData['position_id']
+        ]);
+
+        return redirect()->back()->with('success', 'Candidate added successfully');
     }
+
 
 
 
@@ -123,11 +125,10 @@ class CandidateController extends Controller
         try {
             // Delete the candidate
             $candidate = Candidate::findOrFail($id);
-
             $candidate->delete();
 
             // Redirect back with success message
-            return redirect()->back()->with('success', 'Candidate deleted successfully');
+            return redirect()->back()->with('success', 'Candidate successfully deleted');
         } catch (\Exception $e) {
             // Redirect back with error message
             return redirect()->back()->with('error', 'Failed to delete candidate');

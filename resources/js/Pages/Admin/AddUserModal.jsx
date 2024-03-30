@@ -24,7 +24,7 @@ const AddUserModal = ({ open, handleClose }) => {
         role: "",
         password_confirmation: "",
     });
-
+    console.log(errors);
     useEffect(() => {
         return () => {
             reset("password", "password_confirmation");
@@ -47,14 +47,6 @@ const AddUserModal = ({ open, handleClose }) => {
             onSuccess: () => {
                 handleClose();
                 reset();
-            },
-            onError: (error) => {
-                if (error.response.status === 422) {
-
-                    setData('errors', error.response.data.errors);
-                } else {
-                    console.error('Error adding user:', error);
-                }
             }
         });
 

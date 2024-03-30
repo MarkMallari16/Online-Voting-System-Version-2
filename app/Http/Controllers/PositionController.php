@@ -24,6 +24,7 @@ class PositionController extends Controller
         $request->validate([
             'name' => ['required', Rule::unique('positions')->ignore($request->id)],
         ]);
+    
 
         try {
 
@@ -42,8 +43,8 @@ class PositionController extends Controller
         $position = Positions::findOrFail($id);
 
         $request->validate([
-            'name' => ['required', Rule::unique('positions')->ignore($position)],
-            // Add any other validation rules here
+            'name' => ['required', Rule::unique('positions')->ignore($position->id)],
+           
         ]);
 
         $position->update($request->all());

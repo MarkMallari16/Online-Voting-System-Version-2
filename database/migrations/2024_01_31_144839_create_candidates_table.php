@@ -18,8 +18,13 @@ return new class extends Migration
             $table->string('last_name');
             $table->text('manifesto');
             $table->string('candidate_profile')->nullable();
+            $table->unsignedBigInteger('position_id')->nullable();
+            $table->unsignedBigInteger('partylist_id')->nullable(); 
             $table->timestamps();
 
+            // Define foreign key constraints
+            $table->foreign('position_id')->references('id')->on('positions')->onDelete('set null');
+            $table->foreign('partylist_id')->references('id')->on('partylists')->onDelete('set null');
         });
     }
     /**

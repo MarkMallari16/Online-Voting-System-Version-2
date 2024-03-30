@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 
 use App\Models\User;
@@ -17,7 +19,7 @@ class UserController extends Controller
 
         return response()->json($users);
     }
-    public function store(Request $request)
+    public function store(CreateUserRequest $request)
     {
         // Validate request data
         $validatedData = $request->validate([
@@ -43,7 +45,7 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'User created successfully');
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
         $request->validate([
             'name' => 'required',

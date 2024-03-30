@@ -56,7 +56,7 @@ export function PositionsTable(props) {
 
     //modal add
     const handleAddOpen = () => setOpenAddModal(!openAddModal);
-  
+
     const handleAddSubmit = async (e) => {
         e.preventDefault(); // Prevent the default form submission behavior
 

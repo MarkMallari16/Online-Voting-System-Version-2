@@ -4,16 +4,16 @@ import Countdown from '@/Components/Countdown'
 import PrimaryButton from '@/Components/PrimaryButton';
 const VoterDashboard = ({ election }) => {
 
-    const { title } = election;
+    // const { title } = election;
 
 
-    console.log(title);
+    // console.log(title);
     return (
         <div>
             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             </div>
             <div className='text-center font-bold text-4xl mt-10 mb-2 w-100'>
-                {title}
+                {""}
             </div>
 
 
