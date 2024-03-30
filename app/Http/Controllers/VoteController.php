@@ -27,6 +27,7 @@ class VoteController extends Controller
             ]
         );
     }
+   
     public function show($id)
     {
         $vote = Vote::findOrFail($id);

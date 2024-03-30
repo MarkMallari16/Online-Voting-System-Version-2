@@ -162,12 +162,17 @@ export default function Authenticated({ user, header, children }) {
                                     active={route().current('votes')}
                                     className={` ${route().current('votes')}`}
                                 >Votes</ResponsiveNavLink>
+
+                                <ResponsiveNavLink
+                                    href={route('positions')}
+                                    active={route().current('positions')}
+                                    className={` ${route().current('positions')}`}
+                                >Positions</ResponsiveNavLink>
                                 <ResponsiveNavLink
                                     href={route('candidate')}
                                     active={route().current('candidate')}
                                     className={` ${route().current('candidate')}`}
-                                >Positions</ResponsiveNavLink>
-
+                                >Candidate</ResponsiveNavLink>
                                 <ResponsiveNavLink
                                     href={route('ballots')}
                                     active={route().current('ballots')}

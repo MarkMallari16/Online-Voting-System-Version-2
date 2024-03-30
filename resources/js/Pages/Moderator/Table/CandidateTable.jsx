@@ -27,7 +27,7 @@ import {
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
-import Logo from "@/assets/cover.jpg";
+import DefaultCandidatePicture from "../../../../../public/profile_photos/default_profile.png";
 
 import { useForm } from "@inertiajs/react";
 import { Inertia } from '@inertiajs/inertia';
@@ -35,26 +35,16 @@ import DeleteModal from "@/Components/DeleteModal";
 import ExcelExport from "@/Components/ExcelExport";
 
 
-const TABLE_HEAD = ["Candidate ID", "Profile", "First Name", "Last Name", "Partylist", "Position", "Manifesto", "Action"];
+const TABLE_HEAD = ["Candidate ID", "Profile", "First Name", "Middle Name", "Last Name", "Partylist", "Position", "Manifesto", "Action"];
 
 
 export function CandidateTable({ partylist_list, position_list, candidates }) {
 
   const [open, setOpen] = useState(false);
-
+  const [openUpdateModal, setUpdateModal] = useState(false);
   const [openDeleteModal, setDeleteModal] = useState(false);
   const [id, setId] = useState(null);
   const [candidate, setCandidate] = useState(candidates);
-  const [partylistId, setPartylistId] = useState(null);
-  const [positionId, setPositionId] = useState(null);
-
-
-  const handleOpen = () => setOpen(!open);
-
-
-
-  console.log(candidates);
-
 
 
   const { data, setData, post, errors } = useForm({
@@ -69,7 +59,47 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
 
 
   });
- 
+
+
+  const handleOpen = () => setOpen(!open);
+
+  const handleUpdateOpen = (id) => {
+    setUpdateModal(!openUpdateModal);
+    setId(id);
+
+    // Find the candidate to update
+    const candidateToUpdate = candidates.find(candidate => candidate.id === id);
+
+    console.log(candidateToUpdate);
+    if (candidateToUpdate) {
+      // Set the initial form data based on the candidate's information
+      setData({
+
+        first_name: candidateToUpdate.first_name,
+        middle_name: candidateToUpdate.middle_name,
+        last_name: candidateToUpdate.last_name,
+        partylist_id: candidateToUpdate.partylist_id,
+        position_id: candidateToUpdate.position_id,
+        manifesto: candidateToUpdate.manifesto,
+        
+      });
+    } else {
+      // Handle the case when no candidate is found with the given id
+      console.error(`No candidate found with id ${id}`);
+    }
+    console.log(id);
+  };
+  const handleDeleteOpen = (id) => {
+    setDeleteModal(!openDeleteModal)
+    setId(id);
+  };
+
+  console.log(candidates);
+
+
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -91,11 +121,35 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
       console.error('Error submitting form:', error);
     }
   };
-  const handleDeleteOpen = (id) => {
-    setDeleteModal(!openDeleteModal)
-    setId(id);
-  };
 
+
+
+  const handleUpdateSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+
+
+      // Send PUT request to update candidate data
+      await Inertia.put(`/candidate/${id}`, data);
+
+      // Close the update modal
+      setUpdateModal(false);
+
+      // Reset form data and state for candidate
+      setData({
+        first_name: '',
+        middle_name: '',
+        last_name: '',
+        partylist_id: null,
+        position_id: null,
+        manifesto: '',
+        candidate_profile: null,
+      });
+    } catch (error) {
+      console.error('Failed to update candidate:', error);
+    }
+  };
   const handleDeleteCandidate = (candidateId) => {
     try {
       // Send a DELETE request to delete the candidate
@@ -132,7 +186,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
               </Button>
 
 
-              {/**Add Position*/}
+              {/**Add Canidate*/}
 
               <Dialog size="xl" open={open} handler={handleOpen} className="overflow-y-auto">
                 <form onSubmit={handleSubmit}>
@@ -147,7 +201,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                             {data.candidate_profile ? (
                               <Avatar src={URL.createObjectURL(data.candidate_profile)} alt="Candidate Avatar" size="xxl" withBorder={true} className="p-0.5" />
                             ) : (
-                              <Avatar src={Logo} alt="Default Avatar" size="xxl" withBorder={true} className="p-0.5" />
+                              <Avatar src={DefaultCandidatePicture} alt="Default Avatar" size="xxl" withBorder={true} color="blue" className="p-0.5" />
                             )}
                           </div>
                           <div>
@@ -289,6 +343,162 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                 </form>
               </Dialog>
 
+              {/*Update Candidate */}
+
+              <Dialog size="xl" open={openUpdateModal} handler={handleUpdateOpen} className="overflow-y-auto">
+                <form onSubmit={handleUpdateSubmit}>
+                  <DialogHeader>Update Candidate</DialogHeader>
+                  <DialogBody>
+                    <div>
+                      <div className="mb-2">
+
+                        <InputLabel htmlFor="candidateProfile" value="Candidate Profile" className="mb-4" />
+                        <div className="flex items-center gap-3">
+                          <div className="mb-2">
+                            {data.candidate_profile ? (
+                              <Avatar src={URL.createObjectURL(data.candidate_profile)} alt="Candidate Avatar" size="xxl" withBorder={true} className="p-0.5" />
+                            ) : (
+                              <Avatar src={DefaultCandidatePicture} alt="Default Avatar" size="xxl" withBorder={true} color="blue" className="p-0.5" />
+                            )}
+                          </div>
+                          <div>
+                            <label htmlFor="candidateImage" className="relative cursor-pointer bg-gray-300 rounded-md font-medium py-2 px-4 mb-2 inline-flex items-center">
+                              <span className="mr-2">Choose a file</span>
+                              <input
+                                type="file"
+                                id="candidateImage"
+                                name="candidate_profile"
+                                className="hidden"
+                                onChange={(e) => {
+                                  const file = e.target.files[0];
+                                  const formData = new FormData();
+                                  formData.append('candidate_profile', file);
+                                  setData('candidate_profile', file);
+                                }}
+                              />
+                            </label>
+
+                            <InputError className="mt-2" />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="md:flex md:flex-wrap md:gap-2">
+                        <div className="flex-1">
+                          <InputLabel htmlFor="firstName" value="Enter Candidate First Name" />
+
+                          <TextInput
+                            id="firstName"
+                            className="mt-1 block w-full"
+                            name="first_name"
+                            value={data.first_name || ''}
+                            onChange={(e) => setData('first_name', e.target.value)}
+                            required
+                            autoFocus
+                            autoComplete="firstName"
+                          />
+
+                          <InputError className="mt-2" />
+                        </div>
+
+                        <div className="flex-1">
+                          <InputLabel htmlFor="lastName" value="Enter Candidate Middle Name" />
+
+                          <TextInput
+                            id="middleName"
+                            className="mt-1 block w-full"
+                            value={data.middle_name || ''}
+                            name="middle_name"
+                            onChange={(e) => setData('middle_name', e.target.value)}
+                            required
+                            autoFocus
+                            autoComplete="middleName"
+                          />
+
+                          <InputError className="mt-2" />
+                        </div>
+
+                        <div className="flex-1">
+                          <InputLabel htmlFor="lastName" value="Enter Candidate Last Name" />
+
+                          <TextInput
+                            id="lastName"
+                            className="mt-1 block w-full"
+                            name="last_name"
+                            value={data.last_name || ''}
+                            onChange={(e) => setData('last_name', e.target.value)}
+                            required
+                            autoFocus
+                            autoComplete="lastName"
+                          />
+
+                          <InputError className="mt-2" />
+                        </div>
+                      </div>
+
+
+
+
+                      <div className="mt-4">
+
+                        <Select
+                          label="Select Partylist"
+                          value={data.partylist_id}
+                          onChange={(e) => setData('partylist_id', e)}
+                          name="partylist"
+                        >
+                          {partylist_list?.map((list) => (
+                            <Option key={list.id} value={list.id}>{list?.name}</Option>
+                          ))}
+                        </Select>
+
+                        <InputError className="mt-2" />
+                      </div>
+
+                      <div className="mt-4">
+
+                        <Select
+                          label="Select Position"
+                          value={data.position_id}
+                          onChange={(e) => setData('position_id', e)}
+                          name="position"
+                        >
+                          {position_list?.map((list) => (
+                            <Option key={list.id} value={list.id}>{list.name}</Option>
+                          ))}
+                        </Select>
+
+                        <InputError className="mt-2" />
+                      </div>
+                      <div className="mt-4">
+
+                        <Textarea
+                          position="manifesto"
+                          size="lg"
+                          label="Enter manifesto"
+                          value={data.manifesto}
+                          onChange={(e) => setData('manifesto', e.target.value)}
+                          name="manifesto"
+                        />
+                        <InputError className="mt-2" />
+                      </div>
+
+                    </div>
+                  </DialogBody>
+                  <DialogFooter>
+                    <Button
+                      variant="text"
+                      color="red"
+                      onClick={handleUpdateOpen}
+                      className="mr-1"
+                    >
+                      <span>Cancel</span>
+                    </Button>
+                    <Button variant="gradient" color="blue" type="submit">
+                      <span>Confirm</span>
+                    </Button>
+                  </DialogFooter>
+                </form>
+              </Dialog>
             </div>
           </div>
           <div className="flex flex-col items-center justify-end gap-4 md:flex-row">
@@ -346,7 +556,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                 </tr>
               ) : (
                 candidates.map(
-                  ({ id, first_name, last_name, partylist_id, position_id, manifesto, candidate_profile }, index) => {
+                  ({ id, first_name, middle_name, last_name, partylist_id, position_id, manifesto, candidate_profile }, index) => {
                     const partylist = partylist_list.find(item => item.id === partylist_id);
                     const position = position_list.find(item => item.id === position_id);
 
@@ -398,6 +608,15 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                             color="blue-gray"
                             className="font-normal"
                           >
+                            {middle_name}
+                          </Typography>
+                        </td>
+                        <td className={classes}>
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
                             {last_name}
                           </Typography>
                         </td>
@@ -431,7 +650,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                         <td className={classes}>
                           <div className="flex gap-2">
                             <Tooltip content="Edit Candidate">
-                              <IconButton variant="text" className="bg-amber-700 text-white">
+                              <IconButton variant="text" className="bg-amber-700 text-white" onClick={() => handleUpdateOpen(id)}>
                                 <PencilIcon className="h-5 w-5" />
                               </IconButton>
                             </Tooltip>

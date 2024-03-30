@@ -62,7 +62,9 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
 
     Route::get('/candidate', [CandidateController::class, 'index'])->name('candidate');
     Route::post('/candidate', [CandidateController::class, 'store'])->name('candidate.store');
+    Route::put('/candidate/{id}', [CandidateController::class, 'update'])->name('candidate.update');
     Route::delete('/candidate/{id}', [CandidateController::class, 'destroy'])->name('candidate.destroy');
+
 
     Route::get('/positions', [PositionController::class, 'index'])->name('positions');
     Route::post('/positions', [PositionController::class, 'store'])->name('positions.store');
@@ -88,7 +90,12 @@ Route::middleware(['auth', 'verified', 'partylist_editor'])->group(function () {
 
 //render
 Route::get('/dashboard', [CandidateController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/moderator-overview', [CandidateController::class, 'moderatorOverview'])->middleware(['auth', 'verified','moderator']);
+Route::get('/moderator-overview', [CandidateController::class, 'moderatorOverview'])->middleware(['auth', 'verified', 'moderator']);
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Route::get('/candidates', [VoteController::class, 'showAllCandidates'])->name('candidatesAll.show');
+});
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
 

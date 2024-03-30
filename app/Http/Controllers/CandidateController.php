@@ -31,7 +31,7 @@ class CandidateController extends Controller
     {
         $positions = Positions::all();
         $partylist = Partylist::all();
-        $candidate = Candidate::all();
+        $candidatesAll = Candidate::all();
 
         // Retrieve the latest election, whether active or inactive
         $election = Election::where('status', 'Active')
@@ -43,7 +43,7 @@ class CandidateController extends Controller
         return Inertia::render('Dashboard', [
             'partylist_list' => $partylist,
             'position_list' => $positions,
-            'candidates' => $candidate,
+            'candidatesAll' => $candidatesAll,
             'election' => $election,
             'voters' => $voters
         ]);
@@ -113,11 +113,44 @@ class CandidateController extends Controller
         return redirect()->back()->with('success', 'Candidate added successfully');
     }
 
-
-
-
-    public function update(Request $request, Candidate $candidate)
+    public function update(Request $request, $id)
     {
+        $candidate = Candidate::findOrFail($id);
+        $validatedData = $request->validate([
+            'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'first_name' => 'required|string',
+            'middle_name' => 'required|string',
+            'last_name' => 'required|string',
+            'manifesto' => 'required|string',
+            'partylist_id' => 'required|exists:partylists,id',
+            'position_id' => 'required|exists:positions,id'
+        ]);
+
+        $candidateImagePath = $candidate->candidate_profile;
+
+        if ($request->hasFile('candidate_profile')) {
+            // If a new profile image is uploaded, delete the old one
+            if ($candidate->candidate_profile) {
+                // Delete the old profile image file
+                unlink(public_path($candidate->candidate_profile));
+            }
+            // Upload and save the new profile image
+            $candidateImagePath = $this->uploadImage($request);
+        }
+
+        // Update candidate data
+        $candidate->update([
+            'candidate_profile' => $candidateImagePath,
+            'first_name' => $validatedData['first_name'],
+            'middle_name' => $validatedData['middle_name'],
+            'last_name' => $validatedData['last_name'],
+            'manifesto' => $validatedData['manifesto'],
+            'partylist_id' => $validatedData['partylist_id'],
+            'position_id' => $validatedData['position_id']
+        ]);
+
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'Candidate updated successfully');
     }
 
     public function destroy($id)
