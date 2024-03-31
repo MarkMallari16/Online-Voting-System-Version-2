@@ -4,17 +4,13 @@ import Countdown from '@/Components/Countdown'
 import PrimaryButton from '@/Components/PrimaryButton';
 const VoterDashboard = ({ election, candidatesAll, positionList }) => {
 
-    // const { title } = election;
-    console.log(election);
-    console.log(candidatesAll);
-    console.log(positionList)
-    // console.log(title);
+ 
     return (
         <div>
             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             </div>
             <div className='text-center font-bold text-4xl mt-10 mb-2 w-100'>
-                {""}
+                {election.title}
             </div>
 
 
@@ -28,7 +24,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                     <div className='mt-11 text-2xl text-center'>Vote for {position.name}</div>
                     <div className='text-center text-gray-600'>Select your preferred candidate for the position of {position.name}</div>
                     <div className="p-6 text-gray-900">
-                        <CandidateContainer />
+                        <CandidateContainer candidatesAll={candidatesAll} positionList={positionList} positionId={position.id} />
                     </div>
                 </div>
             ))}

@@ -31,7 +31,8 @@ class CandidateController extends Controller
     {
         $positions = Positions::all();
         $partylist = Partylist::all();
-        $candidatesAll = Candidate::all();
+        $candidates = Candidate::all();
+        $candidatesAll = Candidate::with('position', 'partylist')->get();
 
         // Retrieve the latest election, whether active or inactive
         $election = Election::where('status', 'Active')
@@ -43,6 +44,7 @@ class CandidateController extends Controller
         return Inertia::render('Dashboard', [
             'partylist_list' => $partylist,
             'position_list' => $positions,
+            'candidates' => $candidates,
             'candidatesAll' => $candidatesAll,
             'election' => $election,
             'voters' => $voters
