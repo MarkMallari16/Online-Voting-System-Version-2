@@ -22,7 +22,8 @@ import {
   DialogBody,
   DialogFooter,
   Select, Option,
-  Textarea
+  Textarea,
+  Alert
 } from "@material-tailwind/react";
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
@@ -33,19 +34,23 @@ import { useForm } from "@inertiajs/react";
 import { Inertia } from '@inertiajs/inertia';
 import DeleteModal from "@/Components/DeleteModal";
 import ExcelExport from "@/Components/ExcelExport";
+import InfoIcon from "@/Components/InfoIcon";
 
 
 const TABLE_HEAD = ["Candidate ID", "Profile", "First Name", "Middle Name", "Last Name", "Partylist", "Position", "Manifesto", "Action"];
 
 
 export function CandidateTable({ partylist_list, position_list, candidates }) {
-
+  console.log(partylist_list);
+  console.log(position_list);
   const [open, setOpen] = useState(false);
   const [openUpdateModal, setUpdateModal] = useState(false);
   const [openDeleteModal, setDeleteModal] = useState(false);
   const [id, setId] = useState(null);
   const [candidate, setCandidate] = useState(candidates);
 
+  const [message, setMessage] = useState('');
+  const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
   const { data, setData, post, errors } = useForm({
 
@@ -81,7 +86,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
         partylist_id: candidateToUpdate.partylist_id,
         position_id: candidateToUpdate.position_id,
         manifesto: candidateToUpdate.manifesto,
-        
+
       });
     } else {
       // Handle the case when no candidate is found with the given id
@@ -116,7 +121,8 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
         manifesto: '',
         candidate_profile: null,
       });
-
+      setMessage(`Candidate successfully added`);
+      setIsSuccessMessage(true);
     } catch (error) {
       console.error('Error submitting form:', error);
     }
@@ -146,6 +152,9 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
         manifesto: '',
         candidate_profile: null,
       });
+
+      setMessage(`Candidate successfully updated`);
+      setIsSuccessMessage(true);
     } catch (error) {
       console.error('Failed to update candidate:', error);
     }
@@ -157,8 +166,8 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
 
       // Update the positions state by filtering out the deleted position
       setCandidate(prevCandidate => prevCandidate.filter(candidate => candidate.id !== candidateId));
-      // setMessage(`Position successfully deleted`);
-      // setIsSuccessMessage(true);
+      setMessage(`Candidate successfully deleted`);
+      setIsSuccessMessage(true);
       // Close the delete modal
       setDeleteModal(false);
     } catch (error) {
@@ -167,6 +176,9 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
   };
   return (
     <div>
+      <div className="mb-3">
+        {isSuccessMessage && <Alert icon={<InfoIcon />} color="green">{message}</Alert>}
+      </div>
       <Card className="h-full w-full">
         <CardHeader floated={false} shadow={false} className="rounded-none">
           <div className="mb-8 flex items-center justify-between gap-8">
@@ -443,8 +455,8 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                         <Select
                           label="Select Partylist"
                           value={data.partylist_id}
-                          onChange={(e) => setData('partylist_id', e)}
-                          name="partylist"
+                          onChange={(e) => setData('partylist_id', e.target.value)}
+                          name="partylist_id"
                         >
                           {partylist_list?.map((list) => (
                             <Option key={list.id} value={list.id}>{list?.name}</Option>
@@ -459,8 +471,8 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                         <Select
                           label="Select Position"
                           value={data.position_id}
-                          onChange={(e) => setData('position_id', e)}
-                          name="position"
+                          onChange={(e) => setData('position_id', e.target.value)}
+                          name="position_id"
                         >
                           {position_list?.map((list) => (
                             <Option key={list.id} value={list.id}>{list.name}</Option>
@@ -589,7 +601,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                               color="blue-gray"
                               className="font-normal"
                             >
-                              <Avatar src={candidate_profile} />
+                              <Avatar src={candidate_profile ? candidate_profile : DefaultCandidatePicture} />
                             </Typography>
                           </div>
                         </td>

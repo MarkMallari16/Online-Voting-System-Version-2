@@ -23,7 +23,7 @@ import {
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
-import { useForm, usePage } from '@inertiajs/inertia-react';
+import { useForm} from '@inertiajs/inertia-react';
 import { Inertia } from '@inertiajs/inertia';
 import Modal from "@/Components/Modal";
 import InfoIcon from "@/Components/InfoIcon";

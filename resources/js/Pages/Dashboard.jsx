@@ -9,7 +9,7 @@ import Countdown from '@/Components/Countdown';
 import { Breadcrumbs } from '@material-tailwind/react';
 export default function Dashboard({ auth, candidates, candidatesAll, position_list, partylist_list, election, voters }) {
 
-    console.log("voter", voters)
+    // console.log("voter", voters)
     const { role } = auth.user;
     let dashboardContent;
     switch (role) {
@@ -23,7 +23,7 @@ export default function Dashboard({ auth, candidates, candidatesAll, position_li
             dashboardContent = <PartylistEditorDashboard />;
             break;
         case 'voter':
-            dashboardContent = <VoterDashboard election={election} partyList={partylist_list} candidatesAll={candidatesAll} positionList={position_list} />;
+            dashboardContent = <VoterDashboard election={election} partyList={partylist_list} candidatesAll={candidatesAll} candidates={candidates} positionList={position_list} />;
             break;
     }
     return (

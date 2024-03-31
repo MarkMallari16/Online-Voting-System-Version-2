@@ -24,16 +24,17 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import { useForm } from '@inertiajs/inertia-react';
+import ExcelExport from '@/Components/ExcelExport';
 
 
 
-const VoteTable = ({ votes, voters, candidates }) => {
+const VoteTable = ({ votes, voters, candidates, positions }) => {
 
-    const TABLE_HEAD = ["ID", "Voter ID", "Voter's Name", "Candidate Voted For", "Election ID", "Vote Timestamp", "Action"];
+    const TABLE_HEAD = ["ID", "Voter ID", "Voter's Name", "Candidate Voted For", "Candidate Position", "Election ID", "Vote Timestamp", "Action"];
     const [open, setOpen] = useState(false);
 
 
-    console.log(votes);
+
 
     const { data, setData, post, errors } = useForm({
 
@@ -104,11 +105,7 @@ const VoteTable = ({ votes, voters, candidates }) => {
 
                         </div>
                         <div className='border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md'>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                                <path fillRule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 0 1 3.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 0 1 3.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 0 1-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875Zm6.905 9.97a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.72-1.72V18a.75.75 0 0 0 1.5 0v-4.19l1.72 1.72a.75.75 0 1 0 1.06-1.06l-3-3Z" clipRule="evenodd" />
-                                <path d="M14.25 5.25a5.23 5.23 0 0 0-1.279-3.434 9.768 9.768 0 0 1 6.963 6.963A5.23 5.23 0 0 0 16.5 7.5h-1.875a.375.375 0 0 1-.375-.375V5.25Z" />
-                            </svg>
-
+                            <ExcelExport data={votes} fileName='votes' />
                         </div>
                     </div>
                     <div className="w-full md:w-72">
@@ -144,7 +141,7 @@ const VoteTable = ({ votes, voters, candidates }) => {
                     </thead>
 
                     <tbody>
-                        {votes.map(({ id, voter_id, user, candidate, vote_timestamp }) => {
+                        {votes.map(({ id, voter_id, user, candidate, election_id, vote_timestamp }) => {
 
                             const classes = "p-4 border-b border-blue-gray-50";
 
@@ -210,7 +207,6 @@ const VoteTable = ({ votes, voters, candidates }) => {
                                         </div>
                                     </td>
 
-
                                     <td className={classes}>
                                         <div className="flex flex-col">
                                             <Typography
@@ -218,7 +214,18 @@ const VoteTable = ({ votes, voters, candidates }) => {
                                                 color="blue-gray"
                                                 className="font-normal"
                                             >
-                                                {candidate.position}
+                                                {candidate.position_id ? positions.find(position => position.id === candidate.position_id).name : ''}
+                                            </Typography>
+                                        </div>
+                                    </td>
+                                    <td className={classes}>
+                                        <div className="flex flex-col">
+                                            <Typography
+                                                variant="small"
+                                                color="blue-gray"
+                                                className="font-normal"
+                                            >
+                                                {election_id}
                                             </Typography>
                                         </div>
                                     </td>

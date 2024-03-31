@@ -118,6 +118,7 @@ class CandidateController extends Controller
     public function update(Request $request, $id)
     {
         $candidate = Candidate::findOrFail($id);
+        
         $validatedData = $request->validate([
             'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'first_name' => 'required|string',

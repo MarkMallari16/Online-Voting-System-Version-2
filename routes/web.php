@@ -38,6 +38,7 @@ Route::get('/activitylog', function () {
     return Inertia::render('Admin/Pages/ActivityLog');
 })->name('activitylog');
 //for moderator page
+
 Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::get('/election', function () {
         $election = Election::where('status', 'Active')->latest('start_date')->first();
@@ -54,8 +55,8 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::get('/live-result', function () {
         return Inertia::render('Moderator/ModeratorPages/LiveResult');
     })->name('live-result');
-});
-Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
+
+
     Route::post('/election', [ElectionController::class, 'store']);
     Route::put('/election/activate', [ElectionController::class, 'activate']);
     Route::put('/election/deactivate', [ElectionController::class, 'deactivate']);
@@ -92,13 +93,11 @@ Route::middleware(['auth', 'verified', 'partylist_editor'])->group(function () {
 Route::get('/dashboard', [CandidateController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/moderator-overview', [CandidateController::class, 'moderatorOverview'])->middleware(['auth', 'verified', 'moderator']);
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    // Route::get('/candidates', [VoteController::class, 'showAllCandidates'])->name('candidatesAll.show');
-});
+
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
-
+    Route::post('/votes', [VoteController::class, 'createVote'])->name('votes.create');
     // Route for displaying a specific vote
     Route::get('/votes/{id}', [VoteController::class, 'show'])->name('votes.show');
 

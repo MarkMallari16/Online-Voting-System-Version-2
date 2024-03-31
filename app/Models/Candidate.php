@@ -8,12 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Candidate extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'first_name',
         'last_name',
         'middle_name',
-        'position',
-        'partylist',
         'manifesto',
         'candidate_profile',
         'position_id',
