@@ -74,7 +74,7 @@ class VoteController extends Controller
             $vote->save();
         }
 
-        return dd($validatedData);
+        return redirect()->back()->with('success', 'Successfully voted');
     }
 
     //     // return dd($validatedData);

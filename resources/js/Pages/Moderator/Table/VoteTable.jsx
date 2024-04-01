@@ -94,7 +94,7 @@ const VoteTable = ({ votes, voters, candidates, positions }) => {
                         </DialogBody>
                     </Dialog>
                 </div>
-                <div className="flex flex-col items-center justify-end gap-4 md:flex-row">
+                <div className="flex flex-col items-center justify-end gap-4 md:flex-row ">
                     <div className='flex justify-start gap-2'>
                         <div className='border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md'>
 
@@ -105,6 +105,7 @@ const VoteTable = ({ votes, voters, candidates, positions }) => {
 
                         </div>
                         <div className='border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md'>
+                        
                             <ExcelExport data={votes} fileName='votes' />
                         </div>
                     </div>

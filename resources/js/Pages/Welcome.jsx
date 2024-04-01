@@ -35,6 +35,13 @@ export default function Welcome({ auth }) {
         backgroundColor: 'hsla(0, 0%, 100%, 1)',
         backgroundImage: 'radial-gradient(at 40% 20%, hsla(32,100%,88%,1) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(212, 100%, 76%, 1) 0px, transparent 50%)',
     };
+
+    const faqStyle = { // Add this style for the FAQ section
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', // Example gradient colors
+        borderRadius: '10px',
+        padding: '20px',
+        color: '#fff',
+    };
     return (
         <>
             {/* absolute inset-0 -z-10*/}
@@ -92,7 +99,7 @@ export default function Welcome({ auth }) {
                                 </Link>
                                 <Link
                                     href={route('login')}
-                                    className="bg-blue-50  px-4 py-2 rounded-md text-black "
+                                    className=" text-blue-500  px-4 py-2 rounded-md  "
                                 >
                                     Already have an account?
                                 </Link>
@@ -110,40 +117,27 @@ export default function Welcome({ auth }) {
 
                 </div >
                 <div >
+                    <div className='mt-24 mb-10 text-center text-4xl font-bold' >Meet the Candidate</div>
+                    <div className=' flex justify-center'>
+                        
+                    </div>
+                </div>
+                <div >
                     <div className='mt-24 mb-10 text-center text-4xl font-bold' >Frequently Asked Question</div>
                     <div className=' flex justify-center'>
-                        <div className='w-[90%]'>
+                        <div className='w-[90%] bg-blue-50 p-2' >
                             <Accordion open={open === 1}>
                                 <AccordionHeader onClick={() => handleOpen(1)}>What is the online voting system for the SHS council at STI College Bacoor?</AccordionHeader>
                                 <AccordionBody>
                                     The online voting system is a platform designed to facilitate the election process for the Senior High School (SHS) council at STI College Bacoor. It allows students to cast their votes electronically from anywhere with an internet connection, providing a convenient and accessible way to participate in the democratic process.
                                 </AccordionBody>
                             </Accordion>
-                            <Accordion open={open === 2}>
-                                <AccordionHeader onClick={() => handleOpen(2)}>
-                                    How to use Material Tailwind?
-                                </AccordionHeader>
-                                <AccordionBody>
-                                    We&apos;re not always in the position that we want to be at. We&apos;re constantly
-                                    growing. We&apos;re constantly making mistakes. We&apos;re constantly trying to express
-                                    ourselves and actualize our dreams.
-                                </AccordionBody>
-                            </Accordion>
-                            <Accordion open={open === 3}>
-                                <AccordionHeader onClick={() => handleOpen(3)}>
-                                    What can I do with Material Tailwind?
-                                </AccordionHeader>
-                                <AccordionBody>
-                                    We&apos;re not always in the position that we want to be at. We&apos;re constantly
-                                    growing. We&apos;re constantly making mistakes. We&apos;re constantly trying to express
-                                    ourselves and actualize our dreams.
-                                </AccordionBody>
-                            </Accordion>
+
                         </div>
                     </div>
                 </div>
 
-              
+
             </div>
 
         </>

@@ -180,38 +180,32 @@ const UserTable = ({
                     </div>
                     <div className="flex gap-2 flex-col items-center justify-end md:flex-row">
 
-                        <div className="flex justify-start gap-2">
-                            <div
-                                className="flex items-center gap-2 cursor-pointer border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md"
+                        <div
+                            className="flex items-center gap-2 cursor-pointer border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md"
 
+                        >
+                            <div>
+
+                                <FaRegFilePdf className="text-xl" />
+
+                            </div>
+                            <PDFDownloadLink
+                                document={<UsersPDF users={users} />}
+                                fileName="users.pdf"
                             >
-                                <div>
-
-                                    <FaRegFilePdf className="text-xl" />
-
-                                </div>
-                                <PDFDownloadLink
-                                    document={<UsersPDF users={users} />}
-                                    fileName="users.pdf"
-                                >
-                                    {({ blob, url, loading, error }) =>
-                                        "Export to PDF"
-                                    }
-                                </PDFDownloadLink>
-
-                            </div>
-                            <div className="flex items-center bg-gray-200 border-black text-black px-2 py-3 rounded-md cursor-pointer gap-2">
-
-                                <div>
-                                    <SiMicrosoftexcel  className="text-xl"/>
-                                </div>
-
-
-                                <ExcelExport data={users} fileName="user" />
-                            </div>
+                                {({ blob, url, loading, error }) =>
+                                    "Export to PDF"
+                                }
+                            </PDFDownloadLink>
 
                         </div>
+                        <div className="flex gap-4">
+                            <div>
+                                <SiMicrosoftexcel className="text-lg" />
+                            </div>
 
+                            <ExcelExport data={users} fileName="user" />
+                        </div>
 
 
                         <div className="relative flex gap-2 cursor-pointer border-1  text-gray-800 px-2 py-2 rounded-md" >

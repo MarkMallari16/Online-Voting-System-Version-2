@@ -20,18 +20,17 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
     }, [selectedCandidates]);
 
     const onSelectCandidate = (candidateId, positionId) => {
-        // Check if a candidate for the current position is already selected
+        // Check if the candidate is already selected for the current position
         const isCandidateSelected = selectedCandidates.some(candidate => candidatesAll.find(c => c.id === candidate).position_id === positionId);
 
-        if (!isCandidateSelected) {
-            // Remove any previously selected candidate for the current position
-            const updatedCandidates = selectedCandidates.filter(candidate => candidatesAll.find(c => c.id === candidate).position_id !== positionId);
-            // Add the newly selected candidate
-            setSelectedCandidates([...updatedCandidates, candidateId]);
-        } else {
+        if (isCandidateSelected) {
             // Deselect the candidate if already selected
             setSelectedCandidates(prevState => prevState.filter(candidate => candidatesAll.find(c => c.id === candidate).position_id !== positionId));
-            setSelectedCandidates(prevState => [...prevState, candidateId]);
+        } else {
+            // Remove any previously selected candidate for the current position
+            const updatedCandidates = selectedCandidates.filter(candidate => candidatesAll.find(c => c.id === candidate).position_id !== positionId);
+            // Add the newly selected candidate to the end
+            setSelectedCandidates([...updatedCandidates, candidateId]);
         }
     };
 
