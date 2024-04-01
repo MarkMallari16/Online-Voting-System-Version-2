@@ -7,9 +7,9 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
     const [selectedCandidates, setSelectedCandidates] = useState([]);
 
-    const electionId = election.id;
+    const electionId = election ? election.id : null;
 
-    const { data, setData, post, errors } = useForm({
+    const { data, setData, post, errors, processing } = useForm({
         election_id: electionId,
         candidate_ids: [],
     });
@@ -72,7 +72,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                         <div className='mt-11 text-2xl text-center'>Vote for {position.name}</div>
                         <div className='text-center text-gray-600'>Select your preferred candidate(s) for the position of {position.name}</div>
                         <div className="p-6 text-gray-900">
-                            <div className='mb-10 flex flex-wrap justify-center sm:justify-start gap-5 p-10 sm:p-5'>
+                            {candidatesAll.filter(candidate => candidate.position_id === position.id).length > 0 ? (<div className='mb-10 flex flex-wrap justify-center sm:justify-start gap-5 p-10 sm:p-5'>
                                 {candidatesAll
                                     .filter(candidate => candidate.position_id === position.id) // Filter candidates for the current position
                                     .map(candidate => (
@@ -80,18 +80,18 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                                             key={candidate.id}
                                             candidate={candidate}
                                             onSelectCandidate={() => onSelectCandidate(candidate.id, position.id)}
-                                            selected={selectedCandidates.includes(candidate.id)} 
+                                            selected={selectedCandidates.includes(candidate.id)}
                                             positionId={position.id}
                                         />
                                     ))}
-                            </div>
+                            </div>) : <div className='text-gray-600 p-5 text-center'><div>No candidate available</div></div>}
                         </div>
                     </div>
                 ))}
 
                 {/* Submit button */}
                 <div className='text-center mt-7'>
-                    <PrimaryButton className='bg-blue-500 hover:bg-blue-700  text-white px-6 py-3 rounded-md'>Submit</PrimaryButton>
+                    <PrimaryButton disabled={processing} className='bg-blue-500 hover:bg-blue-700  text-white px-6 py-3 rounded-md'>Submit</PrimaryButton>
                 </div>
             </form>
         </div>
