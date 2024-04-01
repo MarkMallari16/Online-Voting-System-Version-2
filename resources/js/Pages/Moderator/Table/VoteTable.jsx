@@ -238,7 +238,7 @@ const VoteTable = ({ votes, voters, candidates, positions }) => {
                                                 color="blue-gray"
                                                 className="font-normal"
                                             >
-                                                {vote_timestamp}
+                                                {new Date(vote_timestamp).toLocaleString()}
                                             </Typography>
                                         </div>
                                     </td>

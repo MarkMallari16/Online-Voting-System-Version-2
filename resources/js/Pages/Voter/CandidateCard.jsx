@@ -60,7 +60,7 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
 
                 </CardBody>
                 <CardFooter className="pt-0 text-center">
-                    <button type='button' className='text-center text-black font-medium bg-gray-300 px-3 py-2 rounded-md' onClick={handleOpen}>View Details</button>
+                    <button type='button' className='text-center text-black font-medium bg-gray-300 px-3 py-2 rounded-md' onClick={handleOpen}>View Platform</button>
                 </CardFooter>
             </Card>
 

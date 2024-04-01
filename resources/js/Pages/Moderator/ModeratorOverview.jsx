@@ -28,7 +28,7 @@ const ModeratorOverview = ({ voters, candidates, election }) => {
                     <p className='text-lg'>No. of Candidates</p>
                 </div>
                 <div>
-                    <FaUserTie className=' text-3xl' />
+                    <FaUserTie className='bg-blue-gray-50  rounded-sm border-2 border-white text-3xl' />
                 </div>
             </div>
 

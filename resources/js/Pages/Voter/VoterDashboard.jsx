@@ -22,7 +22,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
     const onSelectCandidate = (candidateId, positionId) => {
         // Check if the candidate is already selected for the current position
         const isCandidateSelected = selectedCandidates.some(candidate => candidatesAll.find(c => c.id === candidate).position_id === positionId);
-
+    
         if (isCandidateSelected) {
             // Deselect the candidate if already selected
             setSelectedCandidates(prevState => prevState.filter(candidate => candidatesAll.find(c => c.id === candidate).position_id !== positionId));
