@@ -8,9 +8,6 @@ use App\Models\User;
 use App\Notifications\ElectionDeactivated;
 use App\Notifications\ElectionActivated;
 
-use Illuminate\Support\Facades\Notification;
-use Inertia\Inertia;
-
 class ElectionController extends Controller
 {
 

@@ -119,7 +119,7 @@ export default function Welcome({ auth }) {
                 <div >
                     <div className='mt-24 mb-10 text-center text-4xl font-bold' >Meet the Candidate</div>
                     <div className=' flex justify-center'>
-                        
+
                     </div>
                 </div>
                 <div >
