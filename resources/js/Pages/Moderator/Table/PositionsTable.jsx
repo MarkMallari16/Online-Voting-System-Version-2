@@ -238,10 +238,7 @@ export function PositionsTable(props) {
 
 
                             </div>
-                            <div className='flex items-center gap-2 border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md'>
-
-                                <ExcelExport data={positions} fileName="positions" />
-                            </div>
+                            <ExcelExport data={positions} fileName="positions" />
                         </div>
                         <div className="w-full md:w-72">
                             <Input

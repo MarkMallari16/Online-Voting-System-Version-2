@@ -3,7 +3,7 @@ import { Dialog, DialogHeader, DialogBody, DialogFooter, Avatar } from "@materia
 
 const CandidateModal = ({ candidate, isOpen, onClose }) => {
     return (
-        <Dialog size='md' open={isOpen} handler={onClose}>
+        <Dialog size='lg' open={isOpen} handler={onClose}>
             <DialogHeader>
                 <div className="flex items-center gap-4">
                     <Avatar src={candidate.candidate_profile} size="xxl" />

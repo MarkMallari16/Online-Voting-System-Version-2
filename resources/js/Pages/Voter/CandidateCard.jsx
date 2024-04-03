@@ -39,7 +39,7 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
 
     return (
         <>
-            <Card className={`p-5 mt-6 w-full shadow-md border-2  md:w-96 h-auto cursor-pointer ${isSelected ? 'border-blue-500' : 'border-transparent'} hover:border-blue-500 focus:border-blue-500 transition-all duration-200 ease-in-out`} onClick={handleCandidateClick}>
+            <Card className={`p-5 mt-6 w-full shadow-md border-2  md:w-96 h-auto cursor-pointer ${isSelected ? 'border-blue-500' : 'border-transparent'} hover:border-blue-500 focus:border-blue-500 transition-all duration-100 ease`} onClick={handleCandidateClick}>
                 <div className='flex justify-center'>
                     <Avatar src={candidate.candidate_profile} size="xxl" withBorder={true} className='border-blue-500 p-0.5' />
 

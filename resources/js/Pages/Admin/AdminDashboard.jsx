@@ -11,6 +11,7 @@ const AdminDashboard = () => {
     const [totalPages, setTotalPages] = useState(1);
 
     const totalUsers = users.length;
+    const totalStudents = users.filter(user => user.role == 'voter').length;
     const totalAdmins = users.filter(user => user.role === 'admin').length;
     const totalModerators = users.filter(user => user.role === 'moderator').length;
     const totalPartylistEditor = users.filter(user => user.role === 'partylist_editor').length;
@@ -69,7 +70,7 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className='mt-5'>
-                    <AdminDashboardOverview users={totalUsers} adminCount={totalAdmins} moderatorCount={totalModerators} partylistEditorCount={totalPartylistEditor} />
+                    <AdminDashboardOverview users={totalUsers} studentCount={totalStudents} adminCount={totalAdmins} moderatorCount={totalModerators} partylistEditorCount={totalPartylistEditor} />
                 </div>
 
                 <div className="mt-5">

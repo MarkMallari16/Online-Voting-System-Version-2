@@ -7,7 +7,6 @@ import {
     ChevronUpDownIcon,
     PencilIcon,
     UserPlusIcon,
-
 } from "@heroicons/react/24/outline";
 
 import {
@@ -22,7 +21,6 @@ import {
     Tooltip,
     Avatar,
     Alert,
-
 } from "@material-tailwind/react";
 
 import AddUserModal from "./AddUserModal";
@@ -56,7 +54,6 @@ const UserTable = ({
     //filtered users
     const filteredUsers = users.filter((user) => {
         if (filterValue && searchQuery) {
-
             return (
                 user.role.toLowerCase() === filterValue.toLowerCase() &&
                 Object.values(user).some(
@@ -78,9 +75,7 @@ const UserTable = ({
         } else {
             return true;
         }
-
     });
-
 
     //handle previous page
     const handlePreviousPage = () => {
@@ -110,7 +105,6 @@ const UserTable = ({
             setMessage("User updated successfully!");
             setIsEditUserModalOpen(false); // Close the edit user modal
         } catch (error) {
-
             console.error("Error editing user:", error);
             setIsSuccessMessage(false);
         }
@@ -129,21 +123,16 @@ const UserTable = ({
         }
     };
 
-
     const handleFilter = (e) => {
         const selectedValue = e.target.value;
         setFilterValue(selectedValue);
         console.log(selectedValue);
-    }
-
+    };
 
     return (
         <div>
-
             <div className="mb-5">
-                {isSuccessMessage && (
-                    <Alert color="green">{message}</Alert>
-                )}
+                {isSuccessMessage && <Alert color="green">{message}</Alert>}
             </div>
 
             <Card className="h-full w-full p-4 ">
@@ -179,15 +168,9 @@ const UserTable = ({
                         </div>
                     </div>
                     <div className="flex gap-2 flex-col items-center justify-end md:flex-row">
-
-                        <div
-                            className="flex items-center gap-2 cursor-pointer border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md"
-
-                        >
+                        <div className="flex items-center gap-2 cursor-pointer border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md">
                             <div>
-
                                 <FaRegFilePdf className="text-xl" />
-
                             </div>
                             <PDFDownloadLink
                                 document={<UsersPDF users={users} />}
@@ -197,55 +180,59 @@ const UserTable = ({
                                     "Export to PDF"
                                 }
                             </PDFDownloadLink>
-
                         </div>
-                        <div className="flex gap-4">
-                            <div>
-                                <SiMicrosoftexcel className="text-lg" />
-                            </div>
+                        <ExcelExport data={users} fileName="user" />
 
-                            <ExcelExport data={users} fileName="user" />
-                        </div>
-
-
-                        <div className="relative flex gap-2 cursor-pointer border-1  text-gray-800 px-2 py-2 rounded-md" >
+                        <div className="relative flex gap-2 cursor-pointer border-1  text-gray-800 px-2 py-2 rounded-md">
                             <div className="absolute p-3 textblue">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z" />
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={1.5}
+                                    stroke="currentColor"
+                                    className="w-5 h-5"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 0 1-.659 1.591l-5.432 5.432a2.25 2.25 0 0 0-.659 1.591v2.927a2.25 2.25 0 0 1-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 0 0-.659-1.591L3.659 7.409A2.25 2.25 0 0 1 3 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0 1 12 3Z"
+                                    />
                                 </svg>
-
                             </div>
 
                             <select
                                 variant="outlined"
                                 label="Filter by"
                                 onChange={handleFilter}
-                                className="border-1 text-right rounded-lg w-52"
+                                className=" border-1 text-right rounded-lg w-full md:w-40 "
                                 value={filterValue}
                             >
-                                <option value="" >Filter by</option>
+                                <option value="">Filter by</option>
                                 <option value="admin">Admin</option>
                                 <option value="moderator">Moderator</option>
                                 <option value="voter">Voter</option>
-                                <option value="partylist_editor">Partylist Editor</option>
+                                <option value="partylist_editor">
+                                    Partylist Editor
+                                </option>
                             </select>
                         </div>
-                        <div className="w-full md:w-72">
+                        <div className="flex w-full md:w-72">
                             <Input
                                 label="Search"
                                 icon={
                                     <MagnifyingGlassIcon className="h-5 w-5" />
                                 }
                                 onChange={(e) => {
-                                    setSearchQuery(e.target.value)
+                                    setSearchQuery(e.target.value);
                                     console.log(searchQuery);
                                 }}
                             />
                         </div>
                     </div>
                 </CardHeader>
-                <CardBody className="overflow-scroll">
-                    <table className="mt-4 overflow-x-auto">
+                <CardBody className="overflow-scroll overflow-x-auto">
+                    <table className="mt-4 min-w-full table-auto text-left">
                         <thead>
                             <tr>
                                 {TABLE_HEAD.map((head, index) => (
@@ -261,26 +248,31 @@ const UserTable = ({
                                             {head}{" "}
                                             {index !==
                                                 TABLE_HEAD.length - 1 && (
-                                                    <ChevronUpDownIcon
-                                                        strokeWidth={2}
-                                                        className="h-4 w-4"
-                                                    />
-                                                )}
+                                                <ChevronUpDownIcon
+                                                    strokeWidth={2}
+                                                    className="h-4 w-4"
+                                                />
+                                            )}
                                         </Typography>
                                     </th>
                                 ))}
                             </tr>
                         </thead>
-                        <tbody>
-                            {filteredUsers.length === 0 ? (
+
+                        {filteredUsers.length === 0 ? (
+                            <tbody>
                                 <tr className="text-center">
-                                    <td colSpan="14" className="py-10">
+                                    <td
+                                        colSpan="9"
+                                        className="py-10 text-center"
+                                    >
                                         No matching users found.
                                     </td>
-
                                 </tr>
-                            ) : (
-                                filteredUsers.map(
+                            </tbody>
+                        ) : (
+                            <tbody>
+                                {filteredUsers.map(
                                     (
                                         {
                                             id,
@@ -357,7 +349,9 @@ const UserTable = ({
                                                         color="blue-gray"
                                                         className="font-normal"
                                                     >
-                                                        {new Date(created_at).toLocaleString()}
+                                                        {new Date(
+                                                            created_at
+                                                        ).toLocaleString()}
                                                     </Typography>
                                                 </td>
                                                 <td className="p-4">
@@ -366,17 +360,20 @@ const UserTable = ({
                                                         color="blue-gray"
                                                         className="font-normal"
                                                     >
-                                                        {new Date(updated_at).toLocaleString()}
+                                                        {new Date(
+                                                            updated_at
+                                                        ).toLocaleString()}
                                                     </Typography>
                                                 </td>
                                                 <td className="p-5">
                                                     <Typography
                                                         variant="small"
                                                         color="blue-gray"
-                                                        className={`text-white font-semibold text-center rounded-md  px-2 py-2  ${email_verified_at
-                                                            ? "bg-green-100 text-green-700"
-                                                            : "bg-red-100 text-red-700"
-                                                            }`}
+                                                        className={`text-white font-semibold text-center rounded-md  px-2 py-2  ${
+                                                            email_verified_at
+                                                                ? "bg-green-100 text-green-700"
+                                                                : "bg-red-100 text-red-700"
+                                                        }`}
                                                     >
                                                         {email_verified_at
                                                             ? "VERIFIED"
@@ -444,9 +441,9 @@ const UserTable = ({
                                             </tr>
                                         );
                                     }
-                                )
-                            )}
-                        </tbody>
+                                )}
+                            </tbody>
+                        )}
                     </table>
                 </CardBody>
                 <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">

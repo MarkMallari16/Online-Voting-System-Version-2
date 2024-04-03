@@ -69,7 +69,7 @@ export default function Welcome({ auth }) {
 
                                         <Link
                                             href={route('register')}
-                                            className="ms-4 font-bold bg-blue-500 px-3 py-2 text-white rounded-md hover:bg-blue-600  ease-in duration-75 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:blue-red-500"
+                                            className="ms-4 font-bold bg-blue-600 px-3 py-2 text-white rounded-md hover:bg-blue-600  ease-in duration-75 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:blue-red-500"
                                         >
                                             Register
                                         </Link>
@@ -86,14 +86,14 @@ export default function Welcome({ auth }) {
                         <div className='flex-1'>
                             <div>
                                 <p className='tracking-wide font-bold text-gray-900 text-center  md:text-left'><span >STAND UP, SPEAK OUT, AND CREATE CHANGE!</span></p>
-                                <h1 className="text-5xl md:text-6xl font-extrabold text-center  md:text-left mb-3">MAKE YOUR <span className='text-yellow-500'>VOICE</span> <span className='text-blue-500'>HEARD</span></h1>
+                                <h1 className="text-5xl md:text-6xl font-extrabold text-center  md:text-left mb-3">MAKE YOUR <span className='text-blue-600'>VOICE</span> <span className='text-blue-500'>HEARD</span></h1>
 
                             </div>
                             <p className='text-lg text-center md:text-left'>Exercise your right to vote and elect your senior high school student leaders.</p>
                             <div className='mt-3 flex  md:flex-row gap-2 items-center justify-center md:justify-start'>
                                 <Link
                                     href={route('register')}
-                                    className="font-bold bg-blue-500 px-4 py-2 text-white rounded-md hover:bg-blue-600 ease-in duration-75 focus:outline focus:outline-2 focus:rounded-sm focus:blue-red-500"
+                                    className="font-bold bg-blue-600 px-4 py-2 text-white rounded-md hover:bg-blue-600 ease-in duration-75 focus:outline focus:outline-2 focus:rounded-sm focus:blue-red-500"
                                 >
                                     Register
                                 </Link>
