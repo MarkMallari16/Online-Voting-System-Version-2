@@ -19,8 +19,8 @@ const UpdateProfilePicture = ({ user }) => {
     e.preventDefault();
     post(route('profile.uploadProfile'), {
       onSuccess: () => {
-      
-        Inertia.reload({ only: ['flash'] });
+
+       
       },
     });
   };

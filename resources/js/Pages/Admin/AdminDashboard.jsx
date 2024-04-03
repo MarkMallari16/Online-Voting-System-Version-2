@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import UserTable from './UserTable';
-import election_pic from '../../../../public/election_picture.png';
 import AdminDashboardOverview from './AdminDashboardOverview';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Doughnut } from "react-chartjs-2";
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 const AdminDashboard = () => {
     const [users, setUsers] = useState([]);
@@ -12,6 +11,11 @@ const AdminDashboard = () => {
     const [totalPages, setTotalPages] = useState(1);
 
     const totalUsers = users.length;
+    const totalStudents = users.filter(user => user.role == 'voter').length;
+    const totalAdmins = users.filter(user => user.role === 'admin').length;
+    const totalModerators = users.filter(user => user.role === 'moderator').length;
+    const totalPartylistEditor = users.filter(user => user.role === 'partylist_editor').length;
+
     const TABLE_HEAD = ["ID", "Name", "Profile", "Email", "Role", "Created At", "Updated At", "Email Status", "Action"];
 
     const data = {
@@ -66,17 +70,17 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className='mt-5'>
-                    <AdminDashboardOverview users={totalUsers} />
+                    <AdminDashboardOverview users={totalUsers} studentCount={totalStudents} adminCount={totalAdmins} moderatorCount={totalModerators} partylistEditorCount={totalPartylistEditor} />
                 </div>
 
                 <div className="mt-5">
                     <UserTable TABLE_HEAD={TABLE_HEAD} users={users} setUsers={setUsers} currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
                 </div>
 
-                <div className='bg-white overflow-hidden shadow-sm sm:rounded-lg mt-8 p-2'>
+                {/**<div className='bg-white overflow-hidden shadow-sm sm:rounded-lg mt-8 p-2'>
                     <h1>Hello</h1>
                     <Doughnut data={data} />
-                </div>
+                </div> */}
             </div>
 
         </div>

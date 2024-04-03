@@ -15,8 +15,21 @@ import {
 import InputError from '@/Components/InputError';
 import TextInput from '@/Components/TextInput';
 import InputLabel from '@/Components/InputLabel';
+
 const AddUserModal = ({ open, handleClose }) => {
-    const { data, setData, post, processing, errors, reset } = useForm();
+    const { data, setData, post, processing, errors, reset } = useForm({
+        name: "",
+        email: "",
+        password: "",
+        role: "",
+        password_confirmation: "",
+    });
+    console.log(errors);
+    useEffect(() => {
+        return () => {
+            reset("password", "password_confirmation");
+        };
+    }, []);
 
     const handleOnChange = (event) => {
         setData(
@@ -34,18 +47,9 @@ const AddUserModal = ({ open, handleClose }) => {
             onSuccess: () => {
                 handleClose();
                 reset();
-            },
-            onError: (error) => {
-                if (error.response.status === 422) {
-                    // If validation errors are returned, update the errors state
-                    setData('errors', error.response.data.errors);
-                } else {
-                    console.error('Error adding user:', error);
-                }
             }
         });
 
-        console.log('hello');
     };
     return (
         <Dialog open={open} handler={handleClose}>
@@ -55,12 +59,12 @@ const AddUserModal = ({ open, handleClose }) => {
                 <DialogBody>
                     <div className="mb-3">
                         <InputLabel htmlFor="name" value="Name" />
-                        <TextInput type="text" label="Name" name="name" autoComplete='name' onChange={handleOnChange} className='w-full' />
+                        <TextInput type="text" label="Name" name="name" value={data.name} autoComplete='name' onChange={handleOnChange} className='w-full' />
                         {errors.name && <Text color="red">{errors.name}</Text>}
                     </div>
                     <div className="mb-3">
                         <InputLabel htmlFor="email" value="Email" />
-                        <TextInput type="email" label="Email" name="email" autoComplete='email' onChange={handleOnChange} className='w-full' />
+                        <TextInput type="email" label="Email" name="email" value={data.email} autoComplete='email' onChange={handleOnChange} className='w-full' />
                         {errors.email && <Text color="red">{errors.email}</Text>}
                     </div>
                     <div className="mb-3 ">

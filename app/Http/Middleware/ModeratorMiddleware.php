@@ -15,7 +15,6 @@ class ModeratorMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-
         if ($request->user() && $request->user()->role !== 'moderator') {
             abort(404, 'Unauthorized');
         }

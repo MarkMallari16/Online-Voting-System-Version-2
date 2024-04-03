@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+
 
 const PartylistEditorDashboard = () => {
+ 
     return (
-        <div className="p-6 text-gray-900">
-            Welcome, Party List Editor! {/* Add Voter-specific content */}
+        <div>
+            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div className="p-6 text-gray-900">
+                    <h1 className="text-xl font-bold">Welcome, Partylist Editor!</h1>
+                </div>
+            </div>
+          
         </div>
     )
 }

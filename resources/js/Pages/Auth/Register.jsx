@@ -5,6 +5,7 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
+import ApplicationLogo from '@/Components/ApplicationLogo';
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -29,7 +30,11 @@ export default function Register() {
     return (
         <GuestLayout>
             <Head title="Register" />
+          
+            <div className='mb-5'>
+                <h1 className='text-3xl font-bold'>Register</h1>
 
+            </div>
             <form onSubmit={submit}>
                 <div>
                     <InputLabel htmlFor="name" value="Name" />

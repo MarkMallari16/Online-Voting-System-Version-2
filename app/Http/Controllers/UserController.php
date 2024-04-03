@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\AuditLog;
+
 
 class UserController extends Controller
 {
@@ -16,7 +19,7 @@ class UserController extends Controller
 
         return response()->json($users);
     }
-    public function store(Request $request)
+    public function store(CreateUserRequest $request)
     {
         // Validate request data
         $validatedData = $request->validate([
@@ -32,7 +35,7 @@ class UserController extends Controller
         $user = User::create($validatedData);
 
         AuditLog::create([
-            'user_id' => auth()->id(),
+            'user_id' => $request->user()->id, // Get the authenticated user's ID
             'action' => 'User Created',
             'details' => 'User created with name: ' . $user->name,
         ]);
@@ -42,7 +45,7 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'User created successfully');
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
         $request->validate([
             'name' => 'required',
@@ -67,11 +70,25 @@ class UserController extends Controller
 
         $user->update($userData);
 
+        AuditLog::create([
+            'user_id' => $request->user()->id, // Get the authenticated user's ID
+            'action' => 'User Updated',
+            'details' => 'User updated with name: ' . $user->name,
+        ]);
+
         return redirect()->back()->with('success', 'User updated successfully');
     }
 
-    public function destroy(User $user)
+    public function destroy(Request $request,User $user)
     {
+        $authenticatedUser = $request->user();
+
+        AuditLog::create([
+            'user_id' => $authenticatedUser->id,
+            'action' => 'User Deleted',
+            'details' => 'Deleted user with ID: ' . $user->id,
+        ]);
+
         $user->delete();
         return redirect()->back()->with('success', 'User deleted successfully');
     }
@@ -79,7 +96,7 @@ class UserController extends Controller
     public function getActivityLogs(Request $request)
     {
         $perPage = $request->input('perPage', 10);
-        $logs = AuditLog::orderByDesc('created_at')->paginate($perPage);
+        $logs = AuditLog::with('user')->orderByDesc('created_at')->paginate($perPage);
 
         return response()->json($logs);
     }

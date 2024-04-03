@@ -14,14 +14,19 @@ return new class extends Migration
         Schema::create('candidates', function (Blueprint $table) {
             $table->id();
             $table->string('first_name');
+            $table->string('middle_name');
             $table->string('last_name');
-            $table->string('position');
             $table->text('manifesto');
-            $table->string('image_url')->nullable();
+            $table->string('candidate_profile')->default('candidate_profile_photos/default_candidate_profile.png');
+            $table->unsignedBigInteger('position_id')->nullable();
+            $table->unsignedBigInteger('partylist_id')->nullable();
             $table->timestamps();
+
+            // Define foreign key constraints
+            $table->foreign('position_id')->references('id')->on('positions')->onDelete('set null');
+            $table->foreign('partylist_id')->references('id')->on('partylists')->onDelete('set null');
         });
     }
-
     /**
      * Reverse the migrations.
      */

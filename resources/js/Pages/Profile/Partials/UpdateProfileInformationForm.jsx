@@ -19,6 +19,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
         patch(route('profile.update'));
     };
 
+   
     return (
         <section className={className}>
             <header>

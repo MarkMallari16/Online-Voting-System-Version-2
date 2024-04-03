@@ -18,7 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role','profile_picture'
+        'name', 'email', 'password', 'role', 'profile_picture'
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -39,4 +39,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function auditLogs()
+    {
+        return $this->hasMany(AuditLog::class);
+    }
+    public function votes()
+    {
+        return $this->hasMany(Vote::class, 'voter_id');
+    }
 }
