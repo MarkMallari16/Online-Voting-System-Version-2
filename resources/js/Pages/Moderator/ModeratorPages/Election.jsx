@@ -61,6 +61,7 @@ const Election = ({ auth, existingElection, election }) => {
 
       setSuccessMessage(status ? 'Election updated successfully.' : 'Election created successfully.');
       reset();
+      window.location.reload();
     } catch (error) {
       console.error(error);
       if (error.response.status === 422) {
@@ -76,8 +77,8 @@ const Election = ({ auth, existingElection, election }) => {
       put('/election/activate');
       setData('status', true);
       setSuccessMessage('Election activated successfully.');
-      setActivateOpen(false)
-
+      setActivateOpen(false);
+      window.location.reload();
 
     } catch (error) {
       console.error(error);
@@ -90,7 +91,8 @@ const Election = ({ auth, existingElection, election }) => {
       put('/election/deactivate');
       setData('status', false);
       setSuccessMessage('Election deactivated successfully.');
-      setDeactivateOpen(false)
+      setDeactivateOpen(false);
+      window.location.reload();
 
     } catch (error) {
       console.error(error);

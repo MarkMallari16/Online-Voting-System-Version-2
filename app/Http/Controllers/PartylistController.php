@@ -15,7 +15,6 @@ class PartylistController extends Controller
             'partylists' => $partylists
         ]);
     }
-
     public function store(Request $request)
     {
         $request->validate([

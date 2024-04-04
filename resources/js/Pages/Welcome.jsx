@@ -26,25 +26,16 @@ export default function Welcome({ auth }) {
             window.removeEventListener('scroll', handleScroll);
         };
     })
-    // const bgStyle = {
-
-    //     backgroundColor: 'hsla(0, 0%, 100%, 1)',
-    //     backgroundImage: 'radial-gradient(at 40% 20%, hsla(32,100%,88%,1) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(212, 100%, 76%, 1) 0px, transparent 50%)'
-    // }
+   
     const bgStyle = {
         backgroundColor: 'hsla(0, 0%, 100%, 1)',
         backgroundImage: 'radial-gradient(at 40% 20%, hsla(32,100%,88%,1) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(212, 100%, 76%, 1) 0px, transparent 50%)',
     };
 
-    const faqStyle = { // Add this style for the FAQ section
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', // Example gradient colors
-        borderRadius: '10px',
-        padding: '20px',
-        color: '#fff',
-    };
+   
     return (
         <>
-            {/* absolute inset-0 -z-10*/}
+          
             <div >
                 <div
                     className="h-full w-full"
@@ -62,14 +53,14 @@ export default function Welcome({ auth }) {
                                     <div className='mx-5' >
                                         <Link
                                             href={route('login')}
-                                            className="font-medium text-black hover:text-white dark:text-gray-400 dark:hover:text-white ease-in duration-100 focus:outline focus:outline-2 focus:rounded-sm focus:outline-blue-500"
+                                            className="font-medium text-black   focus:outline focus:outline-2 focus:rounded-sm focus:outline-blue-500"
                                         >
                                             Log in
                                         </Link>
 
                                         <Link
                                             href={route('register')}
-                                            className="ms-4 font-bold bg-blue-600 px-3 py-2 text-white rounded-md hover:bg-blue-600  ease-in duration-75 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:blue-red-500"
+                                            className="ms-4 font-medium bg-blue-600 px-3 py-2 border-0 text-white rounded-md hover:bg-blue-600  ease-in duration-75 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:blue-red-500"
                                         >
                                             Register
                                         </Link>
@@ -86,14 +77,14 @@ export default function Welcome({ auth }) {
                         <div className='flex-1'>
                             <div>
                                 <p className='tracking-wide font-bold text-gray-900 text-center  md:text-left'><span >STAND UP, SPEAK OUT, AND CREATE CHANGE!</span></p>
-                                <h1 className="text-5xl md:text-6xl font-extrabold text-center  md:text-left mb-3">MAKE YOUR <span className='text-blue-600'>VOICE</span> <span className='text-blue-500'>HEARD</span></h1>
+                                <h1 className="text-5xl md:text-6xl font-extrabold text-center  md:text-left mb-3">MAKE YOUR <span className='text-blue-600'>VOICE HEARD</span></h1>
 
                             </div>
                             <p className='text-lg text-center md:text-left'>Exercise your right to vote and elect your senior high school student leaders.</p>
                             <div className='mt-3 flex  md:flex-row gap-2 items-center justify-center md:justify-start'>
                                 <Link
                                     href={route('register')}
-                                    className="font-bold bg-blue-600 px-4 py-2 text-white rounded-md hover:bg-blue-600 ease-in duration-75 focus:outline focus:outline-2 focus:rounded-sm focus:blue-red-500"
+                                    className="font-medium bg-blue-600 px-4 py-2 text-white rounded-md hover:bg-blue-600 ease-in duration-75 focus:outline focus:outline-2 focus:rounded-sm focus:blue-red-500"
                                 >
                                     Register
                                 </Link>

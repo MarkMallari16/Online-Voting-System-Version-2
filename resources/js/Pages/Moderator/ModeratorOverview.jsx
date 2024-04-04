@@ -15,7 +15,7 @@ const ModeratorOverview = ({ voters, candidates, election }) => {
                     <p className="text-xl">Election Status</p>
                 </div>
                 <div>
-                    <GrStatusInfo className=" text-3xl" />
+                    <GrStatusInfo className="text-3xl" />
                 </div>
             </div>
 
@@ -44,7 +44,7 @@ const ModeratorOverview = ({ voters, candidates, election }) => {
             <div className="w-full md:w-1/3 flex justify-between sm:w-full h-50  bg-cyan-200 rounded-lg p-10">
                 <div>
                     <h2 className="text-3xl mb-8 font-bold">50</h2>
-                    <p className="text-xl ">Voters Voted</p>
+                    <p className="text-xl ">Students Voted</p>
                 </div>
 
                 <div>
