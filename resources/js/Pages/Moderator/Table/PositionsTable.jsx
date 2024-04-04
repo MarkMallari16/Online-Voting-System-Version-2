@@ -70,6 +70,8 @@ export function PositionsTable(props) {
             setIsSuccessMessage(true);
             // Reset the positionName field to empty
             setData('name', '');
+            
+            window.location.reload();
         } catch (error) {
             console.error('Failed to create position:', error);
         }
@@ -87,6 +89,7 @@ export function PositionsTable(props) {
             console.error("Position not found with id:", id);
             setData('name', '');
         }
+        
     };
 
     const handleUpdateSubmit = async (e) => {
@@ -103,6 +106,8 @@ export function PositionsTable(props) {
             setIsSuccessMessage(true);
             // Reset the positionName field to empty
             setData('name', '');
+
+            window.location.reload();
         } catch (error) {
             console.error('Failed to update position:', error);
         }
@@ -114,6 +119,8 @@ export function PositionsTable(props) {
         setId(id);
         console.log(id);
         console.log(openDeleteModal);
+
+        window.location.reload();
     };
 
     const handleChange = (event) => {
@@ -283,7 +290,7 @@ export function PositionsTable(props) {
 
                                         const formatDate = (dateString) => {
                                             const date = new Date(dateString);
-                                            return date.toLocaleString(); // or use other methods to format the date
+                                            return date.toLocaleString(); 
                                         };
                                         return (
                                             <tr key={id}>

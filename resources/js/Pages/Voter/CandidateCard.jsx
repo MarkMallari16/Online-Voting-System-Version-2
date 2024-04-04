@@ -1,19 +1,13 @@
 import { Avatar, Radio } from '@material-tailwind/react'
 import React, { useState, useEffect } from 'react'
+import { FaUsers } from "react-icons/fa";
 
 
 import {
     Card,
-    CardHeader,
     CardBody,
     CardFooter,
     Typography,
-    Button,
-    Dialog,
-    DialogHeader,
-    DialogBody,
-    DialogFooter,
-    use
 
 } from "@material-tailwind/react";
 import CandidateModal from '@/Components/CandidateModal';
@@ -31,15 +25,14 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
     }, [selected]);
 
     const handleCandidateClick = () => {
-        if (!isSelected) {
-            onSelectCandidate(candidate.id, positionId);
-        }
+        onSelectCandidate(candidate.id, positionId);
     };
 
 
     return (
         <>
-            <Card className={`p-5 mt-6 w-full shadow-md border-2  md:w-96 h-auto cursor-pointer ${isSelected ? 'border-blue-500' : 'border-transparent'} hover:border-blue-500 focus:border-blue-500 transition-all duration-100 ease`} onClick={handleCandidateClick}>
+        {/**hover:border-blue-500 focus:border-blue-500 */}
+            <Card className={`p-5 w-full shadow-md border-2 md:w-96 h-auto cursor-pointer ${isSelected ? 'border-blue-500' : 'border-transparent'}  transition-all duration-200 ease-in-out`} onClick={handleCandidateClick} >
                 <div className='flex justify-center'>
                     <Avatar src={candidate.candidate_profile} size="xxl" withBorder={true} className='border-blue-500 p-0.5' />
 
@@ -56,7 +49,10 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
                     <Typography variant="h5" color="blue-gray" className="mb-2">
                         {`${candidate.first_name} ${candidate.middle_name} ${candidate.last_name}`}
                     </Typography>
-                    <span>{candidate.partylist.name}</span>
+                    <div className='flex items-center justify-center gap-2'>
+                        <span><FaUsers className='text-lg' /></span>
+                        <span>{candidate.partylist.name}</span>
+                    </div>
 
                 </CardBody>
                 <CardFooter className="pt-0 text-center">

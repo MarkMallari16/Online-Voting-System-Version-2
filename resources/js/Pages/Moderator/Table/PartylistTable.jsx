@@ -245,10 +245,7 @@ export function PartylistTable({ partylists }) {
 
 
               </div>
-              <div className='border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md'>
-              
-                <ExcelExport data={partylists} fileName="partylists" />
-              </div>
+              <ExcelExport data={partylists} fileName="partylists" />
             </div>
             <div className="w-full md:w-72">
               <Input

@@ -13,7 +13,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
         election_id: electionId,
         candidate_ids: [],
     });
-
+ 
     useEffect(() => {
         // Update the candidate_ids field in the form data when selectedCandidates changes
         setData("candidate_ids", selectedCandidates);
@@ -81,42 +81,25 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
             <form onSubmit={onVoteSubmit}>
                 {/* Form content */}
                 {positionList.map((position) => (
-                    <div
-                        key={position.id}
-                        className="bg-white overflow-hidden shadow-md sm:rounded-lg mt-7"
-                    >
-                        <div className="mt-11 text-2xl text-center">
+                    <div key={position.id} className="bg-white overflow-hidden shadow-md sm:rounded-lg mt-7">
+                        <div className="mt-11 font-medium text-2xl text-center">
                             Vote for {position.name}
                         </div>
                         <div className="text-center text-gray-600">
-                            Select your preferred candidate(s) for the position
-                            of {position.name}
+                            Select your preferred candidate(s) for the position of {position.name}
                         </div>
                         <div className="p-6 text-gray-900">
-                            {candidatesAll.filter(
-                                (candidate) =>
-                                    candidate.position_id === position.id
-                            ).length > 0 ? (
-                                <div className={`mb-10 flex flex-wrap justify-center sm:justify-start gap-1 p-10 sm:p-5`}>
+                        
+                            {candidatesAll.filter(candidate => candidate.position_id === position.id).length > 0 ? (
+                                <div className="mb-10 flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row justify-center sm:justify-start gap-4 p-5 lg:p-10">
                                     {candidatesAll
-                                        .filter(
-                                            (candidate) =>
-                                                candidate.position_id ===
-                                                position.id
-                                        )
-                                        .map((candidate) => (
+                                        .filter(candidate => candidate.position_id === position.id)
+                                        .map(candidate => (
                                             <CandidateCard
                                                 key={candidate.id}
                                                 candidate={candidate}
-                                                onSelectCandidate={() =>
-                                                    onSelectCandidate(
-                                                        candidate.id,
-                                                        position.id
-                                                    )
-                                                }
-                                                selected={selectedCandidates.includes(
-                                                    candidate.id
-                                                )}
+                                                onSelectCandidate={() => onSelectCandidate(candidate.id, position.id)}
+                                                selected={selectedCandidates.includes(candidate.id)}
                                                 positionId={position.id}
                                             />
                                         ))}

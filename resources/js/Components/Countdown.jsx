@@ -54,7 +54,7 @@ function Countdown({ election }) {
         const startDate = memoizedStartingDate ? new Date(memoizedStartingDate) : new Date(0);
         const endDate = memoizedEndingDate ? new Date(memoizedEndingDate) : new Date(0);
         const now = new Date();
-    
+
         if (startDate && endDate) {
             if (now < startDate) {
                 setRemaining(calculateRemaining(startDate.getTime(), now.getTime()));
@@ -70,6 +70,9 @@ function Countdown({ election }) {
             }
         }
     };
+
+    console.log('Start Date:', memoizedStartingDate);
+    console.log('End Date:', memoizedEndingDate);
 
     const calculateRemaining = (targetDate, currentDate) => {
         const distance = targetDate - currentDate;
@@ -89,24 +92,33 @@ function Countdown({ election }) {
     };
 
     const status = election.status === 'Active';
-
+    const isVotingStarts = new Date() < new Date(memoizedStartingDate);
     return (
         <div className="mt-5 bg-white overflow-hidden shadow-sm sm:rounded-lg">
             {status ? (
                 <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="p-4">
-                        <div className="text-center mb-4">
-                            <h2 className="text-2xl font-semibold text-black">Voting Ends In:</h2>
-                            <p className="text-sm text-blue-gray-600">Cast your vote before the deadline to have your voice heard!</p>
-                        </div>
+                        <>
+                            {isVotingStarts ? (
+                                <div className='text-center mb-4'>
+                                    <h2 className="text-2xl font-semibold text-black">Voting Starts</h2>
+                                    <p className="text-sm text-blue-gray-600">Get ready to cast your vote!</p>
+                                </div>
+                            ) : (
+                                <div className="text-center mb-4">
+                                    <h2 className="text-2xl font-semibold text-black">Voting Ends In:</h2>
+                                    <p className="text-sm text-blue-gray-600">Cast your vote before the deadline to have your voice heard!</p>
+                                </div>
+                            )};
+                        </>
                         <div className="w-full max-w-5xl mx-auto flex items-center justify-around bg-white text-blue-gray-800">
-                            <CountdownItem num={remaining.days} text={`${remaining.days > 1 ? "Days" : "Day"}`} />
-                            <CountdownItem num={remaining.hours} text={`${remaining.hours > 1 ? "Hours" : "Hour"}`} />
-                            <CountdownItem num={remaining.minutes} text={`${remaining.minutes > 1 ? "Minutes" : "Minute"}`} />
-                            <CountdownItem num={remaining.seconds} text={`${remaining.seconds > 1 ? "Seconds" : "Second"}`} />
+                            <CountdownItem num={remaining.days} text="Day" />
+                            <CountdownItem num={remaining.hours} text="Hour" />
+                            <CountdownItem num={remaining.minutes} text="Minute" />
+                            <CountdownItem num={remaining.seconds} text="Second" />
                         </div>
                     </div>
-                </div>
+                </div >
             ) : (
                 <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="p-4">
@@ -123,8 +135,9 @@ function Countdown({ election }) {
                     </div>
                 </div>
 
-            )}
-        </div>
+            )
+            }
+        </div >
     );
 }
 

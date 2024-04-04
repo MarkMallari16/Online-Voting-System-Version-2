@@ -56,22 +56,43 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
     const [openDeleteModal, setDeleteModal] = useState(false);
     const [id, setId] = useState(null);
     const [candidate, setCandidate] = useState(candidates);
+    const [candidateProfile, setCandidateProfile] = useState(null);
+    const [candidateUpdateProfile, setCandidateUpdateProfile] = useState(null);
+
 
     const [message, setMessage] = useState("");
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
-    const { data, setData, post, errors } = useForm({
-        first_name: "",
-        middle_name: "",
-        last_name: "",
-        partylist_id: null,
-        position_id: null,
-        manifesto: "",
-        candidate_profile: null,
-    });
+    const { data, setData, post, errors } = useForm();
 
+    const handleFileUpload = (e) => {
+        const file =
+            e.target.files[0];
+        const formData = new FormData();
+        formData.append(
+            "candidate_profile",
+            file
+        );
+        setCandidateProfile(file);
+        setData(
+            "candidate_profile",
+            file
+        );
+    };
+    const handleFileUpdateUpload = (e) => {
+        const file = e.target.files[0];
+        setCandidateUpdateProfile(file);
+
+        // Update candidate_profile field in the data object
+        setData((prevData) => ({
+            ...prevData,
+            candidate_profile: file,
+        }));
+    };
+    //for add modal
     const handleOpen = () => setOpen(!open);
 
+    //for update modal
     const handleUpdateOpen = (id) => {
         setUpdateModal(!openUpdateModal);
         setId(id);
@@ -90,18 +111,34 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                 partylist_id: candidateToUpdate.partylist_id,
                 position_id: candidateToUpdate.position_id,
                 manifesto: candidateToUpdate.manifesto,
+                candidate_profile: candidateToUpdate.candidate_profile,
             });
+
+            console.log(candidateToUpdate.candidate_profile);
+
         } else {
             // Handle the case when no candidate is found with the given id
             console.error(`No candidate found with id ${id}`);
+            setData({
+                first_name: '',
+                middle_name: '',
+                last_name: '',
+                partylist_id: 0,
+                position_id: 0,
+                manifesto: null,
+                candidate_profile: null
+            });
         }
+
     };
+    //for delete modal
     const handleDeleteOpen = (id) => {
         setDeleteModal(!openDeleteModal);
         setId(id);
     };
 
     console.log(candidates);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -121,10 +158,12 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
             });
             setMessage(`Candidate successfully added`);
             setIsSuccessMessage(true);
+
         } catch (error) {
             console.error("Error submitting form:", error);
         }
     };
+
 
     const handleUpdateSubmit = async (e) => {
         e.preventDefault();
@@ -136,6 +175,8 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
             // Close the update modal
             setUpdateModal(false);
 
+            console.log(data);
+
             // Reset form data and state for candidate
             setData({
                 first_name: "",
@@ -144,19 +185,20 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                 partylist_id: null,
                 position_id: null,
                 manifesto: "",
-                candidate_profile: null,
+                candidate_profile: null
             });
 
             setMessage(`Candidate successfully updated`);
             setIsSuccessMessage(true);
+
         } catch (error) {
             console.error("Failed to update candidate:", error);
         }
     };
-    const handleDeleteCandidate = (candidateId) => {
+    const handleDeleteCandidate = async (candidateId) => {
         try {
             // Send a DELETE request to delete the candidate
-            Inertia.delete(`/candidate/${candidateId}`);
+            await Inertia.delete(`/candidate/${candidateId}`);
 
             // Update the positions state by filtering out the deleted position
             setCandidate((prevCandidate) =>
@@ -168,6 +210,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
             setIsSuccessMessage(true);
             // Close the delete modal
             setDeleteModal(false);
+
         } catch (error) {
             console.error("Failed to delete position:", error);
         }
@@ -232,32 +275,14 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                                                 />
                                                 <div className="flex items-center gap-3">
                                                     <div className="mb-2">
-                                                        {data.candidate_profile ? (
-                                                            <Avatar
-                                                                src={URL.createObjectURL(
-                                                                    data.candidate_profile
-                                                                )}
-                                                                alt="Candidate Avatar"
-                                                                size="xxl"
-                                                                withBorder={
-                                                                    true
-                                                                }
-                                                                className="p-0.5"
-                                                            />
-                                                        ) : (
-                                                            <Avatar
-                                                                src={
-                                                                    DefaultCandidatePicture
-                                                                }
-                                                                alt="Default Avatar"
-                                                                size="xxl"
-                                                                withBorder={
-                                                                    true
-                                                                }
-                                                                color="blue"
-                                                                className="p-0.5"
-                                                            />
-                                                        )}
+                                                        <Avatar
+                                                            src={candidateProfile ? URL.createObjectURL(candidateProfile) : DefaultCandidatePicture}
+                                                            alt="Candidate Avatar"
+                                                            size="xxl"
+                                                            withBorder={true}
+                                                            color="blue"
+                                                            className="p-0.5"
+                                                        />
                                                     </div>
                                                     <div>
                                                         <label
@@ -272,23 +297,10 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                                                                 id="candidateImage"
                                                                 name="candidate_profile"
                                                                 className="hidden"
-                                                                onChange={(
-                                                                    e
-                                                                ) => {
-                                                                    const file =
-                                                                        e.target
-                                                                            .files[0];
-                                                                    const formData =
-                                                                        new FormData();
-                                                                    formData.append(
-                                                                        "candidate_profile",
-                                                                        file
-                                                                    );
-                                                                    setData(
-                                                                        "candidate_profile",
-                                                                        file
-                                                                    );
-                                                                }}
+
+                                                                onChange={
+                                                                    handleFileUpload
+                                                                }
                                                             />
                                                         </label>
 
@@ -310,7 +322,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                                                         value={
                                                             data.first_name ||
                                                             ""
-                                                        } // Ensure that the value is not undefined
+                                                        }
                                                         onChange={(e) =>
                                                             setData(
                                                                 "first_name",
@@ -494,32 +506,14 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                                                 />
                                                 <div className="flex items-center gap-3">
                                                     <div className="mb-2">
-                                                        {data.candidate_profile ? (
-                                                            <Avatar
-                                                                src={URL.createObjectURL(
-                                                                    data.candidate_profile
-                                                                )}
-                                                                alt="Candidate Avatar"
-                                                                size="xxl"
-                                                                withBorder={
-                                                                    true
-                                                                }
-                                                                className="p-0.5"
-                                                            />
-                                                        ) : (
-                                                            <Avatar
-                                                                src={
-                                                                    DefaultCandidatePicture
-                                                                }
-                                                                alt="Default Avatar"
-                                                                size="xxl"
-                                                                withBorder={
-                                                                    true
-                                                                }
-                                                                color="blue"
-                                                                className="p-0.5"
-                                                            />
-                                                        )}
+                                                        <Avatar
+                                                            src={data.candidate_profile instanceof File ? URL.createObjectURL(data.candidate_profile) : data.candidate_profile}
+                                                            alt="Candidate Avatar" x
+                                                            size="xxl"
+                                                            color="blue"
+                                                            withBorder={true}
+                                                            className="p-0.5"
+                                                        />
                                                     </div>
                                                     <div>
                                                         <label
@@ -534,23 +528,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                                                                 id="candidateImage"
                                                                 name="candidate_profile"
                                                                 className="hidden"
-                                                                onChange={(
-                                                                    e
-                                                                ) => {
-                                                                    const file =
-                                                                        e.target
-                                                                            .files[0];
-                                                                    const formData =
-                                                                        new FormData();
-                                                                    formData.append(
-                                                                        "candidate_profile",
-                                                                        file
-                                                                    );
-                                                                    setData(
-                                                                        "candidate_profile",
-                                                                        file
-                                                                    );
-                                                                }}
+                                                                onChange={handleFileUpdateUpload}
                                                             />
                                                         </label>
 
@@ -785,11 +763,11 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                                             {head}{" "}
                                             {index !==
                                                 TABLE_HEAD.length - 1 && (
-                                                <ChevronUpDownIcon
-                                                    strokeWidth={2}
-                                                    className="h-4 w-4"
-                                                />
-                                            )}
+                                                    <ChevronUpDownIcon
+                                                        strokeWidth={2}
+                                                        className="h-4 w-4"
+                                                    />
+                                                )}
                                         </Typography>
                                     </th>
                                 ))}
