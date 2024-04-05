@@ -91,7 +91,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                         <div className="p-6 text-gray-900">
                         
                             {candidatesAll.filter(candidate => candidate.position_id === position.id).length > 0 ? (
-                                <div className="mb-10 flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row justify-center sm:justify-start gap-4 p-5 lg:p-10">
+                                <div className="mb-10 flex justify-center flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row sm:justify-center gap-8 p-5 lg:p-10">
                                     {candidatesAll
                                         .filter(candidate => candidate.position_id === position.id)
                                         .map(candidate => (

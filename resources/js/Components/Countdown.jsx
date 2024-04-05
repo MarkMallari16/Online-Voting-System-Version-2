@@ -109,7 +109,7 @@ function Countdown({ election }) {
                                     <h2 className="text-2xl font-semibold text-black">Voting Ends In:</h2>
                                     <p className="text-sm text-blue-gray-600">Cast your vote before the deadline to have your voice heard!</p>
                                 </div>
-                            )};
+                            )}
                         </>
                         <div className="w-full max-w-5xl mx-auto flex items-center justify-around bg-white text-blue-gray-800">
                             <CountdownItem num={remaining.days} text="Day" />
