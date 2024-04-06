@@ -2,7 +2,9 @@ import React, { useEffect, useRef, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from "framer-motion";
 
 const CountdownItem = ({ num, text }) => {
+   
     return (
+   
         <div className="font-mono w-1/4 h-24 md:h-36 flex flex-col gap-1 md:gap-2 items-center justify-center border-r-[1px] border-slate-200">
             <div className="w-full text-center relative overflow-hidden">
                 <AnimatePresence mode="popLayout">
@@ -26,6 +28,10 @@ const CountdownItem = ({ num, text }) => {
 };
 
 function Countdown({ election }) {
+    const [reload, setReload] = useState(false);
+
+   
+
     if (!election) {
         // Render a loading state or return null if election is not defined
         return null;
@@ -65,14 +71,14 @@ function Countdown({ election }) {
                     minutes: 0,
                     seconds: 0,
                 });
+        setReload(true)
+            
             } else {
                 setRemaining(calculateRemaining(endDate.getTime(), now.getTime()));
             }
         }
     };
 
-    console.log('Start Date:', memoizedStartingDate);
-    console.log('End Date:', memoizedEndingDate);
 
     const calculateRemaining = (targetDate, currentDate) => {
         const distance = targetDate - currentDate;
@@ -93,6 +99,7 @@ function Countdown({ election }) {
 
     const status = election.status === 'Active';
     const isVotingStarts = new Date() < new Date(memoizedStartingDate);
+
     return (
         <div className="mt-5 bg-white overflow-hidden shadow-sm sm:rounded-lg">
             {status ? (

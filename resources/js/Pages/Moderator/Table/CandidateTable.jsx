@@ -357,7 +357,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                                                                 e.target.value
                                                             )
                                                         }
-                                                        required
+                                                      
                                                         autoFocus
                                                         autoComplete="middleName"
                                                     />

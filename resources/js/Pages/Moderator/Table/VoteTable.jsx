@@ -32,23 +32,16 @@ const VoteTable = ({ votes, voters, candidates, positions }) => {
 
     const TABLE_HEAD = ["ID", "Voter ID", "Voter's Name", "Candidate Voted For", "Candidate Position", "Election ID", "Vote Timestamp", "Action"];
     const [open, setOpen] = useState(false);
+    const [id, setId] = useState();
 
 
-
-
-    const { data, setData, post, errors } = useForm({
-
-    });
-
-    const handleOpen = () => {
+    const handleOpen = (id) => {
         setOpen(!open);
-    }
-    const handleChange = () => {
+        setId(id);
+        console.log(id);
 
     }
-    const handleSubmit = () => {
 
-    }
     return (
         <Card className="h-full w-full">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -66,32 +59,56 @@ const VoteTable = ({ votes, voters, candidates, positions }) => {
 
                     </div>
                     {/*Dialog* */}
-                    <Dialog open={open} handler={handleOpen}>
+                    <Dialog open={open} size='lg' handler={handleOpen}>
+                        <DialogHeader>
+                            Vote Details
+                        </DialogHeader>
                         <DialogBody>
-                            <form onSubmit={handleSubmit}>
-                                <div>
-                                    <InputLabel htmlFor="positionName" value="Enter Position Name" />
-                                    <TextInput
-                                        id="positionName"
-                                        className="mt-1 block w-full"
-                                        name="name"
-                                        value={data.name || ''}
-                                        onChange={handleChange}
-                                        required
-                                        autoFocus
-                                    />
-                                    <InputError>{errors.positionName}</InputError>
+                            {id && (
+                                <div >
+
+                                    <div className='text-xl text-black font-medium'>
+                                        <div>Voter ID: <span>{votes.find(vote => vote.id === id)?.voter_id}</span></div>
+                                    </div>
+
+                                    <div className='text-xl text-black font-medium'>
+                                        <div>Voter's Name: <span>{votes.find(vote => vote.id === id)?.user.name}</span></div>
+                                    </div>
+
+                                    <div className='text-xl text-black font-medium'>
+
+                                        <div>Candidate Voted For: <span>{`${votes.find(vote => vote.id === id)?.candidate.first_name} ${votes.find(vote => vote.id === id)?.candidate.last_name}`}</span></div>
+
+
+                                    </div>
+
+                                    <div className='text-xl text-black font-medium'>
+                                        <div>Candidate Position: <span>{votes.find(vote => vote.id === id)?.candidate.position_id ? positions.find(position => position.id === votes.find(vote => vote.id === id).candidate.position_id).name : ''}</span></div>
+
+                                    </div>
+
+                                    <div className='text-xl text-black font-medium'>
+                                        <div>Election ID: <span>{votes.find(vote => vote.id === id)?.election_id}</span></div>
+
+                                    </div>
+
+                                    <div className='text-xl text-black font-medium'>
+                                        <div>Vote Timestamp: <span>{new Date(votes.find(vote => vote.id === id)?.vote_timestamp).toLocaleString()}</span></div>
+                                    </div>
                                 </div>
-                                <DialogFooter>
-                                    <Button variant="text" color="red" onClick={handleOpen} className="mr-1">
-                                        <span>Cancel</span>
-                                    </Button>
-                                    <Button variant="gradient" color="blue" type="submit">
-                                        <span>Confirm</span>
-                                    </Button>
-                                </DialogFooter>
-                            </form>
+                            )}
                         </DialogBody>
+                        <DialogFooter>
+                            <Button
+                                variant="text"
+                                color="red"
+                                onClick={handleOpen}
+                                className="mr-1"
+                            >
+                                <span>Close</span>
+                            </Button>
+                           
+                        </DialogFooter>
                     </Dialog>
                 </div>
                 <div className="flex flex-col items-center justify-end gap-4 md:flex-row ">
@@ -243,7 +260,7 @@ const VoteTable = ({ votes, voters, candidates, positions }) => {
                                     <td className={classes}>
                                         <div className="flex gap-2">
                                             <Tooltip content="View Vote">
-                                                <IconButton variant="text" className="bg-blue-700 text-white" onClick={open}>
+                                                <IconButton variant="text" className="bg-blue-700 text-white" onClick={() => handleOpen(id)}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                                                         <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
