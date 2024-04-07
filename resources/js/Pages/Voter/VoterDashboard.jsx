@@ -11,18 +11,24 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
     const [now, setNow] = useState(new Date());
 
     const memoizedEndingDate = useMemo(() => election.status === 'Inactive' ? '' : election.end_date, [election.end_date, election.status]);
+    const isStartingDate = new Date() < election.start_date;
+
     const endDate = memoizedEndingDate ? new Date(memoizedEndingDate) : new Date(0);
 
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
     const [result, setResult] = useState(now > endDate);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setNow(new Date());
-        }, 1000);
 
-        return () => clearInterval(interval);
+
+    const updateNow = () => {
+        setNow(new Date());
+        setTimeout(updateNow, 1000); // Schedule the next update after 1 second
+    };
+
+
+    useEffect(() => {
+        updateNow();
     }, []);
 
     useEffect(() => {
@@ -126,20 +132,40 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
 
         setShowConfirmationModal(false);
     };
+    const getSelectedCandidatesInfo = () => {
+
+        return selectedCandidates.map(candidateId => {
+            // Find the candidate object with the matching ID
+            const candidate = candidatesAll.find(candidate => candidate.id === candidateId);
+
+            // Return an object with the required information
+            return {
+                id: candidate.id,
+                name: `${candidate.first_name} ${candidate?.middle_name} ${candidate.last_name}`, 
+                partylist: candidate.partylist.name,
+                position: candidate.position
+            };
+        });
+    };
     return (
         <div>
 
-            {election ? (
+            {election || isStartingDate ? (
                 <div>
                     <div className="text-center text-5xl font-medium">
                         <div>{election.title}</div>
                     </div>
                     <div>
                         {result ? (
-                            <div>Winner: "Mark Mallari"</div>
+                            <div>
+                                <div>Winner: "Mark Mallari"</div>
+                                <div>Winner: "Mark Mallari"</div>
+                                <div>Winner: "Mark Mallari"</div>
+                                <div>Winner: "Mark Mallari"</div>
+                            </div>
                         ) : (
                             <form onSubmit={onVoteSubmit}>
-                                {/* Form content */}
+                              
                                 {positionList.map((position) => (
                                     <div key={position.id} className="bg-white overflow-hidden shadow-md sm:rounded-lg mt-7">
                                         <div className="mt-11 font-medium text-2xl text-center">
@@ -150,7 +176,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                                         </div>
                                         <div className="p-6 text-gray-900">
                                             {candidatesAll.filter(candidate => candidate.position_id === position.id).length > 0 ? (
-                                                <div className="mb-10 flex justify-center flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row sm:justify-center gap-8 p-5 lg:p-10">
+                                                <div className="mb-10 justify-center flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row sm:justify-center gap-8 p-5 lg:p-10">
                                                     {candidatesAll
                                                         .filter(candidate => candidate.position_id === position.id)
                                                         .map(candidate => (
@@ -172,10 +198,11 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                                     </div>
                                 ))}
 
-                                {/* Submit button */}
+                               
                                 <div className="text-center mt-7">
                                     {
                                         result ? "" : <PrimaryButton
+
                                             onClick={onVoteSubmit}
                                             disabled={processing}
                                             className="bg-blue-500 hover:bg-blue-700  text-white px-6 py-3 rounded-md"
@@ -183,18 +210,17 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                                             Submit
                                         </PrimaryButton>
                                     }
-
                                 </div>
                             </form>
                         )}
                     </div>
                 </div>
             ) : (
-                // Render this if the election is not exist
+
                 <div className="h-screen w-full flex justify-center items-center">
                     <div className="text-gray-600 p-5 text-center ">
                         <div className="text-xl">Please wait for the moderator</div>
-                        <div className="text-xl">Candidate for this position will be available soon.</div>
+                        <div className="text-xl">Election for this position will be available soon.</div>
                     </div>
 
                 </div>
@@ -204,6 +230,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                 onClose={() => setShowConfirmationModal(false)}
                 onSubmitVote={confirmVote}
                 selectedCandidates={selectedCandidates}
+                selectedCandidatesInfo={getSelectedCandidatesInfo()}
             />
         </div>
 

@@ -105,7 +105,7 @@ function Countdown({ election }) {
                         <>
                             {isVotingStarts ? (
                                 <div className='text-center mb-4'>
-                                    <h2 className="text-2xl font-semibold text-black">Voting Starts</h2>
+                                    <h2 className="text-2xl font-semibold text-black">Voting Starts In:</h2>
                                     <p className="text-sm text-blue-gray-600">Get ready to cast your vote!</p>
                                 </div>
                             ) : (
