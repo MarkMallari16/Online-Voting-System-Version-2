@@ -22,6 +22,7 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
     useEffect(() => {
         // Update isSelected state when selected prop changes
         setIsSelected(selected);
+       
     }, [selected]);
 
     const handleCandidateClick = () => {

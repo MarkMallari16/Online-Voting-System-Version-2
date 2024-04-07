@@ -13,9 +13,10 @@ class PositionController extends Controller
     public function index(Request $request)
     {
         $positions = Positions::all();
-
+        $positionsPerPage = Positions::paginate(10);
         return Inertia::render('Moderator/ModeratorPages/Positions', [
-            'positions' => $positions
+            'positions' => $positions,
+            'positionsPerPage' => $positionsPerPage
         ]);
     }
     public function store(Request $request)
@@ -24,7 +25,7 @@ class PositionController extends Controller
         $request->validate([
             'name' => ['required', Rule::unique('positions')->ignore($request->id)],
         ]);
-    
+
 
         try {
 
@@ -44,7 +45,7 @@ class PositionController extends Controller
 
         $request->validate([
             'name' => ['required', Rule::unique('positions')->ignore($position->id)],
-           
+
         ]);
 
         $position->update($request->all());

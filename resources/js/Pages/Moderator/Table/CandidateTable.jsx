@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
@@ -48,16 +48,26 @@ const TABLE_HEAD = [
     "Action",
 ];
 
-export function CandidateTable({ partylist_list, position_list, candidates }) {
-    console.log(partylist_list);
-    console.log(position_list);
+export function CandidateTable({ partylist_list, position_list, candidates, candidatesPerPage }) {
+
     const [open, setOpen] = useState(false);
     const [openUpdateModal, setUpdateModal] = useState(false);
     const [openDeleteModal, setDeleteModal] = useState(false);
     const [id, setId] = useState(null);
     const [candidate, setCandidate] = useState(candidates);
+
     const [candidateProfile, setCandidateProfile] = useState(null);
     const [candidateUpdateProfile, setCandidateUpdateProfile] = useState(null);
+
+    const [currentPage, setCurrentPage] = useState(candidatesPerPage.current_page);
+    const currentCandidates = candidatesPerPage.data;
+    const totalPages = candidatesPerPage.last_page;
+
+
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
 
     const [message, setMessage] = useState("");
@@ -81,9 +91,15 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
     };
     const handleFileUpdateUpload = (e) => {
         const file = e.target.files[0];
+
+
+        const formData = new FormData();
+        formData.append("candidate_profile", file);
+
+
         setCandidateUpdateProfile(file);
 
-        // Update candidate_profile field in the data object
+
         setData((prevData) => ({
             ...prevData,
             candidate_profile: file,
@@ -95,12 +111,16 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
     //for update modal
     const handleUpdateOpen = (id) => {
         setUpdateModal(!openUpdateModal);
-        setId(id);
+
+
 
         // Find the candidate to update
         const candidateToUpdate = candidates.find(
             (candidate) => candidate.id === id
+
         );
+
+        setId(id);
 
         if (candidateToUpdate) {
             // Set the initial form data based on the candidate's information
@@ -114,7 +134,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                 candidate_profile: candidateToUpdate.candidate_profile,
             });
 
-            console.log(candidateToUpdate.candidate_profile);
+
 
         } else {
             // Handle the case when no candidate is found with the given id
@@ -133,12 +153,12 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
     };
     //for delete modal
     const handleDeleteOpen = (id) => {
+
         setDeleteModal(!openDeleteModal);
         setId(id);
     };
 
     console.log(candidates);
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -175,24 +195,25 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
             // Close the update modal
             setUpdateModal(false);
 
-            console.log(data);
-
             // Reset form data and state for candidate
             setData({
-                first_name: "",
-                middle_name: "",
-                last_name: "",
+                first_name: '',
+                middle_name: '',
+                last_name: '',
                 partylist_id: null,
                 position_id: null,
-                manifesto: "",
+                manifesto: '',
                 candidate_profile: null
             });
 
+            // Display success message
             setMessage(`Candidate successfully updated`);
             setIsSuccessMessage(true);
 
         } catch (error) {
             console.error("Failed to update candidate:", error);
+            // Display error message or handle error appropriately
+            // Example: setError("Failed to update candidate. Please try again.");
         }
     };
     const handleDeleteCandidate = async (candidateId) => {
@@ -213,6 +234,17 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
 
         } catch (error) {
             console.error("Failed to delete position:", error);
+        }
+    };
+    const handlePreviousClick = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
         }
     };
     return (
@@ -357,7 +389,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                                                                 e.target.value
                                                             )
                                                         }
-                                                      
+
                                                         autoFocus
                                                         autoComplete="middleName"
                                                     />
@@ -507,8 +539,8 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                                                 <div className="flex items-center gap-3">
                                                     <div className="mb-2">
                                                         <Avatar
-                                                            src={data.candidate_profile instanceof File ? URL.createObjectURL(data.candidate_profile) : data.candidate_profile}
-                                                            alt="Candidate Avatar" x
+                                                            src={data.candidate_profile instanceof File ? URL.createObjectURL(data.candidate_profile) : (data.candidate_profile ? data.candidate_profile : DefaultCandidatePicture)}
+                                                            alt="Candidate Avatar"
                                                             size="xxl"
                                                             color="blue"
                                                             withBorder={true}
@@ -773,8 +805,9 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                                 ))}
                             </tr>
                         </thead>
+
                         <tbody>
-                            {candidates.length === 0 ? (
+                            {currentCandidates.length === 0 ? (
                                 <tr>
                                     <td
                                         colSpan={TABLE_HEAD.length}
@@ -784,7 +817,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                                     </td>
                                 </tr>
                             ) : (
-                                candidates.map(
+                                currentCandidates.map(
                                     (
                                         {
                                             id,
@@ -952,6 +985,7 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                                 )
                             )}
                         </tbody>
+
                     </table>
                 </CardBody>
                 <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
@@ -960,13 +994,15 @@ export function CandidateTable({ partylist_list, position_list, candidates }) {
                         color="blue-gray"
                         className="font-normal"
                     >
-                        Page 1 of 10
+                        Page {1} of {10}
                     </Typography>
                     <div className="flex gap-2">
-                        <Button variant="outlined" size="sm">
+
+                        <Button variant="outlined" size="sm" onClick={handlePreviousClick} disabled={candidatesPerPage.current_page === 1}>
                             Previous
                         </Button>
-                        <Button variant="outlined" size="sm">
+
+                        <Button variant="outlined" size="sm" onClick={handleNextPage} disabled={candidatesPerPage.current_page === candidatesPerPage.per_page}>
                             Next
                         </Button>
                     </div>

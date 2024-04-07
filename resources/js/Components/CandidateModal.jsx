@@ -26,7 +26,7 @@ const CandidateModal = ({ candidate, isOpen, onClose }) => {
                 <hr />
             </DialogHeader>
             <DialogBody>
-                <div className="relative w-100 mx-auto max-w-3xl">
+                <div className="relative w-100  max-w-3xl">
                     <h4 className="text-black font-extrabold">Campaign Platform</h4>
                     <div className="text-gray-700 text-justify">
                         <p>{candidate.manifesto}</p>

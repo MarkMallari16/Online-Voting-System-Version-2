@@ -2,16 +2,20 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { useForm } from "@inertiajs/inertia-react";
 import CandidateCard from "./CandidateCard";
+import VoteConfirmationModal from "@/Components/VoteConfirmationModal";
 
 const VoterDashboard = ({ election, candidatesAll, positionList }) => {
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
     const [selectedCandidates, setSelectedCandidates] = useState([]);
     const [hasVoted, setHasVoted] = useState(false);
     const [now, setNow] = useState(new Date());
+
     const memoizedEndingDate = useMemo(() => election.status === 'Inactive' ? '' : election.end_date, [election.end_date, election.status]);
     const endDate = memoizedEndingDate ? new Date(memoizedEndingDate) : new Date(0);
 
-    const [result, setResult] = useState(now > endDate); // Set result initially based on the current time
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
+    const [result, setResult] = useState(now > endDate);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -25,7 +29,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
         setResult(now > endDate);
     }, [endDate, now]);
 
-    console.log(result);
+    // console.log(result);
 
 
 
@@ -69,7 +73,6 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
             setSelectedCandidates([...updatedCandidates, candidateId]);
         }
     };
-
     const onVoteSubmit = async (e) => {
         e.preventDefault();
 
@@ -79,6 +82,33 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
             return;
         }
 
+        setShowConfirmationModal(true);
+    };
+    // const onVoteSubmit = async (e) => {
+    //     e.preventDefault();
+
+    //     if (selectedCandidates.length === 0) {
+    //         // Handle case where no candidates are selected
+    //         console.error("No candidates selected.");
+    //         return;
+    //     }
+
+    //     try {
+    //         // Set the candidate_ids field in the form data
+    //         setData("candidate_ids", selectedCandidates);
+
+    //         // Make POST request to create votes
+    //         await post("/votes", {
+    //             election_id: electionId,
+    //             candidate_ids: selectedCandidates,
+    //         });
+    //         setIsSuccessMessage(true);
+    //     } catch (error) {
+    //         // Handle error
+    //         console.error("Error submitting vote:", error);
+    //     }
+    // };
+    const confirmVote = async () => {
         try {
             // Set the candidate_ids field in the form data
             setData("candidate_ids", selectedCandidates);
@@ -93,10 +123,12 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
             // Handle error
             console.error("Error submitting vote:", error);
         }
-    };
 
+        setShowConfirmationModal(false);
+    };
     return (
         <div>
+
             {election ? (
                 <div>
                     <div className="text-center text-5xl font-medium">
@@ -106,8 +138,6 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                         {result ? (
                             <div>Winner: "Mark Mallari"</div>
                         ) : (
-
-
                             <form onSubmit={onVoteSubmit}>
                                 {/* Form content */}
                                 {positionList.map((position) => (
@@ -146,6 +176,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                                 <div className="text-center mt-7">
                                     {
                                         result ? "" : <PrimaryButton
+                                            onClick={onVoteSubmit}
                                             disabled={processing}
                                             className="bg-blue-500 hover:bg-blue-700  text-white px-6 py-3 rounded-md"
                                         >
@@ -159,16 +190,23 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                     </div>
                 </div>
             ) : (
-                // Render something else if election doesn't exist
+                // Render this if the election is not exist
                 <div className="h-screen w-full flex justify-center items-center">
                     <div className="text-gray-600 p-5 text-center ">
                         <div className="text-xl">Please wait for the moderator</div>
-                        <div className="text-xl">Election for this position will be available soon.</div>
+                        <div className="text-xl">Candidate for this position will be available soon.</div>
                     </div>
 
                 </div>
             )}
+            <VoteConfirmationModal
+                isOpen={showConfirmationModal}
+                onClose={() => setShowConfirmationModal(false)}
+                onSubmitVote={confirmVote}
+                selectedCandidates={selectedCandidates}
+            />
         </div>
+
     )
 }
 export default VoterDashboard;

@@ -11,9 +11,6 @@ use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
-use Auth;
-use Illuminate\Validation\ValidationException;
-use Redirect;
 
 class CandidateController extends Controller
 {
@@ -22,9 +19,11 @@ class CandidateController extends Controller
         $positions = Positions::all();
         $partylist = Partylist::all();
         $candidate = Candidate::all();
+       
 
         return Inertia::render('Moderator/ModeratorOverview', [
-            'candidate' => $candidate
+            'candidate' => $candidate,
+            
         ]);
     }
     function dashboard()
@@ -33,7 +32,7 @@ class CandidateController extends Controller
         $partylist = Partylist::all();
         $candidates = Candidate::all();
         $candidatesAll = Candidate::with('position', 'partylist')->get();
-
+    
         // Retrieve the latest election, whether active or inactive
         $election = Election::where('status', 'Active')
             ->orWhere('status', 'Inactive')
@@ -56,11 +55,13 @@ class CandidateController extends Controller
         $positions = Positions::all();
         $partylist = Partylist::all();
         $candidate = Candidate::all();
+        $candidatesPerPage = Candidate::paginate(10);
 
         return Inertia::render('Moderator/ModeratorPages/Candidate', [
             'partylist_list' => $partylist,
             'position_list' => $positions,
-            'candidates' => $candidate
+            'candidates' => $candidate,
+            'candidatesPerPage' => $candidatesPerPage
         ]);
     }
 
@@ -118,7 +119,7 @@ class CandidateController extends Controller
     public function update(Request $request, $id)
     {
         $candidate = Candidate::findOrFail($id);
-        
+
         $validatedData = $request->validate([
             'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'first_name' => 'required|string',

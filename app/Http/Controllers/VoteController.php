@@ -20,26 +20,19 @@ class VoteController extends Controller
         $votes = Vote::with('user', 'candidate')->get();
         $voters = User::where('role', 'voter')->get();
         $positions = Positions::all();
+        $votesPerPage = Vote::with('user', 'candidate')->paginate(10);
 
         return Inertia::render(
             'Moderator/ModeratorPages/Votes',
             [
                 'votes' => $votes,
                 'voters' => $voters,
-                'positions' => $positions
+                'positions' => $positions,
+                'votesPerPage' => $votesPerPage
             ]
         );
     }
 
-    public function show($id)
-    {
-        $vote = Vote::findOrFail($id);
-        return Inertia::render('Voter/CandidateCard', ['vote' => $vote]);
-    }
-    // public function createVote(Request $request)
-    // {
-    //     return Vote::insert($request->all());
-    // }
     public function createVote(Request $request)
     {
         // Validate the request

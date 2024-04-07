@@ -23,7 +23,7 @@ import {
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
-import { useForm} from '@inertiajs/inertia-react';
+import { useForm } from '@inertiajs/inertia-react';
 import { Inertia } from '@inertiajs/inertia';
 import Modal from "@/Components/Modal";
 import InfoIcon from "@/Components/InfoIcon";
@@ -48,10 +48,18 @@ export function PositionsTable(props) {
 
     const [message, setMessage] = useState('');
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
+    
+    const positionsPerPage = props.positionsPerPage;
 
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const [totalPages, setTotalPages] = useState(1);
+    const [currentPage, setCurrentPage] = useState(positionsPerPage.current_page);
+    const [totalPages, setTotalPages] = useState(positionsPerPage.last_page);
 
+
+    const indexOfLastPositions = currentPage * positionsPerPage.per_page;
+    const indexOfFirstPositions = indexOfLastPositions - positionsPerPage;
+    const currentPositions = positions.slice(indexOfFirstPositions, indexOfLastPositions);
+
+    console.log(positionsPerPage);
     const { data, setData, post, errors } = useForm();
 
     //modal add
@@ -70,7 +78,7 @@ export function PositionsTable(props) {
             setIsSuccessMessage(true);
             // Reset the positionName field to empty
             setData('name', '');
-            
+
             window.location.reload();
         } catch (error) {
             console.error('Failed to create position:', error);
@@ -89,7 +97,7 @@ export function PositionsTable(props) {
             console.error("Position not found with id:", id);
             setData('name', '');
         }
-        
+
     };
 
     const handleUpdateSubmit = async (e) => {
@@ -120,7 +128,7 @@ export function PositionsTable(props) {
         console.log(id);
         console.log(openDeleteModal);
 
-        window.location.reload();
+
     };
 
     const handleChange = (event) => {
@@ -138,10 +146,22 @@ export function PositionsTable(props) {
             setIsSuccessMessage(true);
             // Close the delete modal
             setDeleteModal(false);
+            window.location.reload();
         } catch (error) {
             console.error('Failed to delete position:', error);
         }
     };
+
+    const handlePreviousClick = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    }
+    const handleNextPage = () => {
+        if (currentPage < Math.ceil(props.positions.length / votesPerPage)) {
+            setCurrentPage(currentPage + 1);
+        }
+    }
 
     const handleSearch = (event) => {
         setSearchQuery(event.target.value);
@@ -282,7 +302,7 @@ export function PositionsTable(props) {
                         </thead>
                         {positions.length > 0 ? (
                             <tbody>
-                                {positions
+                                {currentPositions
                                     .filter(position => position.name.toLowerCase().includes(searchQuery.toLowerCase()))
                                     .map(({ id, name, created_at }) => {
 
@@ -290,7 +310,7 @@ export function PositionsTable(props) {
 
                                         const formatDate = (dateString) => {
                                             const date = new Date(dateString);
-                                            return date.toLocaleString(); 
+                                            return date.toLocaleString();
                                         };
                                         return (
                                             <tr key={id}>
@@ -389,13 +409,13 @@ export function PositionsTable(props) {
                 </CardBody>
                 <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
                     <Typography variant="small" color="blue-gray" className="font-normal">
-                        Page 1 of 10
+                        Page {currentPage} of {totalPages}
                     </Typography>
                     <div className="flex gap-2">
-                        <Button variant="outlined" size="sm">
+                        <Button variant="outlined" size="sm" onClick={handlePreviousClick} disabled={currentPage === 1}>
                             Previous
                         </Button>
-                        <Button variant="outlined" size="sm">
+                        <Button variant="outlined" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
                             Next
                         </Button>
                     </div>
