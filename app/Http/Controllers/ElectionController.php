@@ -26,8 +26,6 @@ class ElectionController extends Controller
 
         $existingElection = Election::first();
 
-
-        // If there is an existing election, update ielet; otherwise, create a new one
         try {
             if ($existingElection) {
                 $existingElection->update([
@@ -115,4 +113,5 @@ class ElectionController extends Controller
             return redirect()->back()->with('success', 'Election deactivated successfully.');
         }
     }
+    
 }

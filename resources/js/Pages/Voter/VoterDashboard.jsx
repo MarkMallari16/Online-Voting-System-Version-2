@@ -137,11 +137,11 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
         return selectedCandidates.map(candidateId => {
             // Find the candidate object with the matching ID
             const candidate = candidatesAll.find(candidate => candidate.id === candidateId);
-
             // Return an object with the required information
             return {
                 id: candidate.id,
-                name: `${candidate.first_name} ${candidate?.middle_name} ${candidate.last_name}`, 
+                candidateProfile: candidate.candidate_profile,
+                name: `${candidate.first_name} ${candidate?.middle_name} ${candidate.last_name}`,
                 partylist: candidate.partylist.name,
                 position: candidate.position
             };
@@ -165,7 +165,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                             </div>
                         ) : (
                             <form onSubmit={onVoteSubmit}>
-                              
+
                                 {positionList.map((position) => (
                                     <div key={position.id} className="bg-white overflow-hidden shadow-md sm:rounded-lg mt-7">
                                         <div className="mt-11 font-medium text-2xl text-center">
@@ -198,7 +198,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                                     </div>
                                 ))}
 
-                               
+
                                 <div className="text-center mt-7">
                                     {
                                         result ? "" : <PrimaryButton
