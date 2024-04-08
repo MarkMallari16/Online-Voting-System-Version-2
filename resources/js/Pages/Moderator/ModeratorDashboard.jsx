@@ -1,11 +1,25 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import ModeratorOverview from './ModeratorOverview'
 import { Select, Option } from "@material-tailwind/react";
 import { Input } from "@material-tailwind/react";
 import BarChartContainer from './BarChartContainer';
 import PieChartContainer from './PieChartContainer';
-const ModeratorDashboard = ({ voters,  candidates, election }) => {
+const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount }) => {
+    console.log(position_list);
+
+    const [selectedPosition, setSelectedPosition] = useState('');
+
+
+
+    useEffect(() => {
+        console.log(selectedPosition);
+    }, [selectedPosition]);
+
+    const handlePositionChange = (event) => {
+        setSelectedPosition(event.target.value);
+        console.log(selectedPosition);
+    };
     return (
         <div>
 
@@ -17,7 +31,7 @@ const ModeratorDashboard = ({ voters,  candidates, election }) => {
 
             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-3">
                 <div className="p-6 text-gray-900">
-                    <ModeratorOverview voters={voters} election={election} candidates={candidates} />
+                    <ModeratorOverview voters={voters} election={election} candidates={candidates} votersVotedCount={votersVotedCount} />
 
                 </div>
             </div>
@@ -32,17 +46,15 @@ const ModeratorDashboard = ({ voters,  candidates, election }) => {
                         <div className='flex justify-end'>
 
                             <div className="w-72">
-                                <Select label="Select Positions">
-                                    <Option>President</Option>
-                                    <Option>Vice President</Option>
-                                    <Option>Secretary</Option>
-                                    <Option>Treasurer</Option>
-                                    <Option>Auditor</Option>
-                                    <Option>P.R.O</Option>
+                                <Select label="Select Positions" onChange={handlePositionChange} value={selectedPosition}>
+                                 
+                                    {position_list.map((position) => (
+                                        <Option key={position.id} value={String(position.id)}>{position?.name}</Option>
+                                    ))}
                                 </Select>
                             </div>
                         </div>
-                        <BarChartContainer />
+                        <BarChartContainer voteCounts={voteCounts} />
                     </div>
                 </div>
 

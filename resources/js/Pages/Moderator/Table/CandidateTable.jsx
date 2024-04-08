@@ -89,6 +89,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             file
         );
     };
+    
     const handleFileUpdateUpload = (e) => {
         const file = e.target.files[0];
 
@@ -372,7 +373,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                 <div className="flex-1">
                                                     <InputLabel
                                                         htmlFor="lastName"
-                                                        value="Enter Candidate Middle Name"
+                                                        value="Enter Candidate Middle Name (optional)"
                                                     />
 
                                                     <TextInput
@@ -600,7 +601,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                 <div className="flex-1">
                                                     <InputLabel
                                                         htmlFor="lastName"
-                                                        value="Enter Candidate Middle Name"
+                                                        value="Enter Candidate Middle Name (optional)"
                                                     />
 
                                                     <TextInput

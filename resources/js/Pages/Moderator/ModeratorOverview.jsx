@@ -2,9 +2,10 @@ import React from "react";
 import { GrStatusInfo } from "react-icons/gr";
 import { FaUser, FaUserTie, FaUserCheck } from "react-icons/fa6";
 
-const ModeratorOverview = ({ voters, candidates, election }) => {
+const ModeratorOverview = ({ voters, candidates, election, votersVotedCount }) => {
     // const status = election.status;
-
+    // console.log(voters)
+   
     return (
         <div className="flex flex-col md:flex-row sm:flex-row justify-between gap-4">
             <div className="w-full md:w-1/3 flex justify-between sm:w-full h-50   bg-yellow-300 rounded-lg p-10 mb-2 md:mb-0">
@@ -43,7 +44,7 @@ const ModeratorOverview = ({ voters, candidates, election }) => {
 
             <div className="w-full md:w-1/3 flex justify-between sm:w-full h-50  bg-cyan-200 rounded-lg p-10">
                 <div>
-                    <h2 className="text-3xl mb-8 font-bold">50</h2>
+                    <h2 className="text-3xl mb-8 font-bold">{votersVotedCount}</h2>
                     <p className="text-xl ">Students Voted</p>
                 </div>
 

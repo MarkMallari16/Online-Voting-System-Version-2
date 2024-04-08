@@ -96,7 +96,7 @@ function Countdown({ election }) {
 
     const status = election.status === 'Active';
     const isVotingStarts = new Date() < new Date(memoizedStartingDate);
-
+    const isVotingEnded = new Date() > new Date(memoizedEndingDate);
     return (
         <div className="mt-5 bg-white overflow-hidden shadow-sm sm:rounded-lg">
             {status ? (
@@ -108,6 +108,14 @@ function Countdown({ election }) {
                                     <h2 className="text-2xl font-semibold text-black">Voting Starts In:</h2>
                                     <p className="text-sm text-blue-gray-600">Get ready to cast your vote!</p>
                                 </div>
+                            ) : isVotingEnded ? (
+                                (
+                                    <div className='text-center mb-4'>
+                                        <h2 className="text-2xl font-semibold text-black">Election Ended</h2>
+                                        <p className="text-sm text-blue-gray-600">Thank you for participating!</p>
+                                    </div>
+
+                                )
                             ) : (
                                 <div className="text-center mb-4">
                                     <h2 className="text-2xl font-semibold text-black">Voting Ends In:</h2>

@@ -3,18 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidate;
-use App\Models\Election;
-use App\Models\Partylist;
 use App\Models\Positions;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Vote;
-use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class VoteController extends Controller
 {
-
     public function index()
     {
         $votes = Vote::with('user', 'candidate')->get();
@@ -70,6 +66,5 @@ class VoteController extends Controller
         return redirect()->back()->with('success', 'Successfully voted');
     }
 
-    //     // return dd($validatedData);
-    // }
+   
 }

@@ -113,5 +113,5 @@ class ElectionController extends Controller
             return redirect()->back()->with('success', 'Election deactivated successfully.');
         }
     }
-    
+        
 }

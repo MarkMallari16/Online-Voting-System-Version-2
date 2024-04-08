@@ -3,6 +3,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import { useForm } from "@inertiajs/inertia-react";
 import CandidateCard from "./CandidateCard";
 import VoteConfirmationModal from "@/Components/VoteConfirmationModal";
+import AlreadyVoted from "@/Components/AlreadyVoted";
 
 const VoterDashboard = ({ election, candidatesAll, positionList }) => {
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
@@ -18,7 +19,6 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
     const [result, setResult] = useState(now > endDate);
-
 
 
     const updateNow = () => {
@@ -79,6 +79,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
             setSelectedCandidates([...updatedCandidates, candidateId]);
         }
     };
+
     const onVoteSubmit = async (e) => {
         e.preventDefault();
 
@@ -125,6 +126,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                 candidate_ids: selectedCandidates,
             });
             setIsSuccessMessage(true);
+            setHasVoted(true);
         } catch (error) {
             // Handle error
             console.error("Error submitting vote:", error);
@@ -132,6 +134,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
 
         setShowConfirmationModal(false);
     };
+    // console.log(hasVoted);
     const getSelectedCandidatesInfo = () => {
 
         return selectedCandidates.map(candidateId => {
@@ -147,10 +150,12 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
             };
         });
     };
+
+
+
     return (
         <div>
-
-            {election || isStartingDate ? (
+            {election ? (
                 <div>
                     <div className="text-center text-5xl font-medium">
                         <div>{election.title}</div>
@@ -224,7 +229,9 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                     </div>
 
                 </div>
-            )}
+            )
+            }
+
             <VoteConfirmationModal
                 isOpen={showConfirmationModal}
                 onClose={() => setShowConfirmationModal(false)}
@@ -232,7 +239,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                 selectedCandidates={selectedCandidates}
                 selectedCandidatesInfo={getSelectedCandidatesInfo()}
             />
-        </div>
+        </div >
 
     )
 }

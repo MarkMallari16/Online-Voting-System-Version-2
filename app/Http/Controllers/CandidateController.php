@@ -7,32 +7,34 @@ use App\Models\Partylist;
 use App\Models\Positions;
 use App\Models\Election;
 use App\Models\User;
-
+use App\Models\Vote;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
 
 class CandidateController extends Controller
 {
-    function moderatorOverview()
-    {
-        $positions = Positions::all();
-        $partylist = Partylist::all();
-        $candidate = Candidate::all();
-       
+    // function moderatorOverview()
+    // {
+    //     $positions = Positions::all();
+    //     $partylist = Partylist::all();
+    //     $candidate = Candidate::all();
+    //     $vote = Vote::all();
 
-        return Inertia::render('Moderator/ModeratorOverview', [
-            'candidate' => $candidate,
-            
-        ]);
-    }
+    //     $votedVotersCount = Vote::distinct('voter_id')->count();
+
+    //     return Inertia::render('Moderator/ModeratorOverview', [
+    //         'candidate' => $candidate,
+    //         'votedVotersCount' => $votedVotersCount
+    //     ]);
+    // }
     function dashboard()
     {
         $positions = Positions::all();
         $partylist = Partylist::all();
         $candidates = Candidate::all();
         $candidatesAll = Candidate::with('position', 'partylist')->get();
-    
+
         // Retrieve the latest election, whether active or inactive
         $election = Election::where('status', 'Active')
             ->orWhere('status', 'Inactive')
@@ -40,15 +42,25 @@ class CandidateController extends Controller
             ->first();
         $voters = User::where('role', 'voter')->get();
 
+        $votedVotersCount = Vote::distinct('voter_id')->count();
+
+        foreach ($candidates as $candidate) {
+            $voteCount = Vote::where('candidate_id', $candidate->id)->count();
+            $voteCounts[$candidate->id] = $voteCount;
+        }
+
         return Inertia::render('Dashboard', [
             'partylist_list' => $partylist,
             'position_list' => $positions,
             'candidates' => $candidates,
             'candidatesAll' => $candidatesAll,
             'election' => $election,
-            'voters' => $voters
+            'voters' => $voters,
+            'votersVotedCount' => $votedVotersCount,
+            'voteCounts' => $voteCounts
         ]);
     }
+
     public function index()
     {
         // Retrieve all candidates
@@ -89,7 +101,7 @@ class CandidateController extends Controller
     {
         $validatedData = $request->validate([
             'first_name' => 'required|string',
-            'middle_name' => 'required|string',
+            'middle_name' => 'nullable|string',
             'last_name' => 'required|string',
             'manifesto' => 'required|string',
             'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -97,6 +109,7 @@ class CandidateController extends Controller
             'position_id' => 'required|exists:positions,id'
         ]);
 
+        $middleName = $validatedData['middle_name'] ?? null;
         $candidateImagePath = null;
 
         if ($request->hasFile('candidate_profile')) {
@@ -123,12 +136,14 @@ class CandidateController extends Controller
         $validatedData = $request->validate([
             'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'first_name' => 'required|string',
-            'middle_name' => 'required|string',
+            'middle_name' => 'nullable|string',
             'last_name' => 'required|string',
             'manifesto' => 'required|string',
             'partylist_id' => 'required|exists:partylists,id',
             'position_id' => 'required|exists:positions,id'
         ]);
+
+        $middleName = $validatedData['middle_name'] ?? null;
 
         $candidateImagePath = $candidate->candidate_profile;
 

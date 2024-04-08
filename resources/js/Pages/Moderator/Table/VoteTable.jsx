@@ -29,9 +29,6 @@ import ExcelExport from '@/Components/ExcelExport';
 
 
 const VoteTable = ({ votes, votesPerPage, voters, candidates, positions }) => {
-
-
-
     const TABLE_HEAD = ["ID", "Voter ID", "Voter's Name", "Candidate Voted For", "Candidate Position", "Election ID", "Vote Timestamp", "Action"];
     const [open, setOpen] = useState(false);
     const [id, setId] = useState();
@@ -46,7 +43,7 @@ const VoteTable = ({ votes, votesPerPage, voters, candidates, positions }) => {
     const handleOpen = (id) => {
         setOpen(!open);
         setId(id);
-        console.log(id);
+        // console.log(id);
     }
     const handlePreviousPage = () => {
         if (currentPage > 1) {

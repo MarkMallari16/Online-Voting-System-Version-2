@@ -88,6 +88,7 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::delete('/positions/{id}', [PositionController::class, 'destroy'])->name('positions.destroy');
 
     Route::get('/votes', [VoteController::class, 'index'])->name('votes');
+
 });
 
 
