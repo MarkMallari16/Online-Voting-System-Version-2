@@ -28,6 +28,7 @@ class VoteController extends Controller
             ]
         );
     }
+    
 
     public function createVote(Request $request)
     {
@@ -65,6 +66,4 @@ class VoteController extends Controller
 
         return redirect()->back()->with('success', 'Successfully voted');
     }
-
-   
 }

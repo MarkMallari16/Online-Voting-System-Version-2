@@ -14,27 +14,14 @@ use Illuminate\Http\Request;
 
 class CandidateController extends Controller
 {
-    // function moderatorOverview()
-    // {
-    //     $positions = Positions::all();
-    //     $partylist = Partylist::all();
-    //     $candidate = Candidate::all();
-    //     $vote = Vote::all();
 
-    //     $votedVotersCount = Vote::distinct('voter_id')->count();
-
-    //     return Inertia::render('Moderator/ModeratorOverview', [
-    //         'candidate' => $candidate,
-    //         'votedVotersCount' => $votedVotersCount
-    //     ]);
-    // }
     function dashboard()
     {
         $positions = Positions::all();
         $partylist = Partylist::all();
         $candidates = Candidate::all();
         $candidatesAll = Candidate::with('position', 'partylist')->get();
-
+        $voters = Vote::all();
         // Retrieve the latest election, whether active or inactive
         $election = Election::where('status', 'Active')
             ->orWhere('status', 'Inactive')
@@ -43,6 +30,12 @@ class CandidateController extends Controller
         $voters = User::where('role', 'voter')->get();
 
         $votedVotersCount = Vote::distinct('voter_id')->count();
+
+        $voters->transform(function ($voter) use ($election) {
+            $voterId = $voter->id;
+            $voter->hasVoted = $this->getHasVotedStatus($voterId, $election->id);
+            return $voter;
+        });
 
         foreach ($candidates as $candidate) {
             $voteCount = Vote::where('candidate_id', $candidate->id)->count();
@@ -60,7 +53,13 @@ class CandidateController extends Controller
             'voteCounts' => $voteCounts
         ]);
     }
-
+    public function getHasVotedStatus($userId, $electionId)
+    {
+        // Check if the user has voted in the specified election
+        return Vote::where('voter_id', $userId)
+            ->where('election_id', $electionId)
+            ->exists();
+    }
     public function index()
     {
         // Retrieve all candidates
@@ -171,7 +170,18 @@ class CandidateController extends Controller
         // Redirect back with success message
         return redirect()->back()->with('success', 'Candidate updated successfully');
     }
+    public function hasVoted($userId, $electionId)
+    {
+        // Check if the user has voted in the specified election
+        $hasVoted = Vote::where('voter_id', $userId)
+            ->where('election_id', $electionId)
+            ->exists();
 
+        // Return the result as part of the props for Inertia
+        return Inertia::render('Dashboard', [
+            'hasVoted' => $hasVoted
+        ]);
+    }
     public function destroy($id)
     {
         try {

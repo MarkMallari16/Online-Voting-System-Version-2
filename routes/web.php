@@ -13,6 +13,7 @@ use App\Http\Controllers\ElectionController;
 use App\Http\Controllers\PartylistController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\VoteController;
+use App\Http\Controllers\VoterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,6 +89,7 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::delete('/positions/{id}', [PositionController::class, 'destroy'])->name('positions.destroy');
 
     Route::get('/votes', [VoteController::class, 'index'])->name('votes');
+    Route::post('/hasVoted', [CandidateController::class, 'hasVoted'])->name('vote.hasVoted');
 
 });
 

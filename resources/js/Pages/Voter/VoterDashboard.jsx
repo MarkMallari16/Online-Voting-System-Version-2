@@ -5,12 +5,12 @@ import CandidateCard from "./CandidateCard";
 import VoteConfirmationModal from "@/Components/VoteConfirmationModal";
 import AlreadyVoted from "@/Components/AlreadyVoted";
 
-const VoterDashboard = ({ election, candidatesAll, positionList }) => {
+const VoterDashboard = ({ election, candidatesAll, positionList, voters,hasVoted }) => {
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
     const [selectedCandidates, setSelectedCandidates] = useState([]);
-    const [hasVoted, setHasVoted] = useState(false);
+    const [hasVoterVoted, setVoterHasVoted] = useState(false);
     const [now, setNow] = useState(new Date());
-
+    const [voterId, setVoterId] = useState(null);
     const memoizedEndingDate = useMemo(() => election.status === 'Inactive' ? '' : election.end_date, [election.end_date, election.status]);
     const isStartingDate = new Date() < election.start_date;
 
@@ -35,10 +35,6 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
         setResult(now > endDate);
     }, [endDate, now]);
 
-    // console.log(result);
-
-
-
     const electionId = election ? election.id : null;
 
     const { data, setData, post, errors, processing } = useForm({
@@ -50,6 +46,13 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
         // Update the candidate_ids field in the form data when selectedCandidates changes
         setData("candidate_ids", selectedCandidates);
     }, [selectedCandidates]);
+
+    useEffect(() => {
+        const voterWhoVoted = voters.find(voter => voter.hasVoted);
+        if (voterWhoVoted) {
+            setVoterId(voterWhoVoted.id);
+        }
+    }, [voters]);
 
     const onSelectCandidate = (candidateId, positionId) => {
         // Check if the candidate is already selected for the current position
@@ -91,30 +94,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
 
         setShowConfirmationModal(true);
     };
-    // const onVoteSubmit = async (e) => {
-    //     e.preventDefault();
 
-    //     if (selectedCandidates.length === 0) {
-    //         // Handle case where no candidates are selected
-    //         console.error("No candidates selected.");
-    //         return;
-    //     }
-
-    //     try {
-    //         // Set the candidate_ids field in the form data
-    //         setData("candidate_ids", selectedCandidates);
-
-    //         // Make POST request to create votes
-    //         await post("/votes", {
-    //             election_id: electionId,
-    //             candidate_ids: selectedCandidates,
-    //         });
-    //         setIsSuccessMessage(true);
-    //     } catch (error) {
-    //         // Handle error
-    //         console.error("Error submitting vote:", error);
-    //     }
-    // };
     const confirmVote = async () => {
         try {
             // Set the candidate_ids field in the form data
@@ -126,7 +106,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                 candidate_ids: selectedCandidates,
             });
             setIsSuccessMessage(true);
-            setHasVoted(true);
+            setVoterHasVoted(true);
         } catch (error) {
             // Handle error
             console.error("Error submitting vote:", error);
@@ -157,7 +137,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
         <div>
             {election ? (
                 <div>
-                    <div className="text-center text-5xl font-medium">
+                    <div className="border p-5 border-black rounded-md border-3 text-center text-5xl font-medium">
                         <div>{election.title}</div>
                     </div>
                     <div>
@@ -168,9 +148,10 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                                 <div>Winner: "Mark Mallari"</div>
                                 <div>Winner: "Mark Mallari"</div>
                             </div>
+                        ) : voterId ? (
+                            <AlreadyVoted />
                         ) : (
                             <form onSubmit={onVoteSubmit}>
-
                                 {positionList.map((position) => (
                                     <div key={position.id} className="bg-white overflow-hidden shadow-md sm:rounded-lg mt-7">
                                         <div className="mt-11 font-medium text-2xl text-center">
@@ -179,7 +160,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList }) => {
                                         <div className="text-center text-gray-600">
                                             Select your preferred candidate(s) for the position of {position.name}
                                         </div>
-                                        <div className="p-6 text-gray-900">
+                                        <div className={`p-6 text-gray-900`}>
                                             {candidatesAll.filter(candidate => candidate.position_id === position.id).length > 0 ? (
                                                 <div className="mb-10 justify-center flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row sm:justify-center gap-8 p-5 lg:p-10">
                                                     {candidatesAll
