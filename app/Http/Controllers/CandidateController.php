@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Models\Vote;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 
 class CandidateController extends Controller
 {
@@ -21,7 +21,15 @@ class CandidateController extends Controller
         $partylist = Partylist::all();
         $candidates = Candidate::all();
         $candidatesAll = Candidate::with('position', 'partylist')->get();
-        $voters = Vote::all();
+
+        $user = Auth::user();
+
+        if ($user && $user->role === 'voter') {
+            // Get the authenticated user's ID
+            $voterId = $user->id;
+    
+        }
+
         // Retrieve the latest election, whether active or inactive
         $election = Election::where('status', 'Active')
             ->orWhere('status', 'Inactive')
@@ -37,6 +45,8 @@ class CandidateController extends Controller
             return $voter;
         });
 
+        $castedVotes = Vote::all();
+
         foreach ($candidates as $candidate) {
             $voteCount = Vote::where('candidate_id', $candidate->id)->count();
             $voteCounts[$candidate->id] = $voteCount;
@@ -50,7 +60,8 @@ class CandidateController extends Controller
             'election' => $election,
             'voters' => $voters,
             'votersVotedCount' => $votedVotersCount,
-            'voteCounts' => $voteCounts
+            'voteCounts' => $voteCounts,
+            'castedVotes' => $castedVotes
         ]);
     }
     public function getHasVotedStatus($userId, $electionId)

@@ -7,7 +7,7 @@ import { Avatar } from '@material-tailwind/react';
 import { FaVoteYea } from "react-icons/fa";
 
 const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidates, selectedCandidatesInfo }) => {
-    console.log(selectedCandidatesInfo);
+    // console.log(selectedCandidatesInfo);
     const handleVoteSubmit = async (e) => {
         e.preventDefault();
         onSubmitVote()
@@ -19,7 +19,7 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
 
 
     return (
-        <Modal show={isOpen} onClose={onClose} className=''>
+        <Modal show={isOpen} onClose={onClose}>
             <form onSubmit={handleVoteSubmit}>
                 <div className="p-6">
                     <div className=" flex items-center gap-3">
@@ -62,15 +62,15 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
                             </ul>
                         </div>
                     </div>
-                    <div className="mt-5 flex justify-center gap-1">
-                        <DangerButton type="button" className="mr-2 " onClick={handleClose}>
-                            Cancel
-                        </DangerButton>
-                        <PrimaryButton type="submit" >
-                            Confirm
-                        </PrimaryButton>
+                <div className="mt-5 flex justify-center gap-1">
+                    <DangerButton type="button" className="mr-2 " onClick={handleClose}>
+                        Cancel
+                    </DangerButton>
+                    <PrimaryButton type="submit" >
+                        Confirm
+                    </PrimaryButton>
 
-                    </div>
+                </div>
                 </div>
             </form>
 

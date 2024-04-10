@@ -1,14 +1,24 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { useForm } from "@inertiajs/inertia-react";
 import CandidateCard from "./CandidateCard";
 import VoteConfirmationModal from "@/Components/VoteConfirmationModal";
 import AlreadyVoted from "@/Components/AlreadyVoted";
+import CouncilLogo from "../../../../public/councilLogo.png";
+import STIBacoorLogo from "../../assets/bacoor-logo.png";
+const findVoterWhoVoted = (voters, setVoterId) => {
+    const voterWhoVoted = voters.find(voter => voter.hasVoted);
+    console.log(voterWhoVoted);
+    if (voterWhoVoted) {
+        setVoterId(voterWhoVoted.id);
+    }
+};
 
-const VoterDashboard = ({ election, candidatesAll, positionList, voters,hasVoted }) => {
+
+const VoterDashboard = ({ election, candidatesAll, positionList, voters, castedVotes }) => {
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
     const [selectedCandidates, setSelectedCandidates] = useState([]);
-    const [hasVoterVoted, setVoterHasVoted] = useState(false);
+
     const [now, setNow] = useState(new Date());
     const [voterId, setVoterId] = useState(null);
     const memoizedEndingDate = useMemo(() => election.status === 'Inactive' ? '' : election.end_date, [election.end_date, election.status]);
@@ -20,6 +30,9 @@ const VoterDashboard = ({ election, candidatesAll, positionList, voters,hasVoted
 
     const [result, setResult] = useState(now > endDate);
 
+    useEffect(() => {
+        findVoterWhoVoted(voters, setVoterId);
+    }, [voters, setVoterId]);
 
     const updateNow = () => {
         setNow(new Date());
@@ -47,12 +60,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, voters,hasVoted
         setData("candidate_ids", selectedCandidates);
     }, [selectedCandidates]);
 
-    useEffect(() => {
-        const voterWhoVoted = voters.find(voter => voter.hasVoted);
-        if (voterWhoVoted) {
-            setVoterId(voterWhoVoted.id);
-        }
-    }, [voters]);
+
 
     const onSelectCandidate = (candidateId, positionId) => {
         // Check if the candidate is already selected for the current position
@@ -137,8 +145,11 @@ const VoterDashboard = ({ election, candidatesAll, positionList, voters,hasVoted
         <div>
             {election ? (
                 <div>
-                    <div className="border p-5 border-black rounded-md border-3 text-center text-5xl font-medium">
-                        <div>{election.title}</div>
+                    <div className="flex  items-center justify-between border p-5 border-black rounded-md border-3 bg-blue-50">
+                        <div><img src={STIBacoorLogo} alt="STI Bacoor Logo" className="w-52 sm:w-36" /></div>
+                        <div className="text-xl md:text-5xl text-center font-medium">{election.title}</div>
+
+                        <div><img src={CouncilLogo} alt="Council Logo" className="w-48 sm:w-36" /></div>
                     </div>
                     <div>
                         {result ? (
@@ -149,7 +160,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, voters,hasVoted
                                 <div>Winner: "Mark Mallari"</div>
                             </div>
                         ) : voterId ? (
-                            <AlreadyVoted />
+                            <AlreadyVoted castedVotes={castedVotes} />
                         ) : (
                             <form onSubmit={onVoteSubmit}>
                                 {positionList.map((position) => (

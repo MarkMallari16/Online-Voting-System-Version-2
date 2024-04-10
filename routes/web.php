@@ -114,7 +114,7 @@ Route::get('/moderator-overview', [CandidateController::class, 'moderatorOvervie
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/votes', [VoteController::class, 'createVote'])->name('votes.create');
-
+    Route::get('/casted-votes',[VoteController::class,'castedVotes'])->name('casted.votes');
     //upload Profile picture
     Route::post('/upload-profile-picture', [ProfilePictureController::class, 'uploadProfile'])->name('profile.uploadProfile');
 

@@ -7,13 +7,13 @@ import PartylistEditorDashboard from './Partylist_Editor/PartylistEditorDashboar
 import Sidebar from './Sidebar';
 import Countdown from '@/Components/Countdown';
 import { Breadcrumbs } from '@material-tailwind/react';
-export default function Dashboard({ auth, candidates, candidatesAll, position_list, partylist_list, election, voters, votersVotedCount, voteCounts}) {
+export default function Dashboard({ auth, candidates, candidatesAll, position_list, partylist_list, election, voters, votersVotedCount, voteCounts,castedVotes}) {
 
     const studentsHasVoted = voters.filter(voter => voter.hasVoted);
     
     const hasVotedIds = voters.filter(voter => voter.hasVoted).map(voter => voter.voter_id);
 
-    console.log(hasVotedIds);
+    console.log(castedVotes);
     const { role } = auth.user;
     let dashboardContent;
     switch (role) {
@@ -27,7 +27,7 @@ export default function Dashboard({ auth, candidates, candidatesAll, position_li
             dashboardContent = <PartylistEditorDashboard />;
             break;
         case 'voter':
-            dashboardContent = <VoterDashboard election={election} partyList={partylist_list} candidatesAll={candidatesAll} candidates={candidates} positionList={position_list} hasVoted={hasVotedIds} voters={voters}/>;
+            dashboardContent = <VoterDashboard election={election} partyList={partylist_list} candidatesAll={candidatesAll} candidates={candidates} positionList={position_list} hasVoted={hasVotedIds} voters={voters} castedVotes={castedVotes}/>;
             break;
     }
     return (

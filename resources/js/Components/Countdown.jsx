@@ -119,7 +119,7 @@ function Countdown({ election }) {
                             ) : (
                                 <div className="text-center mb-4">
                                     <h2 className="text-2xl font-semibold text-black">Voting Ends In:</h2>
-                                    <p className="text-sm text-blue-gray-600">Cast your vote before the deadline to have your voice heard!</p>
+                                    <p className="text-sm text-blue-gray-600">Make sure to vote before the deadline to make your choice count!</p>
                                 </div>
                             )}
                         </>
