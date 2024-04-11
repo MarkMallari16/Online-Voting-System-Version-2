@@ -6,6 +6,7 @@ import VoteConfirmationModal from "@/Components/VoteConfirmationModal";
 import AlreadyVoted from "@/Components/AlreadyVoted";
 import CouncilLogo from "../../../../public/councilLogo.png";
 import STIBacoorLogo from "../../assets/bacoor-logo.png";
+import BarChartContainer from "../Moderator/BarChartContainer";
 const findVoterWhoVoted = (voters, setVoterId) => {
     const voterWhoVoted = voters.find(voter => voter.hasVoted);
     console.log(voterWhoVoted);
@@ -114,7 +115,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, voters, castedV
                 candidate_ids: selectedCandidates,
             });
             setIsSuccessMessage(true);
-            setVoterHasVoted(true);
+            // setVoterHasVoted(true);
         } catch (error) {
             // Handle error
             console.error("Error submitting vote:", error);
@@ -145,19 +146,19 @@ const VoterDashboard = ({ election, candidatesAll, positionList, voters, castedV
         <div>
             {election ? (
                 <div>
-                    <div className="flex  items-center justify-between border p-5 border-black rounded-md border-3 bg-blue-50">
-                        <div><img src={STIBacoorLogo} alt="STI Bacoor Logo" className="w-52 sm:w-36" /></div>
+                    <div className="flex  items-center justify-between border p-5 border-black rounded-md border-3 ">
+                        <div><img src={STIBacoorLogo} alt="STI Bacoor Logo" className="w-52 sm:w-32" /></div>
                         <div className="text-xl md:text-5xl text-center font-medium">{election.title}</div>
 
                         <div><img src={CouncilLogo} alt="Council Logo" className="w-48 sm:w-36" /></div>
                     </div>
                     <div>
                         {result ? (
-                            <div>
-                                <div>Winner: "Mark Mallari"</div>
-                                <div>Winner: "Mark Mallari"</div>
-                                <div>Winner: "Mark Mallari"</div>
-                                <div>Winner: "Mark Mallari"</div>
+                            <div className="mt-20 ">
+                                <div className="text-2xl flex flex-wrap">
+                                    <BarChartContainer position="President"/>
+                                    <BarChartContainer position="Vice President"/>
+                                </div>
                             </div>
                         ) : voterId ? (
                             <AlreadyVoted castedVotes={castedVotes} />
