@@ -154,8 +154,8 @@ const VoterDashboard = ({ election, candidatesAll, positionList, voters, castedV
                     </div>
                     <div>
                         {result ? (
-                            <div className="mt-20 ">
-                                <div className="text-2xl flex flex-wrap">
+                            <div className="mt-20 w-full">
+                                <div className="text-2xl  flex">
                                     <BarChartContainer position="President"/>
                                     <BarChartContainer position="Vice President"/>
                                 </div>
