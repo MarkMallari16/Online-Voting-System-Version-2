@@ -38,11 +38,7 @@ class CandidateController extends Controller
         $voters = User::where('role', 'voter')->get();
 
         $votedVotersCount = Vote::distinct('voter_id')->count();
-        $votersNotVotedCount = User::whereNotIn('id', function ($query) {
-            $query->select('voter_id')
-                ->from('votes');
-        })->where('role', 'voter')->count();
-
+       
         $voters->transform(function ($voter) use ($election) {
             $voterId = $voter->id;
             $voter->hasVoted = $this->getHasVotedStatus($voterId, $election->id);
@@ -80,7 +76,7 @@ class CandidateController extends Controller
             'election' => $election,
             'voters' => $voters,
             'votersVotedCount' => $votedVotersCount,
-            'votersNotVotedCount' => $votersNotVotedCount,
+            
             'voteCounts' => $voteCounts,
             'castedVotes' => $castedVotes
         ]);
