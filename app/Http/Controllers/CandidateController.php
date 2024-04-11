@@ -44,8 +44,12 @@ class CandidateController extends Controller
             return $voter;
         });
 
-        $castedVotes = Vote::all();
+        $castedVotes = Vote::where('election_id', $election->id)
+            ->where('voter_id', $voterId)
+            ->with('candidate')
+            ->get();
 
+        //for vote counts
         $voteCounts = [];
         foreach ($candidates as $candidate) {
             $positionId = $candidate->position->id;

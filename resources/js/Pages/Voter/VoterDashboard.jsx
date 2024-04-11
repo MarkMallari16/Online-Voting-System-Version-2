@@ -7,6 +7,8 @@ import AlreadyVoted from "@/Components/AlreadyVoted";
 import CouncilLogo from "../../../../public/councilLogo.png";
 import STIBacoorLogo from "../../assets/bacoor-logo.png";
 import BarChartContainer from "../Moderator/BarChartContainer";
+
+
 const findVoterWhoVoted = (voters, setVoterId) => {
     const voterWhoVoted = voters.find(voter => voter.hasVoted);
     console.log(voterWhoVoted);
@@ -16,14 +18,12 @@ const findVoterWhoVoted = (voters, setVoterId) => {
 };
 
 
-const VoterDashboard = ({ election, candidatesAll, positionList, voters, castedVotes, voteCounts }) => {
+const VoterDashboard = ({ election, candidatesAll, positionList, partyList, voters, castedVotes, voteCounts }) => {
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
     const [selectedCandidates, setSelectedCandidates] = useState([]);
     const [now, setNow] = useState(new Date());
     const [voterId, setVoterId] = useState(null);
     const memoizedEndingDate = useMemo(() => election.status === 'Inactive' ? '' : election.end_date, [election.end_date, election.status]);
-    const isStartingDate = new Date() < election.start_date;
-
 
     const endDate = memoizedEndingDate ? new Date(memoizedEndingDate) : new Date(0);
 
@@ -38,13 +38,12 @@ const VoterDashboard = ({ election, candidatesAll, positionList, voters, castedV
     useEffect(() => {
         const updateNow = () => {
             setNow(new Date());
-            setTimeout(updateNow, 1000); // Schedule the next update after 1 second
+            setTimeout(updateNow, 1000); 
         };
 
-        // Set up the interval when the component mounts
+    
         updateNow();
 
-        // Cleanup function to clear the interval when the component unmounts
         return () => clearTimeout(updateNow);
     }, []);
 
@@ -63,8 +62,6 @@ const VoterDashboard = ({ election, candidatesAll, positionList, voters, castedV
         // Update the candidate_ids field in the form data when selectedCandidates changes
         setData("candidate_ids", selectedCandidates);
     }, [selectedCandidates]);
-
-
 
     const onSelectCandidate = (candidateId, positionId) => {
         // Check if the candidate is already selected for the current position
@@ -149,11 +146,33 @@ const VoterDashboard = ({ election, candidatesAll, positionList, voters, castedV
         <div>
             {election ? (
                 <div>
-                    <div className="flex  items-center justify-between border p-5 border-black rounded-md border-3 ">
-                        <div><img src={STIBacoorLogo} alt="STI Bacoor Logo" className="w-52 sm:w-32" /></div>
-                        <div className="text-xl md:text-5xl text-center font-medium">{election.title}</div>
+                    <div className="bg-white border border-black border-3 p-5 rounded-md ">
+                        <div className="flex  items-center justify-between">
+                            <div><img src={STIBacoorLogo} alt="STI Bacoor Logo" className="w-52 sm:w-32" /></div>
+                            <div className="text-xl md:text-5xl text-center font-medium">{election.title}</div>
 
-                        <div><img src={CouncilLogo} alt="Council Logo" className="w-48 sm:w-36" /></div>
+                            <div><img src={CouncilLogo} alt="Council Logo" className="w-48 sm:w-36" /></div>
+                        </div>
+                        {election.start_date < election.end_date && (
+                            <div className="text-center flex justify-center text-wrap gap-4">
+                                <div className="flex items-center gap-2">
+                                    <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                                            <path fillRule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clipRule="evenodd" />
+                                        </svg>
+                                    </span>
+
+                                    Start Date: {new Date(election.start_date).toLocaleString()}
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                                        <path fillRule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clipRule="evenodd" />
+                                    </svg>
+
+                                    End Date: {new Date(election.end_date).toLocaleString()}
+                                </div>
+                            </div>
+                        )}
                     </div>
                     <div>
                         {result ? (
@@ -165,7 +184,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, voters, castedV
                                 </div>
                             </div>
                         ) : voterId ? (
-                            <AlreadyVoted castedVotes={castedVotes} />
+                            <AlreadyVoted castedVotes={castedVotes} positionList={positionList} partyList={partyList} />
                         ) : (
                             <form onSubmit={onVoteSubmit}>
                                 {positionList.map((position) => (

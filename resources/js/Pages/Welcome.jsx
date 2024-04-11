@@ -26,16 +26,16 @@ export default function Welcome({ auth }) {
             window.removeEventListener('scroll', handleScroll);
         };
     })
-   
+
     const bgStyle = {
         backgroundColor: 'hsla(0, 0%, 100%, 1)',
         backgroundImage: 'radial-gradient(at 40% 20%, hsla(32,100%,88%,1) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(212, 100%, 76%, 1) 0px, transparent 50%)',
     };
 
-   
+
     return (
         <>
-          
+
             <div >
                 <div
                     className="h-full w-full"
@@ -107,12 +107,14 @@ export default function Welcome({ auth }) {
                     </div>
 
                 </div >
-                <div >
+                {/*
+              <div >
                     <div className='mt-24 mb-10 text-center text-4xl font-bold' >Meet the Candidate</div>
                     <div className=' flex justify-center'>
 
                     </div>
                 </div>
+            */}
                 <div >
                     <div className='mt-24 mb-10 text-center text-4xl font-bold' >Frequently Asked Question</div>
                     <div className=' flex justify-center'>

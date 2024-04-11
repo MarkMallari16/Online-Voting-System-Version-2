@@ -15,8 +15,10 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, options }) =>
     datasets: [
       {
         //data
+        label: "Candidates",
+        pointBackgroundColor: "#fcd34d",
         data: data,
-        backgroundColor: ["#60a5fa", "#fcd34d"], 
+        backgroundColor: ["#60a5fa", "#fcd34d"],
         borderRadius: 12,
         borderWidth: 1,
         responsive: true
@@ -31,9 +33,9 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, options }) =>
     }
   };
   return (
-    <div className="p-5  bg-white">
+    <div className="p-8  bg-white">
 
-      <h1 className="text-2xl font-medium text-center mb-5">{positionName}</h1>
+      <div className="text-2xl font-medium text-center mb-5">{positionName}</div>
       <div className=" overflow-hidden rounded-md ">
         <BarChart data={barChartData} options={chartOptions} />
       </div>
