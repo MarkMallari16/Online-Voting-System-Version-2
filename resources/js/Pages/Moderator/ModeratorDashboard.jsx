@@ -9,7 +9,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
     console.log(position_list);
 
     const [selectedPosition, setSelectedPosition] = useState('');
-   
+
 
 
     useEffect(() => {
@@ -47,7 +47,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
 
                             <div className="w-72">
                                 <Select label="Select Positions" onChange={handlePositionChange} value={selectedPosition}>
-                                 
+
                                     {position_list.map((position) => (
                                         <Option key={position.id} value={String(position.id)}>{position?.name}</Option>
                                     ))}
@@ -67,14 +67,14 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                         <div className='flex justify-end'>
 
                             <div className="w-72">
-                                <Select label="Votes">
+                                {/**<Select label="Votes">
                                     <Option>Voters Voted</Option>
                                     <Option>Voter Not Voted</Option>
 
-                                </Select>
+                                </Select> */}
                             </div>
                         </div>
-                        <PieChartContainer />
+                        <PieChartContainer voters={voters} votersVotedCount={votersVotedCount} />
                     </div>
                 </div>
             </div>

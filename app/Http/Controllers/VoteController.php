@@ -29,8 +29,6 @@ class VoteController extends Controller
         );
     }
    
-    
-
     public function createVote(Request $request)
     {
         // Validate the request
