@@ -9,7 +9,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
     console.log(position_list);
 
     const [selectedPosition, setSelectedPosition] = useState('');
-
+   
 
 
     useEffect(() => {

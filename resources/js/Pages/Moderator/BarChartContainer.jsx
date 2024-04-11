@@ -2,21 +2,24 @@ import React from 'react'
 import BarChart from './BarChart'
 
 
-const BarChartContainer = ({ position, voteCounts }) => {
+const BarChartContainer = ({ positionId, positionName, voteCounts, options }) => {
 
-  // const labels = Object.keys(voteCounts);
-  // const data = Object.values(voteCounts);
+  const positionVotes = Object.values(voteCounts).filter(vote => vote.position_id === positionId);
+
+  const labels = positionVotes.map(vote => vote.candidate);
+  const data = positionVotes.map(vote => vote.voteCount);
 
   const barChartData = {
-    labels: ["Faith Cabanlit", "Lanceman"],
+    labels: labels,
 
     datasets: [
       {
-        data: [10, 5],
-        backgroundColor: ["#60a5fa", "#fcd34d"], // Colors for each bar
-        borderRadius: 10,
+        //data
+        data: data,
+        backgroundColor: ["#60a5fa", "#fcd34d"], 
+        borderRadius: 12,
         borderWidth: 1,
-        
+        responsive: true
       },
     ],
   };
@@ -28,10 +31,10 @@ const BarChartContainer = ({ position, voteCounts }) => {
     }
   };
   return (
-    <div className="bg-white w-full mx-auto px-4 sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl">
+    <div className="p-5  bg-white">
 
-      <h1 className="text-2xl font-medium text-center mb-5">{position}</h1>
-      <div className="overflow-hidden rounded-md shadow-md">
+      <h1 className="text-2xl font-medium text-center mb-5">{positionName}</h1>
+      <div className=" overflow-hidden rounded-md ">
         <BarChart data={barChartData} options={chartOptions} />
       </div>
     </div>

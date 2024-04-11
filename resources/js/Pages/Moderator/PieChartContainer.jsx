@@ -7,8 +7,9 @@ const PieChartContainer = () => {
         datasets: [
             {
                 data: [65, 59], // Replace these with the actual counts
-                backgroundColor: ["#60a5fa", "#94a3b8"], // Blue for voters voted, gray for voters not voted
+                backgroundColor: ["#60a5fa", "#ef4444"], // Blue for voters voted, gray for voters not voted
                 borderWidth: 1,
+                borderRadius: 12
             },
         ],
     };

@@ -16,14 +16,14 @@ const findVoterWhoVoted = (voters, setVoterId) => {
 };
 
 
-const VoterDashboard = ({ election, candidatesAll, positionList, voters, castedVotes }) => {
+const VoterDashboard = ({ election, candidatesAll, positionList, voters, castedVotes, voteCounts }) => {
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
     const [selectedCandidates, setSelectedCandidates] = useState([]);
-
     const [now, setNow] = useState(new Date());
     const [voterId, setVoterId] = useState(null);
     const memoizedEndingDate = useMemo(() => election.status === 'Inactive' ? '' : election.end_date, [election.end_date, election.status]);
     const isStartingDate = new Date() < election.start_date;
+
 
     const endDate = memoizedEndingDate ? new Date(memoizedEndingDate) : new Date(0);
 
@@ -35,14 +35,17 @@ const VoterDashboard = ({ election, candidatesAll, positionList, voters, castedV
         findVoterWhoVoted(voters, setVoterId);
     }, [voters, setVoterId]);
 
-    const updateNow = () => {
-        setNow(new Date());
-        setTimeout(updateNow, 1000); // Schedule the next update after 1 second
-    };
-
-
     useEffect(() => {
+        const updateNow = () => {
+            setNow(new Date());
+            setTimeout(updateNow, 1000); // Schedule the next update after 1 second
+        };
+
+        // Set up the interval when the component mounts
         updateNow();
+
+        // Cleanup function to clear the interval when the component unmounts
+        return () => clearTimeout(updateNow);
     }, []);
 
     useEffect(() => {
@@ -154,10 +157,11 @@ const VoterDashboard = ({ election, candidatesAll, positionList, voters, castedV
                     </div>
                     <div>
                         {result ? (
-                            <div className="mt-20 w-full">
-                                <div className="text-2xl  flex">
-                                    <BarChartContainer position="President"/>
-                                    <BarChartContainer position="Vice President"/>
+                            <div className="mt-20">
+                                <div className="w-full text-xl md:text-2xl lg:text-3xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 justify-center">
+                                    {positionList.map(position => (
+                                        <BarChartContainer key={position.id} positionId={position.id} positionName={position.name} voteCounts={voteCounts} />
+                                    ))}
                                 </div>
                             </div>
                         ) : voterId ? (
