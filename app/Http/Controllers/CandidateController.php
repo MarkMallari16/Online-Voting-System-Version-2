@@ -46,7 +46,7 @@ class CandidateController extends Controller
         });
 
         $castedVotes = Vote::all();
-
+        $voteCounts = [];
         foreach ($candidates as $candidate) {
             $voteCount = Vote::where('candidate_id', $candidate->id)->count();
             $voteCounts[$candidate->id] = $voteCount;
