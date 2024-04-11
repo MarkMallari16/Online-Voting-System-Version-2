@@ -29,7 +29,7 @@ export default function ForgotPassword({ status }) {
             <form onSubmit={submit}>
                 <TextInput
                     id="email"
-                    type="email"
+                    type="email"ca
                     name="email"
                     value={data.email}
                     className="mt-1 block w-full"

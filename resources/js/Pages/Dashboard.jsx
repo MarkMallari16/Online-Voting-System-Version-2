@@ -7,10 +7,10 @@ import PartylistEditorDashboard from './Partylist_Editor/PartylistEditorDashboar
 import Sidebar from './Sidebar';
 import Countdown from '@/Components/Countdown';
 import { Breadcrumbs } from '@material-tailwind/react';
-export default function Dashboard({ auth, candidates, candidatesAll, position_list, partylist_list, election, voters, votersVotedCount, voteCounts,castedVotes}) {
+export default function Dashboard({ auth, candidates, candidatesAll, position_list, partylist_list, election, voters, votersVotedCount, voteCounts, castedVotes }) {
 
-    const studentsHasVoted = voters.filter(voter => voter.hasVoted);
-    
+    // const studentsHasVoted = voters.filter(voter => voter.hasVoted);
+    console.log(voteCounts);
     const hasVotedIds = voters.filter(voter => voter.hasVoted).map(voter => voter.voter_id);
 
     console.log(castedVotes);
@@ -27,7 +27,7 @@ export default function Dashboard({ auth, candidates, candidatesAll, position_li
             dashboardContent = <PartylistEditorDashboard />;
             break;
         case 'voter':
-            dashboardContent = <VoterDashboard election={election} partyList={partylist_list} candidatesAll={candidatesAll} candidates={candidates} positionList={position_list} hasVoted={hasVotedIds} voters={voters} castedVotes={castedVotes}/>;
+            dashboardContent = <VoterDashboard election={election} partyList={partylist_list} candidatesAll={candidatesAll} candidates={candidates} positionList={position_list} hasVoted={hasVotedIds} votersVotedCount={votersVotedCount} voters={voters} castedVotes={castedVotes} voteCounts={voteCounts}/>;
             break;
     }
     return (
@@ -37,13 +37,13 @@ export default function Dashboard({ auth, candidates, candidatesAll, position_li
 
                 <main className="flex-1 py-12">
                     <div className="max-w-full  mx-auto px-4 sm:max-w-3xl md:max-w-4xl lg:max-w-6xl xl:max-w-7xl">
-                        <Breadcrumbs className=''>
+                        {/* <Breadcrumbs className=''>
                             <a href={route('dashboard')} className="opacity-60">
                                 Dashboard
                             </a>
 
 
-                        </Breadcrumbs>
+                        </Breadcrumbs> */}
                         {dashboardContent}
                     </div>
                 </main>

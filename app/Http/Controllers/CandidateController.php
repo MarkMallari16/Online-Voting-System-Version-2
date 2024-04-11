@@ -23,11 +23,10 @@ class CandidateController extends Controller
         $candidatesAll = Candidate::with('position', 'partylist')->get();
 
         $user = Auth::user();
-
+        $voterId = $user->id;
         if ($user && $user->role === 'voter') {
             // Get the authenticated user's ID
             $voterId = $user->id;
-    
         }
 
         // Retrieve the latest election, whether active or inactive
@@ -45,11 +44,25 @@ class CandidateController extends Controller
             return $voter;
         });
 
-        $castedVotes = Vote::all();
+        $castedVotes = Vote::where('election_id', $election->id)
+            ->where('voter_id', $voterId)
+            ->with('candidate')
+            ->get();
+        $voteCounts = [];
+        //for vote counts
         $voteCounts = [];
         foreach ($candidates as $candidate) {
+            $positionId = $candidate->position->id;
+            $positionName = $candidate->position->name;
+            $candidateName = $candidate->first_name . ' '  . $candidate->last_name;
             $voteCount = Vote::where('candidate_id', $candidate->id)->count();
-            $voteCounts[$candidate->id] = $voteCount;
+
+            $voteCounts[$candidate->id] = [
+                'position_id' => $positionId,
+                'position' => $positionName,
+                'candidate' => $candidateName,
+                'voteCount' => $voteCount,
+            ];
         }
 
         return Inertia::render('Dashboard', [

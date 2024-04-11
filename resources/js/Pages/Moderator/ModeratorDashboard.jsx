@@ -7,9 +7,10 @@ import BarChartContainer from './BarChartContainer';
 import PieChartContainer from './PieChartContainer';
 const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount }) => {
     console.log(position_list);
+    console.log(voters.length / votersVotedCount)
 
     const [selectedPosition, setSelectedPosition] = useState('');
-
+   
 
 
     useEffect(() => {
@@ -74,7 +75,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                 </Select>
                             </div>
                         </div>
-                        <PieChartContainer />
+                        <PieChartContainer voters={voters} votersVotedCount={votersVotedCount}/>
                     </div>
                 </div>
             </div>
