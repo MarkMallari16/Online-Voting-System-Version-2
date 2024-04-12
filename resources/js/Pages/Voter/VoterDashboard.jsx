@@ -20,7 +20,7 @@ const findVoterWhoVoted = (voters, setVoterId) => {
 };
 
 
-const VoterDashboard = ({ election, candidatesAll, positionList, partyList, voters, castedVotes, voteCounts, voterProfile }) => {
+const VoterDashboard = ({ election, candidatesAll, positionList, partyList, voters, castedVotes, voteCounts, voterVoted }) => {
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
     const [selectedCandidates, setSelectedCandidates] = useState([]);
     const [now, setNow] = useState(new Date());
@@ -30,7 +30,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, vote
 
     const endDate = memoizedEndingDate ? new Date(memoizedEndingDate) : new Date(0);
 
-    console.log(voterProfile);
+    console.log(voterVoted);
 
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
@@ -42,7 +42,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, vote
     }, [voters, setVoterId]);
 
     console.log(voterId)
-    console.log(voterProfile)
+    console.log(voterVoted)
 
 
     
@@ -194,7 +194,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, vote
                                     ))}
                                 </div>
                             </div>
-                        ) : voterProfile.length > 0 ? (
+                        ) : voterVoted.length > 0 ? (
                             <AlreadyVoted castedVotes={castedVotes} positionList={positionList} partyList={partyList} />
                         ) : (
                             <form onSubmit={onVoteSubmit}>

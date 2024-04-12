@@ -80,7 +80,7 @@ class CandidateController extends Controller
             'election' => $election,
             'voters' => $voters,
             'votersVotedCount' => $votedVotersCount,
-            'voterProfile' => $voterProfile,
+            'voterVoted' => $voterProfile,
             'voteCounts' => $voteCounts,
             'castedVotes' => $castedVotes
         ]);

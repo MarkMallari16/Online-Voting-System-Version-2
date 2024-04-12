@@ -9,7 +9,7 @@ const PieChartContainer = ({ voters, votersVotedCount }) => {
         datasets: [
             {
                 data: [votersVotedCount, notYetVoted],
-                backgroundColor: ["#60a5fa", "#ef4444"],
+                backgroundColor: ["#60a5fa", "#9ca3af"],
                 borderWidth: 1,
                 borderRadius: 12,
                 responsive:true
