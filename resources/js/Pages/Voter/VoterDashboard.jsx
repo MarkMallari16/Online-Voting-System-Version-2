@@ -14,34 +14,45 @@ const findVoterWhoVoted = (voters, setVoterId) => {
     console.log(voterWhoVoted);
     if (voterWhoVoted) {
         setVoterId(voterWhoVoted.id);
+    } else {
+        setVoterId(null);
     }
 };
 
 
-const VoterDashboard = ({ election, candidatesAll, positionList, partyList, voters, castedVotes, voteCounts }) => {
+const VoterDashboard = ({ election, candidatesAll, positionList, partyList, voters, castedVotes, voteCounts, voterProfile }) => {
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
     const [selectedCandidates, setSelectedCandidates] = useState([]);
     const [now, setNow] = useState(new Date());
     const [voterId, setVoterId] = useState(null);
+    
     const memoizedEndingDate = useMemo(() => election.status === 'Inactive' ? '' : election.end_date, [election.end_date, election.status]);
 
     const endDate = memoizedEndingDate ? new Date(memoizedEndingDate) : new Date(0);
 
+    console.log(voterProfile);
+
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
     const [result, setResult] = useState(now > endDate);
+  
 
     useEffect(() => {
         findVoterWhoVoted(voters, setVoterId);
     }, [voters, setVoterId]);
 
+    console.log(voterId)
+    console.log(voterProfile)
+
+
+    
     useEffect(() => {
         const updateNow = () => {
             setNow(new Date());
-            setTimeout(updateNow, 1000); 
+            setTimeout(updateNow, 1000);
         };
 
-    
+
         updateNow();
 
         return () => clearTimeout(updateNow);
@@ -183,7 +194,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, vote
                                     ))}
                                 </div>
                             </div>
-                        ) : voterId ? (
+                        ) : voterProfile.length > 0 ? (
                             <AlreadyVoted castedVotes={castedVotes} positionList={positionList} partyList={partyList} />
                         ) : (
                             <form onSubmit={onVoteSubmit}>

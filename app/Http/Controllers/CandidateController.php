@@ -25,6 +25,10 @@ class CandidateController extends Controller
 
         $user = Auth::user();
         $voterId = $user->id;
+        $id = Auth::id();
+        
+        $voterProfile = Vote::where('voter_id', $id)->get();
+
         if ($user && $user->role === 'voter') {
             // Get the authenticated user's ID
             $voterId = $user->id;
@@ -76,7 +80,7 @@ class CandidateController extends Controller
             'election' => $election,
             'voters' => $voters,
             'votersVotedCount' => $votedVotersCount,
-            
+            'voterProfile' => $voterProfile,
             'voteCounts' => $voteCounts,
             'castedVotes' => $castedVotes
         ]);

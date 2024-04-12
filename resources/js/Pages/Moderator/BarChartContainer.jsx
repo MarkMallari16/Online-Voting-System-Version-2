@@ -31,9 +31,9 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, options }) =>
     legend: {
       display: false // Set display to false to hide the legend
     }
-  };
+  }
   return (
-    <div className="p-8  bg-white">
+    <div className="p-8  bg-white rounded-lg">
 
       <div className="text-2xl font-medium text-center mb-5">{positionName}</div>
       <div className=" overflow-hidden rounded-md ">
