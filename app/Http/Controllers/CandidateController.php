@@ -21,28 +21,33 @@ class CandidateController extends Controller
         $partylist = Partylist::all();
         $candidates = Candidate::all();
         $candidatesAll = Candidate::with('position', 'partylist')->get();
-
-
-        $user = Auth::user();
-        $voterId = $user->id;
-        $id = Auth::id();
-        
-        $voterProfile = Vote::where('voter_id', $id)->get();
-
-        if ($user && $user->role === 'voter') {
-            // Get the authenticated user's ID
-            $voterId = $user->id;
-        }
-
         // Retrieve the latest election, whether active or inactive
         $election = Election::where('status', 'Active')
             ->orWhere('status', 'Inactive')
             ->latest('start_date')
             ->first();
+
+        // get the authenticated user
+        $user = Auth::user();
+        //get the user id 
+        $voterId = $user->id;
+        //get the user id 
+        $userId = Auth::id();
+
+        $voterHasVoted = false;
+        $voterVoted = false;
+
+        if ($user && $user->role === 'voter') {
+            $voterId = $user->id;
+            $voterVoted  = Vote::where('voter_id', $userId)->exists();
+            $voterHasVoted = $voterVoted;
+        }
+
+
         $voters = User::where('role', 'voter')->get();
 
         $votedVotersCount = Vote::distinct('voter_id')->count();
-       
+
         $voters->transform(function ($voter) use ($election) {
             $voterId = $voter->id;
             $voter->hasVoted = $this->getHasVotedStatus($voterId, $election->id);
@@ -80,9 +85,10 @@ class CandidateController extends Controller
             'election' => $election,
             'voters' => $voters,
             'votersVotedCount' => $votedVotersCount,
-            'voterVoted' => $voterProfile,
             'voteCounts' => $voteCounts,
-            'castedVotes' => $castedVotes
+            'castedVotes' => $castedVotes,
+            'voterVoted' => $voterVoted,
+            'voterHasVoted' => $voterHasVoted
         ]);
     }
     public function getHasVotedStatus($userId, $electionId)
@@ -203,7 +209,7 @@ class CandidateController extends Controller
         // Redirect back with success message
         return redirect()->back()->with('success', 'Candidate updated successfully');
     }
-   
+
     public function destroy($id)
     {
         try {

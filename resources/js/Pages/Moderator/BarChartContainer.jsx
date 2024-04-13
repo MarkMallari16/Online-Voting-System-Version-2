@@ -18,7 +18,7 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, options }) =>
         label: "Candidates",
         pointBackgroundColor: "#fcd34d",
         data: data,
-        backgroundColor: ["#60a5fa", "#fcd34d"],
+        backgroundColor: ["#3b82f6", "#fcd34d"],
         borderRadius: 12,
         borderWidth: 1,
         responsive: true
