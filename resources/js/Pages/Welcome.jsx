@@ -1,13 +1,15 @@
 import { Link } from '@inertiajs/react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Cover from '../assets/Voting-amico.svg';
-
+import BacoorLogo from '../assets/bacoor-logo.png';
+import CouncilLogo from '../assets/councilLogo.png'
 import {
     Accordion,
     AccordionHeader,
     AccordionBody,
 } from "@material-tailwind/react";
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 export default function Welcome({ auth }) {
     const [open, setOpen] = useState(1);
@@ -73,7 +75,18 @@ export default function Welcome({ auth }) {
 
 
 
-                    <div className="sm:mt-5 mt-24 flex flex-col-reverse sm:flex-col-reverse md:flex-row items-center gap-5 sm:gap-24 mx-5 sm:mx-24  md:mx-20">
+                    <motion.div className="sm:mt-5 mt-24 flex flex-col-reverse sm:flex-col-reverse md:flex-row items-center gap-5 sm:gap-24 mx-5 sm:mx-24  md:mx-20"
+                        initial={{
+                            opacity: 0,
+                        }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{
+                            amount: 'all',
+                      
+
+                        }}
+
+                    >
                         <div className='flex-1'>
                             <div>
                                 <p className='tracking-wide font-bold text-gray-900 text-center  md:text-left'><span >STAND UP, SPEAK OUT, AND CREATE CHANGE!</span></p>
@@ -104,7 +117,7 @@ export default function Welcome({ auth }) {
                             <img src={Cover} alt="hero-section" className="w-auto sm:w-[89%] md:w-50" />
                         </div>
 
-                    </div>
+                    </motion.div>
 
                 </div >
                 {/*
@@ -115,6 +128,100 @@ export default function Welcome({ auth }) {
                     </div>
                 </div>
             */}
+
+                <div className='flex justify-center gap-5 mt-10 overflow-hidden'>
+                    <div className='flex items-center justify-center md:justify-start gap-5 animate-infinite-scroll'>
+                        <div className='w-28'>
+                            <img src={BacoorLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={CouncilLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={BacoorLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={CouncilLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={BacoorLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={CouncilLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={BacoorLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={CouncilLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={BacoorLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={CouncilLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={BacoorLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={CouncilLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={BacoorLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={CouncilLogo} alt="STI Bacoor Logo" />
+                        </div>
+                    </div>
+
+                    <div className='flex items-center justify-end md:justify-start gap-5 animate-infinite-scroll' aria-hidden="true">
+                        <div className='w-28'>
+                            <img src={BacoorLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={CouncilLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={BacoorLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={CouncilLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={BacoorLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={CouncilLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={BacoorLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={CouncilLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={BacoorLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={CouncilLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={BacoorLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={CouncilLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={BacoorLogo} alt="STI Bacoor Logo" />
+                        </div>
+                        <div className='w-28'>
+                            <img src={CouncilLogo} alt="STI Bacoor Logo" />
+                        </div>
+
+                    </div>
+                </div>
+
                 <div >
                     <div className='mt-24 mb-10 text-center text-4xl font-bold' >Frequently Asked Question</div>
                     <div className=' flex justify-center'>

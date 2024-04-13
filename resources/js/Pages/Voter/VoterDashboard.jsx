@@ -86,11 +86,11 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
     const onVoteSubmit = async (e) => {
         e.preventDefault();
 
-        if (selectedCandidates.length === 0) {
-            // Handle case where no candidates are selected
-            console.error("No candidates selected.");
-            return;
-        }
+        // if (selectedCandidates.length === 0) {
+        //     // Handle case where no candidates are selected
+        //     console.error("No candidates selected.");
+        //     return;
+        // }
 
         setShowConfirmationModal(true);
     };

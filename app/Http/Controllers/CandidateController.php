@@ -39,7 +39,7 @@ class CandidateController extends Controller
 
         if ($user && $user->role === 'voter') {
             $voterId = $user->id;
-            $voterVoted  = Vote::where('voter_id', $userId)->exists();
+            $voterVoted  = Vote::where('voter_id', $userId)->where('election_id',$election->id)->exists();
             $voterHasVoted = $voterVoted;
         }
 
