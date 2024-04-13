@@ -129,12 +129,12 @@ export default function Welcome({ auth }) {
                 </div>
             */}
 
-                <div className='flex justify-center gap-5 mt-10 overflow-hidden'>
+                <div className='flex justify-center gap-5 mt-10 overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]'>
                     <div className='flex items-center justify-center md:justify-start gap-5 animate-infinite-scroll'>
-                        <div className='w-28'>
+                        <div className='w-28 '>
                             <img src={BacoorLogo} alt="STI Bacoor Logo" />
                         </div>
-                        <div className='w-28'>
+                        <div className='w-32'>
                             <img src={CouncilLogo} alt="STI Bacoor Logo" />
                         </div>
                         <div className='w-28'>

@@ -31,7 +31,7 @@ const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
       <div>
         <div className='text-5xl font-bold mb-2'>Thank you for voting!</div>
         <div className='text-8xl text-green-700 flex justify-center'>
-        
+
         </div>
         <div className='text-center mt-3'>
           <PrimaryButton onClick={handleSeeCastedVote} className='bg-blue-500 hover:bg-blue-700 text-white px-6 py-3 rounded-md'>See Casted Vote</PrimaryButton>
@@ -39,10 +39,18 @@ const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
       </div>
       <Modal show={showModal} onClose={handleClose} maxWidth='lg' >
         <div className='p-8'>
-          <div className='flex items-center gap-2 mb-2'>
-            <FaVoteYea className='text-5xl' />
+          <div className='flex justify-between items-center  mb-4'>
+            <div className='flex items-center gap-2'>
+              <FaVoteYea className='text-5xl' />
 
-            <div className='text-2xl font-medium'>Casted Votes</div>
+              <div className='text-2xl font-medium'>Casted Votes</div>
+            </div>
+            <div className='bg-gray-200 p-1 rounded-md hover:bg-gray-300 transition-all ease-out duration-100 cursor-pointer' onClick={handleClose}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+              </svg>
+
+            </div>
           </div>
           <div className="flex justify-center gap-1 ">
             <div className='mt-2 w-full'>
