@@ -37,7 +37,8 @@ const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
           <PrimaryButton onClick={handleSeeCastedVote} className='bg-blue-500 hover:bg-blue-700 text-white px-6 py-3 rounded-md'>See Casted Vote</PrimaryButton>
         </div>
       </div>
-      <Modal show={showModal} onClose={handleClose} maxWidth='lg' >
+      
+      <Modal show={showModal} onClose={handleClose} maxWidth='xl' >
         <div className='p-8'>
           <div className='flex justify-between items-center  mb-4'>
             <div className='flex items-center gap-2'>
@@ -45,7 +46,7 @@ const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
 
               <div className='text-2xl font-medium'>Casted Votes</div>
             </div>
-            <div className='bg-gray-200 p-1 rounded-md hover:bg-gray-300 transition-all ease-out duration-100 cursor-pointer' onClick={handleClose}>
+            <div className='p-2 rounded-md hover:bg-gray-200 transition-all ease-in-out duration-200 cursor-pointer' onClick={handleClose}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
                 <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
               </svg>

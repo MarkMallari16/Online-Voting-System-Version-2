@@ -38,7 +38,7 @@ export default function Welcome({ auth }) {
     return (
         <>
 
-            <div >
+            <div>
                 <div
                     className="h-full w-full"
                     style={bgStyle}
@@ -129,8 +129,8 @@ export default function Welcome({ auth }) {
                 </div>
             */}
 
-                <div className='flex justify-center gap-5 mt-10 overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]'>
-                    <div className='flex items-center justify-center md:justify-start gap-5 animate-infinite-scroll'>
+                <div className='w-full flex justify-center gap-5 mt-10 overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)] filter'>
+                    <div className='flex items-center justify-center md:justify-start gap-5 animate-infinite-scroll'  aria-hidden="true">
                         <div className='w-28 '>
                             <img src={BacoorLogo} alt="STI Bacoor Logo" />
                         </div>
@@ -175,7 +175,7 @@ export default function Welcome({ auth }) {
                         </div>
                     </div>
 
-                    <div className='flex items-center justify-end md:justify-start gap-5 animate-infinite-scroll' aria-hidden="true">
+                    <div className='flex items-center justify-end md:justify-start gap-5 animate-infinite-scroll'>
                         <div className='w-28'>
                             <img src={BacoorLogo} alt="STI Bacoor Logo" />
                         </div>

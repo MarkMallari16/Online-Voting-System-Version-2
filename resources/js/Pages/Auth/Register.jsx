@@ -30,7 +30,7 @@ export default function Register() {
     return (
         <GuestLayout>
             <Head title="Register" />
-          
+
             <div className='mb-5'>
                 <h1 className='text-3xl font-bold'>Register</h1>
 
@@ -105,16 +105,23 @@ export default function Register() {
                 </div>
 
                 <div className="flex items-center justify-end mt-4">
-                    <Link
-                        href={route('login')}
-                        className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        Already registered?
-                    </Link>
+
+
+
 
                     <PrimaryButton className="ms-4" disabled={processing}>
                         Register
                     </PrimaryButton>
+                </div>
+                <div className='text-center'>
+                    <div className='text-gray-600 '>
+                        Already registered?  <Link
+                            href={route('login')}
+                            className=" font-medium text-blue-500 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        >
+                            Log in
+                        </Link>
+                    </div>
                 </div>
             </form>
         </GuestLayout>
