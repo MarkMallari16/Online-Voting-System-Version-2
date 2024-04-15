@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 
 const PartylistEditorDashboard = ({partylists}) => {
-    console.log(partylists);
+    // console.log(partylists);
     return (
         <div>
             <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">

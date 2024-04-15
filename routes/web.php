@@ -42,6 +42,7 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('/activitylog', function () {
         return Inertia::render('Admin/Pages/ActivityLog');
     })->name('activitylog');
+    Route::get('/admin-dashboard', [UserController::class, 'show'])->name('users.show');
     //add users
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
     // Update user (process form submission)
@@ -90,7 +91,6 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
 
     Route::get('/votes', [VoteController::class, 'index'])->name('votes');
     Route::post('/hasVoted', [CandidateController::class, 'hasVoted'])->name('vote.hasVoted');
-
 });
 
 
@@ -114,7 +114,7 @@ Route::get('/moderator-overview', [CandidateController::class, 'moderatorOvervie
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/votes', [VoteController::class, 'createVote'])->name('votes.create');
-    Route::get('/casted-votes',[VoteController::class,'castedVotes'])->name('casted.votes');
+    Route::get('/casted-votes', [VoteController::class, 'castedVotes'])->name('casted.votes');
     //upload Profile picture
     Route::post('/upload-profile-picture', [ProfilePictureController::class, 'uploadProfile'])->name('profile.uploadProfile');
 

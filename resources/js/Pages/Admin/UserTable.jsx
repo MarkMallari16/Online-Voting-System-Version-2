@@ -205,7 +205,7 @@ const UserTable = ({
                                 variant="outlined"
                                 label="Filter by"
                                 onChange={handleFilter}
-                                className=" border-1 text-right rounded-lg w-full md:w-40 "
+                                className=" border-1 text-right rounded-lg w-full md:w-48 "
                                 value={filterValue}
                             >
                                 <option value="">Filter by</option>

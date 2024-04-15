@@ -8,10 +8,12 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\AuditLog;
-
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
+    
     public function index(Request $request)
     {
         $perPage = $request->input('perPage', 10);
@@ -79,7 +81,7 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'User updated successfully');
     }
 
-    public function destroy(Request $request,User $user)
+    public function destroy(Request $request, User $user)
     {
         $authenticatedUser = $request->user();
 

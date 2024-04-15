@@ -2,7 +2,9 @@ import React from 'react'
 import BarChart from './BarChart'
 
 
-const BarChartContainer = ({ positionId, positionName, voteCounts, options }) => {
+const BarChartContainer = ({ positionId, positionName, voteCounts, selectedPosition, }) => {
+
+  // const positionToUse = selectedPosition !== null ? selectedPosition : positionId;
 
   const positionVotes = Object.values(voteCounts).filter(vote => vote.position_id === positionId);
 

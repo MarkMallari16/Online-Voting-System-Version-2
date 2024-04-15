@@ -10,7 +10,9 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
 
     const [selectedPosition, setSelectedPosition] = useState('');
 
-
+    const selectedPositionData = position_list.find(position => position.id === selectedPosition);
+    const positionId = selectedPositionData ? selectedPositionData.id : null;
+    const positionName = selectedPositionData ? selectedPositionData.name : ""
 
     useEffect(() => {
         console.log(selectedPosition);
@@ -44,17 +46,15 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                     </div>
                     <div className='p-5'>
                         <div className='flex justify-end'>
-
                             <div className="w-72">
                                 <Select label="Select Positions" onChange={handlePositionChange} value={selectedPosition}>
-
                                     {position_list.map((position) => (
                                         <Option key={position.id} value={String(position.id)}>{position?.name}</Option>
                                     ))}
                                 </Select>
                             </div>
                         </div>
-                        <BarChartContainer voteCounts={voteCounts} />
+                        <BarChartContainer positionId={positionId} positionName={positionName} voteCounts={voteCounts} selectedPosition={selectedPosition} />
                     </div>
                 </div>
 
@@ -68,7 +68,6 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
 
                             <div className="w-72">
                                 {/**<Select label="Votes">
-                                    <Option>Voters Voted</Option>
                                     <Option>Voter Not Voted</Option>
 
                                 </Select> */}

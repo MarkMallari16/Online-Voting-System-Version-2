@@ -16,7 +16,7 @@ module.exports = withMT({
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             animation: {
-                'infinite-scroll': 'infinite-scroll 90s linear infinite',
+                'infinite-scroll': 'infinite-scroll 50s linear infinite',
             },
             keyframes: {
                 'infinite-scroll': {

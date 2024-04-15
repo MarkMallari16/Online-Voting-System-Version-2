@@ -17,10 +17,13 @@ class CandidateController extends Controller
 
     function dashboard()
     {
+        $users = Auth::user();
+
         $positions = Positions::all();
         $partylist = Partylist::all();
         $candidates = Candidate::all();
         $candidatesAll = Candidate::with('position', 'partylist')->get();
+
         // Retrieve the latest election, whether active or inactive
         $election = Election::where('status', 'Active')
             ->orWhere('status', 'Inactive')
@@ -43,6 +46,7 @@ class CandidateController extends Controller
             $voterHasVoted = $voterVoted;
         }
 
+        $userName = Auth::user()->name;
 
         $voters = User::where('role', 'voter')->get();
 
@@ -88,7 +92,8 @@ class CandidateController extends Controller
             'voteCounts' => $voteCounts,
             'castedVotes' => $castedVotes,
             'voterVoted' => $voterVoted,
-            'voterHasVoted' => $voterHasVoted
+            'voterHasVoted' => $voterHasVoted,
+            'name' =>  $userName,
         ]);
     }
     public function getHasVotedStatus($userId, $electionId)
