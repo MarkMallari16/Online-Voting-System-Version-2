@@ -2,9 +2,9 @@ import React from 'react'
 import BarChart from './BarChart'
 
 
-const BarChartContainer = ({ positionId, positionName, voteCounts, selectedPosition, }) => {
+const BarChartContainer = ({ positionId, positionName, voteCounts, chartPositionOption }) => {
 
-  console.log(selectedPosition);
+  // console.log(selectedPosition);
   const positionVotes = Object.values(voteCounts).filter(vote => vote.position_id === positionId);
 
   const labels = positionVotes.map(vote => vote.candidate);
@@ -16,7 +16,7 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, selectedPosit
     datasets: [
       {
         //data
-        label: "Candidates",
+        label: "Vote/s",
         pointBackgroundColor: "#fcd34d",
         data: data,
         backgroundColor: ["#3b82f6", "#fcd34d"],
@@ -28,14 +28,14 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, selectedPosit
   };
 
   const chartOptions = {
-    indexAxis: "y",
+    indexAxis: chartPositionOption ? chartPositionOption : 'y',
     legend: {
-      display: false // Set display to false to hide the legend
-    }
+      display: false 
+    },
   }
+ 
   return (
     <div className="p-8 bg-white rounded-lg">
-
       <div className="text-2xl font-medium text-center mb-5">{positionName}</div>
       <div className=" overflow-hidden rounded-md ">
         <BarChart data={barChartData} options={chartOptions} />

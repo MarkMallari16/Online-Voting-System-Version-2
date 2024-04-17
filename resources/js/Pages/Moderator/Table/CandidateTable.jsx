@@ -808,7 +808,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                         </thead>
 
                         <tbody>
-                            {currentCandidates.length === 0 ? (
+                            {candidates.length === 0 ? (
                                 <tr>
                                     <td
                                         colSpan={TABLE_HEAD.length}
@@ -818,7 +818,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                     </td>
                                 </tr>
                             ) : (
-                                currentCandidates.map(
+                                candidates.map(
                                     (
                                         {
                                             id,

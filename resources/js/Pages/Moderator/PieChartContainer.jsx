@@ -5,7 +5,7 @@ const PieChartContainer = ({ voters, votersVotedCount }) => {
     const notYetVoted = voters.length - votersVotedCount;
 
     const pieChartData = {
-        labels: ['Voters Voted', 'Voters Not Voted'],
+        labels: ['Students Voted', 'Students Not Voted'],
         datasets: [
             {
                 data: [votersVotedCount, notYetVoted],

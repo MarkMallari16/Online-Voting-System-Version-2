@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import ModeratorOverview from './ModeratorOverview'
 import { Select, Option } from "@material-tailwind/react";
@@ -12,7 +12,11 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
 
     const defaultPositionId = position_list.length > 0 ? position_list[0].id : ''
     const [selectedPosition, setSelectedPosition] = useState(defaultPositionId);
-
+    
+    const [chartPositionOption, setChartPositionOption] = useState(() => {
+        // Retrieve the stored option from localStorage or default to "y"
+        return localStorage.getItem('chartPositionOption') || 'y';
+    });
     const selectedPositionData = position_list.find(position => position.id === selectedPosition);
 
     console.log(selectedPositionData);
@@ -23,6 +27,12 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
     const handlePositionChange = (value) => {
         setSelectedPosition(value);
     };
+    const handleChartPositionOption = (value) => {
+        setChartPositionOption(value);
+        console.log(value);
+        localStorage.setItem('chartPositionOption', value);
+    }
+  
     return (
         <div>
 
@@ -46,7 +56,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
 
                     </div>
                     <div className='p-5'>
-                        <div className='flex justify-end'>
+                        <div className='flex justify-end gap-2'>
                             <div className="flex items-center gap-2 cursor-pointer border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md">
                                 <div>
                                     <FaRegFilePdf className="text-xl" />
@@ -61,6 +71,12 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                 </PDFDownloadLink> */}
                             </div>
                             <div className="w-72">
+                                <Select label="Select Chart Position" onChange={handleChartPositionOption} value={chartPositionOption}>
+                                    <Option value="y">Vertical</Option>
+                                    <Option value="x">Horizontal</Option>
+                                </Select>
+                            </div>
+                            <div className="w-72">
                                 <Select label="Select Position" onChange={handlePositionChange} value={selectedPosition}>
 
                                     {position_list.map((position) => (
@@ -69,7 +85,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                 </Select>
                             </div>
                         </div>
-                        <BarChartContainer positionId={positionId} positionName={positionName} voteCounts={voteCounts} selectedPosition={selectedPosition} />
+                        <BarChartContainer positionId={positionId} positionName={positionName} voteCounts={voteCounts} selectedPosition={selectedPosition} chartPositionOption={chartPositionOption} />
                     </div>
                 </div>
 
@@ -77,7 +93,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                     <div className="p-6 text-gray-900">
                         <h1 className='text-xl font-medium'>Votes Tally</h1>
                     </div>
-                    <div className='p-5'>
+                    <div className='p-10'>
                         <div className='flex justify-end'>
 
                             <div className="w-72">

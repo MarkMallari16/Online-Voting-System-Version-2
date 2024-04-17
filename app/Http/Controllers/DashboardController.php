@@ -37,7 +37,7 @@ class DashboardController extends Controller
         // get the authenticated user
         $user = Auth::user();
         //get the user id 
-        // $voterId = $user->id;
+        $voterId = $user->id;
         //get the user id 
         $userId = Auth::id();
 

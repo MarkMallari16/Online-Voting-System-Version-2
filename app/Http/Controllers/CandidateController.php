@@ -72,7 +72,7 @@ class CandidateController extends Controller
 
         Candidate::create([
             'first_name' => $validatedData['first_name'],
-            'middle_name' => $validatedData['middle_name'],
+            'middle_name' => $middleName,
             'last_name' => $validatedData['last_name'],
             'manifesto' => $validatedData['manifesto'],
             'candidate_profile' => $candidateImagePath,
@@ -115,7 +115,7 @@ class CandidateController extends Controller
         $candidate->update([
             'candidate_profile' => $candidateImagePath,
             'first_name' => $validatedData['first_name'],
-            'middle_name' => $validatedData['middle_name'],
+            'middle_name' => $middleName,
             'last_name' => $validatedData['last_name'],
             'manifesto' => $validatedData['manifesto'],
             'partylist_id' => $validatedData['partylist_id'],

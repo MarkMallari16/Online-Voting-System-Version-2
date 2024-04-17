@@ -44,9 +44,7 @@ export default function Welcome({ auth }) {
                     className="h-full w-full"
                     style={bgStyle}
                 >
-
-
-                    <div className={`z-20 sticky top-0 transition-all duration-300   ${scrolled ? ' bg-blue-500 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 ' : 'bg-none'}`}>
+                    <div className={`z-50 sticky top-0 transition-all duration-300   ${scrolled ? ' bg-blue-500 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 ' : 'bg-none'}`}>
                         <div className={`flex  mx-5 sm:mx-24  md:mx-20 `} >
                             <div className="logo">
                                 <ApplicationLogo />
@@ -77,7 +75,7 @@ export default function Welcome({ auth }) {
 
 
 
-                    <motion.div className="sm:mt-5 mt-24 flex flex-col-reverse sm:flex-col-reverse md:flex-row items-center gap-5 sm:gap-24 mx-5 sm:mx-24  md:mx-20"
+                    <div className="sm:mt-5 mt-24 flex flex-col-reverse sm:flex-col-reverse md:flex-row items-center gap-5 sm:gap-24  mx-5 sm:mx-24  md:mx-20"
                         initial={{
                             opacity: 0,
                         }}
@@ -99,7 +97,7 @@ export default function Welcome({ auth }) {
                             <div className='mt-3 flex  md:flex-row gap-2 items-center justify-center md:justify-start'>
                                 <Link
                                     href={route('register')}
-                                    className="font-medium bg-blue-600 px-4 py-2 text-white rounded-md hover:bg-blue-600 ease-in duration-75 focus:outline focus:outline-2 focus:rounded-sm focus:blue-red-500"
+                                    className="font-medium bg-blue-600 px-4 py-2 text-white rounded-md hover:bg-blue-600 ease-in duration-75 focus:outline focus:outline-2 focus:rounded-sm focus:blue-red-500 "
                                 >
                                     Register
                                 </Link>
@@ -119,9 +117,103 @@ export default function Welcome({ auth }) {
                             <img src={Cover} alt="hero-section" className="w-auto sm:w-[89%] md:w-50" />
                         </div>
 
-                    </motion.div>
+                    </div>
 
-                </div >
+                    <div className='h-auto w-full flex justify-center gap-5 mt-10 overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)] filter'>
+                        <div className='flex items-center justify-center md:justify-start gap-5 animate-infinite-scroll' >
+                            <div className='w-28 '>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-32'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                        </div>
+
+                        <div className='flex items-center justify-end md:justify-start gap-5 animate-infinite-scroll' aria-hidden='true'>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+
+                        </div>
+                    </div >
+
+
+                </div>
                 {/*
               <div >
                     <div className='mt-24 mb-10 text-center text-4xl font-bold' >Meet the Candidate</div>
@@ -131,98 +223,10 @@ export default function Welcome({ auth }) {
                 </div>
             */}
 
-                <div className='w-full flex justify-center gap-5 mt-10 overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)] filter'>
-                    <div className='flex items-center justify-center md:justify-start gap-5 animate-infinite-scroll' >
-                        <div className='w-28 '>
-                            <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-32'>
-                            <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
-                        </div>
-                    </div>
 
-                    <div className='flex items-center justify-end md:justify-start gap-5 animate-infinite-scroll' aria-hidden='true'>
-                        <div className='w-28'>
-                            <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
-                        </div>
-                        <div className='w-28'>
-                            <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
-                        </div>
 
-                    </div>
-                </div>
+
+
 
                 <div >
                     <div className='mt-24 mb-10 text-center text-4xl font-bold' >Frequently Asked Question</div>
@@ -238,9 +242,10 @@ export default function Welcome({ auth }) {
                         </div>
                     </div>
                 </div>
+                <Footer />
             </div>
 
-            <Footer/>
+
         </>
 
     );
