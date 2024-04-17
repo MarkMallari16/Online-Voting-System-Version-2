@@ -113,7 +113,7 @@ export default function Register() {
                         Register
                     </PrimaryButton>
                 </div>
-                <div className='text-center'>
+                <div className='text-center mt-2'>
                     <div className='text-gray-600 '>
                         Already registered?  <Link
                             href={route('login')}

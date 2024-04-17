@@ -5,22 +5,23 @@ import { Select, Option } from "@material-tailwind/react";
 import { Input } from "@material-tailwind/react";
 import BarChartContainer from './BarChartContainer';
 import PieChartContainer from './PieChartContainer';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import { FaRegFilePdf } from 'react-icons/fa';
+import UsersPDF from '../Admin/UsersPDF';
 const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount }) => {
-    console.log(position_list);
 
-    const [selectedPosition, setSelectedPosition] = useState('');
+    const defaultPositionId = position_list.length > 0 ? position_list[0].id : ''
+    const [selectedPosition, setSelectedPosition] = useState(defaultPositionId);
 
     const selectedPositionData = position_list.find(position => position.id === selectedPosition);
+
+    console.log(selectedPositionData);
+
     const positionId = selectedPositionData ? selectedPositionData.id : null;
     const positionName = selectedPositionData ? selectedPositionData.name : ""
 
-    useEffect(() => {
-        console.log(selectedPosition);
-    }, [selectedPosition]);
-
-    const handlePositionChange = (event) => {
-        setSelectedPosition(event.target.value);
-        console.log(selectedPosition);
+    const handlePositionChange = (value) => {
+        setSelectedPosition(value);
     };
     return (
         <div>
@@ -38,18 +39,32 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                 </div>
             </div>
 
-            <div className='mt-5 flex gap-2 flex-col sm:flex-row'>
+            <div className='mt-5 flex gap-3 flex-col sm:flex-row'>
                 <div className="flex-1 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="p-6 text-gray-900">
-                        <h1 className='text-xl font-bold'>Votes Tally</h1>
+                        <h1 className='text-xl font-medium'>Votes Tally</h1>
 
                     </div>
                     <div className='p-5'>
                         <div className='flex justify-end'>
+                            <div className="flex items-center gap-2 cursor-pointer border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md">
+                                <div>
+                                    <FaRegFilePdf className="text-xl" />
+                                </div>
+                                {/** <PDFDownloadLink
+                                    document={<UsersPDF />}
+                                    fileName="users.pdf"
+                                >
+                                    {({ blob, url, loading, error }) =>
+                                        "Export to PDF"
+                                    }
+                                </PDFDownloadLink> */}
+                            </div>
                             <div className="w-72">
-                                <Select label="Select Positions" onChange={handlePositionChange} value={selectedPosition}>
+                                <Select label="Select Position" onChange={handlePositionChange} value={selectedPosition}>
+
                                     {position_list.map((position) => (
-                                        <Option key={position.id} value={String(position.id)}>{position?.name}</Option>
+                                        <Option key={position.id} value={position.id}>{position.name}</Option>
                                     ))}
                                 </Select>
                             </div>
@@ -58,10 +73,9 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                     </div>
                 </div>
 
-                <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max">
                     <div className="p-6 text-gray-900">
-                        <h1 className='text-xl font-bold'>Votes Tally</h1>
-
+                        <h1 className='text-xl font-medium'>Votes Tally</h1>
                     </div>
                     <div className='p-5'>
                         <div className='flex justify-end'>

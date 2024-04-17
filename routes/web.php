@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -42,7 +43,7 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('/activitylog', function () {
         return Inertia::render('Admin/Pages/ActivityLog');
     })->name('activitylog');
-    Route::get('/admin-dashboard', [UserController::class, 'show'])->name('users.show');
+    // Route::get('/admin-dashboard', [UserController::class, 'show'])->name('users.show');
     //add users
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
     // Update user (process form submission)
@@ -108,7 +109,7 @@ Route::middleware(['auth', 'verified', 'partylist_editor'])->group(function () {
 });
 
 //render
-Route::get('/dashboard', [CandidateController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/moderator-overview', [CandidateController::class, 'moderatorOverview'])->middleware(['auth', 'verified', 'moderator']);
 
 

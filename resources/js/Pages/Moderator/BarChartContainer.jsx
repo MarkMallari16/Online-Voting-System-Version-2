@@ -4,8 +4,7 @@ import BarChart from './BarChart'
 
 const BarChartContainer = ({ positionId, positionName, voteCounts, selectedPosition, }) => {
 
-  // const positionToUse = selectedPosition !== null ? selectedPosition : positionId;
-
+  console.log(selectedPosition);
   const positionVotes = Object.values(voteCounts).filter(vote => vote.position_id === positionId);
 
   const labels = positionVotes.map(vote => vote.candidate);
@@ -35,7 +34,7 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, selectedPosit
     }
   }
   return (
-    <div className="p-8  bg-white rounded-lg">
+    <div className="p-8 bg-white rounded-lg">
 
       <div className="text-2xl font-medium text-center mb-5">{positionName}</div>
       <div className=" overflow-hidden rounded-md ">

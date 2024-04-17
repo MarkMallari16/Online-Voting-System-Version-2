@@ -10,6 +10,7 @@ import {
 } from "@material-tailwind/react";
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Footer from '@/Components/Footer';
 
 export default function Welcome({ auth }) {
     const [open, setOpen] = useState(1);
@@ -228,7 +229,7 @@ export default function Welcome({ auth }) {
                     <div className=' flex justify-center'>
                         <div className='w-[90%] bg-blue-50 p-2' >
                             <Accordion open={open === 1}>
-                                <AccordionHeader onClick={() => handleOpen(1)}>What is the online voting system for the SHS council at STI College Bacoor?</AccordionHeader>
+                                <AccordionHeader onClick={() => handleOpen(1)}>What is the online voting system for the SHS student council at STI College Bacoor?</AccordionHeader>
                                 <AccordionBody>
                                     The online voting system is a platform designed to facilitate the election process for the Senior High School (SHS) council at STI College Bacoor. It allows students to cast their votes electronically from anywhere with an internet connection, providing a convenient and accessible way to participate in the democratic process.
                                 </AccordionBody>
@@ -237,10 +238,9 @@ export default function Welcome({ auth }) {
                         </div>
                     </div>
                 </div>
-
-
             </div>
 
+            <Footer/>
         </>
 
     );
