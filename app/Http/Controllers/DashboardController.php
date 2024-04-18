@@ -39,14 +39,16 @@ class DashboardController extends Controller
         //get the user id 
         $voterId = $user->id;
         //get the user id 
-        $userId = Auth::id();
+        // $userId = Auth::id();
 
         $voterHasVoted = false;
         $voterVoted = false;
 
         if ($user && $user->role === 'voter') {
             $voterId = $user->id;
-            $voterVoted  = Vote::where('voter_id', $userId)->where('election_id', $election->id)->exists();
+            if ($election) {
+                $voterVoted  = Vote::where('voter_id', $voterId)->where('election_id', $election->id)->exists();
+            }
             $voterHasVoted = $voterVoted;
         }
 
@@ -58,32 +60,42 @@ class DashboardController extends Controller
 
         $voters->transform(function ($voter) use ($election) {
             $voterId = $voter->id;
-            $voter->hasVoted = $this->getHasVotedStatus($voterId, $election->id);
+            if ($election) {
+                $voter->hasVoted = $this->getHasVotedStatus($voterId, $election->id);
+            } else {
+                $voter->hasVoted = false;
+            }
             return $voter;
         });
-
-        //for casted votes
-        $castedVotes = Vote::where('election_id', $election->id)
-            ->where('voter_id', $voterId)
-            ->with('candidate')
-            ->get();
-
-        //for votes counts
         $voteCounts = [];
+        $castedVotes = null;
+        //for casted votes
+        if ($election) {
 
-        foreach ($candidates as $candidate) {
-            $positionId = $candidate->position->id;
-            $positionName = $candidate->position->name;
-            $candidateName = $candidate->first_name . ' '  . $candidate->last_name;
-            $voteCount = Vote::where('candidate_id', $candidate->id)->count();
+            $castedVotes = Vote::where('election_id', $election->id)
+                ->where('voter_id', $voterId)
+                ->with('candidate')
+                ->get();
 
-            $voteCounts[$candidate->id] = [
-                'position_id' => $positionId,
-                'position' => $positionName,
-                'candidate' => $candidateName,
-                'voteCount' => $voteCount,
-            ];
+            //for votes counts
+
+
+            foreach ($candidates as $candidate) {
+                $positionId = $candidate->position->id;
+                $positionName = $candidate->position->name;
+                $candidateName = $candidate->first_name . ' '  . $candidate->last_name;
+                $voteCount = Vote::where('candidate_id', $candidate->id)->count();
+
+                $voteCounts[$candidate->id] = [
+                    'position_id' => $positionId,
+                    'position' => $positionName,
+                    'candidate' => $candidateName,
+                    'voteCount' => $voteCount,
+                ];
+            }
         }
+
+
 
         return Inertia::render('Dashboard', [
             'partylist_list' => $partylist,

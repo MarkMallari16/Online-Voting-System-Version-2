@@ -212,7 +212,26 @@ export default function Welcome({ auth }) {
                         </div>
                     </div >
 
-
+                    <div>
+                        <div className='mt-24 mb-10 text-center text-4xl font-bold' >Frequently Asked Question</div>
+                        <div className=' flex justify-center'>
+                            <div className='w-[90%] bg-blue-50 px-3' >
+                                <Accordion open={open === 1}>
+                                    <AccordionHeader onClick={() => handleOpen(1)}>What is the online voting system for the SHS student council at STI College Bacoor?</AccordionHeader>
+                                    <AccordionBody>
+                                        The online voting system is a platform designed to facilitate the election process for the Senior High School (SHS) council at STI College Bacoor. It allows students to cast their votes electronically from anywhere with an internet connection, providing a convenient and accessible way to participate in the democratic process.
+                                    </AccordionBody>
+                                </Accordion>
+                                <Accordion open={open === 2}>
+                                    <AccordionHeader onClick={() => handleOpen(2)}>What is the online voting system for the SHS student council at STI College Bacoor?</AccordionHeader>
+                                    <AccordionBody>
+                                        The online voting system is a platform designed to facilitate the election process for the Senior High School (SHS) council at STI College Bacoor. It allows students to cast their votes electronically from anywhere with an internet connection, providing a convenient and accessible way to participate in the democratic process.
+                                    </AccordionBody>
+                                </Accordion>
+                            </div>
+                        </div>
+                    </div>
+                    <Footer />
                 </div>
                 {/*
               <div >
@@ -222,30 +241,7 @@ export default function Welcome({ auth }) {
                     </div>
                 </div>
             */}
-
-
-
-
-
-
-                <div >
-                    <div className='mt-24 mb-10 text-center text-4xl font-bold' >Frequently Asked Question</div>
-                    <div className=' flex justify-center'>
-                        <div className='w-[90%] bg-blue-50 p-2' >
-                            <Accordion open={open === 1}>
-                                <AccordionHeader onClick={() => handleOpen(1)}>What is the online voting system for the SHS student council at STI College Bacoor?</AccordionHeader>
-                                <AccordionBody>
-                                    The online voting system is a platform designed to facilitate the election process for the Senior High School (SHS) council at STI College Bacoor. It allows students to cast their votes electronically from anywhere with an internet connection, providing a convenient and accessible way to participate in the democratic process.
-                                </AccordionBody>
-                            </Accordion>
-
-                        </div>
-                    </div>
-                </div>
-                <Footer />
             </div>
-
-
         </>
 
     );

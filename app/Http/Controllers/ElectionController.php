@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use App\Models\Election;
 use App\Models\User;
 use App\Notifications\ElectionDeactivated;
 use App\Notifications\ElectionActivated;
-
+// use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\ElectionEndingSoon;
 class ElectionController extends Controller
 {
 
@@ -113,5 +116,5 @@ class ElectionController extends Controller
             return redirect()->back()->with('success', 'Election deactivated successfully.');
         }
     }
-        
+    
 }

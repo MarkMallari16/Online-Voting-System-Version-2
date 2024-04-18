@@ -43,7 +43,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
         setResult(now > endDate);
     }, [endDate, now]);
 
-    const electionId = election ? election.id : null;
+    const electionId = election ? election.id : 0;
 
     const { data, setData, post, errors, processing } = useForm({
         election_id: electionId,
@@ -132,11 +132,14 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
         });
     };
 
+  
+    console.log(election)
 
 
     return (
         <div>
-            {election ? (
+            {election && election.status === "Active" ? (
+
                 <div>
                     <div className="bg-white border border-black border-3 p-5 rounded-md ">
                         <div className="flex  items-center justify-between">
@@ -232,7 +235,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                 </div>
             ) : (
 
-                <div className="h-screen w-full flex justify-center items-center">
+                <div className=" w-full flex justify-center items-center">
                     <div className="text-gray-600 p-5 text-center ">
                         <div className="text-xl">Please wait for the moderator</div>
                         <div className="text-xl">Election for this position will be available soon.</div>

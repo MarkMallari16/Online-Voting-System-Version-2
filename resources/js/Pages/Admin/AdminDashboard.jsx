@@ -18,30 +18,7 @@ const AdminDashboard = () => {
 
     const TABLE_HEAD = ["ID", "Name", "Profile", "Email", "Role", "Created At", "Updated At", "Email Status", "Action"];
 
-    const data = {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple'],
-        datasets: [
-            {
-                label: 'Dataset 1',
-                data: [12, 19, 3, 5, 2], // Sample data points
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(153, 102, 255, 0.6)',
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                ],
-                borderWidth: 1,
-            },
-        ],
-    };
+  
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -63,7 +40,7 @@ const AdminDashboard = () => {
                 <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="p-6 text-gray-900 flex justify-between items-center">
                         <div>
-                            <h1 className="text-xl font-bold">Welcome, Admin!</h1>
+                            <h1 className="text-xl font-medium">Welcome, Admin!</h1>
                         </div>
 
                     </div>

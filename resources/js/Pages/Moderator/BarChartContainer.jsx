@@ -28,14 +28,14 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, chartPosition
   };
 
   const chartOptions = {
-    indexAxis: chartPositionOption ? chartPositionOption : 'y',
+    indexAxis: chartPositionOption  ? chartPositionOption : 'y',
     legend: {
-      display: false 
+      display: false
     },
   }
- 
+
   return (
-    <div className="p-8 bg-white rounded-lg">
+    <div className="mt-5  p-0 sm:p-3 md:p-5 lg:p-5 xl:p-8 bg-white rounded-lg">
       <div className="text-2xl font-medium text-center mb-5">{positionName}</div>
       <div className=" overflow-hidden rounded-md ">
         <BarChart data={barChartData} options={chartOptions} />
