@@ -1,7 +1,8 @@
+import PartylistCarousel from '@/Components/PartylistCarousel'
 import React, { useEffect, useRef, useState } from 'react'
 
 
-const PartylistEditorDashboard = ({partylists}) => {
+const PartylistEditorDashboard = ({ partylists }) => {
     // console.log(partylists);
     return (
         <div>
@@ -11,18 +12,7 @@ const PartylistEditorDashboard = ({partylists}) => {
                 </div>
             </div>
 
-            <div className='w-full flex mt-5 gap-2 flex-wrap'>
-                <div className="w-full flex bg-white p-6 shadow-md rounded-lg text-gray-900">
-                    <h1 className="text-xl font-bold">Sandigan Partylist</h1>
-                </div>
-                <div className="w-full flex bg-white p-6 shadow-md rounded-lg text-gray-900">
-                    <h1 className="text-xl font-bold">Sanaol Partylist</h1>
-                </div>
-                <div className="w-full flex bg-white p-6 shadow-md rounded-lg text-gray-900">
-                    <h1 className="text-xl font-bold">ICTians</h1>
-                </div>
-
-            </div>
+            <PartylistCarousel/>
         </div>
     )
 }

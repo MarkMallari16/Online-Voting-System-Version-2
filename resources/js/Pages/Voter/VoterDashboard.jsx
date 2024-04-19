@@ -7,6 +7,7 @@ import AlreadyVoted from "@/Components/AlreadyVoted";
 import CouncilLogo from "../../../../public/councilLogo.png";
 import STIBacoorLogo from "../../assets/bacoor-logo.png";
 import BarChartContainer from "../Moderator/BarChartContainer";
+import PartylistCarousel from "@/Components/PartylistCarousel";
 
 
 
@@ -107,6 +108,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                 candidate_ids: selectedCandidates,
             });
             setIsSuccessMessage(true);
+            window.location.reload();
             // setVoterHasVoted(true);
         } catch (error) {
             // Handle error
@@ -170,6 +172,10 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                                 </div>
                             </div>
                         )}
+                    </div>
+                    <div>
+                      
+
                     </div>
                     <div>
                         {result ? (

@@ -1,15 +1,15 @@
 import React from 'react';
 import { Dialog, DialogHeader, DialogBody, DialogFooter, Avatar } from "@material-tailwind/react";
-
+import DefaultCandidateProfile from '../../../public/candidate_profile_photos/default_candidate_profile.png'
 const CandidateModal = ({ candidate, isOpen, onClose }) => {
     return (
         <Dialog size='lg' open={isOpen} handler={onClose}>
             <DialogHeader>
                 <div className="flex items-center gap-4">
-                    <Avatar src={candidate.candidate_profile} size="xxl" />
+                    <Avatar src={candidate.candidate_profile ? candidate.candidate_profile : DefaultCandidateProfile} size="xxl" />
                     <div>
                         <span >Vote!</span>
-                        <h3 className="font-extrabold text-slate-600">{`${candidate.first_name} ${candidate.middle_name} ${candidate.last_name}`}</h3>
+                        <h3 className="font-extrabold text-slate-600">{`${candidate.first_name} ${candidate.last_name}`}</h3>
                         <div className="flex items-center gap-1">
                             <h4 className="font-medium text-black">for</h4>
                             <h4 className="text-slate-600 font-extrabold">{`${candidate.position.name.toUpperCase()} STUDENT COUNCIL`}</h4>

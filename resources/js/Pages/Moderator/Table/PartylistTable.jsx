@@ -58,11 +58,10 @@ export function PartylistTable({ partylists }) {
   const [message, setMessage] = useState("");
 
 
-
-
   const handleAddOpen = () => {
     setOpenAddModal(!openAddModal);
     setData({ name: '', description: '' });
+
   };
   //modal update
   const handleUpdateOpen = (id) => {
@@ -84,6 +83,8 @@ export function PartylistTable({ partylists }) {
     setOpenAddModal(false)
     setMessage('Partylist successfully added')
     setIsSuccessMessage(true);
+
+    window.location.reload();
   }
 
   function updateSubmit(e) {
@@ -92,6 +93,8 @@ export function PartylistTable({ partylists }) {
     setOpenUpdateModal(false)
     setMessage('Partylist successfully updated')
     setIsSuccessMessage(true);
+
+    window.location.reload();
   }
 
   const handleDeleteOpen = (id) => {
@@ -114,6 +117,8 @@ export function PartylistTable({ partylists }) {
       setIsSuccessMessage(true);
       // Close the delete modal
       setDeleteModal(false);
+
+      window.location.reload();
     } catch (error) {
       console.error('Failed to delete partylist:', error);
     }

@@ -16,10 +16,12 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
 
         onClose(selectedCandidates);
     };
+    const sortSelectedCandidatesInfo = selectedCandidatesInfo.sort((a,b) => a.position.id - b.position.id);
 
+    console.log(sortSelectedCandidatesInfo);
 
     return (
-        <Modal show={isOpen} onClose={onClose}>
+        <Modal show={isOpen} onClose={onClose} className='w-20'>
             <form onSubmit={handleVoteSubmit}>
                 <div className="p-6">
                     <div className=" flex items-center gap-3">
@@ -38,7 +40,7 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
 
 
                             <ul>
-                                {selectedCandidatesInfo.map(candidate => (
+                                {sortSelectedCandidatesInfo.map(candidate => (
                                     <li key={candidate.id} className="mb-3 border-2 border-blue-gray-200 p-3 rounded-md ">
                                         <div className="flex justify-between items-center ">
                                             <div className='flex gap-3'>
