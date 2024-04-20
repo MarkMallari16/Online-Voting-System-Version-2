@@ -11,8 +11,10 @@ class PartylistController extends Controller
     public function index()
     {
         $partylists = Partylist::all();
+        $partylistsPerPage = Partylist::paginate(5);
         return Inertia::render('Partylist_Editor/PartylistEditorPages/Partylist', [
-            'partylists' => $partylists
+            'partylists' => $partylists,
+            'partylistsPerPage' => $partylistsPerPage
         ]);
     }
     public function store(Request $request)
@@ -33,7 +35,7 @@ class PartylistController extends Controller
     public function update(Request $request,  $id)
     {
         $partylist = Partylist::findOrFail($id);
-        
+
         $request->validate([
             'name' => 'required',
             'description' => 'required',

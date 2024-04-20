@@ -4,6 +4,7 @@ import Modal from './Modal'
 import DangerButton from './DangerButton'
 import { FaVoteYea } from "react-icons/fa";
 import { Avatar } from '@material-tailwind/react';
+import { TbConfetti } from "react-icons/tb";
 
 const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
   const [showModal, setShowModal] = useState(false);
@@ -29,7 +30,9 @@ const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
   return (
     <div className='mt-10 w-full flex justify-center items-center'>
       <div>
-        <div className='text-5xl font-bold mb-2'>Thank you for voting!</div>
+        <div className='text-5xl font-bold text-center'>Thank you for voting!</div>
+        <div className='flex justify-center mb-2'><TbConfetti className='text-8xl'/>
+        </div>
         <div className='text-8xl text-green-700 flex justify-center'>
 
         </div>
@@ -37,7 +40,7 @@ const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
           <PrimaryButton onClick={handleSeeCastedVote} className='bg-blue-500 hover:bg-blue-700 text-white px-6 py-3 rounded-md'>See Casted Vote</PrimaryButton>
         </div>
       </div>
-      
+
       <Modal show={showModal} onClose={handleClose} maxWidth='xl' >
         <div className='p-8'>
           <div className='flex justify-between items-center  mb-4'>

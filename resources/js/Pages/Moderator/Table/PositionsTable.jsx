@@ -52,14 +52,13 @@ export function PositionsTable(props) {
     const positionsPerPage = props.positionsPerPage;
 
     const [currentPage, setCurrentPage] = useState(positionsPerPage.current_page);
-    const [totalPages, setTotalPages] = useState(positionsPerPage.last_page);
-
-
+   
     const indexOfLastPositions = currentPage * positionsPerPage.per_page;
-    const indexOfFirstPositions = indexOfLastPositions - positionsPerPage;
+    const indexOfFirstPositions = indexOfLastPositions - positionsPerPage.per_page;
     const currentPositions = positions.slice(indexOfFirstPositions, indexOfLastPositions);
 
     console.log(positionsPerPage);
+    const totalPages = positionsPerPage.last_page;
     const { data, setData, post, errors } = useForm();
 
     //modal add
@@ -152,13 +151,13 @@ export function PositionsTable(props) {
         }
     };
 
-    const handlePreviousClick = () => {
+    const handlePreviousPage = () => {
         if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
         }
     }
     const handleNextPage = () => {
-        if (currentPage < Math.ceil(props.positions.length / votesPerPage)) {
+        if (currentPage < totalPages) {
             setCurrentPage(currentPage + 1);
         }
     }
@@ -412,7 +411,7 @@ export function PositionsTable(props) {
                         Page {currentPage} of {totalPages}
                     </Typography>
                     <div className="flex gap-2">
-                        <Button variant="outlined" size="sm" onClick={handlePreviousClick} disabled={currentPage === 1}>
+                        <Button variant="outlined" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
                             Previous
                         </Button>
                         <Button variant="outlined" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages}>

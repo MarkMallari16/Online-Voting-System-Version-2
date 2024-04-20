@@ -26,6 +26,7 @@ import {
   DialogBody,
   DialogFooter,
   Alert,
+  Textarea,
 } from "@material-tailwind/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
@@ -41,8 +42,8 @@ const TABLE_HEAD = ["Partylist ID", "Partylist Name", "Partylist Description", "
 
 
 
-export function PartylistTable({ partylists }) {
-
+export function PartylistTable({ partylists, partylistsPerPage }) {
+  console.log(partylistsPerPage);
   const { data, setData, post, processing } = useForm({
     name: '',
     description: ''
@@ -57,6 +58,25 @@ export function PartylistTable({ partylists }) {
   const [isSuccessMessage, setIsSuccessMessage] = useState(false);
   const [message, setMessage] = useState("");
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(partylistsPerPage.current_page);
+
+  const indexOfLastPage = currentPage * partylistsPerPage.per_page;
+  const indexOfFirstPage = indexOfLastPage - partylistsPerPage.per_page;
+
+  const currentPartylists = partylists.slice(indexOfFirstPage, indexOfLastPage);
+  const totalPages = partylistsPerPage.last_page;
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  }
+  const handleNextPage = () => {
+    if (currentPage < totalPages){
+      setCurrentPage(currentPage + 1);
+    }
+  }
 
   const handleAddOpen = () => {
     setOpenAddModal(!openAddModal);
@@ -123,6 +143,10 @@ export function PartylistTable({ partylists }) {
       console.error('Failed to delete partylist:', error);
     }
   };
+
+  const handleSearch = ((event) => {
+    setSearchQuery(event.target.value);
+  })
   return (
     <div>
       <div className="mb-3">
@@ -170,14 +194,15 @@ export function PartylistTable({ partylists }) {
                     </div>
                     <div className="mt-4">
                       <InputLabel htmlFor="partylistDescription" value="Enter Partylist Description" />
-                      <TextInput
+                      <textarea
                         id="partylistDescription"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full rounded-md resize-none h-40"
+                        color="blue"
+                        label="Enter Partylist Description"
                         value={data.description}
                         onChange={(e) => setData('description', e.target.value)}
                         required
-                        isFocused
-                        autoComplete="description"
+
                       />
                       <InputError className="mt-2" />
                     </div>
@@ -216,9 +241,9 @@ export function PartylistTable({ partylists }) {
                     </div>
                     <div className="mt-4">
                       <InputLabel htmlFor="partylistDescription" value="Enter Partylist Description" />
-                      <TextInput
+                      <textarea
                         id="partylistDescription"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full rounded-md resize-none h-40"
                         value={data.description}
                         onChange={(e) => setData('description', e.target.value)}
                         required
@@ -256,6 +281,8 @@ export function PartylistTable({ partylists }) {
               <Input
                 label="Search"
                 icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+                onChange={handleSearch}
+
               />
             </div>
           </div>
@@ -283,89 +310,114 @@ export function PartylistTable({ partylists }) {
                 ))}
               </tr>
             </thead>
-            <tbody>
-              {partylists.map(
-                ({ id, name, description }, index) => {
-                  const isLast = index === partylists.length - 1;
-                  const classes = isLast
-                    ? "p-4"
-                    : "p-4 border-b border-blue-gray-50";
+            {currentPartylists.length > 0 ? (
+              <tbody>
+                {currentPartylists
+                  .filter(partylist => partylist.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                  .map(
+                    ({ id, name, description }, index) => {
+                      const isLast = index === partylists.length - 1;
+                      const classes = isLast
+                        ? "p-4"
+                        : "p-4 border-b border-blue-gray-50";
 
-                  return (
-                    <tr key={name}>
-                      <td className={classes}>
-                        <div className="flex items-center gap-3">
+                      return (
+                        <tr key={name}>
+                          <td className={classes}>
+                            <div className="flex items-center gap-3">
 
-                          <div className="flex flex-col">
+                              <div className="flex flex-col">
+                                <Typography
+                                  variant="small"
+                                  color="blue-gray"
+                                  className="font-normal"
+                                >
+                                  {id}
+                                </Typography>
+
+                              </div>
+                            </div>
+                          </td>
+                          <td className={classes}>
+                            <div className="flex flex-col">
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-normal"
+                              >
+                                {name}
+                              </Typography>
+
+                            </div>
+                          </td>
+
+                          <td className={classes}>
                             <Typography
                               variant="small"
                               color="blue-gray"
                               className="font-normal"
                             >
-                              {id}
+                              {description}
                             </Typography>
+                          </td>
+                          <td className={classes}>
+                            <div className="flex gap-2">
+                              <Tooltip content="Edit Partylist">
+                                <IconButton variant="text" className="bg-amber-700 text-white" onClick={() => handleUpdateOpen(id)}>
+                                  <PencilIcon className="h-5 w-5" />
+                                </IconButton>
 
-                          </div>
-                        </div>
-                      </td>
-                      <td className={classes}>
-                        <div className="flex flex-col">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {name}
-                          </Typography>
+                              </Tooltip>
 
-                        </div>
-                      </td>
+                              <Tooltip content="Delete Partylist">
+                                <IconButton variant="text" className="bg-red-700 text-white" onClick={() => handleDeleteOpen(id)}>
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                                    <path fillRule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clipRule="evenodd" />
+                                  </svg>
 
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {description}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <div className="flex gap-2">
-                          <Tooltip content="Edit Partylist">
-                            <IconButton variant="text" className="bg-amber-700 text-white" onClick={() => handleUpdateOpen(id)}>
-                              <PencilIcon className="h-5 w-5" />
-                            </IconButton>
+                                </IconButton>
 
-                          </Tooltip>
+                              </Tooltip>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    },
+                  )}
 
-                          <Tooltip content="Delete Partylist">
-                            <IconButton variant="text" className="bg-red-700 text-white" onClick={() => handleDeleteOpen(id)}>
-                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                                <path fillRule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clipRule="evenodd" />
-                              </svg>
-
-                            </IconButton>
-
-                          </Tooltip>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                },
-              )}
-            </tbody>
+                {
+                  (currentPartylists
+                    .filter(partylist =>
+                      partylist.name.toLowerCase().includes(searchQuery.toLowerCase())
+                    )
+                    .length === 0 && (
+                      <tr>
+                        <td colSpan="4" className="text-center py-4 text-gray-500">
+                          No partylist found
+                        </td>
+                      </tr>
+                    ))}
+              </tbody>
+            ) : (
+              <tbody>
+                <tr>
+                  <td colSpan="3" className="text-center py-4 text-gray-500">
+                    No partylist found
+                  </td>
+                </tr>
+              </tbody>
+            )}
           </table>
         </CardBody>
         <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
           <Typography variant="small" color="blue-gray" className="font-normal">
-            Page 1 of 10
+            Page {currentPage} of {totalPages}
           </Typography>
           <div className="flex gap-2">
-            <Button variant="outlined" size="sm">
+            <Button variant="outlined" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
               Previous
             </Button>
-            <Button variant="outlined" size="sm">
+            <Button variant="outlined" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
               Next
             </Button>
           </div>

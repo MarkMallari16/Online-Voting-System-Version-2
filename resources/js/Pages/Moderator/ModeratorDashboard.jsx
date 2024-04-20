@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import ModeratorOverview from './ModeratorOverview'
-import { Select, Option } from "@material-tailwind/react";
+import { Select, Option, Button, Avatar } from "@material-tailwind/react";
 import { Input } from "@material-tailwind/react";
 import BarChartContainer from './BarChartContainer';
 import PieChartContainer from './PieChartContainer';
@@ -33,7 +33,14 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
         console.log(value);
         localStorage.setItem('chartPositionOption', value);
     }
+    console.log(voters)
     console.log(voteCounts);
+
+    const votedVoters = voters.filter(voter => voter.hasVoted);
+
+    const latestVotedVoter = votedVoters.reduce((prev, current) =>
+        (new Date(prev.updated_at) > new Date(current.updated_at)) ? prev : current
+    );
     return (
         <div>
 
@@ -63,7 +70,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                     <FaRegFilePdf className="text-xl" />
                                 </div>
                                 <PDFDownloadLink
-                                    document={<VotesPDF voteCounts={voteCounts} />}
+                                    document={<VotesPDF voteCounts={voteCounts} positionList={position_list} />}
                                     fileName="votes_report.pdf"
                                 >
                                     {({ blob, url, loading, error }) =>
@@ -90,21 +97,56 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                     </div>
                 </div>
 
-                <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max">
-                    <div className="p-6 text-gray-900">
-                        <h1 className='text-xl font-medium'>Votes Tally</h1>
-                    </div>
-                    <div className='p-8'>
-                        <div className='flex justify-end'>
+                <div className='flex flex-col gap-5'>
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max">
+                        <div className="p-4 text-gray-900">
+                            <h1 className='text-xl font-medium'>Votes Tally</h1>
+                        </div>
+                        <div className='p-8'>
+                            <div className='flex justify-end'>
 
-                            <div className="w-72">
-                                {/**<Select label="Votes">
+                                <div className="w-72">
+                                    {/**<Select label="Votes">
                                     <Option>Voter Not Voted</Option>
 
                                 </Select> */}
+                                </div>
+                            </div>
+                            <PieChartContainer voters={voters} votersVotedCount={votersVotedCount} />
+                        </div>
+
+                    </div>
+                    <div className="bg-white flex-1">
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max px-5 py-5">
+                            <div className="flex justify-between">
+                                <div >
+                                    <div className='font-medium'>Today, {new Date().toLocaleDateString()}</div>
+                                    <div className='text-gray-600 text-sm'>Latest voter voted</div>
+                                </div>
+
+                                <div className=" text-gray-900 text-end">
+
+                                    <div className='font-medium' >View All</div>
+                                    {/* Place your latest votes components here */}
+                                </div>
                             </div>
                         </div>
-                        <PieChartContainer voters={voters} votersVotedCount={votersVotedCount} />
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max">
+                            <div className=" text-gray-900 ">
+                                <div className='flex justify-between px-4 py-2 items-center'>
+                                    <div>
+                                        <Avatar src={latestVotedVoter.profile_picture} alt={latestVotedVoter.name} />
+
+                                    </div>
+                                    <div>
+                                        {latestVotedVoter.name}
+                                    </div>
+                                    <div className='text-blue-500 font-medium'>
+                                        {latestVotedVoter.hasVoted && 'Voted'}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

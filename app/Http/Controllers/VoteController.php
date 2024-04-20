@@ -17,7 +17,7 @@ class VoteController extends Controller
         $voters = User::where('role', 'voter')->get();
         $positions = Positions::all();
         $votesPerPage = Vote::with('user', 'candidate')->paginate(10);
-
+    
         return Inertia::render(
             'Moderator/ModeratorPages/Votes',
             [

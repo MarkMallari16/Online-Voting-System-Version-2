@@ -120,7 +120,7 @@ export default function Welcome({ auth }) {
                     </div>
 
                     <div className='h-auto w-full flex justify-center gap-5 mt-10 overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)] filter'>
-                        <div className='flex items-center justify-center md:justify-start gap-5 animate-infinite-scroll' >
+                        <div className='flex items-center justify-center md:justify-end gap-5 animate-infinite-scroll' >
                             <div className='w-28 '>
                                 <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
                             </div>
@@ -165,7 +165,52 @@ export default function Welcome({ auth }) {
                             </div>
                         </div>
 
-                        <div className='flex items-center justify-end md:justify-start gap-5 animate-infinite-scroll' aria-hidden='true'>
+                        <div className='flex items-center justify-end md:justify-end gap-5 animate-infinite-scroll' aria-hidden='true'>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
+                            </div>
+                            <div className='w-28'>
+                                <img loading='lazy' src={CouncilLogo} alt="STI Bacoor Logo" />
+                            </div>
+
+                        </div>
+                        <div className='flex items-center justify-end md:justify-end gap-5 animate-infinite-scroll' aria-hidden='true'>
                             <div className='w-28'>
                                 <img loading='lazy' src={BacoorLogo} alt="STI Bacoor Logo" />
                             </div>
@@ -223,9 +268,9 @@ export default function Welcome({ auth }) {
                                     </AccordionBody>
                                 </Accordion>
                                 <Accordion open={open === 2}>
-                                    <AccordionHeader onClick={() => handleOpen(2)}>What is the online voting system for the SHS student council at STI College Bacoor?</AccordionHeader>
+                                    <AccordionHeader onClick={() => handleOpen(2)}>WWho is eligible to vote in the SHS student council elections?</AccordionHeader>
                                     <AccordionBody>
-                                        The online voting system is a platform designed to facilitate the election process for the Senior High School (SHS) council at STI College Bacoor. It allows students to cast their votes electronically from anywhere with an internet connection, providing a convenient and accessible way to participate in the democratic process.
+                                        All Senior High School (SHS) students currently enrolled at STI College Bacoor are eligible to vote in the student council elections.
                                     </AccordionBody>
                                 </Accordion>
                             </div>

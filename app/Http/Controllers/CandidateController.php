@@ -55,9 +55,9 @@ class CandidateController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'first_name' => 'required|string',
+            'first_name' => 'required|alpha',
             'middle_name' => 'nullable|string',
-            'last_name' => 'required|string',
+            'last_name' => 'required|alpha',
             'manifesto' => 'required|string',
             'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'partylist_id' => 'required|exists:partylists,id',
@@ -89,10 +89,10 @@ class CandidateController extends Controller
         $candidate = Candidate::findOrFail($id);
 
         $validatedData = $request->validate([
-            'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'first_name' => 'required|string',
+         
+            'first_name' => 'required|alpha',
             'middle_name' => 'nullable|string',
-            'last_name' => 'required|string',
+            'last_name' => 'required|alpha',
             'manifesto' => 'required|string',
             'partylist_id' => 'required|exists:partylists,id',
             'position_id' => 'required|exists:positions,id'
@@ -104,10 +104,10 @@ class CandidateController extends Controller
 
         if ($request->hasFile('candidate_profile')) {
             // If a new profile image is uploaded, delete the old one
-            if ($candidate->candidate_profile) {
-                // Delete the old profile image file
-                unlink(public_path($candidate->candidate_profile));
-            }
+            // if ($candidate->candidate_profile) {
+            //     // Delete the old profile image file
+            //     unlink(public_path($candidate->candidate_profile));
+            // }
             // Upload and save the new profile image
             $candidateImagePath = $this->uploadImage($request);
         }

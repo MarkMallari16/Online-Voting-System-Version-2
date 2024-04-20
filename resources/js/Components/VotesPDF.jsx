@@ -11,16 +11,24 @@ const styles = StyleSheet.create({
     display: 'flex',
     margin: 10,
     padding: 10,
-    flexGrow: 1,
+
   },
+
   title: {
     fontSize: 24,
-    marginBottom: 10,
+    marginBottom: 5,
     textAlign: 'center',
+
+  },
+  container: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
   },
   candidate: {
     fontSize: 16,
-    marginBottom: 5,
+    marginBottom: 2,
   },
   position: {
     fontSize: 18,
@@ -35,7 +43,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
   },
   topHeading: {
     flex: 1,
@@ -55,24 +63,29 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
-const VotesPDF = ({ voteCounts }) => {
+
+const VotesPDF = ({ voteCounts, positionList }) => {
   const sortedVoteCounts = Object.values(voteCounts).sort((a, b) => a.position_id - b.position_id);
   return (
 
     <Document>
-      <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
-          <Text style={styles.title}>Position Candidate Vote Count</Text>
-
-          {sortedVoteCounts.map((vote, index) => (
-            <View key={index} style={styles.section}>
-              <Text style={styles.position}>{vote.position}</Text>
-              <Text style={styles.candidate}>{vote.candidate}</Text>
-              <Text style={styles.voteCount}>{vote.voteCount}</Text>
-            </View>
-          ))}
-        </View>
-      </Page>
+      {positionList.map((position, index) => (
+        <Page key={index} size="A4" style={styles.page}>
+          <View style={styles.section}>
+            <Text style={styles.title}>{position.name}</Text>
+            {sortedVoteCounts
+              .filter((vote) => vote.position_id === position.id)
+              .map((vote, index) => (
+                <View key={index} style={styles.section}>
+                  <View style={styles.container}>
+                    <Text style={styles.candidate}>{vote.candidate}</Text>
+                    <Text style={styles.voteCount}>Total Votes: {vote.voteCount}</Text>
+                  </View>
+                </View>
+              ))}
+          </View>
+        </Page>
+      ))}
     </Document>
   )
 }

@@ -44,7 +44,7 @@ const TABLE_HEAD = [
     "Last Name",
     "Partylist",
     "Position",
-    "Manifesto",
+    "Candidate Platform",
     "Action",
 ];
 
@@ -60,14 +60,14 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     const [candidateUpdateProfile, setCandidateUpdateProfile] = useState(null);
 
     const [currentPage, setCurrentPage] = useState(candidatesPerPage.current_page);
-    const currentCandidates = candidatesPerPage.data;
+
+
+    const indexOfLastCandidate = currentPage * candidatesPerPage.per_page;
+    const indexOfFirstCandidate = indexOfLastCandidate - candidatesPerPage.per_page;
+
+    const currentCandidatesPage = candidates.slice(indexOfFirstCandidate,indexOfLastCandidate);
+
     const totalPages = candidatesPerPage.last_page;
-
-
-
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
 
 
     const [message, setMessage] = useState("");
@@ -89,7 +89,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             file
         );
     };
-    
+
     const handleFileUpdateUpload = (e) => {
         const file = e.target.files[0];
 
@@ -237,6 +237,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             console.error("Failed to delete position:", error);
         }
     };
+
     const handlePreviousClick = () => {
         if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
@@ -248,6 +249,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             setCurrentPage(currentPage + 1);
         }
     };
+
     return (
         <div>
             <div className="mb-3">
@@ -480,10 +482,15 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                 <InputError className="mt-2" />
                                             </div>
                                             <div className="mt-4">
-                                                <Textarea
-                                                    position="manifesto"
+                                                <InputLabel
+                                                    htmlFor="lastName"
+                                                    value="Enter Candidate Platform"
+                                                />
+                                                <textarea
+                                                    className="w-full rounded-md resize-none h-40 mt-1"
+
                                                     size="lg"
-                                                    label="Enter manifesto"
+                                                    label="Enter Candidate Platform"
                                                     value={data.manifesto}
                                                     onChange={(e) =>
                                                         setData(
@@ -682,6 +689,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                             </div>
 
                                             <div className="mt-4">
+
                                                 <Select
                                                     label="Select Position"
                                                     value={data.position_id}
@@ -708,10 +716,15 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                 <InputError className="mt-2" />
                                             </div>
                                             <div className="mt-4">
-                                                <Textarea
-                                                    position="manifesto"
+                                                <InputLabel
+                                                    htmlFor="lastName"
+                                                    value="Enter Candidate Platform"
+                                                />
+                                                <textarea
+                                                    className="w-full rounded-md resize-none h-40 mt-1"
+
                                                     size="lg"
-                                                    label="Enter manifesto"
+                                                    label="Enter Candidate Platform"
                                                     value={data.manifesto}
                                                     onChange={(e) =>
                                                         setData(
@@ -808,7 +821,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                         </thead>
 
                         <tbody>
-                            {candidates.length === 0 ? (
+                            {currentCandidatesPage.length === 0 ? (
                                 <tr>
                                     <td
                                         colSpan={TABLE_HEAD.length}
@@ -818,7 +831,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                     </td>
                                 </tr>
                             ) : (
-                                candidates.map(
+                                currentCandidatesPage.map(
                                     (
                                         {
                                             id,
@@ -995,15 +1008,15 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                         color="blue-gray"
                         className="font-normal"
                     >
-                        Page {1} of {10}
+                        Page {currentPage} of {totalPages}
                     </Typography>
                     <div className="flex gap-2">
 
-                        <Button variant="outlined" size="sm" onClick={handlePreviousClick} disabled={candidatesPerPage.current_page === 1}>
+                        <Button variant="outlined" size="sm" onClick={handlePreviousClick} disabled={currentPage === 1}>
                             Previous
                         </Button>
 
-                        <Button variant="outlined" size="sm" onClick={handleNextPage} disabled={candidatesPerPage.current_page === candidatesPerPage.per_page}>
+                        <Button variant="outlined" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
                             Next
                         </Button>
                     </div>
