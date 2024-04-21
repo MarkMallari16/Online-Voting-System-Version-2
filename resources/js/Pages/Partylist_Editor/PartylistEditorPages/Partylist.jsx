@@ -1,6 +1,6 @@
 import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import PieChart from '../../Moderator/PieChart';
+
 import { PartylistTable } from '../../Moderator/Table/PartylistTable';
 const Partylist = ({ auth, partylists, partylistsPerPage }) => {
 

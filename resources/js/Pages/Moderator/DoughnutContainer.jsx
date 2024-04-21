@@ -1,7 +1,7 @@
 import React from 'react'
-import PieChart from './PieChart';
+import DoughnutChart from './DoughnutChart';
 
-const PieChartContainer = ({ voters, votersVotedCount }) => {
+const DoughnutContainer = ({ voters, votersVotedCount }) => {
     const notYetVoted = voters.length - votersVotedCount;
 
     const pieChartData = {
@@ -18,10 +18,10 @@ const PieChartContainer = ({ voters, votersVotedCount }) => {
     };
 
     return (
-        <div className='flex justify-center mt-8'>
-            <PieChart data={pieChartData} />
+        <div className='flex justify-center mt-8 '>
+            <DoughnutChart data={pieChartData} />
         </div>
     )
 }
 
-export default PieChartContainer
+export default DoughnutContainer

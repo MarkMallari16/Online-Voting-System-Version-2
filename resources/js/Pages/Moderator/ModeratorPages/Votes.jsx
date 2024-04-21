@@ -1,6 +1,6 @@
 import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import PieChart from '../PieChart';
+
 import VoteTable from '../Table/VoteTable';
 const Votes = ({ auth, votes, votesPerPage, voters, candidates, positions }) => {
 

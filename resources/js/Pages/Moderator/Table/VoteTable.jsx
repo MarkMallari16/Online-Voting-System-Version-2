@@ -321,7 +321,7 @@ const VoteTable = ({ votes, votesPerPage, voters, candidates, positions }) => {
                         variant="outlined"
                         size="sm"
                         onClick={handlePreviousPage} // Corrected
-                        disabled={currentPage === 1}
+                        disabled={currentPage === 1 || searchQuery !== ""}
                     >
                         Previous
                     </Button>
@@ -329,7 +329,7 @@ const VoteTable = ({ votes, votesPerPage, voters, candidates, positions }) => {
                         variant="outlined"
                         size="sm"
                         onClick={handleNextPage}
-                        disabled={currentPage === totalPages}
+                        disabled={currentPage === totalPages || searchQuery !== ""}
                     >
                         Next
                     </Button>

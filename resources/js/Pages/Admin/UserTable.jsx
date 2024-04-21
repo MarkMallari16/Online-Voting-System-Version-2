@@ -5,10 +5,10 @@ import { SiMicrosoftexcel } from "react-icons/si";
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
-    PencilIcon,
+   
     UserPlusIcon,
 } from "@heroicons/react/24/outline";
-
+import { PencilIcon} from "@heroicons/react/24/solid"
 import {
     Card,
     CardHeader,
@@ -248,11 +248,11 @@ const UserTable = ({
                                             {head}{" "}
                                             {index !==
                                                 TABLE_HEAD.length - 1 && (
-                                                <ChevronUpDownIcon
-                                                    strokeWidth={2}
-                                                    className="h-4 w-4"
-                                                />
-                                            )}
+                                                    <ChevronUpDownIcon
+                                                        strokeWidth={2}
+                                                        className="h-4 w-4"
+                                                    />
+                                                )}
                                         </Typography>
                                     </th>
                                 ))}
@@ -369,11 +369,10 @@ const UserTable = ({
                                                     <Typography
                                                         variant="small"
                                                         color="blue-gray"
-                                                        className={`text-white font-semibold text-center rounded-md  px-2 py-2  ${
-                                                            email_verified_at
+                                                        className={`text-white font-semibold text-center rounded-md  px-2 py-2  ${email_verified_at
                                                                 ? "bg-green-100 text-green-700"
                                                                 : "bg-red-100 text-red-700"
-                                                        }`}
+                                                            }`}
                                                     >
                                                         {email_verified_at
                                                             ? "VERIFIED"
@@ -381,12 +380,13 @@ const UserTable = ({
                                                     </Typography>
                                                 </td>
                                                 <td className={classes}>
-                                                    <div className="flex">
+                                                    <div className="flex gap-3">
                                                         <Tooltip
                                                             content="Edit User"
                                                             className="bg-amber-700"
                                                         >
                                                             <IconButton
+                                                                className="bg-amber-700 "
                                                                 variant="text"
                                                                 onClick={() => {
                                                                     setSelectedUser(
@@ -404,14 +404,15 @@ const UserTable = ({
                                                                     );
                                                                 }}
                                                             >
-                                                                <PencilIcon className="text-amber-500  h-4 w-4" />
+                                                            <PencilIcon className="h-5 w-5 text-white" />
                                                             </IconButton>
                                                         </Tooltip>
                                                         <Tooltip
                                                             content="Delete User"
-                                                            className="bg-red-900"
+                                                            className="bg-red-700"
                                                         >
                                                             <IconButton
+                                                                className="bg-red-700 "
                                                                 variant="text"
                                                                 onClick={() => {
                                                                     setSelectedUserId(
@@ -426,7 +427,7 @@ const UserTable = ({
                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                     viewBox="0 0 24 24"
                                                                     fill="currentColor"
-                                                                    className="w-5 h-5 text-red-400"
+                                                                    className="w-5 h-5 text-white"
                                                                 >
                                                                     <path
                                                                         fillRule="evenodd"

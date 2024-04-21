@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pie } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
     BarElement,
@@ -10,12 +10,12 @@ import {
     ArcElement
 } from "chart.js";
 ChartJS.register(BarElement, ArcElement, CategoryScale, LinearScale, Tooltip, Legend);
-const PieChart = ({ data }) => {
+const DoughnutChart = ({ data }) => {
     return (
-        <div>
-            <Pie data={data} />
+        <div >
+            <Doughnut data={data} />
         </div>
     )
 }
 
-export default PieChart
+export default DoughnutChart

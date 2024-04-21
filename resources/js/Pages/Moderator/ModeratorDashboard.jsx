@@ -4,11 +4,12 @@ import ModeratorOverview from './ModeratorOverview'
 import { Select, Option, Button, Avatar } from "@material-tailwind/react";
 import { Input } from "@material-tailwind/react";
 import BarChartContainer from './BarChartContainer';
-import PieChartContainer from './PieChartContainer';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { FaRegFilePdf } from 'react-icons/fa';
-import UsersPDF from '../Admin/UsersPDF';
 import VotesPDF from '@/Components/VotesPDF';
+import { Link } from '@inertiajs/react';
+import { FaBox } from "react-icons/fa";
+import DoughnutContainer from './DoughnutContainer';
 const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount }) => {
 
     const defaultPositionId = position_list.length > 0 ? position_list[0].id : ''
@@ -33,14 +34,13 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
         console.log(value);
         localStorage.setItem('chartPositionOption', value);
     }
-    console.log(voters)
-    console.log(voteCounts);
+
 
     const votedVoters = voters.filter(voter => voter.hasVoted);
-
+    console.log(votedVoters);
     const latestVotedVoter = votedVoters.reduce((prev, current) =>
-        (new Date(prev.updated_at) > new Date(current.updated_at)) ? prev : current
-    );
+        (new Date(prev.updated_at) > new Date(current.updated_at)) ? prev : current, []
+    ) || [];
     return (
         <div>
 
@@ -102,51 +102,55 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                         <div className="p-4 text-gray-900">
                             <h1 className='text-xl font-medium'>Votes Tally</h1>
                         </div>
-                        <div className='p-8'>
-                            <div className='flex justify-end'>
-
-                                <div className="w-72">
-                                    {/**<Select label="Votes">
-                                    <Option>Voter Not Voted</Option>
-
-                                </Select> */}
-                                </div>
-                            </div>
-                            <PieChartContainer voters={voters} votersVotedCount={votersVotedCount} />
+                        <div className='px-4 py-0 md:p-8'> {/* Adjust padding based on screen size */}
+                            <DoughnutContainer voters={voters} votersVotedCount={votersVotedCount} />
                         </div>
 
                     </div>
-                    <div className="bg-white flex-1">
+                    <div className="bg-white flex-1 rounded-md">
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max px-5 py-5">
                             <div className="flex justify-between">
                                 <div >
                                     <div className='font-medium'>Today, {new Date().toLocaleDateString()}</div>
+
+
                                     <div className='text-gray-600 text-sm'>Latest voter voted</div>
                                 </div>
 
                                 <div className=" text-gray-900 text-end">
 
-                                    <div className='font-medium' >View All</div>
+                                    <Link href={route('votes')} className='font-medium border-b-2 border-black hover:border-blue-500 transition-all ease-in-out duration-50 hover:text-blue-500 cursor-pointer' >View All</Link>
                                     {/* Place your latest votes components here */}
                                 </div>
                             </div>
                         </div>
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max">
-                            <div className=" text-gray-900 ">
-                                <div className='flex justify-between px-4 py-2 items-center'>
-                                    <div>
-                                        <Avatar src={latestVotedVoter.profile_picture} alt={latestVotedVoter.name} />
-
+                            <div className="text-gray-900">
+                                {latestVotedVoter && latestVotedVoter.length > 0 ? (
+                                    <div className='flex justify-between px-4 py-2 items-center'>
+                                        <div>
+                                            <Avatar src={latestVotedVoter.profile_picture} alt={latestVotedVoter.name} />
+                                        </div>
+                                        <div>
+                                            {latestVotedVoter.name}
+                                        </div>
+                                        <div className='text-blue-500 font-medium'>
+                                            {latestVotedVoter.hasVoted && 'Voted'}
+                                        </div>
                                     </div>
-                                    <div>
-                                        {latestVotedVoter.name}
+                                ) : (
+                                    <div className='flex justify-center items-center flex-col mb-3'>
+                                        <div className='mb-3'>
+                                            <div>No Voters Yet</div>
+                                        </div>
+                                        <div>
+                                            <FaBox className='text-2xl' />
+                                        </div>
                                     </div>
-                                    <div className='text-blue-500 font-medium'>
-                                        {latestVotedVoter.hasVoted && 'Voted'}
-                                    </div>
-                                </div>
+                                )}
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>

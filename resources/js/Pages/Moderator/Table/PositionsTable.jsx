@@ -48,11 +48,11 @@ export function PositionsTable(props) {
 
     const [message, setMessage] = useState('');
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
-    
+
     const positionsPerPage = props.positionsPerPage;
 
     const [currentPage, setCurrentPage] = useState(positionsPerPage.current_page);
-   
+
     const indexOfLastPositions = currentPage * positionsPerPage.per_page;
     const indexOfFirstPositions = indexOfLastPositions - positionsPerPage.per_page;
     const currentPositions = positions.slice(indexOfFirstPositions, indexOfLastPositions);
@@ -299,18 +299,27 @@ export function PositionsTable(props) {
                                 ))}
                             </tr>
                         </thead>
-                        {positions.length > 0 ? (
+                        {currentPositions.length === 0 || currentPositions.filter(position =>
+                            position.name.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
+                            <tbody>
+                                <tr>
+                                    <td colSpan="3" className="text-center py-4 text-gray-500">
+                                        No position found
+                                    </td>
+                                </tr>
+                            </tbody>
+                        ) : (
                             <tbody>
                                 {currentPositions
                                     .filter(position => position.name.toLowerCase().includes(searchQuery.toLowerCase()))
-                                    .map(({ id, name, created_at }) => {
+                                    .map(({ id, name }) => {
 
                                         const classes = "p-4 border-b border-blue-gray-50";
 
-                                        const formatDate = (dateString) => {
-                                            const date = new Date(dateString);
-                                            return date.toLocaleString();
-                                        };
+                                        // const formatDate = (dateString) => {
+                                        //     const date = new Date(dateString);
+                                        //     return date.toLocaleString();
+                                        // };
                                         return (
                                             <tr key={id}>
                                                 <td className={classes}>
@@ -338,27 +347,27 @@ export function PositionsTable(props) {
                                                     </div>
                                                 </td>
                                                 {/* <td className={classes}>
-                                                   <div className="flex flex-col">
-                                                       <Typography
-                                                           variant="small"
-                                                           color="blue-gray"
-                                                           className="font-normal"
-                                                       >
-                                                           {formatDate(created_at)}
-                                                       </Typography>
-                                                   </div>
-                                               </td> */}
+                                               <div className="flex flex-col">
+                                                   <Typography
+                                                       variant="small"
+                                                       color="blue-gray"
+                                                       className="font-normal"
+                                                   >
+                                                       {formatDate(created_at)}
+                                                   </Typography>
+                                               </div>
+                                           </td> */}
                                                 {/* <td className={classes}>
-                                                   <div className="flex flex-col">
-                                                       <Typography
-                                                           variant="small"
-                                                           color="blue-gray"
-                                                           className="font-normal"
-                                                       >
-                                                           {formatDate(updated_at)}
-                                                       </Typography>
-                                                   </div>
-                                               </td> */}
+                                               <div className="flex flex-col">
+                                                   <Typography
+                                                       variant="small"
+                                                       color="blue-gray"
+                                                       className="font-normal"
+                                                   >
+                                                       {formatDate(updated_at)}
+                                                   </Typography>
+                                               </div>
+                                           </td> */}
                                                 <td className={classes}>
                                                     <div className="flex gap-2">
                                                         <Tooltip content="Edit Position">
@@ -394,14 +403,7 @@ export function PositionsTable(props) {
                                         );
                                     })}
                             </tbody>
-                        ) : (
-                            <tbody>
-                                <tr>
-                                    <td colSpan="3" className="text-center py-4 text-gray-500">
-                                        No position found
-                                    </td>
-                                </tr>
-                            </tbody>
+
                         )}
 
                     </table>
@@ -411,10 +413,10 @@ export function PositionsTable(props) {
                         Page {currentPage} of {totalPages}
                     </Typography>
                     <div className="flex gap-2">
-                        <Button variant="outlined" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
+                        <Button variant="outlined" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1 || searchQuery !== ""}>
                             Previous
                         </Button>
-                        <Button variant="outlined" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
+                        <Button variant="outlined" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages || searchQuery !== ""}>
                             Next
                         </Button>
                     </div>

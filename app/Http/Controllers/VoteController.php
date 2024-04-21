@@ -16,8 +16,10 @@ class VoteController extends Controller
         $votes = Vote::with('user', 'candidate')->get();
         $voters = User::where('role', 'voter')->get();
         $positions = Positions::all();
-        $votesPerPage = Vote::with('user', 'candidate')->paginate(10);
-    
+        $votesPerPage = Vote::with('user', 'candidate')
+            ->orderBy('vote_timestamp', 'desc')
+            ->paginate(10);
+
         return Inertia::render(
             'Moderator/ModeratorPages/Votes',
             [
@@ -28,7 +30,7 @@ class VoteController extends Controller
             ]
         );
     }
-   
+
     public function createVote(Request $request)
     {
         // Validate the request

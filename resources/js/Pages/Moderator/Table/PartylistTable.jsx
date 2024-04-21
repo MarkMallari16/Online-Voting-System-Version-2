@@ -73,7 +73,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
     }
   }
   const handleNextPage = () => {
-    if (currentPage < totalPages){
+    if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
     }
   }
@@ -310,7 +310,16 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                 ))}
               </tr>
             </thead>
-            {currentPartylists.length > 0 ? (
+            {currentPartylists.length === 0 || currentPartylists.filter(partylist =>
+              partylist.name.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
+              <tbody>
+                <tr>
+                  <td colSpan="4" className="text-center py-4 text-gray-500">
+                    No partylist found
+                  </td>
+                </tr>
+              </tbody>
+            ) : (
               <tbody>
                 {currentPartylists
                   .filter(partylist => partylist.name.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -384,27 +393,6 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                       );
                     },
                   )}
-
-                {
-                  (currentPartylists
-                    .filter(partylist =>
-                      partylist.name.toLowerCase().includes(searchQuery.toLowerCase())
-                    )
-                    .length === 0 && (
-                      <tr>
-                        <td colSpan="4" className="text-center py-4 text-gray-500">
-                          No partylist found
-                        </td>
-                      </tr>
-                    ))}
-              </tbody>
-            ) : (
-              <tbody>
-                <tr>
-                  <td colSpan="3" className="text-center py-4 text-gray-500">
-                    No partylist found
-                  </td>
-                </tr>
               </tbody>
             )}
           </table>
@@ -414,10 +402,10 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
             Page {currentPage} of {totalPages}
           </Typography>
           <div className="flex gap-2">
-            <Button variant="outlined" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
+            <Button variant="outlined" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1 || searchQuery !== ""}>
               Previous
             </Button>
-            <Button variant="outlined" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
+            <Button variant="outlined" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages || searchQuery !== ""}>
               Next
             </Button>
           </div>

@@ -170,12 +170,12 @@ const ActivityLog = ({ auth }) => {
                                                                     ).toLocaleString()}
                                                                 </td>
                                                                 <td
-                                                                    className={`font-bold whitespace-no-wrap text-sm sm:text-base leading-5`}
+                                                                    className={`font-medium whitespace-no-wrap text-sm sm:text-base leading-5`}
                                                                 >
                                                                     <span
                                                                         className={`${getClassByAction(
                                                                             log.action
-                                                                        )} px-2 py-1 sm:px-3 sm:py-2 inline-block`}
+                                                                        )} px-2 py-2 sm:px-3 sm:py-2 inline-block w-[140px] text-center`}
                                                                     >
                                                                         {log.action}
                                                                     </span>

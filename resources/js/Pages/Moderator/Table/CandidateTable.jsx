@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
@@ -22,7 +22,6 @@ import {
     DialogFooter,
     Select,
     Option,
-    Textarea,
     Alert,
 } from "@material-tailwind/react";
 import TextInput from "@/Components/TextInput";
@@ -61,11 +60,12 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
     const [currentPage, setCurrentPage] = useState(candidatesPerPage.current_page);
 
+    const [searchQuery, setSearchQuery] = useState("");
 
     const indexOfLastCandidate = currentPage * candidatesPerPage.per_page;
     const indexOfFirstCandidate = indexOfLastCandidate - candidatesPerPage.per_page;
 
-    const currentCandidatesPage = candidates.slice(indexOfFirstCandidate,indexOfLastCandidate);
+    const currentCandidatesPage = candidates.slice(indexOfFirstCandidate, indexOfLastCandidate);
 
     const totalPages = candidatesPerPage.last_page;
 
@@ -112,8 +112,6 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     //for update modal
     const handleUpdateOpen = (id) => {
         setUpdateModal(!openUpdateModal);
-
-
 
         // Find the candidate to update
         const candidateToUpdate = candidates.find(
@@ -249,7 +247,12 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             setCurrentPage(currentPage + 1);
         }
     };
+    const [searchResult, setSearchResult] = useState([]);
+    const handleSearch = (event) => {
+        setSearchQuery(event.target.value);
 
+
+    }
     return (
         <div>
             <div className="mb-3">
@@ -788,6 +791,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                 icon={
                                     <MagnifyingGlassIcon className="h-5 w-5" />
                                 }
+                                onChange={handleSearch}
                             />
                         </div>
                     </div>
@@ -821,7 +825,12 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                         </thead>
 
                         <tbody>
-                            {currentCandidatesPage.length === 0 ? (
+                            {currentCandidatesPage.length === 0 || currentCandidatesPage.filter(candidate =>
+                                candidate.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                candidate.middle_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                candidate.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+
+                                candidate.manifesto.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
                                 <tr>
                                     <td
                                         colSpan={TABLE_HEAD.length}
@@ -831,172 +840,178 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                     </td>
                                 </tr>
                             ) : (
-                                currentCandidatesPage.map(
-                                    (
-                                        {
-                                            id,
-                                            first_name,
-                                            middle_name,
-                                            last_name,
-                                            partylist_id,
-                                            position_id,
-                                            manifesto,
-                                            candidate_profile,
-                                        },
-                                        index
-                                    ) => {
-                                        const partylist = partylist_list.find(
-                                            (item) => item.id === partylist_id
-                                        );
-                                        const position = position_list.find(
-                                            (item) => item.id === position_id
-                                        );
+                                currentCandidatesPage
+                                    .filter(candidate =>
+                                        candidate.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                        candidate.middle_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                        candidate.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                        candidate.manifesto.toLowerCase().includes(searchQuery.toLowerCase()))
+                                    .map(
+                                        (
+                                            {
+                                                id,
+                                                first_name,
+                                                middle_name,
+                                                last_name,
+                                                partylist_id,
+                                                position_id,
+                                                manifesto,
+                                                candidate_profile,
+                                            },
+                                            index
+                                        ) => {
+                                            const partylist = partylist_list.find(
+                                                (item) => item.id === partylist_id
+                                            );
+                                            const position = position_list.find(
+                                                (item) => item.id === position_id
+                                            );
 
-                                        // If partylist or position is not found, display 'Unknown'
-                                        const partylistName = partylist
-                                            ? partylist.name
-                                            : "Unknown";
-                                        const positionName = position
-                                            ? position.name
-                                            : "Unknown";
+                                            // If partylist or position is not found, display 'Unknown'
+                                            const partylistName = partylist
+                                                ? partylist.name
+                                                : "Unknown";
+                                            const positionName = position
+                                                ? position.name
+                                                : "Unknown";
 
-                                        const isLast =
-                                            index === candidates.length - 1;
-                                        const classes = isLast
-                                            ? "p-4"
-                                            : "p-4 border-b border-blue-gray-50";
+                                            const isLast =
+                                                index === candidates.length - 1;
+                                            const classes = isLast
+                                                ? "p-4"
+                                                : "p-4 border-b border-blue-gray-50";
 
-                                        return (
-                                            <tr key={id}>
-                                                <td className={classes}>
-                                                    <div className="flex items-center gap-3">
+                                            return (
+                                                <tr key={id}>
+                                                    <td className={classes}>
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="flex flex-col">
+                                                                <Typography
+                                                                    variant="small"
+                                                                    color="blue-gray"
+                                                                    className="font-normal"
+                                                                >
+                                                                    {id}
+                                                                </Typography>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className={classes}>
                                                         <div className="flex flex-col">
                                                             <Typography
                                                                 variant="small"
                                                                 color="blue-gray"
                                                                 className="font-normal"
                                                             >
-                                                                {id}
+                                                                <Avatar
+                                                                    src={
+                                                                        candidate_profile
+                                                                            ? candidate_profile
+                                                                            : DefaultCandidatePicture
+                                                                    }
+                                                                />
                                                             </Typography>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                <td className={classes}>
-                                                    <div className="flex flex-col">
+                                                    </td>
+                                                    <td className={classes}>
                                                         <Typography
                                                             variant="small"
                                                             color="blue-gray"
                                                             className="font-normal"
                                                         >
-                                                            <Avatar
-                                                                src={
-                                                                    candidate_profile
-                                                                        ? candidate_profile
-                                                                        : DefaultCandidatePicture
-                                                                }
-                                                            />
+                                                            {first_name}
                                                         </Typography>
-                                                    </div>
-                                                </td>
-                                                <td className={classes}>
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {first_name}
-                                                    </Typography>
-                                                </td>
-                                                <td className={classes}>
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {middle_name}
-                                                    </Typography>
-                                                </td>
-                                                <td className={classes}>
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {last_name}
-                                                    </Typography>
-                                                </td>
-                                                <td className={classes}>
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {partylistName}
-                                                    </Typography>
-                                                </td>
-                                                <td className={classes}>
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {positionName}
-                                                    </Typography>
-                                                </td>
-                                                <td className={classes}>
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {manifesto}
-                                                    </Typography>
-                                                </td>
-                                                <td className={classes}>
-                                                    <div className="flex gap-2">
-                                                        <Tooltip content="Edit Candidate">
-                                                            <IconButton
-                                                                variant="text"
-                                                                className="bg-amber-700 text-white"
-                                                                onClick={() =>
-                                                                    handleUpdateOpen(
-                                                                        id
-                                                                    )
-                                                                }
-                                                            >
-                                                                <PencilIcon className="h-5 w-5" />
-                                                            </IconButton>
-                                                        </Tooltip>
-                                                        <Tooltip content="Delete Candidate">
-                                                            <IconButton
-                                                                variant="text"
-                                                                className="bg-red-700 text-white"
-                                                                onClick={() =>
-                                                                    handleDeleteOpen(
-                                                                        id
-                                                                    )
-                                                                }
-                                                            >
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 24 24"
-                                                                    fill="currentColor"
-                                                                    className="w-5 h-5"
+                                                    </td>
+                                                    <td className={classes}>
+                                                        <Typography
+                                                            variant="small"
+                                                            color="blue-gray"
+                                                            className="font-normal"
+                                                        >
+                                                            {middle_name}
+                                                        </Typography>
+                                                    </td>
+                                                    <td className={classes}>
+                                                        <Typography
+                                                            variant="small"
+                                                            color="blue-gray"
+                                                            className="font-normal"
+                                                        >
+                                                            {last_name}
+                                                        </Typography>
+                                                    </td>
+                                                    <td className={classes}>
+                                                        <Typography
+                                                            variant="small"
+                                                            color="blue-gray"
+                                                            className="font-normal"
+                                                        >
+                                                            {partylistName}
+                                                        </Typography>
+                                                    </td>
+                                                    <td className={classes}>
+                                                        <Typography
+                                                            variant="small"
+                                                            color="blue-gray"
+                                                            className="font-normal"
+                                                        >
+                                                            {positionName}
+                                                        </Typography>
+                                                    </td>
+                                                    <td className={classes}>
+                                                        <Typography
+                                                            variant="small"
+                                                            color="blue-gray"
+                                                            className="font-normal"
+                                                        >
+                                                            {manifesto}
+                                                        </Typography>
+                                                    </td>
+                                                    <td className={classes}>
+                                                        <div className="flex gap-2">
+                                                            <Tooltip content="Edit Candidate">
+                                                                <IconButton
+                                                                    variant="text"
+                                                                    className="bg-amber-700 text-white"
+                                                                    onClick={() =>
+                                                                        handleUpdateOpen(
+                                                                            id
+                                                                        )
+                                                                    }
                                                                 >
-                                                                    <path
-                                                                        fillRule="evenodd"
-                                                                        d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
-                                                                        clipRule="evenodd"
-                                                                    />
-                                                                </svg>
-                                                            </IconButton>
-                                                        </Tooltip>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        );
-                                    }
-                                )
+                                                                    <PencilIcon className="h-5 w-5" />
+                                                                </IconButton>
+                                                            </Tooltip>
+                                                            <Tooltip content="Delete Candidate">
+                                                                <IconButton
+                                                                    variant="text"
+                                                                    className="bg-red-700 text-white"
+                                                                    onClick={() =>
+                                                                        handleDeleteOpen(
+                                                                            id
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 24 24"
+                                                                        fill="currentColor"
+                                                                        className="w-5 h-5"
+                                                                    >
+                                                                        <path
+                                                                            fillRule="evenodd"
+                                                                            d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
+                                                                            clipRule="evenodd"
+                                                                        />
+                                                                    </svg>
+                                                                </IconButton>
+                                                            </Tooltip>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        }
+                                    )
                             )}
                         </tbody>
 
@@ -1012,11 +1027,11 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                     </Typography>
                     <div className="flex gap-2">
 
-                        <Button variant="outlined" size="sm" onClick={handlePreviousClick} disabled={currentPage === 1}>
+                        <Button variant="outlined" size="sm" onClick={handlePreviousClick} disabled={currentPage === 1 || searchQuery !== ""}>
                             Previous
                         </Button>
 
-                        <Button variant="outlined" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
+                        <Button variant="outlined" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages || searchQuery !== ""}>
                             Next
                         </Button>
                     </div>
