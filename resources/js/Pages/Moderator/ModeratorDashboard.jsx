@@ -12,6 +12,8 @@ import { FaBox } from "react-icons/fa";
 import DoughnutContainer from './DoughnutContainer';
 const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount }) => {
 
+    const electionTitle = election.title;
+    
     const defaultPositionId = position_list.length > 0 ? position_list[0].id : ''
     const [selectedPosition, setSelectedPosition] = useState(defaultPositionId);
 
@@ -40,7 +42,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
     console.log(votedVoters);
     const latestVotedVoter = votedVoters.reduce((prev, current) =>
         (new Date(prev.updated_at) > new Date(current.updated_at)) ? prev : current, []
-    ) || [];
+    ) ;
     return (
         <div>
 
@@ -70,7 +72,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                     <FaRegFilePdf className="text-xl" />
                                 </div>
                                 <PDFDownloadLink
-                                    document={<VotesPDF voteCounts={voteCounts} positionList={position_list} />}
+                                    document={<VotesPDF voteCounts={voteCounts} positionList={position_list} electionTitle={electionTitle}/>}
                                     fileName="votes_report.pdf"
                                 >
                                     {({ blob, url, loading, error }) =>
@@ -126,7 +128,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                         </div>
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max">
                             <div className="text-gray-900">
-                                {latestVotedVoter && latestVotedVoter.length > 0 ? (
+                                {latestVotedVoter && Object.keys(latestVotedVoter).length > 0 ? (
                                     <div className='flex justify-between px-4 py-2 items-center'>
                                         <div>
                                             <Avatar src={latestVotedVoter.profile_picture} alt={latestVotedVoter.name} />
