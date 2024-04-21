@@ -18,9 +18,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
     const [selectedCandidates, setSelectedCandidates] = useState([]);
     const [now, setNow] = useState(new Date());
 
-
     const memoizedEndingDate = useMemo(() => election.status === 'Inactive' ? '' : election.end_date, [election.end_date, election.status]);
-
 
     const endDate = memoizedEndingDate ? new Date(memoizedEndingDate) : new Date(0);
 
@@ -88,11 +86,6 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
     const onVoteSubmit = async (e) => {
         e.preventDefault();
 
-        // if (selectedCandidates.length === 0) {
-        //     // Handle case where no candidates are selected
-        //     console.error("No candidates selected.");
-        //     return;
-        // }
 
         setShowConfirmationModal(true);
     };
@@ -127,20 +120,20 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
             return {
                 id: candidate.id,
                 candidateProfile: candidate.candidate_profile,
-                name: `${candidate.first_name} ${candidate?.middle_name} ${candidate.last_name}`,
+                name: `${candidate.first_name}  ${candidate.last_name}`,
                 partylist: candidate.partylist.name,
                 position: candidate.position
             };
         });
     };
 
-  
+
     console.log(election)
 
 
     return (
         <div>
-            {election && election.status === "Active" ? (
+            {(election && election.status === "Active" || election.start_date < new Date()) && (new Date(election.start_date) < new Date()) ? (
 
                 <div>
                     <div className="bg-white border border-black border-3 p-5 rounded-md ">
@@ -174,7 +167,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                         )}
                     </div>
                     <div>
-                      
+
 
                     </div>
                     <div>
@@ -225,7 +218,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
                                 <div className="text-center mt-7">
                                     {
-                                        result ? "" : <PrimaryButton
+                                        <PrimaryButton
 
                                             onClick={onVoteSubmit}
                                             disabled={processing}
@@ -241,12 +234,11 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                 </div>
             ) : (
 
-                <div className=" w-full flex justify-center items-center">
-                    <div className="text-gray-600 p-5 text-center ">
-                        <div className="text-xl">Please wait for the moderator</div>
-                        <div className="text-xl">Election for this position will be available soon.</div>
+                <div className="w-full flex justify-center items-center">
+                    <div className="text-gray-600 p-5 text-center">
+                        <div className="text-xl">The election for this position has not started yet.</div>
+                        <div className="text-xl">Please check back later for updates.</div>
                     </div>
-
                 </div>
             )
             }

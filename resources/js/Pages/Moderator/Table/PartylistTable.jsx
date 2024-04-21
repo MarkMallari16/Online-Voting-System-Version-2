@@ -36,11 +36,7 @@ import InfoIcon from "@/Components/InfoIcon";
 import ExcelExport from "@/Components/ExcelExport";
 
 
-
-
 const TABLE_HEAD = ["Partylist ID", "Partylist Name", "Partylist Description", "Action"];
-
-
 
 export function PartylistTable({ partylists, partylistsPerPage }) {
   console.log(partylistsPerPage);

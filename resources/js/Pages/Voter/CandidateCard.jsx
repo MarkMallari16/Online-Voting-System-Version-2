@@ -22,18 +22,20 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
     useEffect(() => {
         // Update isSelected state when selected prop changes
         setIsSelected(selected);
-       
+
     }, [selected]);
 
     const handleCandidateClick = () => {
-        onSelectCandidate(candidate.id, positionId);
+        if (!open) {
+            onSelectCandidate(candidate.id, positionId);
+        }
     };
 
 
     return (
         <>
-        {/**hover:border-blue-500 focus:border-blue-500 */}
-            <Card className={`p-5 w-full shadow-xxl border-2 md:w-96 h-auto cursor-pointer ${isSelected ? 'border-blue-500' : 'border-transparent'}  transition-all duration-200 ease-in-out `} onClick={handleCandidateClick} >
+            {/**hover:border-blue-500 focus:border-blue-500 */}
+            <Card className={`p-5 w-full shadow-xxl border-2 md:w-96 h-auto cursor-pointer  ${isSelected ? 'border-blue-500' : 'border-transparent'}  transition-all duration-200 ease-in-out `} onClick={handleCandidateClick} >
                 <div className='flex justify-center'>
                     <Avatar src={candidate.candidate_profile ? candidate.candidate_profile : DefaultCandidateProfile} size="xxl" withBorder={true} className='border-blue-500 p-0.5' />
 
@@ -48,7 +50,7 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
                 />
                 <CardBody className='text-center'>
                     <Typography variant="h5" color="blue-gray" className="mb-2">
-                        {`${candidate.first_name} ${candidate.middle_name  === null ? '' : ''} ${candidate.last_name}`}
+                        {`${candidate.first_name} ${candidate.middle_name === null ? '' : ''} ${candidate.last_name}`}
                     </Typography>
                     <div className='flex items-center justify-center gap-2'>
                         <span><FaUsers className='text-lg' /></span>
@@ -57,7 +59,7 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
 
                 </CardBody>
                 <CardFooter className="pt-0 text-center">
-                    <button type='button' className='text-center text-black font-medium bg-gray-300 px-3 py-2 rounded-md' onClick={handleOpen}>View Platform</button>
+                    <button type='button' className='text-center text-black font-medium bg-gray-300 px-3 py-2 rounded-md z-50' onClick={handleOpen}>View Platform</button>
                 </CardFooter>
             </Card>
 
