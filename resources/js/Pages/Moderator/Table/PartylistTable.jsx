@@ -172,7 +172,6 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
               <Tab key={value} value={value}>
                 &nbsp;&nbsp;{label}&nbsp;&nbsp;
               </Tab>
-
             ))}
           </TabsHeader>
         </Tabs>
@@ -448,7 +447,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
         </Card>
       )}
       {selectedTab === 'partylist_editor' && (
-        <div className="container mx-auto  py-8">
+        <div className="container mx-auto  py-2">
           <div className="flex justify-end">
             <Button className="flex items-center gap-3 bg-blue-500" size="sm" onClick={handleAddOpen}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
@@ -459,7 +458,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
             </Button>
 
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 w-full mt-8 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 w-full py-8 gap-3">
             <div className="w-full bg-white text-center border-2 border-gray-200 py-5 px-3 rounded-md ">
               <div className="flex justify-end ">
                 <Dropdown>
@@ -471,7 +470,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                     </div>
                   </Dropdown.Trigger>
                   <Dropdown.Content align="right" width="48">
-                    <Dropdown.Link href="#">
+                    <Dropdown.Link >
                       <div className="flex gap-1 text-red-500">
                         <div>
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
