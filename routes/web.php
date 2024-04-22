@@ -13,8 +13,8 @@ use App\Http\Controllers\ProfilePictureController;
 use App\Http\Controllers\ElectionController;
 use App\Http\Controllers\PartylistController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\VoteController;
-use App\Http\Controllers\VoterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,7 +106,7 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     
 
     Route::post('assign-partylist-editor/{partylistId}/assign-editor/{userId}',[PartylistController::class,'assignEditor']);
-
+    Route::put('/users/{userId}/switch-role', [RoleController::class, 'switchRole'])->name('users.switchRole');
 });
 
 
