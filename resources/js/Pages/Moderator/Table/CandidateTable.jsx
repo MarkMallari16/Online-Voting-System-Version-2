@@ -247,11 +247,9 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             setCurrentPage(currentPage + 1);
         }
     };
-    const [searchResult, setSearchResult] = useState([]);
+
     const handleSearch = (event) => {
         setSearchQuery(event.target.value);
-
-
     }
     return (
         <div>
@@ -350,7 +348,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                 <div className="flex-1">
                                                     <InputLabel
                                                         htmlFor="firstName"
-                                                        value="Enter Candidate First Name"
+                                                        value="Candidate First Name"
                                                     />
 
                                                     <TextInput
@@ -370,6 +368,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                         required
                                                         autoFocus
                                                         autoComplete="firstName"
+                                                        placeholder="Enter Candidate First Name"
                                                     />
 
                                                     <InputError className="mt-2" />
@@ -378,7 +377,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                 <div className="flex-1">
                                                     <InputLabel
                                                         htmlFor="lastName"
-                                                        value="Enter Candidate Middle Name (optional)"
+                                                        value=" Candidate Middle Name (optional)"
                                                     />
 
                                                     <TextInput
@@ -398,6 +397,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
                                                         autoFocus
                                                         autoComplete="middleName"
+                                                        placeholder="Enter Candidate Middle Name"
                                                     />
 
                                                     <InputError className="mt-2" />
@@ -425,6 +425,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                         required
                                                         autoFocus
                                                         autoComplete="lastName"
+                                                        placeholder="Enter Candidate last Name"
                                                     />
 
                                                     <InputError className="mt-2" />
@@ -487,7 +488,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                             <div className="mt-4">
                                                 <InputLabel
                                                     htmlFor="lastName"
-                                                    value="Enter Candidate Platform"
+                                                    value="Candidate Platform"
                                                 />
                                                 <textarea
                                                     className="w-full rounded-md resize-none h-40 mt-1"

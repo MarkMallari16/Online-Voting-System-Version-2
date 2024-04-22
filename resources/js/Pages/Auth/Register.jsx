@@ -48,6 +48,8 @@ export default function Register() {
                         isFocused={true}
                         onChange={(e) => setData('name', e.target.value)}
                         required
+                        place
+                        placeholder="John Doe"
                     />
 
                     <InputError message={errors.name} className="mt-2" />
@@ -65,6 +67,7 @@ export default function Register() {
                         autoComplete="username"
                         onChange={(e) => setData('email', e.target.value)}
                         required
+                        placeholder="doe.131415@bacoor.sti.edu.ph"
                     />
 
                     <InputError message={errors.email} className="mt-2" />
@@ -82,6 +85,7 @@ export default function Register() {
                         autoComplete="new-password"
                         onChange={(e) => setData('password', e.target.value)}
                         required
+                     
                     />
 
                     <InputError message={errors.password} className="mt-2" />
@@ -99,6 +103,7 @@ export default function Register() {
                         autoComplete="new-password"
                         onChange={(e) => setData('password_confirmation', e.target.value)}
                         required
+                        
                     />
 
                     <InputError message={errors.password_confirmation} className="mt-2" />

@@ -45,8 +45,6 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
         console.log(value);
         localStorage.setItem('chartPositionOption', value);
     }
-
-
     const votedVoters = voters.filter(voter => voter.hasVoted);
     console.log(votedVoters);
     const latestVotedVoter = votedVoters.reduce((prev, current) =>

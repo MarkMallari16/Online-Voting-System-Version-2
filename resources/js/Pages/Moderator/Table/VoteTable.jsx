@@ -20,14 +20,8 @@ import {
     DialogFooter,
 } from "@material-tailwind/react";
 
-import InputLabel from "@/Components/InputLabel";
-import TextInput from "@/Components/TextInput";
-import InputError from "@/Components/InputError";
-import { useForm } from '@inertiajs/inertia-react';
+
 import ExcelExport from '@/Components/ExcelExport';
-
-
-
 
 const VoteTable = ({ votes, votesPerPage, voters, candidates, positions }) => {
     const TABLE_HEAD = ["#", "Voter ID", "Voter's Name", "Candidate Voted For", "Candidate Position", "Election ID", "Vote Timestamp", "Action"];
@@ -63,7 +57,6 @@ const VoteTable = ({ votes, votesPerPage, voters, candidates, positions }) => {
         setSearchQuery(event.target.value);
     }
 
-
     return (
         <Card className="h-full w-full">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -87,7 +80,6 @@ const VoteTable = ({ votes, votesPerPage, voters, candidates, positions }) => {
                         </DialogHeader>
                         <DialogBody>
                             <div >
-
                                 <div className='text-xl text-black font-medium'>
                                     <div>Voter ID: <span>{votes.find(vote => vote.id === id)?.voter_id}</span></div>
                                 </div>
