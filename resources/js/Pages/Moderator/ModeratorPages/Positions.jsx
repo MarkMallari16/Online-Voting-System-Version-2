@@ -4,7 +4,7 @@ import { PositionsTable } from '../Table/PositionsTable'
 const Positions = ({auth, positions,positionsPerPage}) => {
 
   return (
-    <AuthenticatedLayout user={auth.user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Manage Candidate Positions</h2>} >
+    <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Manage Candidate Positions</h2>} >
       <div className="flex flex-col md:flex-row min-h-screen">
 
         <main className="flex-1 py-12">

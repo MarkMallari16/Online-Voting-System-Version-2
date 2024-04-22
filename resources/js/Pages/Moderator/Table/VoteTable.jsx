@@ -174,7 +174,12 @@ const VoteTable = ({ votes, votesPerPage, voters, candidates, positions }) => {
                         </tr>
                     </thead>
 
-                    {currentVotes.length === 0 ? (
+                    {currentVotes.length === 0 || currentVotes.filter(vote => {
+                        const userMatches = vote.user.name.toLowerCase().includes(searchQuery.toLowerCase());
+                        const candidateMatches = `${vote.candidate.first_name} ${vote.candidate.last_name}`.toLowerCase().includes(searchQuery.toLowerCase());
+                        const position = positions.find(position => position.id === vote.candidate.position_id).name.toLowerCase().includes(searchQuery.toLowerCase());
+                        return userMatches || candidateMatches || position;
+                    }).length === 0 ? (
                         <tbody>
                             <tr>
                                 <td colSpan="8" className="text-center py-4 text-gray-500">

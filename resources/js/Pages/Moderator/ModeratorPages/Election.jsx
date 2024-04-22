@@ -101,7 +101,7 @@ const Election = ({ auth, existingElection, election }) => {
   };
 
   return (
-    <AuthenticatedLayout user={auth.user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Election</h2>}>
+    <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Election</h2>}>
       <div className="flex flex-col md:flex-row min-h-screen">
         <main className="flex-1 py-12">
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
@@ -195,7 +195,7 @@ const Election = ({ auth, existingElection, election }) => {
             </div>
           </div>
 
-          Are you sure you want to activate the election? Once status, students will be able to participate in the election.
+          <div>Are you sure you want to activate the election? Once status, students will be able to participate in the election.</div>
         </DialogBody>
         <DialogFooter>
           <Button

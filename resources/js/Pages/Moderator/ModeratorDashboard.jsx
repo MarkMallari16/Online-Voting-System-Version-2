@@ -10,10 +10,19 @@ import VotesPDF from '@/Components/VotesPDF';
 import { Link } from '@inertiajs/react';
 import { FaBox } from "react-icons/fa";
 import DoughnutContainer from './DoughnutContainer';
+function PositionSelector({ label, onChange, value, positionList }) {
+    return (
+        <Select label={label} onChange={onChange} value={value}>
+            {positionList.map((position) => (
+                <Option key={position.id} value={position.id}>{position.name}</Option>
+            ))}
+        </Select>
+    );
+}
 const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount }) => {
 
     const electionTitle = election.title;
-    
+
     const defaultPositionId = position_list.length > 0 ? position_list[0].id : ''
     const [selectedPosition, setSelectedPosition] = useState(defaultPositionId);
 
@@ -42,7 +51,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
     console.log(votedVoters);
     const latestVotedVoter = votedVoters.reduce((prev, current) =>
         (new Date(prev.updated_at) > new Date(current.updated_at)) ? prev : current, []
-    ) ;
+    );
     return (
         <div>
 
@@ -72,7 +81,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                     <FaRegFilePdf className="text-xl" />
                                 </div>
                                 <PDFDownloadLink
-                                    document={<VotesPDF voteCounts={voteCounts} positionList={position_list} electionTitle={electionTitle}/>}
+                                    document={<VotesPDF voteCounts={voteCounts} positionList={position_list} electionTitle={electionTitle} />}
                                     fileName="votes_report.pdf"
                                 >
                                     {({ blob, url, loading, error }) =>
@@ -87,13 +96,9 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                 </Select>
                             </div>
                             <div className="w-100 sm:w-72 md:w-72 lg:w-72">
-                                <Select label="Select Position" onChange={handlePositionChange} value={selectedPosition}>
-
-                                    {position_list.map((position) => (
-                                        <Option key={position.id} value={position.id}>{position.name}</Option>
-                                    ))}
-                                </Select>
+                               <PositionSelector label="Select Position" onChange={handlePositionChange} value={selectedPosition} positionList={position_list}/>
                             </div>
+                           
                         </div>
                         <BarChartContainer positionId={positionId} positionName={positionName} voteCounts={voteCounts} selectedPosition={selectedPosition} chartPositionOption={chartPositionOption} />
                     </div>

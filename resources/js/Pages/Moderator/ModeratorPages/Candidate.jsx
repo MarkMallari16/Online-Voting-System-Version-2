@@ -5,7 +5,7 @@ const Candidate = ({auth, partylist_list, position_list, candidates,candidatesPe
 
   return (
     
-    <AuthenticatedLayout user={auth.user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Manage Candidate</h2>} >
+    <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Manage Candidate</h2>} >
       <div className="flex flex-col md:flex-row min-h-screen">
 
         <main className="flex-1 py-12">
