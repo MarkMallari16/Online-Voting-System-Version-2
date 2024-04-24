@@ -47,6 +47,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
     }
     const votedVoters = voters.filter(voter => voter.hasVoted);
     console.log(votedVoters);
+    
     const latestVotedVoter = votedVoters.reduce((prev, current) =>
         (new Date(prev.updated_at) > new Date(current.updated_at)) ? prev : current, []
     );
@@ -59,8 +60,8 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                 </div>
             </div>
 
-            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-3">
-                <div className="p-6 text-gray-900">
+            <div className="overflow-hidden  sm:rounded-lg mb-3 ">
+                <div className=" text-gray-900">
                     <ModeratorOverview voters={voters} election={election} candidates={candidates} votersVotedCount={votersVotedCount} />
 
                 </div>

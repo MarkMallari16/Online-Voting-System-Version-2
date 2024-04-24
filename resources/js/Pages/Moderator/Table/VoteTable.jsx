@@ -18,10 +18,26 @@ import {
     DialogHeader,
     DialogBody,
     DialogFooter,
+    Tabs,
+    TabsHeader,
+    TabsBody,
+    Tab,
+    TabPanel,
 } from "@material-tailwind/react";
 
 
 import ExcelExport from '@/Components/ExcelExport';
+const TABS = [
+    {
+        label: "Voters Voted",
+        value: "voters_voted",
+    },
+    {
+        label: "Voters not Voted",
+        value: "voters_not_voted",
+    },
+
+];
 
 const VoteTable = ({ votes, votesPerPage, voters, candidates, positions }) => {
     const TABLE_HEAD = ["#", "Voter ID", "Voter's Name", "Candidate Voted For", "Candidate Position", "Election ID", "Vote Timestamp", "Action"];
@@ -121,7 +137,24 @@ const VoteTable = ({ votes, votesPerPage, voters, candidates, positions }) => {
                         </DialogFooter>
                     </Dialog>
                 </div>
+               
                 <div className="flex flex-col items-center justify-end gap-4 md:flex-row ">
+                <div>
+                    <Tabs value="voters_voted">
+                        <div className="w-full  mx-4">
+                            <TabsHeader >
+                                {TABS.map(({ label, value }) => (
+                                    <Tab key={value} value={value}>
+                                        &nbsp;&nbsp;{label}&nbsp;&nbsp;
+                                    </Tab>
+                                ))}
+                            </TabsHeader>
+                        </div>
+
+
+                    </Tabs>
+
+                </div>
                     <div className='flex justify-start gap-2'>
                         <div className='border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md'>
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { useForm } from "@inertiajs/inertia-react";
 import CandidateCard from "./CandidateCard";
@@ -26,15 +26,20 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
     const [result, setResult] = useState(now > endDate);
 
+    const resultRef = useRef(null);
+
+    useEffect(() => {
+        if (result && resultRef.current) {
+            resultRef.current.scrollIntoView({ behavior: 'smooth', block: "start" });
+        }
+    },[result])
+
     useEffect(() => {
         const updateNow = () => {
             setNow(new Date());
             setTimeout(updateNow, 1000);
         };
-
-
         updateNow();
-
         return () => clearTimeout(updateNow);
     }, []);
 
@@ -86,6 +91,11 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
     const onVoteSubmit = async (e) => {
         e.preventDefault();
 
+        // if (selectedCandidates.length === 0) {
+        //     // Handle case where no candidates are selected
+        //     console.error("No candidates selected.");
+        //     return;
+        // }
 
         setShowConfirmationModal(true);
     };
@@ -120,7 +130,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
             return {
                 id: candidate.id,
                 candidateProfile: candidate.candidate_profile,
-                name: `${candidate.first_name}  ${candidate.last_name}`,
+                name: `${candidate.first_name} ${candidate?.middle_name} ${candidate.last_name}`,
                 partylist: candidate.partylist.name,
                 position: candidate.position
             };
@@ -133,10 +143,10 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
     return (
         <div>
-            {(election && election.status === "Active" || election.start_date < new Date()) && (new Date(election.start_date) < new Date()) ? (
+            {election && election.status === "Active" ? (
 
                 <div>
-                    <div className="bg-white border border-black border-3 p-5 rounded-md ">
+                    <div className="bg-white border shadow-md border-3 p-5 rounded-md ">
                         <div className="flex  items-center justify-between">
                             <div><img src={STIBacoorLogo} alt="STI Bacoor Logo" className="w-32 sm:w-32" /></div>
                             <div className="text-xl md:text-5xl text-center font-medium">{election.title}</div>
@@ -159,7 +169,6 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
                                             <path fillRule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clipRule="evenodd" />
                                         </svg>
-
                                     </span>
                                     End Date: {new Date(election.end_date).toLocaleString()}
                                 </div>
@@ -172,15 +181,11 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                     </div>
                     <div>
                         {result ? (
-                            <div className="mt-10">
-                                <div className="flex justify-end">
-                                    <PrimaryButton>See winners</PrimaryButton>
-                                </div>
+                            <div ref={resultRef} className="mt-20">
                                 <div className="w-full text-xl md:text-2xl lg:text-3xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 justify-center">
                                     {positionList.map(position => (
                                         <BarChartContainer key={position.id} positionId={position.id} positionName={position.name} voteCounts={voteCounts} />
                                     ))}
-
                                 </div>
                             </div>
                         ) : voterHasVoted ? (
@@ -222,7 +227,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
                                 <div className="text-center mt-7">
                                     {
-                                        <PrimaryButton
+                                        result ? "" : <PrimaryButton
 
                                             onClick={onVoteSubmit}
                                             disabled={processing}
@@ -238,11 +243,12 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                 </div>
             ) : (
 
-                <div className="w-full flex justify-center items-center">
-                    <div className="text-gray-600 p-5 text-center">
-                        <div className="text-xl">The election for this position has not started yet.</div>
-                        <div className="text-xl">Please check back later for updates.</div>
+                <div className=" w-full flex justify-center items-center">
+                    <div className="text-gray-600 p-5 text-center ">
+                        <div className="text-xl">Please wait for the moderator</div>
+                        <div className="text-xl">Election for this position will be available soon.</div>
                     </div>
+
                 </div>
             )
             }

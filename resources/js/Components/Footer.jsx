@@ -53,10 +53,7 @@ const Footer = () => {
             <div className='border border-1 border-gray-400 p-1 rounded-sm hover:border-blue-500 hover:text-blue-800 transition ease-in duration-100' >
               <a href='https://www.facebook.com/stibacoorshssc'>    <FaFacebookSquare className=' text-3xl' /></a>
             </div>
-            <div className='border border-1 border-gray-400 p-1 rounded-sm hover:border-blue-500 hover:text-blue-800 transition ease-in duration-100' >
-              <a href='https://www.facebook.com/stibacoorshssc'>    <FaInstagramSquare className=' text-3xl' /></a>
-
-            </div>
+           
           </div>
         </div>
       </footer>

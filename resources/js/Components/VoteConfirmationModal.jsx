@@ -64,6 +64,11 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
                             </ul>
                         </div>
                     </div>
+                    {!selectedCandidatesInfo.length && (
+                 <div className="text-center text-gray-600 mt-4">
+                 You have chosen to abstain from voting.
+             </div>
+            )}
                 <div className="mt-5 flex justify-center gap-1">
                     <DangerButton type="button" className="mr-2 " onClick={handleClose}>
                         Cancel
@@ -75,7 +80,7 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
                 </div>
                 </div>
             </form>
-
+           
         </Modal>
     )
 }

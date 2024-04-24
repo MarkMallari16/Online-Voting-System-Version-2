@@ -12,7 +12,6 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, chartPosition
 
   const barChartData = {
     labels: labels,
-
     datasets: [
       {
         //data
