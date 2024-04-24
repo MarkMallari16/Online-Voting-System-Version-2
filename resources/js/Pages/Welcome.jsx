@@ -133,9 +133,11 @@ export default function Welcome({ auth }) {
                         ))}
                     </div>
 
-                    <div>
-                        <div className='mt-24 mb-10 text-center text-4xl font-bold' >Frequently Asked Question</div>
-                        <div className=' flex justify-center'>
+                    <div className='h-auto' >
+                        <div className='mt-24 text-center text-4xl font-bold' >Frequently Asked Question</div>
+                        <p className="text-lg font-normal text-gray-600 text-center mt-1 mb-10">
+                            Get quick answers to common questions about the SHS student council's online voting system.
+                        </p>                        <div className=' flex justify-center'>
                             <div className='w-[90%] bg-blue-50 px-3' >
                                 <Accordion open={open === 1}>
                                     <AccordionHeader onClick={() => handleOpen(1)}>What is the online voting system for the SHS student council at STI College Bacoor?</AccordionHeader>
@@ -144,7 +146,7 @@ export default function Welcome({ auth }) {
                                     </AccordionBody>
                                 </Accordion>
                                 <Accordion open={open === 2}>
-                                    <AccordionHeader onClick={() => handleOpen(2)}>WWho is eligible to vote in the SHS student council elections?</AccordionHeader>
+                                    <AccordionHeader onClick={() => handleOpen(2)}>Who is eligible to vote in the SHS student council elections?</AccordionHeader>
                                     <AccordionBody>
                                         All Senior High School (SHS) students currently enrolled at STI College Bacoor are eligible to vote in the student council elections.
                                     </AccordionBody>

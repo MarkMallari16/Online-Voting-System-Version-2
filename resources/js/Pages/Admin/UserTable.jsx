@@ -126,7 +126,7 @@ const UserTable = ({
     const handleFilter = (e) => {
         const selectedValue = e.target.value;
         setFilterValue(selectedValue);
-        console.log(selectedValue);
+     
     };
 
     return (
@@ -382,7 +382,7 @@ const UserTable = ({
                                                 <td className={classes}>
                                                     <div className="flex gap-3">
                                                         <Tooltip
-                                                            content="Edit User"
+                                                            content="Update User"
                                                             className="bg-amber-700"
                                                         >
                                                             <IconButton

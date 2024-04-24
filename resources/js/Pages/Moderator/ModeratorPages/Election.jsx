@@ -56,7 +56,7 @@ const Election = ({ auth, existingElection, election }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const route = election ? `/election/${election.id}` : '/election';
+      const route = existingElection ? `/election/${existingElection.id}` : '/election';
       await post(route);
 
       setSuccessMessage(status ? 'Election updated successfully.' : 'Election created successfully.');
@@ -93,6 +93,12 @@ const Election = ({ auth, existingElection, election }) => {
       setSuccessMessage('Election deactivated successfully.');
       setDeactivateOpen(false);
       window.location.reload();
+
+      if (data.votesCount > 0) {
+        // Display error message and prevent deactivation
+        setError('Cannot deactivate the election because votes have been cast.');
+        return;
+      }
 
     } catch (error) {
       console.error(error);

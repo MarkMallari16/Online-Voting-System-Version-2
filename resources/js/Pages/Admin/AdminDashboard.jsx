@@ -36,7 +36,7 @@ const AdminDashboard = () => {
 
     return (
         <div className="flex flex-col sm:flex-row">
-            <div className="flex-1 p-4">
+            <div className="flex-1 ">
                 <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="p-6 text-gray-900 flex justify-between items-center">
                         <div>

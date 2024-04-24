@@ -71,10 +71,10 @@ class ElectionController extends Controller
             else {
                 $election = Election::create([
                     // Add default values for the new election here
-                    'title' => 'Default Election Title',
-                    'start_date' => now(), // Set the start date to the current datetime
-                    'end_date' => now()->addDays(7), // Set the end date to 7 days from now
-                    'status' => 'Active' // Set the status to Active for the new election
+                    'title' => 'Default',
+                    'start_date' => now(),
+                    'end_date' => now()->addDays(1), // Set the end date to 1 day from now
+                    'status' => 'Active'
                 ]);
             }
             // Activate the retrieved or newly created election
@@ -118,5 +118,4 @@ class ElectionController extends Controller
             return redirect()->back()->with('success', 'Election deactivated successfully.');
         }
     }
-   
 }

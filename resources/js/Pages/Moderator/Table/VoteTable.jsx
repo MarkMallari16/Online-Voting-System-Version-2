@@ -29,12 +29,12 @@ import {
 import ExcelExport from '@/Components/ExcelExport';
 const TABS = [
     {
-        label: "Voters Voted",
-        value: "voters_voted",
+        label: "Students Voted",
+        value: "students_voted",
     },
     {
-        label: "Voters not Voted",
-        value: "voters_not_voted",
+        label: "Students Not Voted",
+        value: "students_not_voted",
     },
 
 ];
@@ -140,7 +140,7 @@ const VoteTable = ({ votes, votesPerPage, voters, candidates, positions }) => {
                
                 <div className="flex flex-col items-center justify-end gap-4 md:flex-row ">
                 <div>
-                    <Tabs value="voters_voted">
+                    <Tabs value="students_voted">
                         <div className="w-full  mx-4">
                             <TabsHeader >
                                 {TABS.map(({ label, value }) => (

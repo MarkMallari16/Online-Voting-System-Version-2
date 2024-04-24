@@ -68,7 +68,7 @@ const EditUserModal = ({ open, handleClose, user }) => {
 
   return (
     <Dialog open={open} handler={handleClose}>
-      <DialogHeader>Edit User</DialogHeader>
+      <DialogHeader>Update User</DialogHeader>
       <form onSubmit={handleSubmit}>
         <DialogBody>
           <div className=" mb-3">

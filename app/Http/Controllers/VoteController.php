@@ -19,7 +19,7 @@ class VoteController extends Controller
         $voters = User::where('role', 'voter')->get();
         $positions = Positions::all();
         $votesPerPage = Vote::with('user', 'candidate')
-            ->orderBy('vote_timestamp', 'desc')
+            ->orderByDesc('vote_timestamp')
             ->paginate(10);
 
         return Inertia::render(

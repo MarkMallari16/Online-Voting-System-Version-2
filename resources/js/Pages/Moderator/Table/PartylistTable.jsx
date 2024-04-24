@@ -69,8 +69,6 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
 
   ];
 
-
-
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(partylistsPerPage.current_page);
 
@@ -133,8 +131,6 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
   const handleDeleteOpen = (id) => {
     setDeleteModal(!openDeleteModal)
     setId(id);
-    // console.log(id);
-    // console.log(openDeleteModal);
   };
 
   const handleDeletePartylists = (partylistId) => {
@@ -254,7 +250,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                     </Dialog>
 
                     <Dialog open={openUpdateModal} handler={handleUpdateOpen}>
-                      <DialogHeader>Update Partylist {data.name}</DialogHeader>
+                      <DialogHeader>Update Partylist</DialogHeader>
 
                       <DialogBody>
                         <div>
@@ -500,37 +496,77 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                       </Dropdown>
                     </div>
                     <div>
-                      <Avatar src="https://st2.depositphotos.com/4431055/11856/i/450/depositphotos_118562150-stock-photo-young-student-girl.jpghttps://img.freepik.com/free-photo/happy-young-female-student-holding-notebooks-from-courses-smiling-camera-standing-spring-clothes-against-blue-background_1258-70161.jpg" size="xl" />
+                      <Avatar src="https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1713956901~exp=1713960501~hmac=9a9f65b3d5a11843376aa8a34efdc0127f88304de0941d8a3b3c0df26597a19a&w=900" size="xl" />
                     </div>
                     <div className="mt-2 font-medium">Mark Mallari</div>
                     <div className="text-gray-600">Partylist Editor of Sandigan</div>
                   </div>
                   <div className="w-full bg-white text-center border-2 border-gray-200 py-5 px-3 rounded-md ">
                     <div className="flex justify-end ">
-                      <div className="cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                          <path fillRule="evenodd" d="M10.5 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clipRule="evenodd" />
-                        </svg>
-                      </div>
+                      <Dropdown>
+                        <Dropdown.Trigger>
+                          <div className="cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                              <path fillRule="evenodd" d="M10.5 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                        </Dropdown.Trigger>
+                        <Dropdown.Content align="right" width="48">
+                          <Dropdown.Link >
+                            <div className="flex gap-1 text-red-500">
+                              <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                                  <path fillRule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clipRule="evenodd" />
+                                </svg>
+                              </div>
+                              <div>
+                                Delete
+                              </div>
 
+                            </div>
+                          </Dropdown.Link>
+
+                        </Dropdown.Content>
+                      </Dropdown>
                     </div>
+
                     <div>
-                      <Avatar src="https://st2.depositphotos.com/4431055/11856/i/450/depositphotos_118562150-stock-photo-young-student-girl.jpghttps://img.freepik.com/free-photo/happy-young-female-student-holding-notebooks-from-courses-smiling-camera-standing-spring-clothes-against-blue-background_1258-70161.jpg" size="xl" />
+                      <Avatar src="https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1713956901~exp=1713960501~hmac=9a9f65b3d5a11843376aa8a34efdc0127f88304de0941d8a3b3c0df26597a19a&w=900" size="xl" />
                     </div>
                     <div className="mt-2 font-medium">Mark Mallari</div>
                     <div className="text-gray-600">Partylist Editor of Sandigan</div>
                   </div>
                   <div className="w-full bg-white  text-center border-2 border-gray-200 py-5 px-3 rounded-md ">
-                    <div className="flex justify-end ">
-                      <div className="cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                          <path fillRule="evenodd" d="M10.5 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clipRule="evenodd" />
-                        </svg>
-                      </div>
+                    <div className="flex justify-end">
+                      <Dropdown>
+                        <Dropdown.Trigger>
+                          <div className="cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                              <path fillRule="evenodd" d="M10.5 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                        </Dropdown.Trigger>
+                        <Dropdown.Content align="right" width="48">
+                          <Dropdown.Link >
+                            <div className="flex gap-1 text-red-500">
+                              <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                                  <path fillRule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clipRule="evenodd" />
+                                </svg>
+                              </div>
+                              <div>
+                                Delete
+                              </div>
 
+                            </div>
+                          </Dropdown.Link>
+
+                        </Dropdown.Content>
+                      </Dropdown>
                     </div>
+
                     <div>
-                      <Avatar src="https://st2.depositphotos.com/4431055/11856/i/450/depositphotos_118562150-stock-photo-young-student-girl.jpghttps://img.freepik.com/free-photo/happy-young-female-student-holding-notebooks-from-courses-smiling-camera-standing-spring-clothes-against-blue-background_1258-70161.jpg" size="xl" />
+                      <Avatar src="https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1713956901~exp=1713960501~hmac=9a9f65b3d5a11843376aa8a34efdc0127f88304de0941d8a3b3c0df26597a19a&w=900" size="xl" />
                     </div>
                     <div className="mt-2 font-medium">Mark Mallari</div>
                     <div className="text-gray-600 p-3">Partylist Editor of Sandigan</div>
