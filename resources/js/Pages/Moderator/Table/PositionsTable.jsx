@@ -199,7 +199,7 @@ export function PositionsTable(props) {
                             <DialogBody>
                                 <form onSubmit={handleAddSubmit}>
                                     <div>
-                                        <InputLabel htmlFor="positionName" value="Enter Position Name" />
+                                        <InputLabel htmlFor="positionName" value="Position Name" />
                                         <TextInput
                                             id="positionName"
                                             className="mt-1 block w-full"
@@ -208,6 +208,7 @@ export function PositionsTable(props) {
                                             onChange={handleChange}
                                             required
                                             autoFocus
+                                            placeholder="Enter position name"
                                         />
                                         <InputError>{errors.name}</InputError>
                                     </div>

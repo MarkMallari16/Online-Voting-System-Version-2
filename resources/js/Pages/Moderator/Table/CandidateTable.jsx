@@ -107,7 +107,18 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
         }));
     };
     //for add modal
-    const handleOpen = () => setOpen(!open);
+    const handleOpen = () =>  {
+        setOpen(!open)
+        setData({
+            first_name: '',
+            middle_name: '',
+            last_name: '',
+            partylist_id: null,
+            position_id: null,
+            manifesto: null,
+            candidate_profile: null
+        });
+    };
 
     //for update modal
     const handleUpdateOpen = (id) => {
@@ -142,8 +153,8 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                 first_name: '',
                 middle_name: '',
                 last_name: '',
-                partylist_id: 0,
-                position_id: 0,
+                partylist_id: null,
+                position_id: null,
                 manifesto: null,
                 candidate_profile: null
             });
@@ -157,7 +168,6 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
         setId(id);
     };
 
-    console.log(candidates);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -181,6 +191,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
         } catch (error) {
             console.error("Error submitting form:", error);
         }
+        
     };
 
 
@@ -503,6 +514,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                         )
                                                     }
                                                     name="manifesto"
+                                                    placeholder="Enter candidate platform"
                                                 />
                                                 <InputError className="mt-2" />
                                             </div>
