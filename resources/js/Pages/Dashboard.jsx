@@ -9,7 +9,7 @@ import Countdown from '@/Components/Countdown';
 import { Breadcrumbs } from '@material-tailwind/react';
 export default function Dashboard({ auth, candidates, candidatesAll, voterVoted, position_list, partylist_list, election, voters, votersVotedCount, voteCounts, castedVotes, voterHasVoted}) {
     
-
+    console.log(voters)
     // const studentsHasVoted = voters.filter(voter => voter.hasVoted);
     console.log()
     console.log(voterHasVoted);

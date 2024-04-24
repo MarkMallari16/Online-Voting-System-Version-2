@@ -16,7 +16,7 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
 
         onClose(selectedCandidates);
     };
-    const sortSelectedCandidatesInfo = selectedCandidatesInfo.sort((a,b) => a.position.id - b.position.id);
+    const sortSelectedCandidatesInfo = selectedCandidatesInfo.sort((a, b) => a.position.id - b.position.id);
 
     console.log(sortSelectedCandidatesInfo);
 
@@ -41,7 +41,7 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
 
                             <ul>
                                 {sortSelectedCandidatesInfo.map(candidate => (
-                                    <li key={candidate.id} className="mb-3 border-2 border-blue-gray-200 p-3 rounded-md ">
+                                    <li key={candidate.id} className="mb-3 border-2 border-black p-3 rounded-md ">
                                         <div className="flex justify-between items-center ">
                                             <div className='flex gap-3'>
                                                 <Avatar src={candidate.candidateProfile} />
@@ -65,22 +65,22 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
                         </div>
                     </div>
                     {!selectedCandidatesInfo.length && (
-                 <div className="text-center text-gray-600 mt-4">
-                 You have chosen to abstain from voting.
-             </div>
-            )}
-                <div className="mt-5 flex justify-center gap-1">
-                    <DangerButton type="button" className="mr-2 " onClick={handleClose}>
-                        Cancel
-                    </DangerButton>
-                    <PrimaryButton type="submit" >
-                        Confirm
-                    </PrimaryButton>
+                        <div className="text-center text-gray-600 mt-4">
+                            You have chosen to abstain from voting.
+                        </div>
+                    )}
+                    <div className="mt-5 flex justify-center gap-1">
+                        <DangerButton type="button" className="mr-2 " onClick={handleClose}>
+                            Cancel
+                        </DangerButton>
+                        <PrimaryButton type="submit" >
+                            Confirm
+                        </PrimaryButton>
 
-                </div>
+                    </div>
                 </div>
             </form>
-           
+
         </Modal>
     )
 }
