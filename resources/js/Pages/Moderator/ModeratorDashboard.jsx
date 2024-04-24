@@ -21,7 +21,7 @@ function PositionSelector({ label, onChange, value, positionList }) {
 }
 const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount }) => {
 
-    const electionTitle = election.title;
+    const electionTitle = election ? election.title : '';
 
     const defaultPositionId = position_list.length > 0 ? position_list[0].id : ''
     const [selectedPosition, setSelectedPosition] = useState(defaultPositionId);
@@ -47,7 +47,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
     }
     const votedVoters = voters.filter(voter => voter.hasVoted);
     console.log(votedVoters);
-    
+
     const latestVotedVoter = votedVoters.reduce((prev, current) =>
         (new Date(prev.updated_at) > new Date(current.updated_at)) ? prev : current, []
     );
@@ -95,9 +95,9 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                 </Select>
                             </div>
                             <div className="w-100 sm:w-72 md:w-72 lg:w-72">
-                               <PositionSelector label="Select Position" onChange={handlePositionChange} value={selectedPosition} positionList={position_list}/>
+                                <PositionSelector label="Select Position" onChange={handlePositionChange} value={selectedPosition} positionList={position_list} />
                             </div>
-                           
+
                         </div>
                         <BarChartContainer positionId={positionId} positionName={positionName} voteCounts={voteCounts} selectedPosition={selectedPosition} chartPositionOption={chartPositionOption} />
                     </div>

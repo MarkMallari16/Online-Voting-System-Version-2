@@ -56,7 +56,7 @@ const Election = ({ auth, existingElection, election }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const route = existingElection ? `/election/${existingElection.id}` : '/election';
+      const route = election ? `/election/${election.id}` : '/election';
       await post(route);
 
       setSuccessMessage(status ? 'Election updated successfully.' : 'Election created successfully.');

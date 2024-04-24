@@ -8,7 +8,7 @@ import CouncilLogo from "../../../../public/councilLogo.png";
 import STIBacoorLogo from "../../assets/bacoor-logo.png";
 import BarChartContainer from "../Moderator/BarChartContainer";
 import PartylistCarousel from "@/Components/PartylistCarousel";
-
+import Time from '../../assets/time.svg';
 
 
 
@@ -18,7 +18,14 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
     const [selectedCandidates, setSelectedCandidates] = useState([]);
     const [now, setNow] = useState(new Date());
 
-    const memoizedEndingDate = useMemo(() => election.status === 'Inactive' ? '' : election.end_date, [election.end_date, election.status]);
+    const memoizedEndingDate = useMemo(() => {
+
+        if (!election || election.status === 'Inactive') {
+            return '';
+        } else {
+            return election.end_date;
+        }
+    }, [election]);
 
     const endDate = memoizedEndingDate ? new Date(memoizedEndingDate) : new Date(0);
 
@@ -32,7 +39,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
         if (result && resultRef.current) {
             resultRef.current.scrollIntoView({ behavior: 'smooth', block: "start" });
         }
-    },[result])
+    }, [result])
 
     useEffect(() => {
         const updateNow = () => {
@@ -143,17 +150,17 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
     return (
         <div>
-            {election && election.status === "Active" ? (
+            {election && election?.status === "Active" ? (
 
                 <div>
                     <div className="bg-white border shadow-md border-3 p-5 rounded-md ">
                         <div className="flex  items-center justify-between">
                             <div><img src={STIBacoorLogo} alt="STI Bacoor Logo" className="w-32 sm:w-32" /></div>
-                            <div className="text-xl md:text-5xl text-center font-medium">{election.title}</div>
+                            <div className="text-xl md:text-5xl text-center font-medium">{election?.title}</div>
 
                             <div><img src={CouncilLogo} alt="Council Logo" className="w-32 sm:w-32" /></div>
                         </div>
-                        {election.start_date < election.end_date && (
+                        {election?.start_date < election?.end_date && (
                             <div className="text-center flex justify-center text-wrap gap-4">
                                 <div className="flex items-center gap-2">
                                     <span>
@@ -181,7 +188,10 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                     </div>
                     <div>
                         {result ? (
-                            <div ref={resultRef} className="mt-20">
+                            <div ref={resultRef} className="mt-10">
+                                <div className="text-end">
+                                    <PrimaryButton>See Winners</PrimaryButton>
+                                </div>
                                 <div className="w-full text-xl md:text-2xl lg:text-3xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 justify-center">
                                     {positionList.map(position => (
                                         <BarChartContainer key={position.id} positionId={position.id} positionName={position.name} voteCounts={voteCounts} />
@@ -244,7 +254,8 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
             ) : (
 
                 <div className=" w-full flex justify-center items-center">
-                    <div className="text-gray-600 p-5 text-center ">
+                    <div className="text-gray-600 p-5 text-center flex justify-center items-center flex-col">
+                        <img src={Time} alt="waiting" className="w-40"/>
                         <div className="text-xl">Please wait for the moderator</div>
                         <div className="text-xl">Election for this position will be available soon.</div>
                     </div>
