@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BallotController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
@@ -66,9 +67,7 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
         ]);
     })->name('election');
 
-    Route::get('/ballots', function () {
-        return Inertia::render('Moderator/ModeratorPages/Ballots');
-    })->name('ballots');
+    Route::get('/ballots', [BallotController::class,'displayBallot'])->name('ballots');
 
     Route::get('/live-result', function () {
         return Inertia::render('Moderator/ModeratorPages/LiveResult');

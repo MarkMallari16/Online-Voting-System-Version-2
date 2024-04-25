@@ -29,6 +29,8 @@ import {
   Textarea,
   TabsBody,
   TabPanel,
+  Select,
+  Option,
 } from "@material-tailwind/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
@@ -37,6 +39,8 @@ import DeleteModal from "@/Components/DeleteModal";
 import InfoIcon from "@/Components/InfoIcon";
 import ExcelExport from "@/Components/ExcelExport";
 import Dropdown from "../../../Components/Dropdown";
+import Modal from "@/Components/Modal";
+import PrimaryButton from "@/Components/PrimaryButton";
 
 
 const TABLE_HEAD = ["Partylist ID", "Partylist Name", "Partylist Description", "Action"];
@@ -57,6 +61,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
   const [isSuccessMessage, setIsSuccessMessage] = useState(false);
   const [message, setMessage] = useState("");
 
+  const [showAssignModal, setShowAssignModal] = useState(false);
   const TABS = [
     {
       label: "Partylist",
@@ -448,6 +453,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                   dataName='Partylist' />
               </Card>
             </TabPanel>
+
             <TabPanel value="partylist_editor">
               <div className="container mx-auto  py-2">
                 <div className="flex justify-end gap-2 flex-wrap">
@@ -457,13 +463,14 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                       icon={<MagnifyingGlassIcon className="h-5 w-5" />}
                     />
                   </div>
-                  <Button className="flex items-center gap-3 bg-blue-500" size="sm" >
+                  <Button className="flex items-center gap-3 bg-blue-500 " size="sm" onClick={() => setShowAssignModal(!showAssignModal)}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
                       <path d="M5.25 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM2.25 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM18.75 7.5a.75.75 0 0 0-1.5 0v2.25H15a.75.75 0 0 0 0 1.5h2.25v2.25a.75.75 0 0 0 1.5 0v-2.25H21a.75.75 0 0 0 0-1.5h-2.25V7.5Z" />
                     </svg>
 
                     Assign partylist editor
                   </Button>
+
 
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 w-full py-8 gap-3">
@@ -577,7 +584,50 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
           </TabsBody>
         </Tabs>
       </div>
+      <Modal show={showAssignModal} onClose={() => setShowAssignModal(false)} maxWidth='md' >
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-10">
+            <div className="text-xl">Assign Partylist Editor</div>
+            <div className='p-2 rounded-md hover:bg-gray-200 transition-all ease-in-out duration-200 cursor-pointer' onClick={() => setShowAssignModal(false)}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+              </svg>
+            </div>
+          </div>
+          <div>
+            <Select label="Select Partylist Editor" >
+              <Option value="mark">
+                <Avatar src="https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1713956901~exp=1713960501~hmac=9a9f65b3d5a11843376aa8a34efdc0127f88304de0941d8a3b3c0df26597a19a&w=900" className="me-2" size="sm"/>
+                <span>Mark Mallari</span>
+              </Option>
+              <Option value="asd">
+                <Avatar src="https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1713956901~exp=1713960501~hmac=9a9f65b3d5a11843376aa8a34efdc0127f88304de0941d8a3b3c0df26597a19a&w=900" className="me-2" size="sm"/>
+                <span>Mark Mallari</span>
+              </Option>
+            </Select>
+          </div>
+          <div className="mt-3">
+            <Select label="Partylist to Assign">
+              <Option value="sandigan">Sandigan</Option>
+              <Option value="sandigan">Sanaol</Option>
+            </Select>
+          </div>
+          <div className="mt-3">
+            <Select label="Permission">
+              <Option value="create_partylist">
+                <Avatar />
 
+              </Option>
+              <Option value="update_partylist">Update Partylist</Option>
+              <Option value="delete_partylist">Delete Partylist</Option>
+            </Select>
+          </div>
+
+          <div>
+            <Button color="blue" className="w-full mt-4">Add</Button>
+          </div>
+        </div>
+      </Modal>
 
     </div>
 

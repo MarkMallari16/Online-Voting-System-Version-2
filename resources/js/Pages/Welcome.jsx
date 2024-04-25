@@ -3,6 +3,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo';
 import Cover from '../assets/Voting-amico.svg';
 import BacoorLogo from '../assets/bacoor-logo.png';
 import CouncilLogo from '../assets/councilLogo.png'
+import TechnobytesLogo from '../assets/technobytes.png'
 import {
     Accordion,
     AccordionHeader,
@@ -77,7 +78,7 @@ export default function Welcome({ auth }) {
 
 
 
-                    <motion.div className="sm:mt-5 mt-24 flex flex-col-reverse sm:flex-col-reverse md:flex-row items-center gap-5 sm:gap-24  mx-5 sm:mx-24  md:mx-20"
+                    <div className="sm:mt-5 mt-24 flex flex-col-reverse sm:flex-col-reverse md:flex-row items-center gap-5 sm:gap-24  mx-5 sm:mx-24  md:mx-20"
                         initial={{
                             opacity: 0,
                         }}
@@ -119,9 +120,9 @@ export default function Welcome({ auth }) {
                             <img src={Cover} alt="hero-section" className="w-auto sm:w-[89%] md:w-50" />
                         </div>
 
-                    </motion.div>
+                    </div>
 
-                    <motion.div
+                    <div
                         initial={{
                             opacity: 0,
                         }}
@@ -136,13 +137,13 @@ export default function Welcome({ auth }) {
                         {[...Array(3)].map((_, index) => (
                             <div key={index} className='flex items-center justify-center md:justify-end gap-5 animate-infinite-scroll'>
                                 {[...Array(14)].map((_, index) => (
-                                    <div key={index} className='w-28'>
-                                        <img loading='lazy' src={index % 2 === 0 ? BacoorLogo : CouncilLogo} alt="STI Bacoor Logo" />
+                                    <div key={index} className='w-28 object-cover '>
+                                        <img  loading='lazy' src={index % 3 === 0 ? BacoorLogo : index % 3 === 1 ? CouncilLogo : TechnobytesLogo} alt="Logo" />
                                     </div>
                                 ))}
                             </div>
                         ))}
-                    </motion.div>
+                    </div>
 
                     <div className='h-auto' >
                         <div className='mt-24 text-center text-4xl font-bold' >Frequently Asked Question</div>

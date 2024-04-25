@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { useForm } from "@inertiajs/inertia-react";
-import CandidateCard from "./CandidateCard";
+import CandidateCard from "@/Components/CandidateCard";
 import VoteConfirmationModal from "@/Components/VoteConfirmationModal";
 import AlreadyVoted from "@/Components/AlreadyVoted";
 import CouncilLogo from "../../../../public/councilLogo.png";
@@ -9,6 +9,7 @@ import STIBacoorLogo from "../../assets/bacoor-logo.png";
 import BarChartContainer from "../Moderator/BarChartContainer";
 import PartylistCarousel from "@/Components/PartylistCarousel";
 import Time from '../../assets/time.svg';
+import ElectionHeader from "@/Components/ElectionHeader";
 
 
 
@@ -137,7 +138,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
             return {
                 id: candidate.id,
                 candidateProfile: candidate.candidate_profile,
-                name: `${candidate.first_name} ${candidate?.middle_name} ${candidate.last_name}`,
+                name: `${candidate.first_name} ${candidate?.middle_name ? candidate?.middle_name : ''} ${candidate.last_name}`,
                 partylist: candidate.partylist.name,
                 position: candidate.position
             };
@@ -153,39 +154,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
             {election && election?.status === "Active" ? (
 
                 <div>
-                    <div className="bg-white border shadow-md border-3 p-5 rounded-md ">
-                        <div className="flex  items-center justify-between">
-                            <div><img src={STIBacoorLogo} alt="STI Bacoor Logo" className="w-32 sm:w-32" /></div>
-                            <div className="text-xl md:text-5xl text-center font-medium">{election?.title}</div>
-
-                            <div><img src={CouncilLogo} alt="Council Logo" className="w-32 sm:w-32" /></div>
-                        </div>
-                        {election?.start_date < election?.end_date && (
-                            <div className="text-center flex justify-center text-wrap gap-4">
-                                <div className="flex items-center gap-2">
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                                            <path fillRule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clipRule="evenodd" />
-                                        </svg>
-                                    </span>
-
-                                    Start Date: {new Date(election.start_date).toLocaleString()}
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                                            <path fillRule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clipRule="evenodd" />
-                                        </svg>
-                                    </span>
-                                    End Date: {new Date(election.end_date).toLocaleString()}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                    <div>
-
-
-                    </div>
+                    <ElectionHeader election={election} />
                     <div>
                         {result ? (
                             <div ref={resultRef} className="mt-10">
@@ -255,7 +224,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
                 <div className=" w-full flex justify-center items-center">
                     <div className="text-gray-600 p-5 text-center flex justify-center items-center flex-col">
-                        <img src={Time} alt="waiting" className="w-40"/>
+                        <img src={Time} alt="waiting" className="w-40" />
                         <div className="text-xl">Please wait for the moderator</div>
                         <div className="text-xl">Election for this position will be available soon.</div>
                     </div>

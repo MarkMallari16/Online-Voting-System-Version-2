@@ -2,7 +2,7 @@ import { Avatar, Radio } from '@material-tailwind/react'
 import React, { useState, useEffect } from 'react'
 import { FaUsers } from "react-icons/fa";
 
-import DefaultCandidateProfile from '../../../../public/candidate_profile_photos/default_candidate_profile.png'
+import DefaultCandidateProfile from '../../../public/candidate_profile_photos/default_candidate_profile.png'
 import {
     Card,
     CardBody,

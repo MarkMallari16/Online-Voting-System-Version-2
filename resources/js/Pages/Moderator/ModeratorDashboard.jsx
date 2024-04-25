@@ -99,7 +99,15 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                             </div>
 
                         </div>
-                        <BarChartContainer positionId={positionId} positionName={positionName} voteCounts={voteCounts} selectedPosition={selectedPosition} chartPositionOption={chartPositionOption} />
+                        {votedVoters.length > 0 ? <BarChartContainer positionId={positionId} positionName={positionName} voteCounts={voteCounts} selectedPosition={selectedPosition} chartPositionOption={chartPositionOption} /> :
+
+                            <div className='flex justify-center flex-col items-center h-96'>
+
+                                <div className='text-gray-600  mb-3'>No voters have cast their votes yet</div>
+                                <div>
+                                    <FaBox className='text-2xl' />
+                                </div>
+                            </div>}
                     </div>
                 </div>
 
@@ -109,7 +117,16 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                             <h1 className='text-xl font-medium'>Votes Tally</h1>
                         </div>
                         <div className='px-4 py-0 md:p-8'> {/* Adjust padding based on screen size */}
-                            <DoughnutContainer voters={voters} votersVotedCount={votersVotedCount} />
+
+                            {votedVoters.length > 0 ? <DoughnutContainer voters={voters} votersVotedCount={votersVotedCount} /> :
+
+                                <div className='flex justify-center flex-col items-center h-96'>
+
+                                    <div className='text-gray-600  mb-3'>No voters have cast their votes yet</div>
+                                    <div>
+                                        <FaBox className='text-2xl' />
+                                    </div>
+                                </div>}
                         </div>
 
                     </div>
@@ -150,7 +167,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                             <div>No Voters Yet</div>
                                         </div>
                                         <div>
-                                            <FaBox className='text-2xl' />
+                                            <FaBox className='text-2xl mb-3' />
                                         </div>
                                     </div>
                                 )}
