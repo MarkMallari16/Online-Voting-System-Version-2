@@ -122,7 +122,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
 
                                 <div className='flex justify-center flex-col items-center h-96'>
 
-                                    <div className='text-gray-600  mb-3'>No voters have cast their votes yet</div>
+                                    <div className='text-gray-700  mb-3'>No voters have cast their votes yet</div>
                                     <div>
                                         <FaBox className='text-2xl' />
                                     </div>
@@ -137,7 +137,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                     <div className='font-medium'>Today, {new Date().toLocaleDateString()}</div>
 
 
-                                    <div className='text-gray-600 text-sm'>Latest voter voted</div>
+                                    <div className='text-gray-700 text-sm'>Latest voter voted</div>
                                 </div>
 
                                 <div className=" text-gray-900 text-end">
@@ -164,7 +164,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                 ) : (
                                     <div className='flex justify-center items-center flex-col mb-3'>
                                         <div className='mb-3'>
-                                            <div>No Voters Yet</div>
+                                            <div className='text-gray-700'>No Voters Yet</div>
                                         </div>
                                         <div>
                                             <FaBox className='text-2xl mb-3' />

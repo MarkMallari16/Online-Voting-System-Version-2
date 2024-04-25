@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useForm } from '@inertiajs/inertia-react';
 import { Inertia } from '@inertiajs/inertia';
 import {
@@ -6,6 +6,8 @@ import {
   ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
 import { PencilIcon } from "@heroicons/react/24/solid";
+import { FaUserEdit } from "react-icons/fa";
+
 import {
   Card,
   CardHeader,
@@ -302,7 +304,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                   </div>
                   <div className="flex flex-col items-center justify-end gap-4 md:flex-row">
                     <div className='flex justify-start gap-2'>
-                      <div className='border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md'>
+                      <div className='border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md hidden'>
 
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
@@ -473,8 +475,8 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
 
 
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 w-full py-8 gap-3">
-                  <div className="w-full bg-white text-center border-2 border-gray-200 py-5 px-3 rounded-md ">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 w-full py-8 gap-3 ">
+                  <div className="w-full bg-white text-center py-8 px-3 rounded-md col-span-1 ring-1 ring-inset ring-gray-300">
                     <div className="flex justify-end ">
                       <Dropdown>
                         <Dropdown.Trigger>
@@ -493,7 +495,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                                 </svg>
                               </div>
                               <div>
-                                Delete
+                                Remove
                               </div>
 
                             </div>
@@ -506,9 +508,11 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                       <Avatar src="https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1713956901~exp=1713960501~hmac=9a9f65b3d5a11843376aa8a34efdc0127f88304de0941d8a3b3c0df26597a19a&w=900" size="xl" />
                     </div>
                     <div className="mt-2 font-medium">Mark Mallari</div>
-                    <div className="text-gray-600">Partylist Editor of Sandigan</div>
+                    <div className="text-gray-600 flex items-center justify-center gap-1">
+                     
+                      Partylist Editor of Sandigan</div>
                   </div>
-                  <div className="w-full bg-white text-center border-2 border-gray-200 py-5 px-3 rounded-md ">
+                  <div className="w-full bg-white text-center py-5 px-3 rounded-md col-span-1 ring-1 ring-inset ring-gray-300">
                     <div className="flex justify-end ">
                       <Dropdown>
                         <Dropdown.Trigger>
@@ -527,7 +531,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                                 </svg>
                               </div>
                               <div>
-                                Delete
+                                Remove
                               </div>
 
                             </div>
@@ -541,43 +545,11 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                       <Avatar src="https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1713956901~exp=1713960501~hmac=9a9f65b3d5a11843376aa8a34efdc0127f88304de0941d8a3b3c0df26597a19a&w=900" size="xl" />
                     </div>
                     <div className="mt-2 font-medium">Mark Mallari</div>
-                    <div className="text-gray-600">Partylist Editor of Sandigan</div>
+                    <div className="text-gray-600 flex items-center justify-center gap-1">
+                     {/** <span>  <FaUserEdit className="text-lg" /></span> */}
+                      Partylist Editor of Sandigan</div>
                   </div>
-                  <div className="w-full bg-white  text-center border-2 border-gray-200 py-5 px-3 rounded-md ">
-                    <div className="flex justify-end">
-                      <Dropdown>
-                        <Dropdown.Trigger>
-                          <div className="cursor-pointer">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                              <path fillRule="evenodd" d="M10.5 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clipRule="evenodd" />
-                            </svg>
-                          </div>
-                        </Dropdown.Trigger>
-                        <Dropdown.Content align="right" width="48">
-                          <Dropdown.Link >
-                            <div className="flex gap-1 text-red-500">
-                              <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
-                                  <path fillRule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clipRule="evenodd" />
-                                </svg>
-                              </div>
-                              <div>
-                                Delete
-                              </div>
 
-                            </div>
-                          </Dropdown.Link>
-
-                        </Dropdown.Content>
-                      </Dropdown>
-                    </div>
-
-                    <div>
-                      <Avatar src="https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1713956901~exp=1713960501~hmac=9a9f65b3d5a11843376aa8a34efdc0127f88304de0941d8a3b3c0df26597a19a&w=900" size="xl" />
-                    </div>
-                    <div className="mt-2 font-medium">Mark Mallari</div>
-                    <div className="text-gray-600 p-3">Partylist Editor of Sandigan</div>
-                  </div>
                 </div>
               </div>
             </TabPanel>
@@ -595,13 +567,17 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
             </div>
           </div>
           <div>
-            <Select label="Select Partylist Editor" >
+            <Select label="Select Partylist Editor" className="py-5" >
               <Option value="mark">
-                <Avatar src="https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1713956901~exp=1713960501~hmac=9a9f65b3d5a11843376aa8a34efdc0127f88304de0941d8a3b3c0df26597a19a&w=900" className="me-2" size="sm"/>
+                <Avatar src="https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1713956901~exp=1713960501~hmac=9a9f65b3d5a11843376aa8a34efdc0127f88304de0941d8a3b3c0df26597a19a&w=900" className="me-2" size="sm" />
                 <span>Mark Mallari</span>
               </Option>
-              <Option value="asd">
-                <Avatar src="https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1713956901~exp=1713960501~hmac=9a9f65b3d5a11843376aa8a34efdc0127f88304de0941d8a3b3c0df26597a19a&w=900" className="me-2" size="sm"/>
+              <Option value="jeremie">
+                <Avatar src="https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1713956901~exp=1713960501~hmac=9a9f65b3d5a11843376aa8a34efdc0127f88304de0941d8a3b3c0df26597a19a&w=900" className="me-2" size="sm" />
+                <span>Jeremie Novales</span>
+              </Option>
+              <Option value="saito">
+                <Avatar src="https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1713956901~exp=1713960501~hmac=9a9f65b3d5a11843376aa8a34efdc0127f88304de0941d8a3b3c0df26597a19a&w=900" className="me-2" size="sm" />
                 <span>Mark Mallari</span>
               </Option>
             </Select>
@@ -615,7 +591,11 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
           <div className="mt-3">
             <Select label="Permission">
               <Option value="create_partylist">
-                <Avatar />
+                All
+
+              </Option>
+              <Option value="create_partylist">
+                Create partylist
 
               </Option>
               <Option value="update_partylist">Update Partylist</Option>

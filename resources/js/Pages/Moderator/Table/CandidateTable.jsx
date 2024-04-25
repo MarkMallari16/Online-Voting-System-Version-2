@@ -641,7 +641,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                                 e.target.value
                                                             )
                                                         }
-                                                        required
+                                                        
                                                         autoFocus
                                                         autoComplete="middleName"
                                                     />
@@ -777,7 +777,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                     </div>
                     <div className="flex flex-col items-center justify-end gap-4 md:flex-row">
                         <div className="flex justify-start gap-2">
-                            <div className="border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md">
+                            <div className="border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md hidden">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -840,7 +840,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                         <tbody>
                             {currentCandidatesPage.length === 0 || currentCandidatesPage.filter(candidate =>
                                 candidate.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                                candidate.middle_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                candidate.middle_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
                                 candidate.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
 
                                 candidate.manifesto.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
@@ -856,7 +856,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                 currentCandidatesPage
                                     .filter(candidate =>
                                         candidate.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                                        candidate.middle_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                        candidate.middle_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
                                         candidate.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                                         candidate.manifesto.toLowerCase().includes(searchQuery.toLowerCase()))
                                     .map(

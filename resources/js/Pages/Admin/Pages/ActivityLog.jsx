@@ -4,21 +4,24 @@ import axios from "axios";
 import { Avatar, Spinner, Typography } from "@material-tailwind/react";
 import ActivityLogPagination from "./ActivityLogPagination";
 import ExcelExport from "@/Components/ExcelExport";
+import FilterDropdown from "@/Components/FilterDropdown";
 const ActivityLog = ({ auth }) => {
     const [activityLog, setActivityLog] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
+    const [selectedAction, setSelectedAction] = useState(null);
+    const action = activityLog.map(log => log.action);
+
 
     const fetchActivityLog = async (page) => {
         try {
+            setIsLoading(true);
             const response = await axios.get("/activity-logs", {
-                params: { page }, // Send current page as a query parameter
+                params: { page, action: selectedAction },
             });
             setActivityLog(response.data.data);
-            setTotalPages(response.data.last_page); // Set the total number of pages
-
-            setIsLoading(true);
+            setTotalPages(response.data.last_page);
         } catch (error) {
             console.error("Error fetching activity log:", error);
         } finally {
@@ -28,8 +31,14 @@ const ActivityLog = ({ auth }) => {
 
     useEffect(() => {
         fetchActivityLog();
-    }, []);
+    }, [currentPage, selectedAction]);
 
+    const handleSelectAction = (action) => {
+        setCurrentPage(1);
+        setSelectedAction(action);
+    };
+
+    
     const handlePageChange = async (page) => {
         setCurrentPage(page);
 
@@ -70,34 +79,33 @@ const ActivityLog = ({ auth }) => {
                     ) : (
                         <>
                             <div>
-                                <div className="flex justify-end mb-3">
-                                    <div>
-                                        <ExcelExport data={activityLog} fileName='activity_logs' />
+
+                                <div className="mb-2">
+                                    <div >
+                                        <div className="flex justify-between items-center">
+
+                                            <div className="text-lg  font-medium text-gray-900 flex gap-1 items-center ">
+                                                <div>
+
+                                                </div>
+                                                <div className="text-2xl">
+                                                    Recent Activity
+                                                </div>
+                                            </div>
+                                            <div className="flex justify-end gap-2">
+                                                <div className="hidden">
+                                                    <FilterDropdown onSelectAction={handleSelectAction} activityLog={activityLog} />
+                                                </div>
+                                                <div>
+                                                    <ExcelExport data={activityLog} fileName='activity_logs' />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="bg-white shadow-md rounded-md overflow-hidden">
 
-                                    <div className="bg-blue-200 px-4 py-3">
-                                        <div className="flex items-center gap-2">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24"
-                                                fill="currentColor"
-                                                className="w-6 h-6 "
-                                            >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M2.625 6.75a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0A.75.75 0 0 1 8.25 6h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75ZM2.625 12a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0ZM7.5 12a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12A.75.75 0 0 1 7.5 12Zm-4.875 5.25a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75Z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
 
-                                            <h3 className="text-lg font-semibold text-gray-900">
-                                                Recent Activity
-                                            </h3>
-
-                                        </div>
-                                    </div>
                                     <div>
 
                                     </div>

@@ -19,7 +19,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
         patch(route('profile.update'));
     };
 
-   
+
     return (
         <section className={className}>
             <header>
@@ -57,7 +57,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         value={data.email}
                         onChange={(e) => setData('email', e.target.value)}
                         required
-                        autoComplete="username" 
+                        autoComplete="username"
                         disabled
                     />
 
@@ -75,7 +75,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                                 className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
                                 Click here to re-send the verification email.
-                            </Link>
+                            </Link> 
                         </p>
 
                         {status === 'verification-link-sent' && (

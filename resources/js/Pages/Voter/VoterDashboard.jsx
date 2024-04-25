@@ -154,6 +154,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
             {election && election?.status === "Active" ? (
 
                 <div>
+                    <PartylistCarousel />
                     <ElectionHeader election={election} />
                     <div>
                         {result ? (

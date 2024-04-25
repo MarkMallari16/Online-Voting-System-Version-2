@@ -17,12 +17,7 @@ const UpdateProfilePicture = ({ user }) => {
 
   const handleUpload = (e) => {
     e.preventDefault();
-    post(route('profile.uploadProfile'), {
-      onSuccess: () => {
-
-       
-      },
-    });
+    post(route('profile.uploadProfile'));
   };
 
   return (

@@ -89,7 +89,7 @@ class CandidateController extends Controller
         $candidate = Candidate::findOrFail($id);
 
         $validatedData = $request->validate([
-         
+            // 'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'first_name' => 'required|alpha',
             'middle_name' => 'nullable|string',
             'last_name' => 'required|alpha',
@@ -103,18 +103,14 @@ class CandidateController extends Controller
         $candidateImagePath = $candidate->candidate_profile;
 
         if ($request->hasFile('candidate_profile')) {
-            // If a new profile image is uploaded, delete the old one
-            // if ($candidate->candidate_profile) {
-            //     // Delete the old profile image file
-            //     unlink(public_path($candidate->candidate_profile));
-            // }
-            // Upload and save the new profile image
+            // Upload and save the new profile image with a new filename
             $candidateImagePath = $this->uploadImage($request);
         }
 
+
         // Update candidate data
         $candidate->update([
-            'candidate_profile' => $candidateImagePath,
+
             'first_name' => $validatedData['first_name'],
             'middle_name' => $middleName,
             'last_name' => $validatedData['last_name'],
@@ -124,7 +120,7 @@ class CandidateController extends Controller
         ]);
 
         // Redirect back with success message
-        return redirect()->back()->with('success', 'Candidate updated successfully');
+
     }
 
     public function destroy($id)

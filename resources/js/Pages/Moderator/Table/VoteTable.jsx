@@ -41,7 +41,7 @@ const TABS = [
 
 const VoteTable = ({ votes, votesPerPage, voters, voterVoted, positions }) => {
     const TABLE_HEAD = ["#", "Voter ID", "Voter's Name", "Candidate Voted For", "Candidate Position", "Election ID", "Vote Timestamp", "Action"];
-    const VOTER_NOT_VOTED_TABLE_HEAD = ["#", "Voter ID", "Voter's Name", "Action"];
+    const VOTER_NOT_VOTED_TABLE_HEAD = ["#", "Voter ID", "Voter's Name", ];
     const [open, setOpen] = useState(false);
     const [id, setId] = useState();
     const [searchQuery, setSearchQuery] = useState("");
@@ -141,9 +141,8 @@ const VoteTable = ({ votes, votesPerPage, voters, voterVoted, positions }) => {
                 </div>
 
                 <div className="flex flex-col items-center justify-end gap-4 md:flex-row ">
-
-                    <div className='flex justify-start gap-2'>
-                        <div className='border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md'>
+                    <div className='flex  gap-2'>
+                        <div className='border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-m hidden'>
 
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
@@ -151,7 +150,10 @@ const VoteTable = ({ votes, votesPerPage, voters, voterVoted, positions }) => {
 
 
                         </div>
-                        <ExcelExport data={votes} fileName='votes' />
+                        <div className='flex justify-start gap-2'>
+
+                            <ExcelExport data={votes} fileName='votes' />
+                        </div>
                     </div>
                     <div className="w-full md:w-72">
                         <Input
@@ -370,56 +372,65 @@ const VoteTable = ({ votes, votesPerPage, voters, voterVoted, positions }) => {
                                     <tbody>
 
                                         {
+                                            voters.length === 0 ? (
+                                                <tr>
+                                                    <td colSpan="4" className="text-center py-4 text-gray-500">
+                                                        No votes found
+                                                    </td>
+                                                </tr>
+                                            ) : (
 
-                                            voters
-                                                .filter((voter) => !votes.some(vote => vote.voter_id === voter.id))
+                                                voters
+                                                    .filter((voter) => !votes.some(vote => vote.voter_id === voter.id))
 
-                                                .map((voter, index) => (
+                                                    .map((voter, index) => (
 
-                                                    <tr key={index}>
-                                                        <td className={classes}>
-                                                            <div className="flex items-center gap-3">
-                                                                <div className="flex flex-col">
-                                                                    <Typography
-                                                                        variant="small"
-                                                                        color="blue-gray"
-                                                                        className="font-normal"
-                                                                    >
-                                                                        {voter.id}
-                                                                    </Typography>
+                                                        <tr key={index}>
+                                                            <td className={classes}>
+                                                                <div className="flex items-center gap-3">
+                                                                    <div className="flex flex-col">
+                                                                        <Typography
+                                                                            variant="small"
+                                                                            color="blue-gray"
+                                                                            className="font-normal"
+                                                                        >
+                                                                            {voter.id}
+                                                                        </Typography>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </td>
+                                                            </td>
 
-                                                        <td className={classes}>
-                                                            <div className="flex items-center gap-3">
-                                                                <div className="flex flex-col">
-                                                                    <Typography
-                                                                        variant="small"
-                                                                        color="blue-gray"
-                                                                        className="font-normal"
-                                                                    >
-                                                                        {voter.id}
-                                                                    </Typography>
+                                                            <td className={classes}>
+                                                                <div className="flex items-center gap-3">
+                                                                    <div className="flex flex-col">
+                                                                        <Typography
+                                                                            variant="small"
+                                                                            color="blue-gray"
+                                                                            className="font-normal"
+                                                                        >
+                                                                            {voter.id}
+                                                                        </Typography>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </td>
+                                                            </td>
 
-                                                        <td className={classes}>
-                                                            <div className="flex items-center gap-3">
-                                                                <div className="flex flex-col">
-                                                                    <Typography
-                                                                        variant="small"
-                                                                        color="blue-gray"
-                                                                        className="font-normal"
-                                                                    >
-                                                                        {voter.name}
-                                                                    </Typography>
+                                                            <td className={classes}>
+                                                                <div className="flex items-center gap-3">
+                                                                    <div className="flex flex-col">
+                                                                        <Typography
+                                                                            variant="small"
+                                                                            color="blue-gray"
+                                                                            className="font-normal"
+                                                                        >
+                                                                            {voter.name}
+                                                                        </Typography>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                ))}
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                            )
+                                        }
                                     </tbody>
                                 </table>
                             </div>

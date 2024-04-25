@@ -5,10 +5,10 @@ import { SiMicrosoftexcel } from "react-icons/si";
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
-   
+
     UserPlusIcon,
 } from "@heroicons/react/24/outline";
-import { PencilIcon} from "@heroicons/react/24/solid"
+import { PencilIcon } from "@heroicons/react/24/solid"
 import {
     Card,
     CardHeader,
@@ -21,6 +21,8 @@ import {
     Tooltip,
     Avatar,
     Alert,
+    Select,
+    Option,
 } from "@material-tailwind/react";
 
 import AddUserModal from "./AddUserModal";
@@ -126,7 +128,7 @@ const UserTable = ({
     const handleFilter = (e) => {
         const selectedValue = e.target.value;
         setFilterValue(selectedValue);
-     
+
     };
 
     return (
@@ -168,7 +170,7 @@ const UserTable = ({
                         </div>
                     </div>
                     <div className="flex gap-2 flex-col items-center justify-end md:flex-row">
-                        <div className="flex items-center gap-2 cursor-pointer border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md">
+                        <div className="flex items-center gap-2 cursor-pointer ring-1 ring-inset ring-gray-300 text-gray-900 px-3 py-2 rounded-md">
                             <div>
                                 <FaRegFilePdf className="text-xl" />
                             </div>
@@ -183,7 +185,7 @@ const UserTable = ({
                         </div>
                         <ExcelExport data={users} fileName="user" />
 
-                        <div className="relative flex gap-2 cursor-pointer border-1  text-gray-800 px-2 py-2 rounded-md">
+                        <div className="relative flex  cursor-pointer border-1  text-gray-800 px-2 py-2 rounded-md">
                             <div className="absolute p-3 textblue">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -205,7 +207,7 @@ const UserTable = ({
                                 variant="outlined"
                                 label="Filter by"
                                 onChange={handleFilter}
-                                className=" border-1 text-right rounded-lg w-full md:w-48 "
+                                className="inset-1 text-right rounded-md ring-1 ring-inset ring-gray-300 border-none w-full md:w-48 "
                                 value={filterValue}
                             >
                                 <option value="">Filter by</option>
@@ -370,8 +372,8 @@ const UserTable = ({
                                                         variant="small"
                                                         color="blue-gray"
                                                         className={`text-white font-semibold text-center rounded-md  px-2 py-2  ${email_verified_at
-                                                                ? "bg-green-100 text-green-700"
-                                                                : "bg-red-100 text-red-700"
+                                                            ? "bg-green-100 text-green-700"
+                                                            : "bg-red-100 text-red-700"
                                                             }`}
                                                     >
                                                         {email_verified_at
@@ -382,7 +384,7 @@ const UserTable = ({
                                                 <td className={classes}>
                                                     <div className="flex gap-3">
                                                         <Tooltip
-                                                            content="Update User"
+                                                            content="Edit User"
                                                             className="bg-amber-700"
                                                         >
                                                             <IconButton
@@ -404,7 +406,7 @@ const UserTable = ({
                                                                     );
                                                                 }}
                                                             >
-                                                            <PencilIcon className="h-5 w-5 text-white" />
+                                                                <PencilIcon className="h-5 w-5 text-white" />
                                                             </IconButton>
                                                         </Tooltip>
                                                         <Tooltip
