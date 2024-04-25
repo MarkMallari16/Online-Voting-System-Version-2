@@ -77,7 +77,7 @@ export default function Welcome({ auth }) {
 
 
 
-                    <div className="sm:mt-5 mt-24 flex flex-col-reverse sm:flex-col-reverse md:flex-row items-center gap-5 sm:gap-24  mx-5 sm:mx-24  md:mx-20"
+                    <motion.div className="sm:mt-5 mt-24 flex flex-col-reverse sm:flex-col-reverse md:flex-row items-center gap-5 sm:gap-24  mx-5 sm:mx-24  md:mx-20"
                         initial={{
                             opacity: 0,
                         }}
@@ -119,9 +119,20 @@ export default function Welcome({ auth }) {
                             <img src={Cover} alt="hero-section" className="w-auto sm:w-[89%] md:w-50" />
                         </div>
 
-                    </div>
+                    </motion.div>
 
-                    <div className='h-auto w-full flex justify-center gap-5 mt-10 overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)] filter'>
+                    <motion.div
+                        initial={{
+                            opacity: 0,
+                        }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{
+                            amount: 'all',
+
+
+                        }}
+
+                        className='h-auto w-full flex justify-center gap-5 mt-10 overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)] filter'>
                         {[...Array(3)].map((_, index) => (
                             <div key={index} className='flex items-center justify-center md:justify-end gap-5 animate-infinite-scroll'>
                                 {[...Array(14)].map((_, index) => (
@@ -131,7 +142,7 @@ export default function Welcome({ auth }) {
                                 ))}
                             </div>
                         ))}
-                    </div>
+                    </motion.div>
 
                     <div className='h-auto' >
                         <div className='mt-24 text-center text-4xl font-bold' >Frequently Asked Question</div>

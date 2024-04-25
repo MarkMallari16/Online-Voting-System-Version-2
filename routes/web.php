@@ -103,21 +103,19 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
 
     Route::get('/votes', [VoteController::class, 'index'])->name('votes');
     Route::post('/hasVoted', [CandidateController::class, 'hasVoted'])->name('vote.hasVoted');
-    
 
-    Route::post('assign-partylist-editor/{partylistId}/assign-editor/{userId}',[PartylistController::class,'assignEditor']);
+
+    Route::post('assign-partylist-editor/{partylistId}/assign-editor/{userId}', [PartylistController::class, 'assignEditor']);
     Route::put('/users/{userId}/switch-role', [RoleController::class, 'switchRole'])->name('users.switchRole');
 });
 
 
 Route::middleware(['auth', 'verified', 'partylist_editor'])->group(function () {
-   
 });
 
 //render
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/moderator-overview', [CandidateController::class, 'moderatorOverview'])->middleware(['auth', 'verified', 'moderator']);
-
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/votes', [VoteController::class, 'createVote'])->name('votes.create');

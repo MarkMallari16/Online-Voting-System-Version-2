@@ -29,6 +29,15 @@ class PartylistController extends Controller
             'partylistsPerPage' => $partylistsPerPage
         ]);
     }
+    public function partylistsEditorIndex()
+    {
+        $partylists = Partylist::all();
+        $partylistsPerPage = Partylist::paginate(5);
+        return Inertia::render('Partylist_Editor/PartylistEditorPages/Partylist', [
+            'partylists' => $partylists,
+            'partylistsPerPage' => $partylistsPerPage
+        ]);
+    }
     public function store(Request $request)
     {
         $request->validate([
