@@ -138,14 +138,14 @@ export default function Welcome({ auth }) {
                             <div key={index} className='flex items-center justify-center md:justify-end gap-5 animate-infinite-scroll'>
                                 {[...Array(14)].map((_, index) => (
                                     <div key={index} className='w-28 object-cover '>
-                                        <img loading='lazy' src={index % 3 === 0 ? BacoorLogo : index % 3 === 1 ? CouncilLogo : TechnobytesLogo} alt="Logo" />
+                                        <img loading='lazy' src={index % 2 === 0 ? BacoorLogo : CouncilLogo } alt="Logo" />
                                     </div>
                                 ))}
                             </div>
                         ))}
                     </div>
 
-                    <div className='h-auto mt-26 ' >
+                    <div className='h-auto mt-24 ' >
                         <div className='text-center text-4xl font-bold' >Frequently Asked Question</div>
                         <p className="text-lg font-normal text-gray-600 text-center mt-2 mb-10">
                             Get quick answers to common questions about the SHS student council's online voting system.

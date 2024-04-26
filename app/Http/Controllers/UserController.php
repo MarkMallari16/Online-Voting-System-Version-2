@@ -26,8 +26,8 @@ class UserController extends Controller
         // Validate request data
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users|school_email', // Add the 'school_email' rule here |school_email
-            'password' => 'required|string|min:6',
+            'email' => 'required|email|unique:users|school_email', 
+            'password' => 'required|string|min:6|confirmed',
             'role' => 'required|in:admin,moderator,partylist_editor,voter',
         ]);
 
@@ -37,8 +37,7 @@ class UserController extends Controller
         $user = User::create($validatedData);
 
         AuditLog::create([
-            'user_id' => $request->user()->id, // Get the authenticated user's ID
-            'action' => 'User Created',
+            'user_id' => $request->user()->id, 
             'details' => 'User created with name: ' . $user->name,
         ]);
 
