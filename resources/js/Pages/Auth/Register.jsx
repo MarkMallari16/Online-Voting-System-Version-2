@@ -99,7 +99,10 @@ export default function Register() {
                             onChange={(e) => setData('password', e.target.value)}
                             required
                         />
-                        <PasswordToggle showPassword={showPassword} handlePassword={handlePassword} />
+                        {data.password && (
+                            <PasswordToggle showPassword={showPassword} handlePassword={handlePassword} />
+                        )}
+
                     </div>
 
                     <InputError message={errors.password} className='mt-2' />
@@ -119,8 +122,10 @@ export default function Register() {
                             onChange={(e) => setData('password_confirmation', e.target.value)}
                             required
                         />
-                        <PasswordToggle showPassword={showConfirmPassword} handlePassword={handleConfirmPassword} />
-                        
+                        {data.password_confirmation && (
+                            <PasswordToggle showPassword={showConfirmPassword} handlePassword={handleConfirmPassword} />
+                        )}
+
                     </div>
                     <InputError message={errors.password_confirmation} className='mt-2' />
 

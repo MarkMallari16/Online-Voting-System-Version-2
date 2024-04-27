@@ -72,9 +72,6 @@ const EditUserModal = ({ open, handleClose, user }) => {
       onSuccess: () => {
         handleClose();
         reset();
-      },
-      onError: (errors) => {
-        // Handle the errors if needed
       }
     });
   };
@@ -112,13 +109,19 @@ const EditUserModal = ({ open, handleClose, user }) => {
           <div className="mb-12 relative">
             <InputLabel htmlFor="password" value="Password" />
             <TextInput type={showPassword ? 'text' : 'password'} label="Password" name="password" onChange={handleOnChange} className='w-full absolute' autoComplete="new-password" />
-            <PasswordToggle showPassword={showPassword} handlePassword={handleShowPassword}/>
+            {data.password && (
+              <PasswordToggle showPassword={showPassword} handlePassword={handleShowPassword} />
+            )}
           </div>
           <div className="mb-8 relative">
 
             <InputLabel htmlFor="confirm_password" value="Confirm Password" />
             <TextInput type={showConfirmPassword ? 'text' : 'password'} label="Confirm Password" name="password_confirmation" onChange={handleOnChange} className='w-full absolute' autoComplete="new-password" />
-            <PasswordToggle showPassword={showConfirmPassword} handlePassword={handleShowConfirmPassword}/>
+
+            {data.password_confirmation && (
+              <PasswordToggle showPassword={showConfirmPassword} handlePassword={handleShowConfirmPassword} />
+
+            )}
           </div>
         </DialogBody>
         <DialogFooter>

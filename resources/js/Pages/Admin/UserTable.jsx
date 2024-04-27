@@ -174,7 +174,8 @@ const UserTable = ({
                             <div>
                                 <FaRegFilePdf className="text-xl" />
                             </div>
-                            <PDFDownloadLink
+                            {/**
+                         <PDFDownloadLink
                                 document={<UsersPDF users={users} />}
                                 fileName="users.pdf"
                             >
@@ -182,6 +183,7 @@ const UserTable = ({
                                     "Export to PDF"
                                 }
                             </PDFDownloadLink>
+                        */}
                         </div>
                         <ExcelExport data={users} fileName="user" />
 

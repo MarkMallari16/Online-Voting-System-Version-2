@@ -13,7 +13,7 @@ use Inertia\Inertia;
 
 class UserController extends Controller
 {
-    
+
     public function index(Request $request)
     {
         $perPage = $request->input('perPage', 10);
@@ -23,21 +23,22 @@ class UserController extends Controller
     }
     public function store(CreateUserRequest $request)
     {
+       
         // Validate request data
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users|school_email', 
-            'password' => 'required|string|min:6|confirmed',
-            'role' => 'required|in:admin,moderator,partylist_editor,voter',
-        ]);
-
+        // $validatedData = $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'email' => 'required|email|unique:users|school_email',
+        //     'password' => 'required|string|min:6|confirmed',
+        //     'role' => 'required|in:admin,moderator,partylist_editor,voter',
+        // ]);
+        $validatedData = $request->validated();
         $validatedData['profile_picture'] = 'profile_photos/default_profile.png';
 
         // Create the user
         $user = User::create($validatedData);
 
         AuditLog::create([
-            'user_id' => $request->user()->id, 
+            'user_id' => $request->user()->id,
             'action' => 'User Created',
             'details' => 'User created with name: ' . $user->name,
         ]);
@@ -88,7 +89,7 @@ class UserController extends Controller
         AuditLog::create([
             'user_id' => $authenticatedUser->id,
             'action' => 'User Deleted',
-            'details' => 'Deleted user with ID: ' . $user->id,
+            'details' => 'Deleted user with ID and Name: ' . $user->id . " " . $user->name,
         ]);
 
         $user->delete();

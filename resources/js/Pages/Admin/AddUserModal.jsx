@@ -29,7 +29,7 @@ const AddUserModal = ({ open, handleClose }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    
+
     const handleShowPassword = () => {
         setShowPassword(!showPassword);
     }
@@ -45,12 +45,14 @@ const AddUserModal = ({ open, handleClose }) => {
     }, []);
 
     const handleOnChange = (event) => {
+
         setData(
             event.target.name,
             event.target.type === "checkbox"
                 ? event.target.checked
                 : event.target.value
         );
+
     };
 
     const submit = async (e) => {
@@ -60,7 +62,13 @@ const AddUserModal = ({ open, handleClose }) => {
         handleClose();
     };
 
-    console.log(handleClose);
+    useEffect(() => {
+        return () => {
+            reset("password", "password_confirmation");
+        };
+    }, []);
+
+
     return (
         <Dialog open={open} handler={handleClose}>
             <DialogHeader>Add User</DialogHeader>
@@ -90,13 +98,19 @@ const AddUserModal = ({ open, handleClose }) => {
                     <div className="mb-12 relative">
                         <InputLabel htmlFor="password" value="Password" />
                         <TextInput type={showPassword ? 'text' : 'password'} label="Password" name="password" onChange={handleOnChange} className='w-full absolute' autoComplete="new-password" />
-                        <PasswordToggle showPassword={showPassword} handlePassword={handleShowPassword} />
+                        {data.password && (
+                            <PasswordToggle showPassword={showPassword} handlePassword={handleShowPassword} />
+                        )}
 
                     </div>
                     <div className="mb-8 relative">
                         <InputLabel htmlFor="confirm_password" value="Confirm Password" />
                         <TextInput type={showConfirmPassword ? 'text' : 'password'} label="Confirm Password" name="password_confirmation" onChange={handleOnChange} className='w-full absolute' autoComplete="new-password" />
-                        <PasswordToggle showPassword={showConfirmPassword} handlePassword={handleShowConfirmPassword} />
+                        {
+                            data.password_confirmation && (
+                                <PasswordToggle showPassword={showConfirmPassword} handlePassword={handleShowConfirmPassword} />
+                            )
+                        }
                     </div>
                 </DialogBody>
                 <DialogFooter>
