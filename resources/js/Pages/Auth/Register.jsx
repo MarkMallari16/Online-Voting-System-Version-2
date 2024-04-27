@@ -5,8 +5,20 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
+import { useState } from 'react';
+import PasswordToggle from '@/Components/PasswordToggle';
 
 export default function Register() {
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const handlePassword = () => {
+        setShowPassword(!showPassword);
+    }
+    const handleConfirmPassword = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    }
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
@@ -72,47 +84,48 @@ export default function Register() {
                     <InputError message={errors.email} className="mt-2" />
                 </div>
 
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+                <div className='mt-4 relative'>
 
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) => setData('password', e.target.value)}
-                        required
-                     
-                    />
+                    <div className="mb-12">
+                        <InputLabel htmlFor="password" value="Password" />
 
-                    <InputError message={errors.password} className="mt-2" />
+                        <TextInput
+                            id="password"
+                            type={showPassword ? 'text' : 'password'}
+                            name="password"
+                            value={data.password}
+                            className="absolute block w-full"
+                            autoComplete="new-password"
+                            onChange={(e) => setData('password', e.target.value)}
+                            required
+                        />
+                        <PasswordToggle showPassword={showPassword} handlePassword={handlePassword} />
+                    </div>
+
+                    <InputError message={errors.password} className='mt-2' />
                 </div>
 
-                <div className="mt-4">
+                <div className='mt-4'>
                     <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
 
-                    <TextInput
-                        id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
-                        value={data.password_confirmation}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) => setData('password_confirmation', e.target.value)}
-                        required
+                    <div className="relative mb-14">
+                        <TextInput
+                            id="password_confirmation"
+                            type={showConfirmPassword ? 'text' : 'password'}
+                            name="password_confirmation"
+                            value={data.password_confirmation}
+                            className="absolute block w-full"
+                            autoComplete="new-password"
+                            onChange={(e) => setData('password_confirmation', e.target.value)}
+                            required
+                        />
+                        <PasswordToggle showPassword={showConfirmPassword} handlePassword={handleConfirmPassword} />
                         
-                    />
+                    </div>
+                    <InputError message={errors.password_confirmation} className='mt-2' />
 
-                    <InputError message={errors.password_confirmation} className="mt-2" />
                 </div>
-
                 <div className="flex items-center justify-end mt-4">
-
-
-
-
                     <PrimaryButton className="ms-4" disabled={processing}>
                         Register
                     </PrimaryButton>

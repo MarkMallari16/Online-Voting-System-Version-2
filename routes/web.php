@@ -44,7 +44,7 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     Route::get('/activitylog', function () {
         return Inertia::render('Admin/Pages/ActivityLog');
     })->name('activitylog');
-    // Route::get('/admin-dashboard', [UserController::class, 'show'])->name('users.show');
+
     //add users
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
     // Update user (process form submission)

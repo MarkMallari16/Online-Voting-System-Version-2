@@ -148,7 +148,7 @@ export default function Welcome({ auth }) {
                     <div className='h-auto mt-24 ' >
                         <div className='text-center text-4xl font-bold' >Frequently Asked Question</div>
                         <p className="text-lg font-normal text-gray-600 text-center mt-2 mb-10">
-                            Get quick answers to common questions about the SHS student council's online voting system.
+                            Get quick answers to common questions about the STI College Bacoor SHS student council's online voting system.
                         </p>                        <div className=' flex justify-center'>
                             <div className='w-[90%] bg-blue-50 px-3' >
                                 <Accordion open={open === 1}>

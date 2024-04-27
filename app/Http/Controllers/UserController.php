@@ -38,6 +38,7 @@ class UserController extends Controller
 
         AuditLog::create([
             'user_id' => $request->user()->id, 
+            'action' => 'User Created',
             'details' => 'User created with name: ' . $user->name,
         ]);
 
