@@ -29,7 +29,7 @@ class Candidate extends Model
         return $this->belongsTo(Positions::class);
     }
 
-    // Define the relationship with Partylist
+
     public function partylist()
     {
         return $this->belongsTo(Partylist::class);

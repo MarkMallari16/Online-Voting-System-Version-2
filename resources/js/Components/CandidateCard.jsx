@@ -52,7 +52,7 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
                     <Typography variant="h5" color="blue-gray" className="mb-2">
                         {`${candidate.first_name} ${candidate.middle_name === null ? '' : ''} ${candidate.last_name}`}
                     </Typography>
-                    <div className='flex items-center justify-center gap-4'>
+                    <div className='flex items-center justify-center gap-2'>
                         <span><FaUsers className='text-lg' /></span>
                         <span>{candidate.partylist.name}</span>
                     </div>

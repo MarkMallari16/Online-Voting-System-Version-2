@@ -144,8 +144,6 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                 candidate_profile: candidateToUpdate.candidate_profile,
             });
 
-
-
         } else {
             // Handle the case when no candidate is found with the given id
             console.error(`No candidate found with id ${id}`);
@@ -387,7 +385,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
                                                 <div className="flex-1">
                                                     <InputLabel
-                                                        htmlFor="lastName"
+                                                        htmlFor="middle_name"
                                                         value=" Candidate Middle Name (optional)"
                                                     />
 
@@ -417,7 +415,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                 <div className="flex-1">
                                                     <InputLabel
                                                         htmlFor="lastName"
-                                                        value="Enter Candidate Last Name"
+                                                        value="Candidate Last Name"
                                                     />
 
                                                     <TextInput

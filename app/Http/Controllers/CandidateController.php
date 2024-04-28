@@ -94,8 +94,10 @@ class CandidateController extends Controller
             'middle_name' => 'nullable|string',
             'last_name' => 'required|alpha',
             'manifesto' => 'required|string',
+            'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'partylist_id' => 'required|exists:partylists,id',
-            'position_id' => 'required|exists:positions,id'
+            'position_id' => 'required|exists:positions,id',
+
         ]);
 
         $middleName = $validatedData['middle_name'] ?? null;
@@ -110,17 +112,16 @@ class CandidateController extends Controller
 
         // Update candidate data
         $candidate->update([
-
             'first_name' => $validatedData['first_name'],
             'middle_name' => $middleName,
             'last_name' => $validatedData['last_name'],
             'manifesto' => $validatedData['manifesto'],
             'partylist_id' => $validatedData['partylist_id'],
-            'position_id' => $validatedData['position_id']
+            'position_id' => $validatedData['position_id'],
+            'candidate_profile' => $candidateImagePath,
         ]);
 
-        // Redirect back with success message
-
+        return dd($candidate);
     }
 
     public function destroy($id)

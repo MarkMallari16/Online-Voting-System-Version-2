@@ -5,44 +5,32 @@ import { Avatar, Spinner, Typography } from "@material-tailwind/react";
 import ActivityLogPagination from "./ActivityLogPagination";
 import ExcelExport from "@/Components/ExcelExport";
 import FilterDropdown from "@/Components/FilterDropdown";
-const ActivityLog = ({ auth }) => {
+const ActivityLog = ({ auth, logs }) => {
     const [activityLog, setActivityLog] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
-    const [selectedAction, setSelectedAction] = useState(null);
-    const action = activityLog.map(log => log.action);
 
 
-    const fetchActivityLog = async (page) => {
-        try {
-            setIsLoading(true);
-            const response = await axios.get("/activity-logs", {
-                params: { page, action: selectedAction },
-            });
-            setActivityLog(response.data.data);
-            setTotalPages(response.data.last_page);
-        } catch (error) {
-            console.error("Error fetching activity log:", error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    console.log(logs);
+   
 
     useEffect(() => {
-        fetchActivityLog();
-    }, [currentPage, selectedAction]);
+       setIsLoading(false);
+       setActivityLog(logs.data);
+       setTotalPages(logs.last_page);
+    }, [logs]);
 
     const handleSelectAction = (action) => {
         setCurrentPage(1);
         setSelectedAction(action);
     };
 
-    
+
     const handlePageChange = async (page) => {
         setCurrentPage(page);
 
-        await fetchActivityLog(page);
+        visit(route("activity.logs", { page, action: selectedAction }));
     };
 
     const getClassByAction = (action) => {
@@ -94,10 +82,10 @@ const ActivityLog = ({ auth }) => {
                                             </div>
                                             <div className="flex justify-end gap-2">
                                                 <div className="hidden">
-                                                    <FilterDropdown onSelectAction={handleSelectAction} activityLog={activityLog} />
+                                                    <FilterDropdown onSelectAction={handleSelectAction} activityLog={logs.data} />
                                                 </div>
                                                 <div>
-                                                    <ExcelExport data={activityLog} fileName='activity_logs' />
+                                                    <ExcelExport data={logs.data} fileName='activity_logs' />
                                                 </div>
                                             </div>
                                         </div>
@@ -130,7 +118,7 @@ const ActivityLog = ({ auth }) => {
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            {activityLog.length == 0 ? (
+                                            {logs.data.length == 0 ? (
                                                 <tbody>
                                                     <tr className="text-center">
                                                         <td
@@ -143,7 +131,7 @@ const ActivityLog = ({ auth }) => {
                                                 </tbody>
                                             ) : (
                                                 <tbody>
-                                                    {activityLog.map(
+                                                    {logs.data.map(
                                                         (log, index) => (
                                                             <tr
                                                                 key={index}

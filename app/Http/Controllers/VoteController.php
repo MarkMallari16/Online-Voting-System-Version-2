@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreVoteRequest;
 use App\Models\Candidate;
 use App\Models\Positions;
 use App\Models\User;
@@ -39,7 +40,7 @@ class VoteController extends Controller
         $validatedData = $request->validate([
             'election_id' => 'required|exists:elections,id',
             'candidate_ids' => 'required|array',
-            'candidate_ids.*' => 'required|exists:candidates,id',
+            'candidate_ids.*' => 'nullable|exists:candidates,id'
         ]);
 
         // Check if the authenticated user is a voter
@@ -57,6 +58,7 @@ class VoteController extends Controller
             return redirect()->back()->with('error', 'You have already voted in this election');
         }
 
+        
         // Create a new vote for each selected candidate
         foreach ($validatedData['candidate_ids'] as $candidateId) {
             $vote = new Vote();

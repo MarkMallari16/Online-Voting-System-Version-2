@@ -23,14 +23,7 @@ class UserController extends Controller
     }
     public function store(CreateUserRequest $request)
     {
-       
-        // Validate request data
-        // $validatedData = $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|email|unique:users|school_email',
-        //     'password' => 'required|string|min:6|confirmed',
-        //     'role' => 'required|in:admin,moderator,partylist_editor,voter',
-        // ]);
+
         $validatedData = $request->validated();
         $validatedData['profile_picture'] = 'profile_photos/default_profile.png';
 
@@ -50,11 +43,7 @@ class UserController extends Controller
 
     public function update(UpdateUserRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'email',
-            'role' => 'in:admin,moderator,voter,partylist_editor',
-        ]);
+        $request->validated();
 
         // Find the user by ID
         $user = User::findOrFail($id);
@@ -102,5 +91,14 @@ class UserController extends Controller
         $logs = AuditLog::with('user')->orderByDesc('created_at')->paginate($perPage);
 
         return response()->json($logs);
+    }
+    public function displayActivityLogs(Request $request)
+    {
+        $perPage = $request->input('perPage', 10);
+        $logs = AuditLog::with('user')->orderByDesc('created_at')->paginate($perPage);
+
+        return Inertia::render('Admin/Pages/ActivityLog',[
+            'logs' => $logs
+        ]);
     }
 }

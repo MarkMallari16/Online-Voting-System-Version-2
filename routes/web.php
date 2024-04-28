@@ -40,10 +40,10 @@ Route::get('/', function () {
 //for admin page 
 
 Route::middleware(['auth', 'verified', 'admin'])->group(function () {
+    //get user
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
     //retrieved data and display in table
-    Route::get('/activitylog', function () {
-        return Inertia::render('Admin/Pages/ActivityLog');
-    })->name('activitylog');
+    Route::get('/activitylog', [UserController::class, 'displayActivityLogs'])->name('activitylog');
 
     //add users
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
@@ -67,7 +67,7 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
         ]);
     })->name('election');
 
-    Route::get('/ballots', [BallotController::class,'displayBallot'])->name('ballots');
+    Route::get('/ballots', [BallotController::class, 'displayBallot'])->name('ballots');
 
     Route::get('/live-result', function () {
         return Inertia::render('Moderator/ModeratorPages/LiveResult');
@@ -109,8 +109,6 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
 });
 
 
-Route::middleware(['auth', 'verified', 'partylist_editor'])->group(function () {
-});
 
 //render
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
@@ -119,13 +117,12 @@ Route::get('/moderator-overview', [CandidateController::class, 'moderatorOvervie
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/votes', [VoteController::class, 'createVote'])->name('votes.create');
     Route::get('/casted-votes', [VoteController::class, 'castedVotes'])->name('casted.votes');
+
     //upload Profile picture
     Route::post('/upload-profile-picture', [ProfilePictureController::class, 'uploadProfile'])->name('profile.uploadProfile');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    //get user
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
 });
 require __DIR__ . '/auth.php';

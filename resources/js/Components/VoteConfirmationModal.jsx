@@ -5,13 +5,15 @@ import PrimaryButton from './PrimaryButton';
 import DangerButton from './DangerButton';
 import { Avatar } from '@material-tailwind/react';
 import { FaVoteYea } from "react-icons/fa";
-
 const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidates, selectedCandidatesInfo }) => {
     // console.log(selectedCandidatesInfo);
     const handleVoteSubmit = async (e) => {
         e.preventDefault();
-        onSubmitVote()
+        onSubmitVote();
+
+        
     }
+    console.log(selectedCandidates);
     const handleClose = () => {
 
         onClose(selectedCandidates);
@@ -19,7 +21,8 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
     const sortSelectedCandidatesInfo = selectedCandidatesInfo.sort((a, b) => a.position.id - b.position.id);
 
     console.log(sortSelectedCandidatesInfo);
-
+    const candidateProfiles = sortSelectedCandidatesInfo.map(candidate => candidate.candidateProfile);
+    console.log(candidateProfiles);
     return (
         <Modal show={isOpen} onClose={onClose} className='w-20'>
             <form onSubmit={handleVoteSubmit}>
@@ -44,7 +47,7 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
                                     <li key={candidate.id} className="mb-3 border-2 border-black p-3 rounded-md ">
                                         <div className="flex justify-between items-center ">
                                             <div className='flex gap-3'>
-                                                <Avatar src={candidate.candidateProfile} />
+                                                <Avatar src={candidate.candidateProfile } />
                                                 <div>
                                                     <div className='font-medium'>{candidate.name}</div>
                                                     <div className='text-blue-gray-800 flex items-center gap-1'>

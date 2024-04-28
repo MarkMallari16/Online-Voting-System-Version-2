@@ -57,6 +57,9 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
     const electionId = election ? election.id : 0;
 
+    const isElectionStarted =  now > new Date(election.start_date);
+
+
     const { data, setData, post, errors, processing } = useForm({
         election_id: electionId,
         candidate_ids: [],
@@ -146,12 +149,12 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
     };
 
 
-    console.log(election)
+    // console.log(election)
 
-
+    console.log(voteCounts);
     return (
         <div>
-            {election && election?.status === "Active" ? (
+            {(election && election?.status === "Active") && isElectionStarted ? (
 
                 <div>
                     <PartylistCarousel />
@@ -223,7 +226,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                 </div>
             ) : (
 
-                <div className=" w-full flex justify-center items-center">
+                <div className=" w-full flex justify-center items-center bg-white py-10 rounded-md">
                     <div className="text-gray-600 p-5 text-center flex justify-center items-center flex-col">
                         <img src={Time} alt="waiting" className="w-40" />
                         <div className="text-xl">Please wait for the moderator</div>

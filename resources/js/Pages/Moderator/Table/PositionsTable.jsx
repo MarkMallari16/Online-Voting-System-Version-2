@@ -59,6 +59,7 @@ export function PositionsTable(props) {
 
     console.log(positionsPerPage);
     const totalPages = positionsPerPage.last_page;
+    
     const { data, setData, post, errors } = useForm();
 
     //modal add
@@ -124,10 +125,6 @@ export function PositionsTable(props) {
     const handleDeleteOpen = (id) => {
         setDeleteModal(!openDeleteModal)
         setId(id);
-        console.log(id);
-        console.log(openDeleteModal);
-
-
     };
 
     const handleChange = (event) => {

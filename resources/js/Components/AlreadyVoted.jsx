@@ -5,7 +5,7 @@ import Modal from './Modal'
 import { FaVoteYea } from "react-icons/fa";
 import { Avatar } from '@material-tailwind/react';
 import { TbConfetti } from "react-icons/tb";
-
+import DefaultCandidateProfile from '../../../public/candidate_profile_photos/default_candidate_profile.png'
 const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
   const [showModal, setShowModal] = useState(false);
   const handleSeeCastedVote = () => {
@@ -62,7 +62,7 @@ const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
                   <li key={vote.id} className="mb-3 border-2 border-black p-3 rounded-md w-full">
                     <div className="flex justify-between items-center ">
                       <div className='flex gap-3'>
-                        <Avatar src={vote.candidate.candidate_profile} />
+                        <Avatar src={vote.candidate.candidate_profile ? vote.candidate.candidate_profile : DefaultCandidateProfile} />
                         <div>
                           <div className='font-medium'>{`${vote.candidate.first_name} ${vote.candidate?.middle_name ? vote.candidate.middle_name : ''} ${vote.candidate.last_name}`}</div>
                           <div className='text-blue-gray-800 flex items-center gap-1'>
