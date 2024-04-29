@@ -2,7 +2,6 @@ import React from "react";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { LuVote } from "react-icons/lu";
 const AdminDashboardOverview = ({
-    users,
     studentCount,
     adminCount,
     moderatorCount,

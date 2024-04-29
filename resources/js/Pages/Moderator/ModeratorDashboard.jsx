@@ -152,7 +152,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                 {latestVotedVoter && Object.keys(latestVotedVoter).length > 0 ? (
                                     <div className='flex justify-between px-4 py-2 items-center'>
                                         <div>
-                                            <Avatar src={latestVotedVoter.profile_picture} alt={latestVotedVoter.name} />
+                                            <Avatar src={latestVotedVoter.profile_picture} alt="Avatar" />
                                         </div>
                                         <div>
                                             {latestVotedVoter.name}

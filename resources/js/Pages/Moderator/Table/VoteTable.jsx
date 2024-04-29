@@ -46,7 +46,7 @@ const VoteTable = ({ votes, votesPerPage, voters, voterVoted, positions }) => {
     const [id, setId] = useState();
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(votesPerPage.current_page);
-
+    
     const indexOfLastVote = currentPage * votesPerPage.per_page;//1
     const indexOfFirstVote = indexOfLastVote - votesPerPage.per_page;//10
 
@@ -59,8 +59,6 @@ const VoteTable = ({ votes, votesPerPage, voters, voterVoted, positions }) => {
         setId(id);
 
     }
-
-
     const handlePreviousPage = () => {
         if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
@@ -166,7 +164,7 @@ const VoteTable = ({ votes, votesPerPage, voters, voterVoted, positions }) => {
             </CardHeader>
             <CardBody className="overflow-scroll px-0">
                 <Tabs value="students_voted">
-                    <div className="w-full  mx-4">
+                    <div className="w-full  mx-4 ">
                         <TabsHeader >
                             {TABS.map(({ label, value }) => (
                                 <Tab key={value} value={value}>
@@ -178,7 +176,7 @@ const VoteTable = ({ votes, votesPerPage, voters, voterVoted, positions }) => {
                     </div>
                     <TabsBody>
 
-                        <TabPanel value="students_voted">
+                        <TabPanel value="students_voted" >
                             <table className="mt-4 w-full min-w-max table-auto text-left">
                                 <thead>
                                     <tr>

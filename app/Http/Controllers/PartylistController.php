@@ -34,11 +34,13 @@ class PartylistController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'required',
+            'partylist_logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $partylist = Partylist::create([
             'name' => $request->name,
             'description' => $request->description,
+            
         ]);
 
         return redirect()->back()->with('success','partylist added successfully');

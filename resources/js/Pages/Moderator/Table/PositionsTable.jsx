@@ -25,7 +25,6 @@ import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import { useForm } from '@inertiajs/inertia-react';
 import { Inertia } from '@inertiajs/inertia';
-import Modal from "@/Components/Modal";
 import InfoIcon from "@/Components/InfoIcon";
 import ExcelExport from "@/Components/ExcelExport";
 import DeleteModal from "@/Components/DeleteModal";
@@ -59,11 +58,14 @@ export function PositionsTable(props) {
 
     console.log(positionsPerPage);
     const totalPages = positionsPerPage.last_page;
-    
+
     const { data, setData, post, errors } = useForm();
 
     //modal add
-    const handleAddOpen = () => setOpenAddModal(!openAddModal);
+    const handleAddOpen = () => {
+        setOpenAddModal(!openAddModal)
+        setData('name', '');
+    };
 
     const handleAddSubmit = async (e) => {
         e.preventDefault(); // Prevent the default form submission behavior
@@ -91,12 +93,7 @@ export function PositionsTable(props) {
         // Set the initial value of the input field to the current position name
         const positionToUpdate = positions.find(position => position.id === id);
         // console.log("positionToUpdate:", positionToUpdate); // Add this line for debugging
-        if (positionToUpdate) {
-            setData('name', positionToUpdate.name);
-        } else {
-            console.error("Position not found with id:", id);
-            setData('name', '');
-        }
+        setData('name', positionToUpdate.name);
 
     };
 
@@ -182,7 +179,7 @@ export function PositionsTable(props) {
 
                             <Button className="flex items-center gap-3 bg-blue-500" size="sm" onClick={handleAddOpen}>
 
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className=" w-4 h-4">
                                     <path fillRule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
                                 </svg>
                                 Add position
@@ -193,8 +190,9 @@ export function PositionsTable(props) {
                         {/*Dialog for add */}
                         <Dialog open={openAddModal} handler={handleAddOpen}>
                             <DialogHeader>Add Position</DialogHeader>
-                            <DialogBody>
-                                <form onSubmit={handleAddSubmit}>
+                            <form onSubmit={handleAddSubmit}>
+                                <DialogBody>
+
                                     <div>
                                         <InputLabel htmlFor="positionName" value="Position Name" />
                                         <TextInput
@@ -209,23 +207,26 @@ export function PositionsTable(props) {
                                         />
                                         <InputError>{errors.name}</InputError>
                                     </div>
-                                    <DialogFooter>
-                                        <Button variant="text" color="red" onClick={handleAddOpen} className="mr-1">
-                                            <span>Cancel</span>
-                                        </Button>
-                                        <Button variant="gradient" color="blue" type="submit">
-                                            <span>Confirm</span>
-                                        </Button>
-                                    </DialogFooter>
-                                </form>
-                            </DialogBody>
+
+
+                                </DialogBody>
+                                <DialogFooter>
+                                    <Button variant="text" color="red" onClick={handleAddOpen} className="mr-1">
+                                        <span>Cancel</span>
+                                    </Button>
+                                    <Button variant="gradient" color="blue" type="submit">
+                                        <span>Confirm</span>
+                                    </Button>
+                                </DialogFooter>
+                            </form>
                         </Dialog>
 
                         {/*Dialog for update*/}
                         <Dialog open={openUpdateModal} handler={handleUpdateOpen}>
                             <DialogHeader>Update Position</DialogHeader>
-                            <DialogBody>
-                                <form onSubmit={handleUpdateSubmit}>
+                            <form onSubmit={handleUpdateSubmit}>
+                                <DialogBody>
+
                                     <div>
                                         <InputLabel htmlFor="positionName" value="Enter Position Name" />
                                         <TextInput
@@ -239,16 +240,18 @@ export function PositionsTable(props) {
                                         />
                                         <InputError>{errors.name}</InputError>
                                     </div>
-                                    <DialogFooter>
-                                        <Button variant="text" color="red" onClick={handleUpdateOpen} className="mr-1">
-                                            <span>Cancel</span>
-                                        </Button>
-                                        <Button variant="gradient" color="blue" type="submit">
-                                            <span>Confirm</span>
-                                        </Button>
-                                    </DialogFooter>
-                                </form>
-                            </DialogBody>
+
+
+                                </DialogBody>
+                                <DialogFooter>
+                                    <Button variant="text" color="red" onClick={handleUpdateOpen} className="mr-1">
+                                        <span>Cancel</span>
+                                    </Button>
+                                    <Button variant="gradient" color="blue" type="submit">
+                                        <span>Confirm</span>
+                                    </Button>
+                                </DialogFooter>
+                            </form>
                         </Dialog>
 
                     </div>

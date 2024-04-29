@@ -11,7 +11,7 @@ class Partylist extends Model
     protected $fillable = [
         'name',
         'description',
-        
+        'partylist_logo'
     ];
 
 }

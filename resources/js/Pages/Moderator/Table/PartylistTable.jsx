@@ -49,9 +49,10 @@ const TABLE_HEAD = ["Partylist ID", "Partylist Name", "Partylist Description", "
 
 export function PartylistTable({ partylists, partylistsPerPage }) {
   console.log(partylistsPerPage);
-  const { data, setData, post, processing } = useForm({
+  const { data, setData, post, progress, processing } = useForm({
     name: '',
-    description: ''
+    description: '',
+    partylist_logo: ''
   });
 
   const [partylist, setPartylist] = useState(partylists);
@@ -168,9 +169,6 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
 
   return (
     <div>
-      <div className="mb-3">
-        {isSuccessMessage && <Alert icon={<InfoIcon />} color="green">{message}</Alert>}
-      </div>
 
       <div>
         <Tabs value="partylist" className="w-full">
@@ -189,6 +187,10 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
           </div>
           <TabsBody>
             <TabPanel value="partylist">
+              <div className="mb-3">
+                {isSuccessMessage && <Alert icon={<InfoIcon />} color="green">{message}</Alert>}
+              </div>
+
               <Card className="h-full w-full">
                 <CardHeader floated={false} shadow={false} className="rounded-none">
                   <div className="mb-8 flex items-center justify-between gap-8 ">
@@ -209,11 +211,15 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                         Add partylist
                       </Button>
                     </div>
+
+                    {/*Add Modal */}
                     <Dialog open={openAddModal} handler={handleAddOpen}>
-                      <DialogHeader>Add Partylist</DialogHeader>
-                      <DialogBody>
-                        <div>
-                          <form onSubmit={addSubmit}>
+                      <form onSubmit={addSubmit}>
+                        <DialogHeader>Add Partylist</DialogHeader>
+
+                        <DialogBody>
+                          <div>
+
                             <div>
                               <InputLabel htmlFor="partylistName" value="Partylist Name" />
 
@@ -243,25 +249,35 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                               />
                               <InputError className="mt-2" />
                             </div>
-                            <DialogFooter>
-                              <Button variant="text" color="red" onClick={handleAddOpen} className="mr-1">
-                                <span>Cancel</span>
-                              </Button>
-                              <Button variant="gradient" color="blue" type="submit" >
-                                <span>Confirm</span>
-                              </Button>
-                            </DialogFooter>
-                          </form>
-                        </div>
-                      </DialogBody>
-                    </Dialog>
+                            <div className="mt-4">
+                              <InputLabel htmlFor="partylistLogo" value="Enter Partylist Logo" />
+                              <Input type="file" name="partylist_logo" className="mt-1" onChange={(e) => setData('partylist_logo', e.target.files[0])} />
+                              {progress && (
+                                <progress value={progress.percentage} max="100">
+                                  {progress.percentage}%
+                                </progress>
+                              )}
+                              <InputError className="mt-2" />
+                            </div>
+                          </div>
+                        </DialogBody>
 
+                        <DialogFooter>
+                          <Button variant="text" color="red" onClick={handleAddOpen} className="mr-1">
+                            <span>Cancel</span>
+                          </Button>
+                          <Button variant="gradient" color="blue" type="submit" >
+                            <span>Confirm</span>
+                          </Button>
+                        </DialogFooter>
+                      </form>
+                    </Dialog>
+                    {/*Update Modal */}
                     <Dialog open={openUpdateModal} handler={handleUpdateOpen}>
                       <DialogHeader>Update Partylist</DialogHeader>
-
-                      <DialogBody>
-                        <div>
-                          <form onSubmit={updateSubmit}>
+                      <form onSubmit={updateSubmit}>
+                        <DialogBody>
+                          <div>
                             <div>
                               <InputLabel htmlFor="partylistName" value="Enter Partylist Name" />
 
@@ -276,6 +292,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                               />
                               <InputError className="mt-2" />
                             </div>
+
                             <div className="mt-4">
                               <InputLabel htmlFor="partylistDescription" value="Enter Partylist Description" />
                               <textarea
@@ -289,17 +306,19 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                               />
                               <InputError className="mt-2" />
                             </div>
-                            <DialogFooter>
-                              <Button variant="text" color="red" onClick={handleUpdateOpen} className="mr-1">
-                                <span>Cancel</span>
-                              </Button>
-                              <Button variant="gradient" color="blue" type="submit" >
-                                <span>Confirm</span>
-                              </Button>
-                            </DialogFooter>
-                          </form>
-                        </div>
-                      </DialogBody>
+
+
+                          </div>
+                        </DialogBody>
+                        <DialogFooter>
+                          <Button variant="text" color="red" onClick={handleUpdateOpen} className="mr-1">
+                            <span>Cancel</span>
+                          </Button>
+                          <Button variant="gradient" color="blue" type="submit" >
+                            <span>Confirm</span>
+                          </Button>
+                        </DialogFooter>
+                      </form>
                     </Dialog>
                   </div>
                   <div className="flex flex-col items-center justify-end gap-4 md:flex-row">
@@ -509,7 +528,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                     </div>
                     <div className="mt-2 font-medium">Mark Mallari</div>
                     <div className="text-gray-600 flex items-center justify-center gap-1">
-                     
+
                       Partylist Editor of Sandigan</div>
                   </div>
                   <div className="w-full bg-white text-center py-5 px-3 rounded-md col-span-1 ring-1 ring-inset ring-gray-300">
@@ -546,7 +565,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                     </div>
                     <div className="mt-2 font-medium">Mark Mallari</div>
                     <div className="text-gray-600 flex items-center justify-center gap-1">
-                     {/** <span>  <FaUserEdit className="text-lg" /></span> */}
+                      {/** <span>  <FaUserEdit className="text-lg" /></span> */}
                       Partylist Editor of Sandigan</div>
                   </div>
 

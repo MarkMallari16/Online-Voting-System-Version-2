@@ -27,15 +27,10 @@ const Election = ({ auth, existingElection, election }) => {
     status: status ? status : false
   });
 
-
-
-  // console.log(data.end_date)
-
-
   const [activateOpen, setActivateOpen] = useState(false);
   const [deactivateOpen, setDeactivateOpen] = useState(false);
 
-  const [error, setError] = useState('');
+
   const [successMessage, setSuccessMessage] = useState('');
 
 
@@ -48,10 +43,10 @@ const Election = ({ auth, existingElection, election }) => {
     });
   }, [election]);
 
+  console.log(errors);
 
   const handleActivateOpen = () => setActivateOpen(!activateOpen);
   const handleDeactivateOpen = () => setDeactivateOpen(!deactivateOpen);
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -64,11 +59,7 @@ const Election = ({ auth, existingElection, election }) => {
       window.location.reload();
     } catch (error) {
       console.error(error);
-      if (error.response.status === 422) {
-        setError('Validation error. Please check your input.');
-      } else {
-        setError('Failed to create/update election. Please try again.');
-      }
+
     }
   };
 
@@ -82,7 +73,7 @@ const Election = ({ auth, existingElection, election }) => {
 
     } catch (error) {
       console.error(error);
-      setError('Failed to activate election. Please try again.');
+
     }
   };
 
@@ -94,15 +85,14 @@ const Election = ({ auth, existingElection, election }) => {
       setDeactivateOpen(false);
       window.location.reload();
 
-      if (data.votesCount > 0) {
-        // Display error message and prevent deactivation
+      if (votesCount > 0) {
         setError('Cannot deactivate the election because votes have been cast.');
         return;
       }
 
     } catch (error) {
       console.error(error);
-      setError('Failed to deactivate election. Please try again.');
+
     }
   };
 
@@ -143,7 +133,7 @@ const Election = ({ auth, existingElection, election }) => {
                       onChange={(e) => setData('title', e.target.value)}
                       disabled={!status}
                     />
-                    <InputError className="mt-2" error={errors.title} />
+                    <InputError className="mt-2" message={errors.title} />
                   </div>
                 </div>
                 <div className="mt-5">
@@ -163,7 +153,7 @@ const Election = ({ auth, existingElection, election }) => {
                       onChange={(e) => setData('start_date', e.target.value)}
                       disabled={!status}
                     />
-                    <InputError className="mt-2" error={errors.start_date} />
+                    <InputError className="mt-2" message={errors.start_date} />
                   </div>
                   <div>
                     <InputLabel htmlFor="end_date" value="End Date" />
@@ -175,13 +165,12 @@ const Election = ({ auth, existingElection, election }) => {
                       onChange={(e) => setData('end_date', e.target.value)}
                       disabled={!status}
                     />
-                    <InputError className="mt-2" error={errors.end_date} />
+                    <InputError className="mt-2" message={errors.end_date} />
                   </div>
                 </div>
                 <div className='mt-5'>
                   <PrimaryButton type="submit" disabled={!status}>{status ? 'Update' : 'Save'}</PrimaryButton>
-                  {error && <p className="text-red-500 mt-2">{error}</p>}
-
+      
 
                 </div>
               </div>
