@@ -57,7 +57,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
     const electionId = election ? election.id : 0;
 
-    const isElectionStarted =  now > new Date(election.start_date);
+    const isElectionStarted = now > new Date(election?.start_date);
 
 
     const { data, setData, post, errors, processing } = useForm({
@@ -226,11 +226,11 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                 </div>
             ) : (
 
-                <div className=" w-full flex justify-center items-center bg-white py-10 rounded-md">
-                    <div className="text-gray-600 p-5 text-center flex justify-center items-center flex-col">
-                        <img src={Time} alt="waiting" className="w-40" />
-                        <div className="text-xl">Please wait for the moderator</div>
-                        <div className="text-xl">Election for this position will be available soon.</div>
+                <div className=" w-full flex justify-center items-center bg-white py-10 rounded-md ring-1 inset-1 ring-gray-300">
+                    <div className="text-gray-800 p-5 text-center flex justify-center items-center flex-col">
+                        <img src={Time} alt="waiting" className="w-44" />
+                        <div className="mt-2 text-xl">Please wait for the Moderator</div>
+                        <div className="text-xl mb-2">Election for this position will be available soon.</div>
                     </div>
 
                 </div>

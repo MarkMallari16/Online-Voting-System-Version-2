@@ -127,14 +127,13 @@ export function PositionsTable(props) {
     const handleChange = (event) => {
         setData(event.target.name, event.target.value);
     };
-
+    console.log(errors);
     const handleDeletePositions = (positionId) => {
         try {
             // Send a DELETE request to delete the position
             Inertia.delete(`/positions/${positionId}`);
 
-            // Update the positions state by filtering out the deleted position
-            setPositions(prevPositions => prevPositions.filter(position => position.id !== positionId));
+           
             setMessage(`Position successfully deleted`);
             setIsSuccessMessage(true);
             // Close the delete modal
@@ -201,11 +200,11 @@ export function PositionsTable(props) {
                                             name="name"
                                             value={data.name || ''}
                                             onChange={handleChange}
-                                            required
+                                           
                                             autoFocus
                                             placeholder="Enter position name"
                                         />
-                                        <InputError>{errors.name}</InputError>
+                                        <InputError className="mt-2" message={errors.name} />
                                     </div>
 
 

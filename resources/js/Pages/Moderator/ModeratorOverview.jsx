@@ -7,8 +7,8 @@ const ModeratorOverview = ({ voters, candidates, election, votersVotedCount }) =
     // console.log(voters)
 
     return (
-        <div className="flex flex-col md:flex-row sm:flex-row justify-between gap-4">
-            <div className="w-full md:w-1/3 flex justify-between sm:w-full h-50   bg-yellow-300 rounded-lg p-10 mb-2 md:mb-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="w-full flex justify-between sm:w-full h-50 bg-yellow-300 rounded-lg p-10 mb-2 md:mb-0 ring-1 ring-inset ring-gray-300">
                 <div>
                     <h2 className="text-3xl mb-8 font-bold">
                         {election ? election.status : "Inactive"}
@@ -16,11 +16,11 @@ const ModeratorOverview = ({ voters, candidates, election, votersVotedCount }) =
                     <p className="text-xl">Election Status</p>
                 </div>
                 <div>
-                    <GrStatusInfo className="text-3xl" />
+                    <GrStatusInfo className="text-3xl right-1 " />
                 </div>
             </div>
 
-            <div className="w-full md:w-1/3  flex justify-between sm:w-full h-50  bg-light-blue-200 rounded-lg p-10 mb-2 md:mb-0">
+            <div className="w-full  flex justify-between sm:w-full h-50  bg-light-blue-200 rounded-lg p-10 mb-2 md:mb-0 ring-1 ring-inset ring-gray-300">
                 <div>
                     <h2 className="text-4xl mb-8 font-bold">
                         {candidates.length}
@@ -32,17 +32,17 @@ const ModeratorOverview = ({ voters, candidates, election, votersVotedCount }) =
                 </div>
             </div>
 
-            <div className="w-full md:w-1/3 flex justify-between sm:w-full h-50  bg-deep-orange-200 rounded-lg p-10">
+            <div className="w-full flex justify-between sm:w-full h-50  bg-deep-orange-200 rounded-lg p-10 ring-1 ring-inset ring-gray-300">
                 <div>
-                    <h2 className="text-3xl mb-8 font-bold">{voters.length}</h2>
-                    <p className="text-xl">Total Students</p>
+                    <h2 className="text-4xl mb-8 font-bold">{voters.length}</h2>
+                    <p className="text-lg">Total Students</p>
                 </div>
                 <div>
-                    <FaUser className=" text-3xl" />
+                    <FaUser className="text-3xl" />
                 </div>
             </div>
 
-            <div className="w-full md:w-1/3 flex justify-between sm:w-full h-50  bg-cyan-200 rounded-lg p-10">
+            <div className="w-full flex justify-between sm:w-full h-50  bg-cyan-200 rounded-lg p-10 ">
                 <div>
                     <h2 className="text-3xl mb-8 font-bold">{votersVotedCount}</h2>
                     <p className="text-xl ">Students Voted</p>

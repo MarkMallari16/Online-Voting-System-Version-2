@@ -51,10 +51,12 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
     const latestVotedVoter = votedVoters.reduce((prev, current) =>
         (new Date(prev.updated_at) > new Date(current.updated_at)) ? prev : current, []
     );
+
+
     return (
         <div>
 
-            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-3">
+            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-4">
                 <div className="p-6 text-gray-900">
                     <h1 className="text-xl font-medium">Welcome back, Moderator!</h1>
                 </div>
@@ -75,13 +77,14 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                     </div>
                     <div className='p-5'>
                         <div className='flex flex-col sm:flex-row md:flex-row lg:flex-row xl:flex-row justify-end gap-3 sm:gap-2 md:gap-2 lg:gap-2 xl:gap-2'>
-                            <div className="flex  items-center gap-2 cursor-pointer border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md">
+                            <div className="flex  items-center gap-2 cursor-pointer border-1 bg-white ring-1 ring-inset ring-gray-400 text-black px-2 py-2 rounded-md">
                                 <div>
                                     <FaRegFilePdf className="text-xl" />
                                 </div>
                                 <PDFDownloadLink
                                     document={<VotesPDF voteCounts={voteCounts} positionList={position_list} electionTitle={electionTitle} />}
                                     fileName="votes_report.pdf"
+
                                 >
                                     {({ blob, url, loading, error }) =>
                                         "Export to PDF"
