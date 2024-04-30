@@ -178,9 +178,9 @@ export default function Authenticated({ user, header, children }) {
                                     className={` ${route().current('candidate')}`}
                                 >Candidate</ResponsiveNavLink>
                                 <ResponsiveNavLink
-                                    href={route('ballots')}
-                                    active={route().current('ballots')}
-                                    className={` ${route().current('ballots')}`}
+                                    href={route('ballot')}
+                                    active={route().current('ballot')}
+                                    className={` ${route().current('ballot')}`}
                                 >Ballot</ResponsiveNavLink>
                             </>
 

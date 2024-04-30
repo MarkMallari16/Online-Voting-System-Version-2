@@ -49,7 +49,7 @@ const TABLE_HEAD = ["Partylist ID", "Partylist Name", "Partylist Description", "
 
 export function PartylistTable({ partylists, partylistsPerPage }) {
   console.log(partylistsPerPage);
-  const { data, setData, post, progress, processing } = useForm({
+  const { data, setData, post, errors, progress, processing } = useForm({
     name: '',
     description: '',
     partylist_logo: ''
@@ -165,7 +165,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
     setSearchQuery(event.target.value);
   })
 
-
+  console.log(errors);
 
   return (
     <div>
@@ -228,7 +228,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                                 className="mt-1 block w-full"
                                 value={data.name}
                                 onChange={(e) => setData('name', e.target.value)}
-                                required
+
                                 isFocused
                                 autoComplete="name"
                                 placeholder="Enter partylist name"
@@ -244,7 +244,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                                 label="Enter Partylist Description"
                                 value={data.description}
                                 onChange={(e) => setData('description', e.target.value)}
-                                required
+
                                 placeholder="Enter partylist description"
                               />
                               <InputError className="mt-2" />
@@ -370,7 +370,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                       partylist.name.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
                       <tbody>
                         <tr>
-                          <td colSpan="4" className="text-center py-4 text-gray-500">
+                          <td colSpan="4" className="text-center py-4 ">
                             No partylist found
                           </td>
                         </tr>

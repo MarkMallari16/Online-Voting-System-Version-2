@@ -199,7 +199,6 @@ const VoteTable = ({ votes, votesPerPage, voters, voterVoted, positions }) => {
                                         ))}
                                     </tr>
                                 </thead>
-
                                 {currentVotes.length === 0 || currentVotes.filter(vote => {
                                     const userMatches = vote.user.name.toLowerCase().includes(searchQuery.toLowerCase());
                                     const candidateMatches = `${vote.candidate.first_name} ${vote.candidate.last_name}`.toLowerCase().includes(searchQuery.toLowerCase());
@@ -208,7 +207,7 @@ const VoteTable = ({ votes, votesPerPage, voters, voterVoted, positions }) => {
                                 }).length === 0 ? (
                                     <tbody>
                                         <tr>
-                                            <td colSpan="8" className="text-center py-4 text-gray-500">
+                                            <td colSpan="8" className="text-center py-4 ">
                                                 No votes found
                                             </td>
                                         </tr>

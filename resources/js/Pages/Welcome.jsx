@@ -79,15 +79,6 @@ export default function Welcome({ auth }) {
 
 
                     <div className="sm:mt-5 mt-24 flex flex-col-reverse sm:flex-col-reverse md:flex-row items-center gap-5 sm:gap-24  mx-5 sm:mx-24  md:mx-20"
-                        initial={{
-                            opacity: 0,
-                        }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{
-                            amount: 'all',
-
-
-                        }}
 
                     >
                         <div className='flex-1'>
@@ -123,31 +114,21 @@ export default function Welcome({ auth }) {
                     </div>
 
                     <div
-                        initial={{
-                            opacity: 0,
-                        }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{
-                            amount: 'all',
-
-
-                        }}
-
                         className='h-auto w-full flex justify-center gap-5 mt-10 overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)] filter'>
                         {[...Array(3)].map((_, index) => (
                             <div key={index} className='flex items-center justify-center md:justify-end gap-5 animate-infinite-scroll'>
                                 {[...Array(14)].map((_, index) => (
                                     <div key={index} className='w-28 object-cover '>
-                                        <img loading='lazy' src={index % 2 === 0 ? BacoorLogo : CouncilLogo } alt="Logo" />
+                                        <img loading='lazy' src={index % 2 === 0 ? BacoorLogo : CouncilLogo} alt="Logo" className="pointer-events-none" />
                                     </div>
                                 ))}
                             </div>
                         ))}
                     </div>
 
-                    <div className='h-auto mt-24 ' >
+                    <div className='h-auto mt-24'>
                         <div className='text-center text-4xl font-bold' >Frequently Asked Question</div>
-                        <p className="text-lg font-normal text-gray-600 text-center mt-2 mb-10">
+                        <p className="text-lg font-meidium text-gray-800 text-center mt-2 mb-10">
                             Get quick answers to common questions about the STI College Bacoor SHS student council's online voting system.
                         </p>                        <div className=' flex justify-center'>
                             <div className='w-[90%] bg-blue-50 px-3' >
@@ -190,14 +171,7 @@ export default function Welcome({ auth }) {
                     </Button> */}
                     <Footer />
                 </div>
-                {/*
-              <div >
-                    <div className='mt-24 mb-10 text-center text-4xl font-bold' >Meet the Candidate</div>
-                    <div className=' flex justify-center'>
 
-                    </div>
-                </div>
-            */}
             </div>
         </>
 

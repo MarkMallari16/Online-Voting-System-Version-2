@@ -73,8 +73,8 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     const [message, setMessage] = useState("");
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
-    const { data, setData, post, errors } = useForm();
-
+    const { data, setData, post, errors, reset } = useForm();
+    console.log(errors);
     const handleFileUpload = (e) => {
         const file =
             e.target.files[0];
@@ -93,21 +93,18 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     const handleFileUpdateUpload = (e) => {
         const file = e.target.files[0];
 
-
         const formData = new FormData();
         formData.append("candidate_profile", file);
 
-
         setCandidateUpdateProfile(file);
-
 
         setData((prevData) => ({
             ...prevData,
-            candidate_profile: file,
+            candidate_profile: formData,
         }));
     };
     //for add modal
-    const handleOpen = () =>  {
+    const handleOpen = () => {
         setOpen(!open)
         setData({
             first_name: '',
@@ -145,8 +142,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             });
 
         } else {
-            // Handle the case when no candidate is found with the given id
-            console.error(`No candidate found with id ${id}`);
+
             setData({
                 first_name: '',
                 middle_name: '',
@@ -167,29 +163,37 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     };
 
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         try {
-            await post(route("candidate.store"), data); // Await the post request
-            setOpen(false);
+            post(route("candidate.store"), data); // Await the post request
+            if (errors) {
+                setOpen(true);
 
+            } else {
+                setOpen(false);
+                setMessage(`Candidate successfully added`);
+                setIsSuccessMessage(true);
+                setData({
+                    first_name: "",
+                    middle_name: "",
+                    last_name: "",
+                    partylist_id: null,
+                    position_id: null,
+                    manifesto: "",
+                    candidate_profile: null,
+                });
+
+                reset();
+            }
             // Reset form data and state for partylist and position
-            setData({
-                first_name: "",
-                middle_name: "",
-                last_name: "",
-                partylist_id: null,
-                position_id: null,
-                manifesto: "",
-                candidate_profile: null,
-            });
-            setMessage(`Candidate successfully added`);
-            setIsSuccessMessage(true);
+
+
 
         } catch (error) {
             console.error("Error submitting form:", error);
         }
-        
+
     };
 
 
@@ -374,13 +378,13 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                                 e.target.value
                                                             )
                                                         }
-                                                        required
+
                                                         autoFocus
                                                         autoComplete="firstName"
                                                         placeholder="Enter Candidate First Name"
                                                     />
 
-                                                    <InputError className="mt-2" />
+                                                    <InputError className="mt-2" message={errors.first_name} />
                                                 </div>
 
                                                 <div className="flex-1">
@@ -409,7 +413,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                         placeholder="Enter Candidate Middle Name"
                                                     />
 
-                                                    <InputError className="mt-2" />
+                                                    <InputError className="mt-2" message={errors.middle_name} />
                                                 </div>
 
                                                 <div className="flex-1">
@@ -431,13 +435,13 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                                 e.target.value
                                                             )
                                                         }
-                                                        required
+
                                                         autoFocus
                                                         autoComplete="lastName"
                                                         placeholder="Enter Candidate last Name"
                                                     />
 
-                                                    <InputError className="mt-2" />
+                                                    <InputError className="mt-2" message={errors.last_name} />
                                                 </div>
                                             </div>
 
@@ -465,7 +469,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                     )}
                                                 </Select>
 
-                                                <InputError className="mt-2" />
+                                                <InputError className="mt-2" message={errors.partylist_id} />
                                             </div>
 
                                             <div className="mt-4">
@@ -492,7 +496,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                     )}
                                                 </Select>
 
-                                                <InputError className="mt-2" />
+                                                <InputError className="mt-2" message={errors.position_id} />
                                             </div>
                                             <div className="mt-4">
                                                 <InputLabel
@@ -514,7 +518,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                     name="manifesto"
                                                     placeholder="Enter candidate platform"
                                                 />
-                                                <InputError className="mt-2" />
+                                                <InputError className="mt-1" message={errors.manifesto} />
                                             </div>
                                         </div>
                                     </DialogBody>
@@ -611,7 +615,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                                 e.target.value
                                                             )
                                                         }
-                                                        required
+
                                                         autoFocus
                                                         autoComplete="firstName"
                                                     />
@@ -621,7 +625,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
                                                 <div className="flex-1">
                                                     <InputLabel
-                                                        htmlFor="lastName"
+                                                        htmlFor="middleName"
                                                         value="Enter Candidate Middle Name (optional)"
                                                     />
 
@@ -639,7 +643,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                                 e.target.value
                                                             )
                                                         }
-                                                        
+
                                                         autoFocus
                                                         autoComplete="middleName"
                                                     />
@@ -748,7 +752,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                     }
                                                     name="manifesto"
                                                 />
-                                                <InputError className="mt-2" />
+                                                <InputError className="mt-1" />
                                             </div>
                                         </div>
                                     </DialogBody>

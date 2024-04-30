@@ -77,12 +77,12 @@ const AddUserModal = ({ open, handleClose }) => {
                 <DialogBody>
                     <div className="mb-3">
                         <InputLabel htmlFor="name" value="Name" />
-                        <TextInput type="text" label="Name" name="name" value={data.name} autoComplete='name' onChange={handleOnChange} className='w-full' placeholder="John Doe" required />
+                        <TextInput type="text" label="Name" name="name" value={data.name} autoComplete='name' onChange={handleOnChange} className='w-full' placeholder="John Doe"  />
 
                     </div>
                     <div className="mb-3">
                         <InputLabel htmlFor="email" value="Email" />
-                        <TextInput type="email" label="Email" name="email" value={data.email} autoComplete='email' onChange={handleOnChange} className='w-full' placeholder="doe.121314@bacoor.sti.edu.ph" required />
+                        <TextInput type="email" label="Email" name="email" value={data.email} autoComplete='email' onChange={handleOnChange} className='w-full' placeholder="doe.121314@bacoor.sti.edu.ph"  />
 
                     </div>
                     <div className="mb-3 ">

@@ -67,7 +67,7 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
         ]);
     })->name('election');
 
-    Route::get('/ballots', [BallotController::class, 'displayBallot'])->name('ballots');
+    Route::get('/ballot', [BallotController::class, 'displayBallot'])->name('ballot');
 
     Route::get('/live-result', function () {
         return Inertia::render('Moderator/ModeratorPages/LiveResult');

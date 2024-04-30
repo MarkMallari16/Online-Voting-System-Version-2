@@ -81,7 +81,7 @@ class CandidateController extends Controller
             'position_id' => $validatedData['position_id']
         ]);
 
-        return redirect()->back()->with('success', 'Candidate added successfully');
+        return redirect()->back()->withErrors(['candidate' => 'candidate added successfully']);
     }
 
     public function update(Request $request, $id)
@@ -94,7 +94,7 @@ class CandidateController extends Controller
             'middle_name' => 'nullable|string',
             'last_name' => 'required|alpha',
             'manifesto' => 'required|string',
-            'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // 'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'partylist_id' => 'required|exists:partylists,id',
             'position_id' => 'required|exists:positions,id',
 
@@ -121,7 +121,7 @@ class CandidateController extends Controller
             'candidate_profile' => $candidateImagePath,
         ]);
 
-        return dd($candidate);
+        return redirect()->back()->withErrors(['candidate' => 'candidate updated successfully']);
     }
 
     public function destroy($id)

@@ -38,7 +38,7 @@ class UserController extends Controller
 
 
         // Redirect to the dashboard route
-        return redirect()->back()->with('success', 'User created successfully');
+        return Inertia::redirect()->with('errors', $validatedData);
     }
 
     public function update(UpdateUserRequest $request, $id)
@@ -97,7 +97,7 @@ class UserController extends Controller
         $perPage = $request->input('perPage', 10);
         $logs = AuditLog::with('user')->orderByDesc('created_at')->paginate($perPage);
 
-        return Inertia::render('Admin/Pages/ActivityLog',[
+        return Inertia::render('Admin/Pages/ActivityLog', [
             'logs' => $logs
         ]);
     }

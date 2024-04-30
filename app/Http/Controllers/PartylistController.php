@@ -43,7 +43,7 @@ class PartylistController extends Controller
             
         ]);
 
-        return redirect()->back()->with('success','partylist added successfully');
+        return redirect()->back()->withErrors(['partylist' => 'partylist added successfully']);
     }
 
     public function update(Request $request,  $id)

@@ -91,8 +91,8 @@ const UserTable = ({
     //handle add in add user modal
     const handleAddUser = async () => {
         try {
-            setIsSuccessMessage(true);
             setMessage("User added successfully!");
+            setIsSuccessMessage(true);
             setIsAddUserModalOpen(false);
         } catch (error) {
             console.error("Error adding user:", error);
@@ -103,8 +103,8 @@ const UserTable = ({
     //handle the user in edit user modal
     const handleEditUser = async () => {
         try {
-            setIsSuccessMessage(true);
             setMessage("User updated successfully!");
+            setIsSuccessMessage(true);
             setIsEditUserModalOpen(false); // Close the edit user modal
         } catch (error) {
             console.error("Error editing user:", error);
@@ -113,11 +113,11 @@ const UserTable = ({
     };
 
     //handle the user in delete user modal
-    const handleDeleteUser = async (userId) => {
+    const handleDeleteUser = (userId) => {
         try {
-            await Inertia.delete(`/users/${userId}`);
-            setIsSuccessMessage(true);
+            Inertia.delete(`/users/${userId}`);
             setMessage("User deleted successfully");
+            setIsSuccessMessage(true);
             setIsDeleteUserModalOpen(false);
         } catch (error) {
             console.error("Error deleting user:", error.message);
@@ -128,9 +128,8 @@ const UserTable = ({
     const handleFilter = (e) => {
         const selectedValue = e.target.value;
         setFilterValue(selectedValue);
-
     };
-
+    console.log(message);
     return (
         <div>
             <div className="mb-5">
@@ -174,8 +173,8 @@ const UserTable = ({
                             <div>
                                 <FaRegFilePdf className="text-xl" />
                             </div>
-                            {/**
-                         <PDFDownloadLink
+
+                            <PDFDownloadLink
                                 document={<UsersPDF users={users} />}
                                 fileName="users.pdf"
                             >
@@ -183,7 +182,7 @@ const UserTable = ({
                                     "Export to PDF"
                                 }
                             </PDFDownloadLink>
-                        */}
+
                         </div>
                         <ExcelExport data={users} fileName="user" />
 
@@ -497,9 +496,6 @@ const UserTable = ({
                 handleDeleteUser={handleDeleteUser}
                 userId={selectedUserId}
             />
-            <div id="pdf-content" className="hidden">
-                <UsersPDF users={users} />
-            </div>
         </div>
     );
 };

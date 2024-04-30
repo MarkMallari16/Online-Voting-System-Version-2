@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('middle_name')->nullable();
             $table->string('last_name');
             $table->text('manifesto');
-            $table->string('candidate_profile')->default('candidate_profile_photos/default_candidate_profile.png');
+            $table->string('candidate_profile')->nullable()->default('candidate_profile_photos/default_candidate_profile.png');
             $table->unsignedBigInteger('position_id')->nullable();
             $table->unsignedBigInteger('partylist_id')->nullable();
             $table->timestamps();

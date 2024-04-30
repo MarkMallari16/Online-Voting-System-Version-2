@@ -303,7 +303,7 @@ export function PositionsTable(props) {
                             position.name.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
                             <tbody>
                                 <tr>
-                                    <td colSpan="3" className="text-center py-4 text-gray-500">
+                                    <td colSpan="3" className="text-center py-4 ">
                                         No position found
                                     </td>
                                 </tr>
