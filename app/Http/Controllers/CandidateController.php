@@ -54,15 +54,21 @@ class CandidateController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'first_name' => 'required|alpha',
-            'middle_name' => 'nullable|string',
-            'last_name' => 'required|alpha',
-            'manifesto' => 'required|string',
-            'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'partylist_id' => 'required|exists:partylists,id',
-            'position_id' => 'required|exists:positions,id'
-        ]);
+        $validatedData = $request->validate(
+            [
+                'first_name' => 'required|alpha',
+                'middle_name' => 'nullable|string',
+                'last_name' => 'required|alpha',
+                'manifesto' => 'required|string',
+                'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'partylist_id' => 'required|exists:partylists,id',
+                'position_id' => 'required|exists:positions,id'
+            ],
+            [
+                'partylist_id.required' => 'The partylist field is required',
+            'position_id.required' =>  'The position field is required'
+            ]
+        );
 
         $middleName = $validatedData['middle_name'] ?? null;
         $candidateImagePath = null;

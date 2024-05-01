@@ -83,22 +83,23 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::put('/candidate/{id}', [CandidateController::class, 'update'])->name('candidate.update');
     Route::delete('/candidate/{id}', [CandidateController::class, 'destroy'])->name('candidate.destroy');
 
+    //display partylists
     Route::get('/partylists', [PartylistController::class, 'index'])->name('partylists');
 
     // Create a new partylist
-    Route::post('/partylists', [PartylistController::class, 'store']);
+    Route::post('/partylist', [PartylistController::class, 'store'])->name('partylist.store');
 
     // Update an existing partylist
-    Route::put('/partylists/{id}', [PartylistController::class, 'update']);
+    Route::put('/partylist-update/{id}', [PartylistController::class, 'update'])->name('partylist.update');
 
     // Delete a partylist
-    Route::delete('/partylists/{id}', [PartylistController::class, 'destroy']);
+    Route::delete('/partylist-delete/{id}', [PartylistController::class, 'destroy'])->name('partylist.destroy');
 
 
     Route::get('/positions', [PositionController::class, 'index'])->name('positions');
-    Route::post('/positions', [PositionController::class, 'store'])->name('positions.store');
-    Route::put('/positions/{id}', [PositionController::class, 'update'])->name('positions.update');
-    Route::delete('/positions/{id}', [PositionController::class, 'destroy'])->name('positions.destroy');
+    Route::post('/position', [PositionController::class, 'store'])->name('positions.store');
+    Route::put('/position/{id}', [PositionController::class, 'update'])->name('positions.update');
+    Route::delete('/position/{id}', [PositionController::class, 'destroy'])->name('positions.destroy');
 
     Route::get('/votes', [VoteController::class, 'index'])->name('votes');
     Route::post('/hasVoted', [CandidateController::class, 'hasVoted'])->name('vote.hasVoted');

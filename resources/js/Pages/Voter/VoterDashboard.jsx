@@ -99,7 +99,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
         }
     };
 
-    const onVoteSubmit = async (e) => {
+    const onVoteSubmit = (e) => {
         e.preventDefault();
 
         // if (selectedCandidates.length === 0) {
@@ -123,21 +123,21 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
             });
             setIsSuccessMessage(true);
             window.location.reload();
-            // setVoterHasVoted(true);
+
         } catch (error) {
-            // Handle error
+
             console.error("Error submitting vote:", error);
         }
 
         setShowConfirmationModal(false);
     };
-    // console.log(hasVoted);
+
     const getSelectedCandidatesInfo = () => {
 
         return selectedCandidates.map(candidateId => {
-            // Find the candidate object with the matching ID
+
             const candidate = candidatesAll.find(candidate => candidate.id === candidateId);
-            // Return an object with the required information
+
             return {
                 id: candidate.id,
                 candidateProfile: candidate.candidate_profile,

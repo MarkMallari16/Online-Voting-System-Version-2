@@ -48,13 +48,9 @@ import PrimaryButton from "@/Components/PrimaryButton";
 const TABLE_HEAD = ["Partylist ID", "Partylist Name", "Partylist Description", "Action"];
 
 export function PartylistTable({ partylists, partylistsPerPage }) {
-  console.log(partylistsPerPage);
-  const { data, setData, post, errors, progress, processing } = useForm({
-    name: '',
-    description: '',
-    partylist_logo: ''
-  });
-
+  // console.log(partylistsPerPage);
+  const { data, setData, post, errors, progress, processing } = useForm();
+  console.log(errors);
   const [partylist, setPartylist] = useState(partylists);
   const [openAddModal, setOpenAddModal] = useState(false);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
@@ -115,46 +111,41 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
     }
   };
 
-  function addSubmit(e) {
-
+  async function addSubmit(e) {
     e.preventDefault()
-    post('/partylists')
+    post(route('partylist.store', data))
     setOpenAddModal(false)
     setMessage('Partylist successfully added')
     setIsSuccessMessage(true);
 
-    window.location.reload();
   }
 
   function updateSubmit(e) {
     e.preventDefault();
-    Inertia.put(`/partylists/${id}`, data);
+    Inertia.put(`/partylist-update/${id}`, data);
     setOpenUpdateModal(false)
     setMessage('Partylist successfully updated')
     setIsSuccessMessage(true);
-
-
   }
 
-  const handleDeleteOpen = (id) => {
+  const handleDeleteOpen = (partylistId) => {
     setDeleteModal(!openDeleteModal)
-    setId(id);
+    setId(partylistId);
   };
 
   const handleDeletePartylists = (partylistId) => {
     console.log(partylistId);
     try {
       // Send a DELETE request to delete the partylists
-      Inertia.delete(`/partylists/${partylistId}`);
+      Inertia.delete(route('partylist.destroy', { id: partylistId }));
 
-      // Update the partylists state by filtering out the deleted partylists
-      setPartylist(prevPartylists => prevPartylists.filter(partylist => partylist.id !== partylistId));
+      // // Update the partylists state by filtering out the deleted partylists
+      // setPartylist(prevPartylists => prevPartylists.filter(partylist => partylist.id !== partylistId));
 
       setMessage(`Partylist successfully deleted`);
       setIsSuccessMessage(true);
       // Close the delete modal
       setDeleteModal(false);
-
 
     } catch (error) {
       console.error('Failed to delete partylist:', error);
@@ -165,7 +156,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
     setSearchQuery(event.target.value);
   })
 
-  console.log(errors);
+
 
   return (
     <div>

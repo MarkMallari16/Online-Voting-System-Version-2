@@ -10,10 +10,11 @@ use Illuminate\Validation\Rule;
 
 class PositionController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         $positions = Positions::all();
         $positionsPerPage = Positions::paginate(10);
+
         return Inertia::render('Moderator/ModeratorPages/Positions', [
             'positions' => $positions,
             'positionsPerPage' => $positionsPerPage
@@ -22,22 +23,15 @@ class PositionController extends Controller
     public function store(Request $request)
     {
         // Validate the request data
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => ['required', Rule::unique('positions')->ignore($request->id)],
         ]);
 
+        $position = Positions::create([
+            'name' => $validatedData['name'],
+        ]);
 
-        try {
-
-            $position = Positions::create([
-                'name' => $request->name,
-            ]);
-
-            return redirect()->back()->with('success', 'Positions created successfully');
-        } catch (\Exception $e) {
-
-            return redirect::back()->with('error', 'Failed to create position');
-        }
+        return redirect()->back()->withErrors('success', 'Positions created successfully');
     }
     public function update(Request $request, $id)
     {

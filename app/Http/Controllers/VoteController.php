@@ -57,8 +57,12 @@ class VoteController extends Controller
         if ($existingVote) {
             return redirect()->back()->with('error', 'You have already voted in this election');
         }
+        if (empty($validatedData['candidate_ids'])) {
+            $validatedData['candidate_ids'] = [];
 
-        
+            return redirect()->back()->with('success', 'Successfully abstained');
+        }
+
         // Create a new vote for each selected candidate
         foreach ($validatedData['candidate_ids'] as $candidateId) {
             $vote = new Vote();

@@ -67,12 +67,12 @@ export function PositionsTable(props) {
         setData('name', '');
     };
 
-    const handleAddSubmit = async (e) => {
+    const handleAddSubmit = (e) => {
         e.preventDefault(); // Prevent the default form submission behavior
 
         try {
             // Send a POST request to '/positions.store'
-            await post('/positions', data);
+            post('/position', data);
 
             // Close the add modal
             setOpenAddModal(false);
@@ -81,7 +81,7 @@ export function PositionsTable(props) {
             // Reset the positionName field to empty
             setData('name', '');
 
-            window.location.reload();
+           
         } catch (error) {
             console.error('Failed to create position:', error);
         }
@@ -102,7 +102,7 @@ export function PositionsTable(props) {
 
         try {
             // Send a PUT request to '/positions/{id}'
-            await Inertia.put(`/positions/${id}`, data);
+            await Inertia.put(`/position/${id}`, data);
 
             // Close the update modal
             setUpdateModal(false);
@@ -112,7 +112,7 @@ export function PositionsTable(props) {
             // Reset the positionName field to empty
             setData('name', '');
 
-            window.location.reload();
+          
         } catch (error) {
             console.error('Failed to update position:', error);
         }
@@ -131,9 +131,9 @@ export function PositionsTable(props) {
     const handleDeletePositions = (positionId) => {
         try {
             // Send a DELETE request to delete the position
-            Inertia.delete(`/positions/${positionId}`);
+            Inertia.delete(`/position/${positionId}`);
 
-           
+
             setMessage(`Position successfully deleted`);
             setIsSuccessMessage(true);
             // Close the delete modal
@@ -200,7 +200,7 @@ export function PositionsTable(props) {
                                             name="name"
                                             value={data.name || ''}
                                             onChange={handleChange}
-                                           
+
                                             autoFocus
                                             placeholder="Enter position name"
                                         />

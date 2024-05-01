@@ -31,19 +31,19 @@ class PartylistController extends Controller
     }
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required',
-            'description' => 'required',
+       
             'partylist_logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $partylist = Partylist::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            
+            'name' => $validatedData['name'],
+            'description' => $validatedData['description'],
+
         ]);
 
-        return redirect()->back()->withErrors(['partylist' => 'partylist added successfully']);
+        return dd($partylist);
     }
 
     public function update(Request $request,  $id)
