@@ -4,7 +4,8 @@ import Modal from './Modal'
 
 import { FaVoteYea } from "react-icons/fa";
 import { Avatar } from '@material-tailwind/react';
-import { TbConfetti } from "react-icons/tb";
+import { FaCheckSquare } from "react-icons/fa";
+
 
 const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
   const [showModal, setShowModal] = useState(false);
@@ -31,9 +32,10 @@ const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
   return (
     <div className='mt-10 w-full flex justify-center items-center'>
       <div className='bg-white shadow-md w-full p-10 rounded-md'>
-        <div className='text-5xl font-bold text-center'>Thank you for voting!</div>
-        <div className='flex justify-center mb-2'><TbConfetti className='text-8xl' />
+        <div className='flex justify-center mb-2 text-blue-500'><FaCheckSquare className='text-8xl' />
         </div>
+        <div className='text-6xl md:text-8xl lg:text-8xl font-bold text-center'>Thank you!</div>
+        <div className='text-center mt-4 text-gray-900'>You have successfully voted!</div>
         <div className='text-8xl text-green-700 flex justify-center'>
 
         </div>
@@ -59,7 +61,7 @@ const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
           <div className="flex justify-center gap-1 ">
             <div className='mt-2 w-full'>
               <ul>
-                {castedVotes.sort((vote1,vote2) => vote1.candidate.position_id - vote2.candidate.position_id).map(vote => (
+                {castedVotes.sort((vote1, vote2) => vote1.candidate.position_id - vote2.candidate.position_id).map(vote => (
                   <li key={vote.id} className="mb-3 ring-1 ring-inset ring-gray-900   p-3 rounded-md w-full">
                     <div className="flex justify-between items-center ">
                       <div className='flex gap-3'>

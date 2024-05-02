@@ -54,10 +54,6 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
 
   const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
-
-
-
-
   const [showAssignModal, setShowAssignModal] = useState(false);
 
   const { data, setData, post, put, delete: destroy, errors, progress, processing, reset } = useForm();
