@@ -35,16 +35,16 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import DeleteModal from "@/Components/DeleteModal";
-import InfoIcon from "@/Components/InfoIcon";
+
 import ExcelExport from "@/Components/ExcelExport";
 import Dropdown from "../../../Components/Dropdown";
 import Modal from "@/Components/Modal";
-
+import toast, { Toaster } from 'react-hot-toast';
+import { FaCircleCheck } from "react-icons/fa6";
 
 const TABLE_HEAD = ["Partylist ID", "Partylist Name", "Partylist Description", "Action"];
 
 export function PartylistTable({ partylists, partylistsPerPage }) {
-
 
   const [partylist, setPartylist] = useState(partylists);
   const [openAddModal, setOpenAddModal] = useState(false);
@@ -53,11 +53,14 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
   const [id, setId] = useState(null);
 
   const [isSuccessMessage, setIsSuccessMessage] = useState(false);
-  const [message, setMessage] = useState("");
+
+
+
+
 
   const [showAssignModal, setShowAssignModal] = useState(false);
 
-  const { data, setData, post, put, delete: destroy, errors, progress, processing } = useForm();
+  const { data, setData, post, put, delete: destroy, errors, progress, processing, reset } = useForm();
 
   const TABS = [
     {
@@ -93,7 +96,6 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
 
   const handleAddOpen = () => {
     setOpenAddModal(!openAddModal);
-    setData({ name: '', description: '' });
 
   };
   //modal update
@@ -102,20 +104,21 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
     setId(id);
     // Set the initial value of the input field to the current position name
     const partylistToUpdate = partylists.find(partylist => partylist.id === id);
-    console.log("partylist to update:", partylistToUpdate); // Add this line for debugging
 
     if (partylistToUpdate) {
       setData({ name: partylistToUpdate.name, description: partylistToUpdate.description });
     }
   };
 
-  async function addSubmit(e) {
+  function addSubmit(e) {
     e.preventDefault()
-    await post(route('partylist.store', data), {
+    post(route('partylist.store', data), {
       onSuccess: () => {
         setOpenAddModal(false);
-        setMessage('Partylist successfully added');
+
         setIsSuccessMessage(true);
+        toast.success("Partylist successfully added");
+        reset();
       },
       onError: () => {
         setOpenAddModal(true);
@@ -125,12 +128,15 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
 
   function updateSubmit(e) {
     e.preventDefault();
-    put(`/partylist/${id}`, data, {
-      preserveScroll: false
+    put(route('partylist.update', { id: id }, data), {
+      onSuccess: () => {
+        setOpenUpdateModal(false)
+        setIsSuccessMessage(true);
+        toast.success("Partylist successfully updated");
+      },
+      preserveScroll: true
     });
-    setOpenUpdateModal(false)
-    setMessage('Partylist successfully updated')
-    setIsSuccessMessage(true);
+
   }
 
   const handleDeleteOpen = (partylistId) => {
@@ -139,19 +145,12 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
   };
 
   const handleDeletePartylists = (partylistId) => {
-    console.log(partylistId);
-    try {
-      // Send a DELETE request to delete the partylists
-      router.delete(route('partylist.destroy', { id: partylistId }, { preserveScroll: false }));
-
-      setMessage(`Partylist successfully deleted`);
-      setIsSuccessMessage(true);
-      // Close the delete modal
-      setDeleteModal(false);
-
-    } catch (error) {
-      console.error('Failed to delete partylist:', error);
-    }
+    // Send a DELETE request to delete the partylists
+    router.delete(route('partylist.destroy', { id: partylistId }, { preserveScroll: false }));
+    setIsSuccessMessage(true);
+    // Close the delete modal
+    setDeleteModal(false);
+    toast.success("Partylist deleted successfully");
   };
 
   const handleSearch = ((event) => {
@@ -159,6 +158,23 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
   })
   return (
     <div>
+      <div >
+        {isSuccessMessage && <Toaster position="top-right"
+
+          reverseOrder={false}
+          gutter={8} toastOptions={{
+
+            success: {
+              icon: <FaCircleCheck className="text-green-600" />,
+              duration: 5000,
+              style: {
+
+                borderBottomColor: "green",
+              },
+            }
+          }} />}
+      </div>
+
       <div>
         <Tabs value="partylist" className="w-full">
           <div className="flex justify-end">
@@ -174,9 +190,6 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
           </div>
           <TabsBody>
             <TabPanel value="partylist">
-              <div className="mb-3">
-                {isSuccessMessage && <Alert icon={<InfoIcon />} color="green">{message}</Alert>}
-              </div>
 
               <Card className="h-full w-full">
                 <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -291,7 +304,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                                 isFocused
                                 autoComplete="description"
                               />
-                              <InputError className="mt-2" message={errors.description} disabled={processing}/>
+                              <InputError className="mt-2" message={errors.description} disabled={processing} />
                             </div>
 
 

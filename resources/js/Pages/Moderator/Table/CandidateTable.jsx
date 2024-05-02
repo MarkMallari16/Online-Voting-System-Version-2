@@ -107,15 +107,6 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     //for add modal
     const handleOpen = () => {
         setOpen(!open)
-        setData({
-            first_name: '',
-            middle_name: '',
-            last_name: '',
-            partylist_id: null,
-            position_id: null,
-            manifesto: null,
-            candidate_profile: null
-        });
     };
 
     //for update modal
@@ -159,13 +150,13 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        post(route("candidate.store"), data, {
+        post(route("candidate.store", data), {
             onSuccess: () => {
                 setOpen(false);
                 setMessage(`Candidate successfully added`);
                 setIsSuccessMessage(true);
                 reset()
-                console.log(open);
+
             },
             onError: () => {
                 setOpen(true);
@@ -179,21 +170,13 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
         try {
             // Send PUT request to update candidate data
-            await put(`/candidate/${id}`, data);
+            await put(route('candidate.update', { id: id }, data));
 
             // Close the update modal
             setUpdateModal(false);
 
             // Reset form data and state for candidate
-            setData({
-                first_name: '',
-                middle_name: '',
-                last_name: '',
-                partylist_id: null,
-                position_id: null,
-                manifesto: '',
-                candidate_profile: null
-            });
+            reset();
 
             // Display success message
             setMessage(`Candidate successfully updated`);
@@ -208,7 +191,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     const handleDeleteCandidate = (candidateId) => {
         try {
             // Send a DELETE request to delete the candidate
-            router.delete(`/candidate/${candidateId}`);
+            router.delete(route('candidate.destroy', { id: candidateId }));
 
             // Update the positions state by filtering out the deleted position
             setCandidate((prevCandidate) =>
