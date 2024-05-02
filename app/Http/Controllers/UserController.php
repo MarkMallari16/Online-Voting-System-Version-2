@@ -37,8 +37,8 @@ class UserController extends Controller
         ]);
 
 
-        // Redirect to the dashboard route
-        return Inertia::redirect()->with('errors', $validatedData);
+
+       return redirect()->back()->with('success','User created successfully');
     }
 
     public function update(UpdateUserRequest $request, $id)
@@ -63,7 +63,7 @@ class UserController extends Controller
         $user->update($userData);
 
         AuditLog::create([
-            'user_id' => $request->user()->id, // Get the authenticated user's ID
+            'user_id' => $request->user()->id, 
             'action' => 'User Updated',
             'details' => 'User updated with name: ' . $user->name,
         ]);

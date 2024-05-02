@@ -23,7 +23,7 @@ import {
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
-import { useForm } from '@inertiajs/inertia-react';
+import { useForm, router } from "@inertiajs/react";
 import { Inertia } from '@inertiajs/inertia';
 import InfoIcon from "@/Components/InfoIcon";
 import ExcelExport from "@/Components/ExcelExport";
@@ -59,7 +59,7 @@ export function PositionsTable(props) {
     console.log(positionsPerPage);
     const totalPages = positionsPerPage.last_page;
 
-    const { data, setData, post, errors } = useForm();
+    const { data, setData, post, put, delete: positionId, errors, processing } = useForm();
 
     //modal add
     const handleAddOpen = () => {
@@ -67,24 +67,19 @@ export function PositionsTable(props) {
         setData('name', '');
     };
 
-    const handleAddSubmit = (e) => {
+    const handleAddSubmit = async (e) => {
         e.preventDefault(); // Prevent the default form submission behavior
 
-        try {
-            // Send a POST request to '/positions.store'
-            post('/position', data);
-
-            // Close the add modal
-            setOpenAddModal(false);
-            setMessage('Position successfully added');
-            setIsSuccessMessage(true);
-            // Reset the positionName field to empty
-            setData('name', '');
-
-           
-        } catch (error) {
-            console.error('Failed to create position:', error);
-        }
+        await post(route('positions.store', data, {
+            onSuccess: () => {
+                setOpenAddModal(false);
+                setMessage('Position successfully added');
+                setIsSuccessMessage(true);
+            },
+            onError: () => {
+                setOpenAddModal(true);
+            }
+        }));
     };
     //modal update
     const handleUpdateOpen = (id) => {
@@ -100,22 +95,17 @@ export function PositionsTable(props) {
     const handleUpdateSubmit = async (e) => {
         e.preventDefault();
 
-        try {
-            // Send a PUT request to '/positions/{id}'
-            await Inertia.put(`/position/${id}`, data);
+        // Send a PUT request to '/positions/{id}'
+        await put(`/position/${id}`, data);
 
-            // Close the update modal
-            setUpdateModal(false);
+        // Close the update modal
+        setUpdateModal(false);
 
-            setMessage('Position successfully updated');
-            setIsSuccessMessage(true);
-            // Reset the positionName field to empty
-            setData('name', '');
+        setMessage('Position successfully updated');
+        setIsSuccessMessage(true);
+        // Reset the positionName field to empty
+        setData('name', '');
 
-          
-        } catch (error) {
-            console.error('Failed to update position:', error);
-        }
     };
 
     //modal for delete
@@ -127,18 +117,18 @@ export function PositionsTable(props) {
     const handleChange = (event) => {
         setData(event.target.name, event.target.value);
     };
-    console.log(errors);
+
     const handleDeletePositions = (positionId) => {
         try {
             // Send a DELETE request to delete the position
-            Inertia.delete(`/position/${positionId}`);
+            router.delete(`/position/${positionId}`);
 
 
             setMessage(`Position successfully deleted`);
             setIsSuccessMessage(true);
             // Close the delete modal
             setDeleteModal(false);
-            window.location.reload();
+
         } catch (error) {
             console.error('Failed to delete position:', error);
         }
@@ -213,7 +203,7 @@ export function PositionsTable(props) {
                                     <Button variant="text" color="red" onClick={handleAddOpen} className="mr-1">
                                         <span>Cancel</span>
                                     </Button>
-                                    <Button variant="gradient" color="blue" type="submit">
+                                    <Button variant="gradient" color="blue" type="submit" disabled={processing}>
                                         <span>Confirm</span>
                                     </Button>
                                 </DialogFooter>
@@ -243,10 +233,10 @@ export function PositionsTable(props) {
 
                                 </DialogBody>
                                 <DialogFooter>
-                                    <Button variant="text" color="red" onClick={handleUpdateOpen} className="mr-1">
+                                    <Button variant="text" color="red" onClick={handleUpdateOpen} className="mr-1" >
                                         <span>Cancel</span>
                                     </Button>
-                                    <Button variant="gradient" color="blue" type="submit">
+                                    <Button variant="gradient" color="blue" type="submit" disabled={processing}>
                                         <span>Confirm</span>
                                     </Button>
                                 </DialogFooter>

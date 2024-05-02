@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { useForm } from '@inertiajs/inertia-react';
-import { Inertia } from '@inertiajs/inertia';
+import { router, useForm } from "@inertiajs/react";
 import {
   MagnifyingGlassIcon,
   ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
 import { PencilIcon } from "@heroicons/react/24/solid";
-import { FaUserEdit } from "react-icons/fa";
 
 import {
   Card,
@@ -15,7 +13,7 @@ import {
   Typography,
   Button,
   CardBody,
-  Chip,
+
   CardFooter,
   Tabs,
   TabsHeader,
@@ -28,7 +26,6 @@ import {
   DialogBody,
   DialogFooter,
   Alert,
-  Textarea,
   TabsBody,
   TabPanel,
   Select,
@@ -42,15 +39,13 @@ import InfoIcon from "@/Components/InfoIcon";
 import ExcelExport from "@/Components/ExcelExport";
 import Dropdown from "../../../Components/Dropdown";
 import Modal from "@/Components/Modal";
-import PrimaryButton from "@/Components/PrimaryButton";
 
 
 const TABLE_HEAD = ["Partylist ID", "Partylist Name", "Partylist Description", "Action"];
 
 export function PartylistTable({ partylists, partylistsPerPage }) {
-  // console.log(partylistsPerPage);
-  const { data, setData, post, errors, progress, processing } = useForm();
-  console.log(errors);
+
+
   const [partylist, setPartylist] = useState(partylists);
   const [openAddModal, setOpenAddModal] = useState(false);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
@@ -61,6 +56,9 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
   const [message, setMessage] = useState("");
 
   const [showAssignModal, setShowAssignModal] = useState(false);
+
+  const { data, setData, post, put, delete: partylistId, errors, progress, processing } = useForm();
+
   const TABS = [
     {
       label: "Partylist",
@@ -113,16 +111,23 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
 
   async function addSubmit(e) {
     e.preventDefault()
-    post(route('partylist.store', data))
-    setOpenAddModal(false)
-    setMessage('Partylist successfully added')
-    setIsSuccessMessage(true);
-
+    await post(route('partylist.store', data), {
+      onSuccess: () => {
+        setOpenAddModal(false);
+        setMessage('Partylist successfully added');
+        setIsSuccessMessage(true);
+      },
+      onError: () => {
+        setOpenAddModal(true);
+      }
+    })
   }
 
   function updateSubmit(e) {
     e.preventDefault();
-    Inertia.put(`/partylist-update/${id}`, data);
+    put(`/partylist-update/${id}`, data, {
+      preserveScroll: true
+    });
     setOpenUpdateModal(false)
     setMessage('Partylist successfully updated')
     setIsSuccessMessage(true);
@@ -137,10 +142,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
     console.log(partylistId);
     try {
       // Send a DELETE request to delete the partylists
-      Inertia.delete(route('partylist.destroy', { id: partylistId }));
-
-      // // Update the partylists state by filtering out the deleted partylists
-      // setPartylist(prevPartylists => prevPartylists.filter(partylist => partylist.id !== partylistId));
+      router.delete(route('partylist.destroy', { id: partylistId }, { preserveScroll: true }));
 
       setMessage(`Partylist successfully deleted`);
       setIsSuccessMessage(true);
@@ -155,17 +157,11 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
   const handleSearch = ((event) => {
     setSearchQuery(event.target.value);
   })
-
-
-
   return (
     <div>
-
       <div>
         <Tabs value="partylist" className="w-full">
-
           <div className="flex justify-end">
-
             <div className="w-full md:w-80 mx-4">
               <TabsHeader >
                 {TABS.map(({ label, value }) => (
@@ -224,7 +220,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                                 autoComplete="name"
                                 placeholder="Enter partylist name"
                               />
-                              <InputError className="mt-2" />
+                              <InputError className="mt-2" message={errors.name} />
                             </div>
                             <div className="mt-4">
                               <InputLabel htmlFor="partylistDescription" value="Enter Partylist Description" />
@@ -238,7 +234,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
 
                                 placeholder="Enter partylist description"
                               />
-                              <InputError className="mt-2" />
+                              <InputError className="mt-2" message={errors.description} />
                             </div>
                             <div className="mt-4">
                               <InputLabel htmlFor="partylistLogo" value="Enter Partylist Logo" />
@@ -257,7 +253,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                           <Button variant="text" color="red" onClick={handleAddOpen} className="mr-1">
                             <span>Cancel</span>
                           </Button>
-                          <Button variant="gradient" color="blue" type="submit" >
+                          <Button variant="gradient" color="blue" type="submit" disabled={processing} >
                             <span>Confirm</span>
                           </Button>
                         </DialogFooter>
@@ -295,7 +291,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                                 isFocused
                                 autoComplete="description"
                               />
-                              <InputError className="mt-2" />
+                              <InputError className="mt-2" message={errors.description} />
                             </div>
 
 
@@ -305,7 +301,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                           <Button variant="text" color="red" onClick={handleUpdateOpen} className="mr-1">
                             <span>Cancel</span>
                           </Button>
-                          <Button variant="gradient" color="blue" type="submit" >
+                          <Button variant="gradient" color="blue" type="submit" disabled={processing}>
                             <span>Confirm</span>
                           </Button>
                         </DialogFooter>
@@ -329,7 +325,6 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                         label="Search"
                         icon={<MagnifyingGlassIcon className="h-5 w-5" />}
                         onChange={handleSearch}
-
                       />
                     </div>
                   </div>

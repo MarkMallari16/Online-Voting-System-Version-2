@@ -31,7 +31,7 @@ class PositionController extends Controller
             'name' => $validatedData['name'],
         ]);
 
-        return redirect()->back()->withErrors('success', 'Positions created successfully');
+        return redirect()->back()->with('success', 'position created successfully');
     }
     public function update(Request $request, $id)
     {

@@ -7,12 +7,13 @@ import { Link } from '@inertiajs/react';
 import ModeratorNavigation from '@/Pages/Moderator/ModeratorNavigation';
 import defaultProfile from '../../../public/profile_photos/default_profile.png';
 import { Avatar } from '@material-tailwind/react';
+import { GrDocumentTime } from "react-icons/gr";
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <nav className="bg-white border-b border-gray-100 p-4">
+            <nav className="bg-white border-b border-gray-100 p-5">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex">
@@ -39,10 +40,12 @@ export default function Authenticated({ user, header, children }) {
                                         href={route('activitylog')}
                                         active={route().current('activitylog')}
                                         className={` ${route().current('activitylog')}`}
-                                    > <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 me-1">
-                                            <path fillRule="evenodd" d="M2.625 6.75a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0A.75.75 0 0 1 8.25 6h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75ZM2.625 12a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0ZM7.5 12a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12A.75.75 0 0 1 7.5 12Zm-4.875 5.25a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
-                                        </svg>
-                                        Activity Log</NavLink>
+                                    >
+                                        <GrDocumentTime className='w-5 h-5  me-2' />
+
+
+                                        Activity Log
+                                    </NavLink>
 
                                 }
                                 {user.role === 'moderator' &&

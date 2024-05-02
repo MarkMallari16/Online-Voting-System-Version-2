@@ -32,9 +32,12 @@ class PartylistController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required',
-       
+            'name' => 'required|max:18',
+            'description' => 'required|max:255',
             'partylist_logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+        ],[
+            'name.required' => 'Partylist name field is required',
+            'description.required' => 'Partylist description field is required'
         ]);
 
         $partylist = Partylist::create([
@@ -43,7 +46,7 @@ class PartylistController extends Controller
 
         ]);
 
-        return dd($partylist);
+        return redirect()->back()->with('success', 'partylist added successfully');
     }
 
     public function update(Request $request,  $id)

@@ -74,7 +74,9 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
     const { data, setData, post, errors, reset } = useForm();
+    
     console.log(errors);
+
     const handleFileUpload = (e) => {
         const file =
             e.target.files[0];

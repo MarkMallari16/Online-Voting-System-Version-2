@@ -9,7 +9,7 @@ const AdminDashboardOverview = ({
 }) => {
     return (
         <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 ">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
                 <div className="flex justify-between items-center bg-blue-200 rounded-md p-5 ">
                     <div>
                         <div>Number of Students:</div>

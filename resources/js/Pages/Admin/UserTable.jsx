@@ -129,7 +129,7 @@ const UserTable = ({
         const selectedValue = e.target.value;
         setFilterValue(selectedValue);
     };
-    console.log(message);
+
     return (
         <div>
             <div className="mb-5">
@@ -266,7 +266,7 @@ const UserTable = ({
                             <tbody>
                                 <tr className="text-center">
                                     <td
-                                        colSpan="9"
+                                        colSpan="10"
                                         className="py-10 text-center"
                                     >
                                         No matching users found.
@@ -346,7 +346,7 @@ const UserTable = ({
                                                         {role}
                                                     </Typography>
                                                 </td>
-                                                <td className="p-4">
+                                                <td className="p-4 ">
                                                     <Typography
                                                         variant="small"
                                                         color="blue-gray"

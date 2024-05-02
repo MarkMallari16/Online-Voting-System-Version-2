@@ -5,6 +5,7 @@ import { Avatar, Spinner, Typography } from "@material-tailwind/react";
 import ActivityLogPagination from "./ActivityLogPagination";
 import ExcelExport from "@/Components/ExcelExport";
 import FilterDropdown from "@/Components/FilterDropdown";
+
 const ActivityLog = ({ auth, logs }) => {
     const [activityLog, setActivityLog] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -13,12 +14,12 @@ const ActivityLog = ({ auth, logs }) => {
 
 
     console.log(logs);
-   
+
 
     useEffect(() => {
-       setIsLoading(false);
-       setActivityLog(logs.data);
-       setTotalPages(logs.last_page);
+        setIsLoading(false);
+        setActivityLog(logs.data);
+        setTotalPages(logs.last_page);
     }, [logs]);
 
     const handleSelectAction = (action) => {
@@ -187,11 +188,13 @@ const ActivityLog = ({ auth, logs }) => {
                                         </table>
                                     </div>
                                 </div>
-                                <div className="flex justify-center mt-5 ">
+                                <div className="flex justify-center mt-8 ">
+                                   
                                     <ActivityLogPagination
                                         active={currentPage}
                                         totalPages={totalPages}
                                         onPageChange={handlePageChange}
+                                        logs={logs}
                                     />
                                 </div>
                             </div>

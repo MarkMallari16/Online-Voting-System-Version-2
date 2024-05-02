@@ -37,7 +37,7 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
             {/**hover:border-blue-500 focus:border-blue-500 */}
             <Card className={`p-5 w-full shadow-md border-2 md:w-96 h-auto cursor-pointer  ${isSelected ? 'border-blue-500' : 'border-transparent'}  transition-all duration-200 ease-in-out `} onClick={handleCandidateClick} >
                 <div className='flex justify-center'>
-                    <Avatar src={candidate.candidate_profile ? candidate.candidate_profile : DefaultCandidateProfile} size="xxl" withBorder={true} className='border-blue-500 p-0.5' />
+                    <Avatar src={candidate.candidate_profile ? candidate.candidate_profile : DefaultCandidateProfile} size="xxl" withBorder={true} className='border-black p-0.5' />
 
                 </div>
                 <input
