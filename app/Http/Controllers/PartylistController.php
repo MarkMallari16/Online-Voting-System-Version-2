@@ -4,22 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Partylist;
-use App\Models\PartylistEditor;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class PartylistController extends Controller
 {
-    // public function index()
-    // {
-    //     $partylists = Partylist::all();
-    //     $partylistsPerPage = Partylist::paginate(5);
-    //     return Inertia::render('Partylist_Editor/PartylistEditorPages/Partylist', [
-    //         'partylists' => $partylists,
-    //         'partylistsPerPage' => $partylistsPerPage
-    //     ]);
-    // }
+    
     public function index()
     {
         $partylists = Partylist::all();

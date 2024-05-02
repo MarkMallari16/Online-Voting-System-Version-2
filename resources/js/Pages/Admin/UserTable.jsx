@@ -31,7 +31,7 @@ import DeleteUserModal from "./DeleteUserModal";
 import { Inertia } from "@inertiajs/inertia";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ExcelExport from "@/Components/ExcelExport";
-
+import { router } from "@inertiajs/react";
 const UserTable = ({
     TABLE_HEAD,
     users,
@@ -105,7 +105,7 @@ const UserTable = ({
         try {
             setMessage("User updated successfully!");
             setIsSuccessMessage(true);
-            setIsEditUserModalOpen(false); // Close the edit user modal
+            setIsEditUserModalOpen(false);s
         } catch (error) {
             console.error("Error editing user:", error);
             setIsSuccessMessage(false);
@@ -115,7 +115,7 @@ const UserTable = ({
     //handle the user in delete user modal
     const handleDeleteUser = (userId) => {
         try {
-            Inertia.delete(`/users/${userId}`);
+            router.delete(`/users/${userId}`);
             setMessage("User deleted successfully");
             setIsSuccessMessage(true);
             setIsDeleteUserModalOpen(false);

@@ -57,7 +57,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
 
   const [showAssignModal, setShowAssignModal] = useState(false);
 
-  const { data, setData, post, put, delete: partylistId, errors, progress, processing } = useForm();
+  const { data, setData, post, put, delete: destroy, errors, progress, processing } = useForm();
 
   const TABS = [
     {
@@ -125,8 +125,8 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
 
   function updateSubmit(e) {
     e.preventDefault();
-    put(`/partylist-update/${id}`, data, {
-      preserveScroll: true
+    put(`/partylist/${id}`, data, {
+      preserveScroll: false
     });
     setOpenUpdateModal(false)
     setMessage('Partylist successfully updated')
@@ -142,7 +142,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
     console.log(partylistId);
     try {
       // Send a DELETE request to delete the partylists
-      router.delete(route('partylist.destroy', { id: partylistId }, { preserveScroll: true }));
+      router.delete(route('partylist.destroy', { id: partylistId }, { preserveScroll: false }));
 
       setMessage(`Partylist successfully deleted`);
       setIsSuccessMessage(true);
@@ -291,7 +291,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                                 isFocused
                                 autoComplete="description"
                               />
-                              <InputError className="mt-2" message={errors.description} />
+                              <InputError className="mt-2" message={errors.description} disabled={processing}/>
                             </div>
 
 

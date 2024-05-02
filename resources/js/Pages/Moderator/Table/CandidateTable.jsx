@@ -29,8 +29,7 @@ import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
 import DefaultCandidatePicture from "../../../../../public/profile_photos/default_profile.png";
 
-import { useForm } from "@inertiajs/react";
-import { Inertia } from "@inertiajs/inertia";
+import { useForm, router } from "@inertiajs/react";
 import DeleteModal from "@/Components/DeleteModal";
 import ExcelExport from "@/Components/ExcelExport";
 import InfoIcon from "@/Components/InfoIcon";
@@ -73,9 +72,9 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     const [message, setMessage] = useState("");
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
-    const { data, setData, post, errors, reset } = useForm();
-    
-    console.log(errors);
+    const { data, setData, post, put, delete: destroy, errors, reset, processing } = useForm();
+
+
 
     const handleFileUpload = (e) => {
         const file =
@@ -145,15 +144,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
         } else {
 
-            setData({
-                first_name: '',
-                middle_name: '',
-                last_name: '',
-                partylist_id: null,
-                position_id: null,
-                manifesto: null,
-                candidate_profile: null
-            });
+            reset();
         }
 
     };
@@ -165,37 +156,21 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     };
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            post(route("candidate.store"), data); // Await the post request
-            if (errors) {
-                setOpen(true);
 
-            } else {
+        post(route("candidate.store"), data, {
+            onSuccess: () => {
                 setOpen(false);
                 setMessage(`Candidate successfully added`);
                 setIsSuccessMessage(true);
-                setData({
-                    first_name: "",
-                    middle_name: "",
-                    last_name: "",
-                    partylist_id: null,
-                    position_id: null,
-                    manifesto: "",
-                    candidate_profile: null,
-                });
-
-                reset();
+                reset()
+                console.log(open);
+            },
+            onError: () => {
+                setOpen(true);
             }
-            // Reset form data and state for partylist and position
-
-
-
-        } catch (error) {
-            console.error("Error submitting form:", error);
-        }
-
+        });
     };
 
 
@@ -204,7 +179,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
         try {
             // Send PUT request to update candidate data
-            await Inertia.put(`/candidate/${id}`, data);
+            await put(`/candidate/${id}`, data);
 
             // Close the update modal
             setUpdateModal(false);
@@ -230,10 +205,10 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             // Example: setError("Failed to update candidate. Please try again.");
         }
     };
-    const handleDeleteCandidate = async (candidateId) => {
+    const handleDeleteCandidate = (candidateId) => {
         try {
             // Send a DELETE request to delete the candidate
-            await Inertia.delete(`/candidate/${candidateId}`);
+            router.delete(`/candidate/${candidateId}`);
 
             // Update the positions state by filtering out the deleted position
             setCandidate((prevCandidate) =>
@@ -500,7 +475,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
                                                 <InputError className="mt-2" message={errors.position_id} />
                                             </div>
-                                            <div className="mt-4">
+                                            <div className="mt-2">
                                                 <InputLabel
                                                     htmlFor="lastName"
                                                     value="Candidate Platform"
@@ -520,7 +495,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                     name="manifesto"
                                                     placeholder="Enter candidate platform"
                                                 />
-                                                <InputError className="mt-1" message={errors.manifesto} />
+                                                <InputError message={errors.manifesto} />
                                             </div>
                                         </div>
                                     </DialogBody>
@@ -537,7 +512,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                             variant="gradient"
                                             color="blue"
                                             type="submit"
-                                        >
+                                            disabled={processing}>
                                             <span>Confirm</span>
                                         </Button>
                                     </DialogFooter>
@@ -771,6 +746,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                             variant="gradient"
                                             color="blue"
                                             type="submit"
+                                            disabled={processing}
                                         >
                                             <span>Confirm</span>
                                         </Button>

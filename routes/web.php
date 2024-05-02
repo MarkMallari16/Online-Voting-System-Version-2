@@ -90,10 +90,10 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::post('/partylist', [PartylistController::class, 'store'])->name('partylist.store');
 
     // Update an existing partylist
-    Route::put('/partylist-update/{id}', [PartylistController::class, 'update'])->name('partylist.update');
+    Route::put('/partylist/{id}', [PartylistController::class, 'update'])->name('partylist.update');
 
     // Delete a partylist
-    Route::delete('/partylist-delete/{id}', [PartylistController::class, 'destroy'])->name('partylist.destroy');
+    Route::delete('/partylist/{id}', [PartylistController::class, 'destroy'])->name('partylist.destroy');
 
 
     Route::get('/positions', [PositionController::class, 'index'])->name('positions');

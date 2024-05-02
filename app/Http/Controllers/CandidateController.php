@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Candidate;
 use App\Models\Partylist;
 use App\Models\Positions;
-use App\Models\Election;
-use App\Models\User;
-use App\Models\Vote;
+
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
 
 
 class CandidateController extends Controller
@@ -66,7 +64,7 @@ class CandidateController extends Controller
             ],
             [
                 'partylist_id.required' => 'The partylist field is required',
-            'position_id.required' =>  'The position field is required'
+                'position_id.required' =>  'The position field is required'
             ]
         );
 

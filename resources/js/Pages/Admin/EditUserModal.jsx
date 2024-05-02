@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { useForm } from '@inertiajs/inertia-react';
+import { useForm } from '@inertiajs/react';
 import {
   Button,
   Input,
@@ -30,7 +30,7 @@ const EditUserModal = ({ open, handleClose, user }) => {
 
   }
 
-  const { data, setData, put, reset, errors } = useForm({
+  const { data, setData, put, reset, errors, processing } = useForm({
     id: "",
     name: "",
     email: "",
@@ -68,8 +68,13 @@ const EditUserModal = ({ open, handleClose, user }) => {
       return;
     }
 
-    put(route("users.update", { id: user.id }));
-    handleClose();
+    put(route("users.update", { id: user.id }), {
+      onSuccess: () => {
+        handleClose();
+      },
+
+    });
+
   };
   console.log(errors);
   return (
@@ -129,7 +134,7 @@ const EditUserModal = ({ open, handleClose, user }) => {
           >
             <span>Cancel</span>
           </Button>
-          <Button type='submit' variant="gradient" color="blue">
+          <Button type='submit' variant="gradient" color="blue" disabled={processing}>
             <span>Confirm</span>
           </Button>
         </DialogFooter>

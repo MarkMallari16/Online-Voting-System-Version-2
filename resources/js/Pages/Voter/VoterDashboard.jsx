@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
-import { useForm } from "@inertiajs/inertia-react";
+import { useForm } from "@inertiajs/react";
 import CandidateCard from "@/Components/CandidateCard";
 import VoteConfirmationModal from "@/Components/VoteConfirmationModal";
 import AlreadyVoted from "@/Components/AlreadyVoted";
@@ -122,7 +122,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                 candidate_ids: selectedCandidates,
             });
             setIsSuccessMessage(true);
-            window.location.reload();
+           
 
         } catch (error) {
 

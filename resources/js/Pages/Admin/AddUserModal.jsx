@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-
-
 import {
     Button,
     Input,
@@ -15,7 +13,7 @@ import {
 import TextInput from '@/Components/TextInput';
 import InputLabel from '@/Components/InputLabel';
 import PasswordToggle from '@/Components/PasswordToggle';
-import { useForm } from '@inertiajs/react';
+import { useForm, router } from '@inertiajs/react';
 import InputError from '@/Components/InputError';
 
 const AddUserModal = ({ open, handleClose }) => {
@@ -58,9 +56,17 @@ const AddUserModal = ({ open, handleClose }) => {
 
     const submit = async (e) => {
         e.preventDefault();
-        post(route('users.store'));
+        post(route('users.store'), {
+            onSuccess: () => {
+                handleClose();
+                router.reload();
+            },
+            onError: () => {
 
-        // handleClose();
+            }
+        });
+
+
     };
 
     useEffect(() => {
@@ -79,12 +85,12 @@ const AddUserModal = ({ open, handleClose }) => {
                     <div className="mb-3">
                         <InputLabel htmlFor="name" value="Name" />
                         <TextInput type="text" label="Name" name="name" value={data.name} autoComplete='name' onChange={handleOnChange} className='w-full' placeholder="John Doe" />
-                        <InputError className='mt-2' message={errors.name}/>
+                        <InputError className='mt-2' message={errors.name} />
                     </div>
                     <div className="mb-3">
                         <InputLabel htmlFor="email" value="Email" />
                         <TextInput type="email" label="Email" name="email" value={data.email} autoComplete='email' onChange={handleOnChange} className='w-full' placeholder="doe.121314@bacoor.sti.edu.ph" />
-                        <InputError className='mt-2' message={errors.email}/>
+                        <InputError className='mt-2' message={errors.email} />
                     </div>
                     <div className="mb-3 ">
                         <InputLabel htmlFor="role" value="Role" />
@@ -94,7 +100,7 @@ const AddUserModal = ({ open, handleClose }) => {
                             <Option value='partylist_editor'>Partylist Editor</Option>
                             <Option value='voter'>Voter</Option>
                         </Select>
-                       <InputError className='mt-2' message={errors.role}/>
+                        <InputError className='mt-2' message={errors.role} />
                     </div>
                     <div className="mb-12 relative">
                         <InputLabel htmlFor="password" value="Password" />
@@ -104,7 +110,7 @@ const AddUserModal = ({ open, handleClose }) => {
                         )}
 
                     </div>
-                    <InputError className='mt-2 mb-2' message={errors.password}/>
+                    <InputError className='mt-2 mb-2' message={errors.password} />
                     <div className="mb-8 relative">
                         <InputLabel htmlFor="confirm_password" value="Confirm Password" />
                         <TextInput type={showConfirmPassword ? 'text' : 'password'} label="Confirm Password" name="password_confirmation" onChange={handleOnChange} className='w-full absolute' autoComplete="new-password" />
@@ -113,15 +119,15 @@ const AddUserModal = ({ open, handleClose }) => {
                                 <PasswordToggle showPassword={showConfirmPassword} handlePassword={handleShowConfirmPassword} />
                             )
                         }
-                        
+
                     </div>
-                
+
                 </DialogBody>
                 <DialogFooter>
                     <Button onClick={handleClose} variant="text" color="red" className="mr-1">
                         <span>Cancel</span>
                     </Button>
-                    <Button type='submit' variant="gradient" color="blue" processing>
+                    <Button type='submit' variant="gradient" color="blue" disabled={processing}>
                         <span>Confirm</span>
                     </Button>
                 </DialogFooter>

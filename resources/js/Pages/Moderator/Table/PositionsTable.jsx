@@ -24,7 +24,7 @@ import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import { useForm, router } from "@inertiajs/react";
-import { Inertia } from '@inertiajs/inertia';
+
 import InfoIcon from "@/Components/InfoIcon";
 import ExcelExport from "@/Components/ExcelExport";
 import DeleteModal from "@/Components/DeleteModal";
@@ -34,7 +34,7 @@ const TABLE_HEAD = ["Position ID", "Position", "Action"];
 
 
 export function PositionsTable(props) {
-
+    const { data, setData, post, put, delete: destroy, errors, progress, processing } = useForm();
     const [positions, setPositions] = useState(props.positions);
 
     const [openAddModal, setOpenAddModal] = useState(false);
@@ -56,30 +56,31 @@ export function PositionsTable(props) {
     const indexOfFirstPositions = indexOfLastPositions - positionsPerPage.per_page;
     const currentPositions = positions.slice(indexOfFirstPositions, indexOfLastPositions);
 
-    console.log(positionsPerPage);
-    const totalPages = positionsPerPage.last_page;
 
-    const { data, setData, post, put, delete: positionId, errors, processing } = useForm();
+    const totalPages = positionsPerPage.last_page;
 
     //modal add
     const handleAddOpen = () => {
         setOpenAddModal(!openAddModal)
         setData('name', '');
     };
-
-    const handleAddSubmit = async (e) => {
+    console.log(errors);
+    const handleAddSubmit = (e) => {
         e.preventDefault(); // Prevent the default form submission behavior
 
-        await post(route('positions.store', data, {
+        post(route('positions.store', data), {
             onSuccess: () => {
                 setOpenAddModal(false);
                 setMessage('Position successfully added');
                 setIsSuccessMessage(true);
+
             },
             onError: () => {
                 setOpenAddModal(true);
-            }
-        }));
+            },
+            preserveScroll: true,
+            preserveState: true
+        });
     };
     //modal update
     const handleUpdateOpen = (id) => {
@@ -128,7 +129,7 @@ export function PositionsTable(props) {
             setIsSuccessMessage(true);
             // Close the delete modal
             setDeleteModal(false);
-
+        
         } catch (error) {
             console.error('Failed to delete position:', error);
         }
@@ -306,10 +307,7 @@ export function PositionsTable(props) {
 
                                         const classes = "p-4 border-b border-blue-gray-50";
 
-                                        // const formatDate = (dateString) => {
-                                        //     const date = new Date(dateString);
-                                        //     return date.toLocaleString();
-                                        // };
+
                                         return (
                                             <tr key={id}>
                                                 <td className={classes}>
@@ -336,28 +334,7 @@ export function PositionsTable(props) {
                                                         </Typography>
                                                     </div>
                                                 </td>
-                                                {/* <td className={classes}>
-                                               <div className="flex flex-col">
-                                                   <Typography
-                                                       variant="small"
-                                                       color="blue-gray"
-                                                       className="font-normal"
-                                                   >
-                                                       {formatDate(created_at)}
-                                                   </Typography>
-                                               </div>
-                                           </td> */}
-                                                {/* <td className={classes}>
-                                               <div className="flex flex-col">
-                                                   <Typography
-                                                       variant="small"
-                                                       color="blue-gray"
-                                                       className="font-normal"
-                                                   >
-                                                       {formatDate(updated_at)}
-                                                   </Typography>
-                                               </div>
-                                           </td> */}
+
                                                 <td className={classes}>
                                                     <div className="flex gap-2">
                                                         <Tooltip content="Edit Position">

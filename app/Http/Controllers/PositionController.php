@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Positions;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\Rule;
 
 class PositionController extends Controller
@@ -20,7 +20,7 @@ class PositionController extends Controller
             'positionsPerPage' => $positionsPerPage
         ]);
     }
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         // Validate the request data
         $validatedData = $request->validate([
@@ -31,9 +31,9 @@ class PositionController extends Controller
             'name' => $validatedData['name'],
         ]);
 
-        return redirect()->back()->with('success', 'position created successfully');
+        return redirect()->back();
     }
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): RedirectResponse
     {
         $position = Positions::findOrFail($id);
 
@@ -47,14 +47,12 @@ class PositionController extends Controller
         return redirect()->back()
             ->with('success', 'Position updated successfully.');
     }
-    public function destroy($id)
+    public function destroy($id): RedirectResponse
     {
-        try {
-            $position = Positions::findOrFail($id);
-            $position->delete();
-            return redirect()->back()->with('success', 'Position successfully deleted');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Failed to delete position: ' . $e->getMessage());
-        }
+        $position = Positions::findOrFail($id);
+        $position->delete();
+
+        return redirect()->back()
+            ->with('success', 'Position deleted successfully.');
     }
 }
