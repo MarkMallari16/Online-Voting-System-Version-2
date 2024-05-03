@@ -7,15 +7,8 @@ import PartylistEditorDashboard from './Partylist_Editor/PartylistEditorDashboar
 import Sidebar from './Sidebar';
 import Countdown from '@/Components/Countdown';
 
-export default function Dashboard({ auth, candidates, candidatesAll, voterVoted, position_list, partylist_list, election, voters, votersVotedCount, voteCounts, castedVotes, voterHasVoted}) {
-    
-   
-    
-    console.log(voterHasVoted);
-    console.log(castedVotes);
-    const hasVotedIds = voters.filter(voter => voter.hasVoted).map(voter => voter.voter_id);
-
-  
+export default function Dashboard({ auth, candidates, candidatesAll, voterVoted, position_list, partylist_list, election, voters, votersVotedCount, voteCounts, castedVotes, voterHasVoted, candidateWinners, candidateWinnerTotalVotes }) {
+    console.log(candidateWinnerTotalVotes);
     const { role } = auth.user;
     let dashboardContent;
     switch (role) {
@@ -26,10 +19,10 @@ export default function Dashboard({ auth, candidates, candidatesAll, voterVoted,
             dashboardContent = <ModeratorDashboard voters={voters} election={election} candidates={candidates} voteCounts={voteCounts} votersVotedCount={votersVotedCount} position_list={position_list} />;
             break;
         case 'partylist_editor':
-            dashboardContent = <PartylistEditorDashboard partylists={partylist_list}/>;
+            dashboardContent = <PartylistEditorDashboard partylists={partylist_list} />;
             break;
         case 'voter':
-            dashboardContent = <VoterDashboard voterVoted={voterVoted} election={election} partyList={partylist_list} candidatesAll={candidatesAll} candidates={candidates} positionList={position_list} hasVoted={hasVotedIds} votersVotedCount={votersVotedCount} voters={voters} castedVotes={castedVotes} voteCounts={voteCounts} voterHasVoted={voterHasVoted}/>;
+            dashboardContent = <VoterDashboard voterVoted={voterVoted} election={election} partyList={partylist_list} candidatesAll={candidatesAll} candidates={candidates} positionList={position_list} votersVotedCount={votersVotedCount} voters={voters} castedVotes={castedVotes} voteCounts={voteCounts} voterHasVoted={voterHasVoted} candidateWinners={candidateWinners} />;
             break;
     }
     return (

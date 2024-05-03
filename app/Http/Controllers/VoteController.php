@@ -15,9 +15,10 @@ class VoteController extends Controller
     public function index()
     {
         $votes = Vote::with('user', 'candidate')
-            ->orderBy('vote_timestamp', 'desc')
+            ->orderByDesc('vote_timestamp')
             ->get();
         $voters = User::where('role', 'voter')->get();
+
         $positions = Positions::all();
         $votesPerPage = Vote::with('user', 'candidate')
             ->orderByDesc('vote_timestamp')
@@ -45,6 +46,7 @@ class VoteController extends Controller
 
         // Check if the authenticated user is a voter
         $user = auth()->user();
+        
         if (!$user || $user->role !== 'voter') {
             return redirect()->back()->with('error', 'You are not authorized to vote');
         }

@@ -69,7 +69,8 @@ class DashboardController extends Controller
         });
         $voteCounts = [];
         $castedVotes = null;
-        //for casted votes
+
+
         if ($election) {
 
             $castedVotes = Vote::where('election_id', $election->id)
@@ -94,6 +95,35 @@ class DashboardController extends Controller
                 ];
             }
         }
+        $election = Election::where('status', 'Active')
+            ->latest('start_date')
+            ->first();
+
+        //display winner when election ends
+        if ($election && $election->status === 'Active') {
+            $candidateWinners = [];
+            $votersWhoVotedForWinners = 0;
+            foreach ($positions as $position) {
+                //getting the position id 
+                $candidatesPerPosition = $candidates->where('position_id', $position->id);
+                //set winner for position by default to null
+                $winnerForPosition = null;
+
+                $maxVotesPerPosition = 0;
+                //getting the candidate
+                foreach ($candidatesPerPosition as $candidate) {
+                    $voteCount = Vote::where('candidate_id', $candidate->id)->count();
+
+                    if ($voteCount > $maxVotesPerPosition) {
+                        $maxVotesPerPosition = $voteCount;
+                        $winnerForPosition = $candidate;
+                    }
+                }
+                $candidateWinners[$position->name] = $winnerForPosition;
+
+                $votersWhoVotedForWinner = Vote::where('candidate_id', $winnerForPosition->id)->count();
+            }
+        }
 
 
 
@@ -110,6 +140,8 @@ class DashboardController extends Controller
             'voterVoted' => $voterVoted,
             'voterHasVoted' => $voterHasVoted,
             'name' =>  $userName,
+            'candidateWinners' => $candidateWinners,
+            'candidateWinnerTotalVotes' => $votersWhoVotedForWinner
         ]);
     }
 }

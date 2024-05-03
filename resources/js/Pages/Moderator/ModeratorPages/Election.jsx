@@ -13,10 +13,7 @@ import {
   DialogFooter,
   Switch
 } from "@material-tailwind/react";
-import { Alert } from "@material-tailwind/react";
-import InfoIcon from '@/Components/InfoIcon';
 import toast from 'react-hot-toast';
-import { FaCircleCheck } from 'react-icons/fa6';
 import CustomToast from '@/Components/CustomToast';
 const Election = ({ auth, existingElection, election }) => {
 

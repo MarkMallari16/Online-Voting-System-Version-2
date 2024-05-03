@@ -5,23 +5,21 @@ import PrimaryButton from './PrimaryButton';
 import DangerButton from './DangerButton';
 import { Avatar } from '@material-tailwind/react';
 import { FaVoteYea } from "react-icons/fa";
-const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidates, selectedCandidatesInfo }) => {
+const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidates, selectedCandidatesInfo, processing }) => {
     // console.log(selectedCandidatesInfo);
     const handleVoteSubmit = async (e) => {
         e.preventDefault();
         onSubmitVote();
     }
-    console.log(selectedCandidates);
+
     const handleClose = () => {
 
         onClose(selectedCandidates);
     };
     const sortSelectedCandidatesInfo = selectedCandidatesInfo.sort((a, b) => a.position.id - b.position.id);
 
-    console.log(sortSelectedCandidatesInfo);
     const candidateProfiles = sortSelectedCandidatesInfo.map(candidate => candidate.candidateProfile);
-    console.log(candidateProfiles);
-    
+  
     return (
         <Modal show={isOpen} onClose={onClose} className='w-20'>
             <form onSubmit={handleVoteSubmit}>
@@ -36,7 +34,7 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
 
                             </div>
                         </div>
-                        <p className="mt-2 mb-5 text-gray-800">Are you sure you want to submit your votes for the following candidate/s?</p>
+                        <p className="mt-2 mb-5 text-gray-900">Are you sure you want to submit your votes for the following candidate/s?</p>
 
                         <div>
 
@@ -46,7 +44,7 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
                                     <li key={candidate.id} className="mb-3 p-3 ring-1 ring-inset ring-gray-900 rounded-md ">
                                         <div className="flex justify-between items-center ">
                                             <div className='flex gap-3'>
-                                                <Avatar src={candidate.candidateProfile } />
+                                                <Avatar src={candidate.candidateProfile} />
                                                 <div>
                                                     <div className='font-medium'>{candidate.name}</div>
                                                     <div className='text-blue-gray-900 flex items-center gap-1'>
@@ -75,7 +73,7 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
                         <DangerButton type="button" className="mr-2 " onClick={handleClose}>
                             Cancel
                         </DangerButton>
-                        <PrimaryButton type="submit" >
+                        <PrimaryButton type="submit" disabled={processing}>
                             Confirm
                         </PrimaryButton>
 
