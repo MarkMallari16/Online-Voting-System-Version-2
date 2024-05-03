@@ -4,17 +4,16 @@ import { useForm } from "@inertiajs/react";
 import CandidateCard from "@/Components/CandidateCard";
 import VoteConfirmationModal from "@/Components/VoteConfirmationModal";
 import AlreadyVoted from "@/Components/AlreadyVoted";
+import CouncilLogo from "../../../../public/councilLogo.png";
+import STIBacoorLogo from "../../assets/bacoor-logo.png";
 import BarChartContainer from "../Moderator/BarChartContainer";
 import PartylistCarousel from "@/Components/PartylistCarousel";
 import Time from '../../assets/time.svg';
 import ElectionHeader from "@/Components/ElectionHeader";
-import toast from 'react-hot-toast';
-import CustomToast from "@/Components/CustomToast";
 
 
-const VoterDashboard = ({ election, candidatesAll, positionList, partyList, castedVotes, voteCounts, voterHasVoted, candidateWinners }) => {
-    const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
+const VoterDashboard = ({ election, candidatesAll, positionList, partyList, castedVotes, voteCounts, voterHasVoted }) => {
     const [selectedCandidates, setSelectedCandidates] = useState([]);
     const [now, setNow] = useState(new Date());
 
@@ -26,7 +25,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
             return election.end_date;
         }
     }, [election]);
-    console.log(candidateWinners);
+
     const endDate = memoizedEndingDate ? new Date(memoizedEndingDate) : new Date(0);
 
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
@@ -42,23 +41,22 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
     }, [result])
 
     useEffect(() => {
-        const timer = setInterval(() => {
+        const updateNow = () => {
             setNow(new Date());
-        }, 1000);
-        return () => clearInterval(timer);
+            setInterval(updateNow, 1000);
+        };
+        updateNow();
+        return () => clearInterval(updateNow);
     }, []);
 
-
     useEffect(() => {
-
-        if (now > endDate) {
-            return;
-        }
         setResult(now > endDate);
     }, [endDate, now]);
 
     const electionId = election ? election.id : 0;
+
     const isElectionStarted = now > new Date(election?.start_date);
+
 
     const { data, setData, post, errors, processing } = useForm({
         election_id: electionId,
@@ -102,6 +100,12 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
     const onVoteSubmit = (e) => {
         e.preventDefault();
 
+        // if (selectedCandidates.length === 0) {
+        //     // Handle case where no candidates are selected
+        //     console.error("No candidates selected.");
+        //     return;
+        // }
+
         setShowConfirmationModal(true);
     };
 
@@ -116,14 +120,14 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                 candidate_ids: selectedCandidates,
             });
             setIsSuccessMessage(true);
-            toast.success("You have successfully voted");
-            setShowConfirmationModal(false);
+           
+
         } catch (error) {
 
             console.error("Error submitting vote:", error);
         }
 
-
+        setShowConfirmationModal(false);
     };
 
     const getSelectedCandidatesInfo = () => {
@@ -148,10 +152,8 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
     console.log(voteCounts);
     return (
         <div>
-            <div>
-                {isSuccessMessage && <CustomToast />}
-            </div>
             {(election && election?.status === "Active") && isElectionStarted ? (
+
                 <div>
                     <PartylistCarousel />
                     <ElectionHeader election={election} />
@@ -239,7 +241,6 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                 onSubmitVote={confirmVote}
                 selectedCandidates={selectedCandidates}
                 selectedCandidatesInfo={getSelectedCandidatesInfo()}
-                processing={processing}
             />
         </div >
 

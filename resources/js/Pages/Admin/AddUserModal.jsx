@@ -44,7 +44,6 @@ const AddUserModal = ({ open, handleClose }) => {
     }, []);
 
     const handleOnChange = (event) => {
-
         setData(
             event.target.name,
             event.target.type === "checkbox"
@@ -59,7 +58,7 @@ const AddUserModal = ({ open, handleClose }) => {
         post(route('users.store'), {
             onSuccess: () => {
                 handleClose();
-                router.reload();
+                reset();
             },
             onError: () => {
 

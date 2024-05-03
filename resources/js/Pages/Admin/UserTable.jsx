@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import UsersPDF from "./UsersPDF";
-import { FaRegFilePdf, FaRegFileExcel } from "react-icons/fa6";
-import { SiMicrosoftexcel } from "react-icons/si";
+import { FaRegFilePdf } from "react-icons/fa6";
+
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
@@ -20,18 +20,19 @@ import {
     IconButton,
     Tooltip,
     Avatar,
-    Alert,
-    Select,
-    Option,
+
 } from "@material-tailwind/react";
 
 import AddUserModal from "./AddUserModal";
 import EditUserModal from "./EditUserModal";
 import DeleteUserModal from "./DeleteUserModal";
-import { Inertia } from "@inertiajs/inertia";
+import toast from 'react-hot-toast';
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ExcelExport from "@/Components/ExcelExport";
 import { router } from "@inertiajs/react";
+import CustomToast from "@/Components/CustomToast";
+
+
 const UserTable = ({
     TABLE_HEAD,
     users,
@@ -49,8 +50,11 @@ const UserTable = ({
     const [selectedUser, setSelectedUser] = useState(null);
     const [selectedUserId, setSelectedUserId] = useState(null);
 
-    //message
-    const [message, setMessage] = useState(null);
+
+    useEffect(() => {
+       
+
+    }, [users, currentPage, searchQuery, filterValue]);
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
     //filtered users
@@ -91,9 +95,11 @@ const UserTable = ({
     //handle add in add user modal
     const handleAddUser = async () => {
         try {
-            setMessage("User added successfully!");
+
+            toast.success("User successfully added");
             setIsSuccessMessage(true);
             setIsAddUserModalOpen(false);
+
         } catch (error) {
             console.error("Error adding user:", error);
             setIsSuccessMessage(false);
@@ -103,9 +109,9 @@ const UserTable = ({
     //handle the user in edit user modal
     const handleEditUser = async () => {
         try {
-            setMessage("User updated successfully!");
+            toast.success("User successfully updated");
             setIsSuccessMessage(true);
-            setIsEditUserModalOpen(false);s
+            setIsEditUserModalOpen(false);
         } catch (error) {
             console.error("Error editing user:", error);
             setIsSuccessMessage(false);
@@ -116,9 +122,12 @@ const UserTable = ({
     const handleDeleteUser = (userId) => {
         try {
             router.delete(`/users/${userId}`);
-            setMessage("User deleted successfully");
+
+
+            toast.success("User successfully deleted");
             setIsSuccessMessage(true);
             setIsDeleteUserModalOpen(false);
+            toast.success('User successfully deleted');
         } catch (error) {
             console.error("Error deleting user:", error.message);
             setIsSuccessMessage(false);
@@ -133,7 +142,7 @@ const UserTable = ({
     return (
         <div>
             <div className="mb-5">
-                {isSuccessMessage && <Alert color="green">{message}</Alert>}
+                {isSuccessMessage && <CustomToast />}
             </div>
 
             <Card className="h-full w-full p-4 ">
@@ -495,6 +504,7 @@ const UserTable = ({
                 handleClose={() => setIsDeleteUserModalOpen(false)}
                 handleDeleteUser={handleDeleteUser}
                 userId={selectedUserId}
+
             />
         </div>
     );

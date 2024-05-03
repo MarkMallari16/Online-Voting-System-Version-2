@@ -9,8 +9,7 @@ use App\Models\Positions;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-
-
+use Illuminate\Support\Facades\DB;
 
 class CandidateController extends Controller
 {
@@ -142,6 +141,14 @@ class CandidateController extends Controller
 
     public function destroy(Candidate $candidate)
     {
+        $associatedVotes = DB::table('votes')->where('candidate_id',$candidate->id)->exists();
+
+        if ($associatedVotes){
+            return redirect()->back()->with('error','Cannot delete candidate. There are associated votes.');
+        }
         $candidate->delete();
+
+
+        return redirect()->back()->with('success', 'Candidate deleted successfully');
     }
 }

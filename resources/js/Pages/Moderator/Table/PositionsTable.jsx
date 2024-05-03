@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
-import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import { PencilIcon } from "@heroicons/react/24/solid";
 import {
     Card,
     CardHeader,
@@ -25,16 +25,18 @@ import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
 import { useForm, router } from "@inertiajs/react";
 
-import InfoIcon from "@/Components/InfoIcon";
+
 import ExcelExport from "@/Components/ExcelExport";
 import DeleteModal from "@/Components/DeleteModal";
+import CustomToast from "@/Components/CustomToast";
+import toast from "react-hot-toast";
 
 
 const TABLE_HEAD = ["Position ID", "Position", "Action"];
 
 
 export function PositionsTable(props) {
-    const { data, setData, post, put, delete: destroy, errors, progress, processing } = useForm();
+    const { data, setData, post, put, delete: destroy, errors, progress, processing, reset } = useForm();
     const [positions, setPositions] = useState(props.positions);
 
     const [openAddModal, setOpenAddModal] = useState(false);
@@ -45,7 +47,7 @@ export function PositionsTable(props) {
 
     const [id, setId] = useState(null);
 
-    const [message, setMessage] = useState('');
+
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
     const positionsPerPage = props.positionsPerPage;
@@ -56,6 +58,9 @@ export function PositionsTable(props) {
     const indexOfFirstPositions = indexOfLastPositions - positionsPerPage.per_page;
     const currentPositions = positions.slice(indexOfFirstPositions, indexOfLastPositions);
 
+    useEffect(() => {
+        setPositions(props.positions)
+    }, [props.positions])
 
     const totalPages = positionsPerPage.last_page;
 
@@ -64,14 +69,14 @@ export function PositionsTable(props) {
         setOpenAddModal(!openAddModal)
         setData('name', '');
     };
-    console.log(errors);
+
     const handleAddSubmit = (e) => {
         e.preventDefault(); // Prevent the default form submission behavior
 
         post(route('positions.store', data), {
             onSuccess: () => {
                 setOpenAddModal(false);
-                setMessage('Position successfully added');
+                toast.success("Position created successfully")
                 setIsSuccessMessage(true);
 
             },
@@ -79,7 +84,7 @@ export function PositionsTable(props) {
                 setOpenAddModal(true);
             },
             preserveScroll: true,
-            preserveState: true
+
         });
     };
     //modal update
@@ -102,10 +107,11 @@ export function PositionsTable(props) {
         // Close the update modal
         setUpdateModal(false);
 
-        setMessage('Position successfully updated');
+        toast.success("Position updated successfully")
         setIsSuccessMessage(true);
+
         // Reset the positionName field to empty
-        setData('name', '');
+        reset();
 
     };
 
@@ -125,11 +131,11 @@ export function PositionsTable(props) {
             router.delete(`/position/${positionId}`);
 
 
-            setMessage(`Position successfully deleted`);
+            toast.success("Position deleted successfully")
             setIsSuccessMessage(true);
             // Close the delete modal
             setDeleteModal(false);
-        
+
         } catch (error) {
             console.error('Failed to delete position:', error);
         }
@@ -152,7 +158,7 @@ export function PositionsTable(props) {
     return (
         <div>
             <div className="mb-3">
-                {isSuccessMessage && <Alert icon={<InfoIcon />} color="green">{message}</Alert>}
+                {isSuccessMessage && <CustomToast />}
             </div>
             <Card className="h-full w-full">
                 <CardHeader floated={false} shadow={false} className="rounded-none">

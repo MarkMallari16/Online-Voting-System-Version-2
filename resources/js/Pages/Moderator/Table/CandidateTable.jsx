@@ -32,7 +32,8 @@ import DefaultCandidatePicture from "../../../../../public/profile_photos/defaul
 import { useForm, router } from "@inertiajs/react";
 import DeleteModal from "@/Components/DeleteModal";
 import ExcelExport from "@/Components/ExcelExport";
-import InfoIcon from "@/Components/InfoIcon";
+import toast from "react-hot-toast";
+import CustomToast from "@/Components/CustomToast";
 
 const TABLE_HEAD = [
     "Candidate ID",
@@ -67,14 +68,10 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     const currentCandidatesPage = candidates.slice(indexOfFirstCandidate, indexOfLastCandidate);
 
     const totalPages = candidatesPerPage.last_page;
-
-
-    const [message, setMessage] = useState("");
+ 
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
-    const { data, setData, post, put, delete: destroy, errors, reset, processing } = useForm();
-
-
+    const { data, setData, post, put, delete: destroy, errors, reset, processing, clearErrors } = useForm();
 
     const handleFileUpload = (e) => {
         const file =
@@ -134,7 +131,6 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             });
 
         } else {
-
             reset();
         }
 
@@ -153,16 +149,18 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
         post(route("candidate.store", data), {
             onSuccess: () => {
                 setOpen(false);
-                setMessage(`Candidate successfully added`);
                 setIsSuccessMessage(true);
+                toast.success("Candidate successfully created");
                 reset()
-
+                clearErrors();
             },
             onError: () => {
                 setOpen(true);
+                
             }
         });
     };
+    
 
 
     const handleUpdateSubmit = async (e) => {
@@ -177,10 +175,11 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
             // Reset form data and state for candidate
             reset();
-
-            // Display success message
-            setMessage(`Candidate successfully updated`);
+        
             setIsSuccessMessage(true);
+            // Display success message
+            toast.success("Candidate successfully updated");
+          
 
         } catch (error) {
             console.error("Failed to update candidate:", error);
@@ -188,10 +187,22 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             // Example: setError("Failed to update candidate. Please try again.");
         }
     };
+
     const handleDeleteCandidate = (candidateId) => {
         try {
             // Send a DELETE request to delete the candidate
-            router.delete(route('candidate.destroy', { id: candidateId }));
+            router.delete(route('candidate.destroy', { id: candidateId }), {
+                onSuccess: () => {
+                    setIsSuccessMessage(true);
+                    toast.success("Candidate successfully deleted");
+                    // Close the delete modal
+                    setDeleteModal(false);
+                },
+                onError: () => {
+                    toast.error(data.error);
+                    setDeleteModal(true);
+                }
+            });
 
             // Update the positions state by filtering out the deleted position
             setCandidate((prevCandidate) =>
@@ -199,10 +210,8 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                     (candidate) => candidate.id !== candidateId
                 )
             );
-            setMessage(`Candidate successfully deleted`);
-            setIsSuccessMessage(true);
-            // Close the delete modal
-            setDeleteModal(false);
+
+
 
         } catch (error) {
             console.error("Failed to delete position:", error);
@@ -228,9 +237,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
         <div>
             <div className="mb-3">
                 {isSuccessMessage && (
-                    <Alert icon={<InfoIcon />} color="green">
-                        {message}
-                    </Alert>
+                    <CustomToast />
                 )}
             </div>
             <Card className="h-full w-full">

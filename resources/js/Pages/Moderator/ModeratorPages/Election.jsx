@@ -30,17 +30,17 @@ const Election = ({ auth, existingElection, election }) => {
   const [deactivateOpen, setDeactivateOpen] = useState(false);
 
 
-  const [successMessage, setSuccessMessage] = useState('');
+
   const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
-  useEffect(() => {
-    setData({
-      title: status ? election.title : '',
-      start_date: status ? election.start_date : '',
-      end_date: status ? election.end_date : '',
-      status: status ? election.status : false
-    });
-  }, [election]);
+    useEffect(() => {
+      setData({
+        title: status ? election.title : '',
+        start_date: status ? election.start_date : '',
+        end_date: status ? election.end_date : '',
+        status: status ? election.status : false
+      });
+    }, [election]);
 
 
   const handleActivateOpen = () => setActivateOpen(!activateOpen);
@@ -65,7 +65,6 @@ const Election = ({ auth, existingElection, election }) => {
     try {
       put('/election/activate');
       setData('status', true);
-      setSuccessMessage('Election activated successfully.');
       toast.success("Election activated successfully.");
       setIsSuccessMessage(true);
       setActivateOpen(false);
@@ -99,7 +98,7 @@ const Election = ({ auth, existingElection, election }) => {
         <main className="flex-1 py-12">
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div >
-              {isSuccessMessage && <CustomToast/>}
+              {isSuccessMessage && <CustomToast />}
             </div>
             <form onSubmit={handleSubmit}>
               <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg mb-5">

@@ -6,12 +6,13 @@ const CustomToast = () => {
         <Toaster position="top-right">
             {(t) => (
                 <ToastBar toast={t} style={{
-
+                    
                     padding: 10
                 }}>
 
                     {({ icon, message }) => (
                         <>
+                        
                             {icon}
                             {message}
                             {t.type !== 'loading' && (

@@ -71,6 +71,7 @@ const EditUserModal = ({ open, handleClose, user }) => {
     put(route("users.update", { id: user.id }), {
       onSuccess: () => {
         handleClose();
+        reset();
       },
 
     });
