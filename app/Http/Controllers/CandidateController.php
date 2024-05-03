@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidate;
+use App\Models\Election;
 use App\Models\Partylist;
 use App\Models\Positions;
 
@@ -52,6 +53,12 @@ class CandidateController extends Controller
 
     public function store(Request $request)
     {
+        $election = Election::latest()->first();
+        
+        if(!$election){
+            return redirect()->back();
+        }
+
         $validatedData = $request->validate(
             [
                 'first_name' => 'required|alpha',
@@ -60,7 +67,7 @@ class CandidateController extends Controller
                 'manifesto' => 'required|string',
                 'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'partylist_id' => 'required|exists:partylists,id',
-                'position_id' => 'required|exists:positions,id'
+                'position_id' => 'required|exists:positions,id',
             ],
             [
                 'partylist_id.required' => 'The partylist field is required',
@@ -82,14 +89,18 @@ class CandidateController extends Controller
             'manifesto' => $validatedData['manifesto'],
             'candidate_profile' => $candidateImagePath,
             'partylist_id' => $validatedData['partylist_id'],
-            'position_id' => $validatedData['position_id']
+            'position_id' => $validatedData['position_id'],
+            'election_id' => $election->id
         ]);
 
-        return redirect()->back()->withErrors(['candidate' => 'candidate added successfully']);
+
+        return redirect()->back()->with('success', 'Candidate added successfully');
     }
 
     public function update(Request $request, $id)
     {
+        $election = Election::latest()->first();
+
         $candidate = Candidate::findOrFail($id);
 
         $validatedData = $request->validate([
@@ -123,23 +134,14 @@ class CandidateController extends Controller
             'partylist_id' => $validatedData['partylist_id'],
             'position_id' => $validatedData['position_id'],
             'candidate_profile' => $candidateImagePath,
+            'election_id' => $election->id
         ]);
 
-        return redirect()->back()->withErrors(['candidate' => 'candidate updated successfully']);
+        return redirect()->back()->with('success', 'Candidate updated successfully');
     }
 
-    public function destroy($id)
+    public function destroy(Candidate $candidate)
     {
-        try {
-            // Delete the candidate
-            $candidate = Candidate::findOrFail($id);
-            $candidate->delete();
-
-            // Redirect back with success message
-            return redirect()->back()->with('success', 'Candidate successfully deleted');
-        } catch (\Exception $e) {
-            // Redirect back with error message
-            return redirect()->back()->with('error', 'Failed to delete candidate');
-        }
+        $candidate->delete();
     }
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useForm } from '@inertiajs/inertia-react';
+import { useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
@@ -15,24 +15,26 @@ import {
 } from "@material-tailwind/react";
 import { Alert } from "@material-tailwind/react";
 import InfoIcon from '@/Components/InfoIcon';
-
+import toast from 'react-hot-toast';
+import { FaCircleCheck } from 'react-icons/fa6';
+import CustomToast from '@/Components/CustomToast';
 const Election = ({ auth, existingElection, election }) => {
 
   const status = election?.status == 'Active' ? true : false;
 
-  const { data, setData, post, put, errors, reset } = useForm({
+  const { data, setData, post, put, errors, reset, processing } = useForm({
     title: status ? election.title : '',
     start_date: status ? election.start_date : '',
     end_date: status ? election.end_date : '',
     status: status ? status : false
   });
-
+  console.log(errors);
   const [activateOpen, setActivateOpen] = useState(false);
   const [deactivateOpen, setDeactivateOpen] = useState(false);
 
 
   const [successMessage, setSuccessMessage] = useState('');
-
+  const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
   useEffect(() => {
     setData({
@@ -43,7 +45,6 @@ const Election = ({ auth, existingElection, election }) => {
     });
   }, [election]);
 
-  console.log(errors);
 
   const handleActivateOpen = () => setActivateOpen(!activateOpen);
   const handleDeactivateOpen = () => setDeactivateOpen(!deactivateOpen);
@@ -54,22 +55,24 @@ const Election = ({ auth, existingElection, election }) => {
       const route = existingElection ? `/election/${existingElection.id}` : '/election';
       await post(route);
 
-      setSuccessMessage(status ? 'Election updated successfully.' : 'Election created successfully.');
+      setIsSuccessMessage(true);
+      toast.success(status ? 'Election updated successfully.' : 'Election created successfully.');
       reset();
-      window.location.reload();
+
     } catch (error) {
       console.error(error);
 
     }
   };
-
   const handleActivate = () => {
     try {
       put('/election/activate');
       setData('status', true);
       setSuccessMessage('Election activated successfully.');
+      toast.success("Election activated successfully.");
+      setIsSuccessMessage(true);
       setActivateOpen(false);
-      window.location.reload();
+
 
     } catch (error) {
       console.error(error);
@@ -81,14 +84,11 @@ const Election = ({ auth, existingElection, election }) => {
     try {
       put('/election/deactivate');
       setData('status', false);
-      setSuccessMessage('Election deactivated successfully.');
-      setDeactivateOpen(false);
-      window.location.reload();
 
-      if (votesCount > 0) {
-        setError('Cannot deactivate the election because votes have been cast.');
-        return;
-      }
+      toast.success("Election deactivated successfully.");
+      setIsSuccessMessage(true);
+
+      setDeactivateOpen(false);
 
     } catch (error) {
       console.error(error);
@@ -101,7 +101,9 @@ const Election = ({ auth, existingElection, election }) => {
       <div className="flex flex-col md:flex-row min-h-screen">
         <main className="flex-1 py-12">
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            {successMessage && <Alert icon={<InfoIcon />} color="green" className="mt-3">{successMessage}</Alert>}
+            <div >
+              {isSuccessMessage && <CustomToast/>}
+            </div>
             <form onSubmit={handleSubmit}>
               <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg mb-5">
                 <div className='flex gap-3'>
@@ -170,7 +172,7 @@ const Election = ({ auth, existingElection, election }) => {
                 </div>
                 <div className='mt-5'>
                   <PrimaryButton type="submit" disabled={!status}>{status ? 'Update' : 'Save'}</PrimaryButton>
-      
+
 
                 </div>
               </div>

@@ -16,7 +16,8 @@ class Candidate extends Model
         'manifesto',
         'candidate_profile',
         'position_id',
-        'partylist_id'
+        'partylist_id',
+        'election_id'
     ];
 
     public function votes()

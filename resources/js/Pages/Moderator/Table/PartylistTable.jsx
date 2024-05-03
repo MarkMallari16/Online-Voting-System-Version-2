@@ -39,8 +39,9 @@ import DeleteModal from "@/Components/DeleteModal";
 import ExcelExport from "@/Components/ExcelExport";
 import Dropdown from "../../../Components/Dropdown";
 import Modal from "@/Components/Modal";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { FaCircleCheck } from "react-icons/fa6";
+import CustomToast from "@/Components/CustomToast";
 
 const TABLE_HEAD = ["Partylist ID", "Partylist Name", "Partylist Description", "Action"];
 
@@ -118,6 +119,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
       },
       onError: () => {
         setOpenAddModal(true);
+        toast.error("error");
       }
     })
   }
@@ -155,20 +157,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
   return (
     <div>
       <div >
-        {isSuccessMessage && <Toaster position="top-right"
-
-          reverseOrder={false}
-          gutter={8} toastOptions={{
-
-            success: {
-              icon: <FaCircleCheck className="text-green-600" />,
-              duration: 5000,
-              style: {
-
-                borderBottomColor: "green",
-              },
-            }
-          }} />}
+        {isSuccessMessage && <CustomToast/>}
       </div>
 
       <div>

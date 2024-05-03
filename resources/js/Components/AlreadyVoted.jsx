@@ -5,6 +5,7 @@ import Modal from './Modal'
 import { FaVoteYea } from "react-icons/fa";
 import { Avatar } from '@material-tailwind/react';
 import { FaCheckSquare } from "react-icons/fa";
+import { IoIosCheckboxOutline } from "react-icons/io";
 
 
 const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
@@ -31,8 +32,8 @@ const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
   console.log(castedVotes);
   return (
     <div className='mt-10 w-full flex justify-center items-center'>
-      <div className='bg-white shadow-md w-full p-10 rounded-md'>
-        <div className='flex justify-center mb-2 text-blue-500'><FaCheckSquare className='text-8xl' />
+      <div className='bg-white shadow-md w-full rounded-md px-10 py-20 '>
+        <div className='flex justify-center mb-2 text-blue-500'><IoIosCheckboxOutline className='text-9xl' />
         </div>
         <div className='text-6xl md:text-8xl lg:text-8xl font-bold text-center'>Thank you!</div>
         <div className='text-center mt-4 text-gray-900'>You have successfully voted!</div>

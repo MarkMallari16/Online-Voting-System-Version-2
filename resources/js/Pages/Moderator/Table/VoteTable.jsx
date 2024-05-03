@@ -39,14 +39,14 @@ const TABS = [
 
 ];
 
-const VoteTable = ({ votes, votesPerPage, voters, voterVoted, positions }) => {
+const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
     const TABLE_HEAD = ["#", "Voter ID", "Voter's Name", "Candidate Voted For", "Candidate Position", "Election ID", "Vote Timestamp", "Action"];
-    const VOTER_NOT_VOTED_TABLE_HEAD = ["#", "Voter ID", "Voter's Name", ];
+    const VOTER_NOT_VOTED_TABLE_HEAD = ["#", "Voter ID", "Voter's Name",];
     const [open, setOpen] = useState(false);
     const [id, setId] = useState();
     const [searchQuery, setSearchQuery] = useState("");
     const [currentPage, setCurrentPage] = useState(votesPerPage.current_page);
-    
+
     const indexOfLastVote = currentPage * votesPerPage.per_page;//1
     const indexOfFirstVote = indexOfLastVote - votesPerPage.per_page;//10
 
@@ -72,6 +72,7 @@ const VoteTable = ({ votes, votesPerPage, voters, voterVoted, positions }) => {
     const handleSearch = (event) => {
         setSearchQuery(event.target.value);
     }
+
     const classes = "p-4 border-b border-blue-gray-50";
     return (
         <Card className="h-full w-full">
@@ -369,10 +370,10 @@ const VoteTable = ({ votes, votesPerPage, voters, voterVoted, positions }) => {
                                     <tbody>
 
                                         {
-                                            voters.length === 0 ? (
+                                            voters.filter((voter) => !votes.some(vote => vote.voter_id === voter.id)).length === 0 ? (
                                                 <tr>
                                                     <td colSpan="4" className="text-center py-4 text-gray-500">
-                                                        No votes found
+                                                        No voters found
                                                     </td>
                                                 </tr>
                                             ) : (

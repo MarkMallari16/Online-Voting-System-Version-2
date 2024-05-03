@@ -90,7 +90,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             file
         );
     };
-
+    console.log(candidatesPerPage);
     const handleFileUpdateUpload = (e) => {
         const file = e.target.files[0];
 
