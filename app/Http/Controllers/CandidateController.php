@@ -10,6 +10,7 @@ use App\Models\Positions;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CandidateController extends Controller
 {
@@ -37,13 +38,13 @@ class CandidateController extends Controller
         ]);
 
         if ($request->hasFile('candidate_profile')) {
-            $candidateProfileName = time() . '.' . $request->file('candidate_profile')->getClientOriginalExtension();
+            $candidateProfileName = time() . '.' . $request->file('candidate_profile')->hashName();
 
             // Move the file to the public/candidate_profile_photos directory
-            $request->file('candidate_profile')->move(public_path('candidate_profile_photos'), $candidateProfileName);
+            $path = $request->file('candidate_profile')->storeAs('candidate_profile_photos', $candidateProfileName,'public');
 
             // Return the path relative to the public directory
-            return 'candidate_profile_photos/' . $candidateProfileName;
+            return $path;
         }
 
         // If no file is uploaded, return null
@@ -53,8 +54,8 @@ class CandidateController extends Controller
     public function store(Request $request)
     {
         $election = Election::latest()->first();
-        
-        if(!$election){
+
+        if (!$election) {
             return redirect()->back();
         }
 
@@ -103,7 +104,6 @@ class CandidateController extends Controller
         $candidate = Candidate::findOrFail($id);
 
         $validatedData = $request->validate([
-            // 'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'first_name' => 'required|alpha',
             'middle_name' => 'nullable|string',
             'last_name' => 'required|alpha',
@@ -115,6 +115,10 @@ class CandidateController extends Controller
         ]);
 
         $middleName = $validatedData['middle_name'] ?? null;
+
+        // if ($request->hasFile('candidate_profile') && $candidate->candidate_profile) {
+        //     Storage::delete('public/' . $candidate->candidate_profile);
+        // }
 
         $candidateImagePath = $candidate->candidate_profile;
 
@@ -136,15 +140,15 @@ class CandidateController extends Controller
             'election_id' => $election->id
         ]);
 
-        return redirect()->back()->with('success', 'Candidate updated successfully');
+        return dd($candidateImagePath);
     }
 
     public function destroy(Candidate $candidate)
     {
-        $associatedVotes = DB::table('votes')->where('candidate_id',$candidate->id)->exists();
+        $associatedVotes = DB::table('votes')->where('candidate_id', $candidate->id)->exists();
 
-        if ($associatedVotes){
-            return redirect()->back()->with('error','Cannot delete candidate. There are associated votes.');
+        if ($associatedVotes) {
+            return redirect()->back()->with('error', 'Cannot delete candidate. There are associated votes.');
         }
         $candidate->delete();
 

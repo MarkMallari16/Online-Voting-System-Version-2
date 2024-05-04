@@ -22,7 +22,8 @@ class DashboardController extends Controller
             ->exists();
     }
     function dashboard()
-    {
+    {   
+        $verifiedUsers = Auth::user();
         $positions = Positions::all();
         $partylist = Partylist::all();
         $candidates = Candidate::all();
@@ -127,6 +128,7 @@ class DashboardController extends Controller
 
 
         return Inertia::render('Dashboard', [
+            'users' => $verifiedUsers,
             'partylist_list' => $partylist,
             'position_list' => $positions,
             'candidates' => $candidates,

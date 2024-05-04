@@ -163,7 +163,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                                 <div className="text-end">
                                     <PrimaryButton>See Winners</PrimaryButton>
                                 </div>
-                                <div className="w-full text-xl md:text-2xl lg:text-3xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 justify-center">
+                                <div className="w-full text-xl md:text-2xl lg:text-3xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 justify-center ">
                                     {positionList.map(position => (
                                         <BarChartContainer key={position.id} positionId={position.id} positionName={position.name} voteCounts={voteCounts} />
                                     ))}

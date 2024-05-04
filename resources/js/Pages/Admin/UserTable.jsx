@@ -50,11 +50,6 @@ const UserTable = ({
     const [selectedUser, setSelectedUser] = useState(null);
     const [selectedUserId, setSelectedUserId] = useState(null);
 
-
-    useEffect(() => {
-       
-
-    }, [users, currentPage, searchQuery, filterValue]);
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
     //filtered users

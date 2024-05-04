@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import UserTable from './UserTable';
 import AdminDashboardOverview from './AdminDashboardOverview';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
 const AdminDashboard = () => {
     const [users, setUsers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -18,7 +16,7 @@ const AdminDashboard = () => {
 
     const TABLE_HEAD = ["ID", "Name", "Profile", "Email", "Role", "Created At", "Updated At", "Email Status", "Action"];
 
-  
+
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -30,7 +28,7 @@ const AdminDashboard = () => {
                 setError('Error fetching users');
             }
         };
-
+      
         fetchUsers();
     }, [currentPage]);
 

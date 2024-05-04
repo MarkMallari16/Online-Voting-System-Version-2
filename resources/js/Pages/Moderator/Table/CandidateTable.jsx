@@ -27,7 +27,7 @@ import {
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
-import DefaultCandidatePicture from "../../../../../public/profile_photos/default_profile.png";
+import DefaultCandidatePicture from "../../../../../public/storage/candidate_profile_photos/default_candidate_profile.png";
 
 import { useForm, router } from "@inertiajs/react";
 import DeleteModal from "@/Components/DeleteModal";
@@ -57,7 +57,6 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     const [candidate, setCandidate] = useState(candidates);
 
     const [candidateProfile, setCandidateProfile] = useState(null);
-    const [candidateUpdateProfile, setCandidateUpdateProfile] = useState(null);
 
     const [currentPage, setCurrentPage] = useState(candidatesPerPage.current_page);
 
@@ -75,33 +74,27 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     const { data, setData, post, put, delete: destroy, errors, reset, processing, clearErrors } = useForm();
 
     const handleFileUpload = (e) => {
-        const file =
-            e.target.files[0];
+        const file = e.target.files[0];
         const formData = new FormData();
-        formData.append(
-            "candidate_profile",
-            file
-        );
+        formData.append("candidate_profile", file);
         setCandidateProfile(file);
         setData(
             "candidate_profile",
             file
         );
     };
+
     console.log(candidatesPerPage);
     const handleFileUpdateUpload = (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files[0]; // Get the selected file
 
-        const formData = new FormData();
-        formData.append("candidate_profile", file);
-
-        setCandidateUpdateProfile(file);
-
+        // Update the 'data' state with the selected file
         setData((prevData) => ({
             ...prevData,
-            candidate_profile: formData,
+            candidate_profile: file,
         }));
     };
+
     //for add modal
     const handleOpen = () => {
         setOpen(!open)
@@ -128,7 +121,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                 partylist_id: candidateToUpdate.partylist_id,
                 position_id: candidateToUpdate.position_id,
                 manifesto: candidateToUpdate.manifesto,
-                candidate_profile: candidateToUpdate.candidate_profile,
+                candidate_profile: `storage/${candidateToUpdate.candidate_profile}`,
             });
 
         } else {
@@ -311,7 +304,6 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                             </span>
                                                             <input
                                                                 type="file"
-                                                                id="candidateImage"
                                                                 name="candidate_profile"
                                                                 className="hidden"
 
@@ -526,14 +518,18 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                         <div>
                                             <div className="mb-2">
                                                 <InputLabel
-                                                    htmlFor="candidateProfile"
-                                                    value="Candidate Profile"
+                                                    htmlFor="candidateUpdateProfile"
+                                                    value="Update Candidate Profile"
                                                     className="mb-4"
                                                 />
                                                 <div className="flex items-center gap-3">
                                                     <div className="mb-2">
                                                         <Avatar
-                                                            src={data.candidate_profile instanceof File ? URL.createObjectURL(data.candidate_profile) : (data.candidate_profile ? data.candidate_profile : DefaultCandidatePicture)}
+                                                            src={
+                                                                data.candidate_profile instanceof File
+                                                                    ? URL.createObjectURL(data.candidate_profile)
+                                                                    : (data.candidate_profile ? data.candidate_profile : DefaultCandidatePicture)
+                                                            }
                                                             alt="Candidate Avatar"
                                                             size="xxl"
                                                             color="blue"
@@ -890,9 +886,10 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                                 <Avatar
                                                                     src={
                                                                         candidate_profile
-                                                                            ? candidate_profile
+                                                                            ? `/storage/${candidate_profile}`
                                                                             : DefaultCandidatePicture
                                                                     }
+                                                                    alt="Candidate profile"
                                                                 />
                                                             </Typography>
                                                         </div>
