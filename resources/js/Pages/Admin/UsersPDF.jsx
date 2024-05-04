@@ -18,7 +18,7 @@ const UsersPDF = ({ users }) => {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: "space-evenly",
+            justifyContent: "space-between",
         },
         topHeading: {
             flex: 1,
@@ -36,9 +36,8 @@ const UsersPDF = ({ users }) => {
         table: {
             display: "table",
             width: "100%",
-            borderStyle: "solid",
-            borderWidth: 1,
-            borderColor: "#bfbfbf",
+            border: '1px solid black',
+            borderRadius: 4,
             marginBottom: 10,
         },
         tableRow: {
@@ -48,9 +47,8 @@ const UsersPDF = ({ users }) => {
             flex: 1,
             fontSize: 12,
             padding: 5,
-            borderStyle: "solid",
-            borderWidth: 1,
-            borderColor: "#bfbfbf",
+            borderBottom: '1px solid black',
+            borderRight: '1px solid black',
             textAlign: "center",
         },
         logoImage: {
@@ -79,7 +77,7 @@ const UsersPDF = ({ users }) => {
                     <Text style={styles.heading}>Users List</Text>
                     <View style={styles.table}>
                         <View style={styles.tableRow}>
-                            <Text style={styles.tableCell}>ID</Text>
+                            <Text style={styles.tableCell}>UID</Text>
                             <Text style={styles.tableCell}>Name</Text>
                             <Text style={styles.tableCell}>Email</Text>
                             <Text style={styles.tableCell}>Role</Text>

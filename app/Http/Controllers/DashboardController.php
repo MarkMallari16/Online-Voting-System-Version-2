@@ -44,15 +44,12 @@ class DashboardController extends Controller
         $voterHasVoted = false;
         $voterVoted = false;
 
-        if ($user && $user->role === 'voter') {
+        if ($user && $user->role === 'voter' && $election) {
             $voterId = $user->id;
-            if ($election) {
-                $voterVoted  = Vote::where('voter_id', $voterId)->where('election_id', $election->id)->exists();
-            }
+
+            $voterVoted  = Vote::where('voter_id', $voterId)->where('election_id', $election->id)->exists();
             $voterHasVoted = $voterVoted;
         }
-
-        $userName = Auth::user()->name;
 
         $voters = User::where('role', 'voter')->get();
 
@@ -60,32 +57,26 @@ class DashboardController extends Controller
 
         $voters->transform(function ($voter) use ($election) {
             $voterId = $voter->id;
-            if ($election) {
-                $voter->hasVoted = $this->getHasVotedStatus($voterId, $election->id);
-            } else {
-                $voter->hasVoted = false;
-            }
+            $voter->hasVoted = $election ? $this->getHasVotedStatus($voterId, $election->id) : false;
             return $voter;
         });
+
         $voteCounts = [];
+
         $castedVotes = null;
 
+        $castedVotes = Vote::where('election_id', $election->id)
+            ->where('voter_id', $voterId)
+            ->with('candidate')
+            ->get();
 
         if ($election) {
-
-            $castedVotes = Vote::where('election_id', $election->id)
-                ->where('voter_id', $voterId)
-                ->with('candidate')
-                ->get();
-
-            //for votes counts
-
-
             foreach ($candidates as $candidate) {
                 $positionId = $candidate->position->id;
                 $positionName = $candidate->position->name;
                 $candidateName = $candidate->first_name . ' '  . $candidate->last_name;
-                $voteCount = Vote::where('candidate_id', $candidate->id)->count();
+
+                $voteCount = $candidate->votes()->count();
 
                 $voteCounts[$candidate->id] = [
                     'position_id' => $positionId,
@@ -95,33 +86,41 @@ class DashboardController extends Controller
                 ];
             }
         }
-        $election = Election::where('status', 'Active')
-            ->latest('start_date')
-            ->first();
 
         //display winner when election ends
         if ($election && $election->status === 'Active') {
             $candidateWinners = [];
+
+            $candidatesVotes = [];
+            $totalVotesPerPosition = [];
+
+
             $votersWhoVotedForWinners = 0;
             foreach ($positions as $position) {
                 //getting the position id 
                 $candidatesPerPosition = $candidates->where('position_id', $position->id);
+
                 //set winner for position by default to null
                 $winnerForPosition = null;
 
                 $maxVotesPerPosition = 0;
+                $totalVotesForPosition = 0;
+
                 //getting the candidate
                 foreach ($candidatesPerPosition as $candidate) {
-                    $voteCount = Vote::where('candidate_id', $candidate->id)->count();
+                    $voteCountsPerCandidates = $candidate->votes()->count();
 
-                    if ($voteCount > $maxVotesPerPosition) {
-                        $maxVotesPerPosition = $voteCount;
+                    //get the total votes per position
+                    if ($voteCountsPerCandidates > $maxVotesPerPosition) {
+                        $maxVotesPerPosition = $voteCountsPerCandidates;
                         $winnerForPosition = $candidate;
                     }
+
+                    $totalVotesForPosition += $voteCountsPerCandidates;
+                    $totalCandidatesPerPositions[$position->name][$candidate->last_name . ', ' . $candidate->first_name] = $voteCountsPerCandidates;
                 }
                 $candidateWinners[$position->name] = $winnerForPosition;
-
-                $votersWhoVotedForWinner = Vote::where('candidate_id', $winnerForPosition->id)->count();
+                $totalVotesPerPosition[$position->name] = $totalVotesForPosition;
             }
         }
 
@@ -139,9 +138,9 @@ class DashboardController extends Controller
             'castedVotes' => $castedVotes,
             'voterVoted' => $voterVoted,
             'voterHasVoted' => $voterHasVoted,
-            'name' =>  $userName,
             'candidateWinners' => $candidateWinners,
-            'candidateWinnerTotalVotes' => $votersWhoVotedForWinner
+            'totalCandidatesPerPositions' => $totalCandidatesPerPositions,
+            'totalVotesPerPosition' => $totalVotesPerPosition
         ]);
     }
 }

@@ -34,6 +34,7 @@ import DeleteModal from "@/Components/DeleteModal";
 import ExcelExport from "@/Components/ExcelExport";
 import toast from "react-hot-toast";
 import CustomToast from "@/Components/CustomToast";
+import PaginationComponent from "@/Components/PaginationComponent";
 
 const TABLE_HEAD = [
     "Candidate ID",
@@ -68,7 +69,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     const currentCandidatesPage = candidates.slice(indexOfFirstCandidate, indexOfLastCandidate);
 
     const totalPages = candidatesPerPage.last_page;
- 
+
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
     const { data, setData, post, put, delete: destroy, errors, reset, processing, clearErrors } = useForm();
@@ -156,11 +157,11 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             },
             onError: () => {
                 setOpen(true);
-                
+
             }
         });
     };
-    
+
 
 
     const handleUpdateSubmit = async (e) => {
@@ -175,11 +176,11 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
             // Reset form data and state for candidate
             reset();
-        
+
             setIsSuccessMessage(true);
             // Display success message
             toast.success("Candidate successfully updated");
-          
+
 
         } catch (error) {
             console.error("Failed to update candidate:", error);
@@ -1019,7 +1020,12 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                         </Button>
                     </div>
                 </CardFooter>
+
             </Card>
+            {/** <div className="flex justify-center mt-8">
+           <PaginationComponent dataPerPage={candidatesPerPage} />
+
+       </div> */}
             <DeleteModal
                 open={openDeleteModal}
                 handleDeleteOpen={handleDeleteOpen}

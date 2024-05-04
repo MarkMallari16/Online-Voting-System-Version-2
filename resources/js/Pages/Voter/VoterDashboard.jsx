@@ -43,10 +43,10 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
     useEffect(() => {
         const updateNow = () => {
             setNow(new Date());
-            setInterval(updateNow, 1000);
+            setTimeout(updateNow, 1000);
         };
         updateNow();
-        return () => clearInterval(updateNow);
+        return () => clearTimeout(updateNow);
     }, []);
 
     useEffect(() => {
@@ -149,7 +149,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
     // console.log(election)
 
-    console.log(voteCounts);
+
     return (
         <div>
             {(election && election?.status === "Active") && isElectionStarted ? (

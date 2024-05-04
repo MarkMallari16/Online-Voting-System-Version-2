@@ -19,7 +19,7 @@ function PositionSelector({ label, onChange, value, positionList }) {
         </Select>
     );
 }
-const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount }) => {
+const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount, totalVotesPerPosition }) => {
 
     const electionTitle = election ? election.title : '';
 
@@ -51,7 +51,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
     const latestVotedVoter = votedVoters.reduce((prev, current) =>
         (new Date(prev.updated_at) > new Date(current.updated_at)) ? prev : current, []
     );
-
+    console.log(voteCounts);
 
     return (
         <div>
@@ -82,7 +82,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                     <FaRegFilePdf className="text-xl" />
                                 </div>
                                 <PDFDownloadLink
-                                    document={<VotesPDF voteCounts={voteCounts} positionList={position_list} electionTitle={electionTitle} />}
+                                    document={<VotesPDF voteCounts={voteCounts} positionList={position_list} electionTitle={electionTitle} totalVotesPerPosition={totalVotesPerPosition} />}
                                     fileName="votes_report.pdf"
 
                                 >
@@ -131,7 +131,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                     </div>
                                 </div>}
                         </div>
-
+                        
                     </div>
                     <div className="bg-white flex-1 rounded-md">
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max px-5 py-5">

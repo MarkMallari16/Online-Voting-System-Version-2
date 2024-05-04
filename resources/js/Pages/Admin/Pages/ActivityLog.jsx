@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import axios from "axios";
-import { Avatar, Spinner, Typography } from "@material-tailwind/react";
-import ActivityLogPagination from "./ActivityLogPagination";
+import { Avatar, Spinner } from "@material-tailwind/react";
+
 import ExcelExport from "@/Components/ExcelExport";
 import FilterDropdown from "@/Components/FilterDropdown";
+import PaginationComponent from "@/Components/PaginationComponent";
 
 const ActivityLog = ({ auth, logs }) => {
     const [activityLog, setActivityLog] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
-
-
-    console.log(logs);
-
 
     useEffect(() => {
         setIsLoading(false);
@@ -189,12 +186,9 @@ const ActivityLog = ({ auth, logs }) => {
                                     </div>
                                 </div>
                                 <div className="flex justify-center mt-8 ">
-                                   
-                                    <ActivityLogPagination
-                                        active={currentPage}
-                                        totalPages={totalPages}
-                                        onPageChange={handlePageChange}
-                                        logs={logs}
+
+                                    <PaginationComponent
+                                        dataPerPage={logs}
                                     />
                                 </div>
                             </div>
