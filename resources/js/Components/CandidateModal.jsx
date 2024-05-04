@@ -26,16 +26,16 @@ const CandidateModal = ({ candidate, isOpen, onClose }) => {
                 <hr />
             </DialogHeader>
             <DialogBody>
-                <div className="relative w-100  mx-2">
+                <div className=" w-100  mx-2">
                     <h4 className="text-gray-900 font-bold text-xl">Campaign Platform</h4>
-                    <div className="text-gray-800 text-justify">
-                        <p>{candidate.manifesto}</p>
+                    <div className="text-gray-800 ">
+                        <p className='text-justify leading-2'>{candidate.manifesto}</p>
                     </div>
                 </div>
             </DialogBody>
             <DialogFooter>
                 <button
-                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="text-red-500 hover:bg-gray-200 rounded-md background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
                     onClick={onClose}
                 >

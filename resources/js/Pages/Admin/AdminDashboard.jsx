@@ -3,8 +3,10 @@ import axios from 'axios';
 import UserTable from './UserTable';
 import AdminDashboardOverview from './AdminDashboardOverview';
 
-const AdminDashboard = () => {
-    const [users, setUsers] = useState([]);
+const AdminDashboard = ({ usersPerPage }) => {
+
+
+    const users = usersPerPage.data;
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
@@ -16,21 +18,21 @@ const AdminDashboard = () => {
 
     const TABLE_HEAD = ["ID", "Name", "Profile", "Email", "Role", "Created At", "Updated At", "Email Status", "Action"];
 
+    console.log(usersPerPage);
+    // useEffect(() => {
+    //     const fetchUsers = async () => {
+    //         try {
+    //             const response = await axios.get(`/users?perPage=10&page=${currentPage}`);
+    //             setUsers(response.data.data);
+    //             setCurrentPage(response.data.current_page);
+    //             setTotalPages(response.data.last_page);
+    //         } catch (error) {
+    //             setError('Error fetching users');
+    //         }
+    //     };
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await axios.get(`/users?perPage=10&page=${currentPage}`);
-                setUsers(response.data.data);
-                setCurrentPage(response.data.current_page);
-                setTotalPages(response.data.last_page);
-            } catch (error) {
-                setError('Error fetching users');
-            }
-        };
-      
-        fetchUsers();
-    }, [currentPage]);
+    //     fetchUsers();
+    // }, [currentPage]);
 
     return (
         <div className="flex flex-col sm:flex-row">
@@ -45,17 +47,12 @@ const AdminDashboard = () => {
                 </div>
 
                 <div className='mt-5'>
-                    <AdminDashboardOverview users={totalUsers} studentCount={totalStudents} adminCount={totalAdmins} moderatorCount={totalModerators} partylistEditorCount={totalPartylistEditor} />
+                    <AdminDashboardOverview totalStudents={totalStudents} totalAdmins={totalAdmins} totalModerators={totalModerators} totalPartylistEditors={totalPartylistEditor} />
                 </div>
 
                 <div className="mt-5">
-                    <UserTable TABLE_HEAD={TABLE_HEAD} users={users} setUsers={setUsers} currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
+                    <UserTable TABLE_HEAD={TABLE_HEAD} users={users} usersPerPage={usersPerPage} />
                 </div>
-
-                {/**<div className='bg-white overflow-hidden shadow-sm sm:rounded-lg mt-8 p-2'>
-                    <h1>Hello</h1>
-                    <Doughnut data={data} />
-                </div> */}
             </div>
 
         </div>

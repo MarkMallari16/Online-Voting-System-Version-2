@@ -30,6 +30,7 @@ import ExcelExport from "@/Components/ExcelExport";
 import DeleteModal from "@/Components/DeleteModal";
 import CustomToast from "@/Components/CustomToast";
 import toast from "react-hot-toast";
+import PaginationInTable from "@/Components/PaginationInTable";
 
 
 const TABLE_HEAD = ["Position ID", "Position", "Action"];
@@ -382,17 +383,7 @@ export function PositionsTable(props) {
                     </table>
                 </CardBody>
                 <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                    <Typography variant="small" color="blue-gray" className="font-normal">
-                        Page {currentPage} of {totalPages}
-                    </Typography>
-                    <div className="flex gap-2">
-                        <Button variant="outlined" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1 || searchQuery !== ""}>
-                            Previous
-                        </Button>
-                        <Button variant="outlined" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages || searchQuery !== ""}>
-                            Next
-                        </Button>
-                    </div>
+                  <PaginationInTable dataPerPage={positionsPerPage}/>
                 </CardFooter>
 
                 <DeleteModal

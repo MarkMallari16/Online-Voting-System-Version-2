@@ -35,6 +35,7 @@ import ExcelExport from "@/Components/ExcelExport";
 import toast from "react-hot-toast";
 import CustomToast from "@/Components/CustomToast";
 import PaginationComponent from "@/Components/PaginationComponent";
+import PaginationInTable from "@/Components/PaginationInTable";
 
 const TABLE_HEAD = [
     "Candidate ID",
@@ -999,23 +1000,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                     </table>
                 </CardBody>
                 <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                    <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                    >
-                        Page {currentPage} of {totalPages}
-                    </Typography>
-                    <div className="flex gap-2">
-
-                        <Button variant="outlined" size="sm" onClick={handlePreviousClick} disabled={currentPage === 1 || searchQuery !== ""}>
-                            Previous
-                        </Button>
-
-                        <Button variant="outlined" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages || searchQuery !== ""}>
-                            Next
-                        </Button>
-                    </div>
+                   <PaginationInTable dataPerPage={candidatesPerPage}/>
                 </CardFooter>
 
             </Card>

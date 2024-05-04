@@ -15,6 +15,7 @@ import {
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import PasswordToggle from '@/Components/PasswordToggle';
+import InputError from '@/Components/InputError';
 
 const EditUserModal = ({ open, handleClose, user }) => {
 
@@ -91,7 +92,7 @@ const EditUserModal = ({ open, handleClose, user }) => {
           <div className=" mb-3">
             <InputLabel htmlFor='email' value="Email" />
             <TextInput type="email" label="Email" name="email" onChange={handleOnChange} value={data.email} className='w-full' />
-            {errors.email && <Text color="red">{errors.email}</Text>}
+            <InputError className='mt-2' message={errors.email} />
           </div>
           <div className=" mb-3">
             <Select

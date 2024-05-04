@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import axios from "axios";
+
 import { Avatar, Spinner } from "@material-tailwind/react";
 
 import ExcelExport from "@/Components/ExcelExport";
@@ -24,13 +24,6 @@ const ActivityLog = ({ auth, logs }) => {
         setSelectedAction(action);
     };
 
-
-    const handlePageChange = async (page) => {
-        setCurrentPage(page);
-
-        visit(route("activity.logs", { page, action: selectedAction }));
-    };
-
     const getClassByAction = (action) => {
         switch (action) {
             case "User Created":
@@ -43,7 +36,7 @@ const ActivityLog = ({ auth, logs }) => {
                 return " bg-gray-100 text-gray-800 rounded";
         }
     };
-
+   
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -75,7 +68,7 @@ const ActivityLog = ({ auth, logs }) => {
 
                                                 </div>
                                                 <div className="text-2xl">
-                                                    Recent Activity
+                                                    Activity
                                                 </div>
                                             </div>
                                             <div className="flex justify-end gap-2">

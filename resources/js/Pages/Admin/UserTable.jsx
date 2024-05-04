@@ -29,24 +29,27 @@ import DeleteUserModal from "./DeleteUserModal";
 import toast from 'react-hot-toast';
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ExcelExport from "@/Components/ExcelExport";
-import { router } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import CustomToast from "@/Components/CustomToast";
+import PaginationInTable from "@/Components/PaginationInTable";
+
 
 
 const UserTable = ({
     TABLE_HEAD,
     users,
-    currentPage,
-    totalPages,
-    setCurrentPage,
+    usersPerPage,
 }) => {
+    console.log(users);
     const [searchQuery, setSearchQuery] = useState("");
     const [filterValue, setFilterValue] = useState("");
 
+    //modal
     const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
 
     const [isEditUserModalOpen, setIsEditUserModalOpen] = useState(false);
     const [isDeleteUserModalOpen, setIsDeleteUserModalOpen] = useState(false);
+    //getting id
     const [selectedUser, setSelectedUser] = useState(null);
     const [selectedUserId, setSelectedUserId] = useState(null);
 
@@ -78,14 +81,14 @@ const UserTable = ({
         }
     });
 
-    //handle previous page
-    const handlePreviousPage = () => {
-        setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-    };
-    //handle next page
-    const handleNextPage = () => {
-        setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-    };
+    // //handle previous page
+    // const handlePreviousPage = () => {
+    //     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+    // };
+    // //handle next page
+    // const handleNextPage = () => {
+    //     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+    // };
 
     //handle add in add user modal
     const handleAddUser = async () => {
@@ -140,7 +143,7 @@ const UserTable = ({
                 {isSuccessMessage && <CustomToast />}
             </div>
 
-            <Card className="h-full w-full p-4 ">
+            <Card className="h-full w-full ">
                 <CardHeader
                     floated={false}
                     shadow={false}
@@ -238,7 +241,7 @@ const UserTable = ({
                         </div>
                     </div>
                 </CardHeader>
-                <CardBody className="overflow-scroll overflow-x-auto">
+                <CardBody className="overflow-scroll overflow-x-auto p-0">
                     <table className="mt-4 min-w-full table-auto text-left">
                         <thead>
                             <tr>
@@ -455,31 +458,7 @@ const UserTable = ({
                     </table>
                 </CardBody>
                 <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                    <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                    >
-                        Page {currentPage} of {totalPages}
-                    </Typography>
-                    <div className="flex gap-2">
-                        <Button
-                            variant="outlined"
-                            size="sm"
-                            onClick={handlePreviousPage}
-                            disabled={currentPage === 1}
-                        >
-                            Previous
-                        </Button>
-                        <Button
-                            variant="outlined"
-                            size="sm"
-                            onClick={handleNextPage}
-                            disabled={currentPage === totalPages}
-                        >
-                            Next
-                        </Button>
-                    </div>
+                    <PaginationInTable dataPerPage={usersPerPage} />
                 </CardFooter>
             </Card>
             <AddUserModal

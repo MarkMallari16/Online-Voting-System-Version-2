@@ -14,13 +14,15 @@ use Inertia\Inertia;
 class UserController extends Controller
 {
 
-    public function index(Request $request)
-    {
-        $perPage = $request->input('perPage', 10);
-        $users = User::paginate($perPage);
+    // public function index(Request $request)
+    // {
+    //     $perPage = $request->input('perPage', 10);
+    //     $users = User::paginate($perPage);
 
-        return response()->json($users);
-    }
+    //     return Inertia::render('Dashboard', [
+    //         'users' => $users
+    //     ]);
+    // }
     public function store(CreateUserRequest $request)
     {
 
@@ -38,7 +40,7 @@ class UserController extends Controller
 
 
 
-       return redirect()->back()->with('success','User created successfully');
+        return redirect()->back()->with('success', 'User created successfully');
     }
 
     public function update(UpdateUserRequest $request, $id)
@@ -63,7 +65,7 @@ class UserController extends Controller
         $user->update($userData);
 
         AuditLog::create([
-            'user_id' => $request->user()->id, 
+            'user_id' => $request->user()->id,
             'action' => 'User Updated',
             'details' => 'User updated with name: ' . $user->name,
         ]);
@@ -92,10 +94,10 @@ class UserController extends Controller
 
         return response()->json($logs);
     }
-    public function displayActivityLogs(Request $request)
+    public function displayActivityLogs()
     {
-        $perPage = $request->input('perPage', 10);
-        $logs = AuditLog::with('user')->orderByDesc('created_at')->paginate($perPage);
+        $query = AuditLog::query();
+        $logs = $query->with('user')->orderByDesc('created_at')->paginate(15);
 
         return Inertia::render('Admin/Pages/ActivityLog', [
             'logs' => $logs

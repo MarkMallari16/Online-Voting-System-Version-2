@@ -23,7 +23,11 @@ class DashboardController extends Controller
     }
     function dashboard()
     {   
-        $verifiedUsers = Auth::user();
+        //admin
+        
+        $usersPerPage = User::paginate(10);
+
+        //moderator
         $positions = Positions::all();
         $partylist = Partylist::all();
         $candidates = Candidate::all();
@@ -128,7 +132,7 @@ class DashboardController extends Controller
 
 
         return Inertia::render('Dashboard', [
-            'users' => $verifiedUsers,
+            'usersPerPage' => $usersPerPage,
             'partylist_list' => $partylist,
             'position_list' => $positions,
             'candidates' => $candidates,
@@ -142,7 +146,7 @@ class DashboardController extends Controller
             'voterHasVoted' => $voterHasVoted,
             'candidateWinners' => $candidateWinners,
             'totalCandidatesPerPositions' => $totalCandidatesPerPositions,
-            'totalVotesPerPosition' => $totalVotesPerPosition
+            'totalVotesPerPosition' => $totalVotesPerPosition,
         ]);
     }
 }

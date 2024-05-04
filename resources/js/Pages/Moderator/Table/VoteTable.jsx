@@ -27,6 +27,7 @@ import {
 
 
 import ExcelExport from '@/Components/ExcelExport';
+import PaginationInTable from '@/Components/PaginationInTable';
 const TABS = [
     {
         label: "Students Voted",
@@ -177,7 +178,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                     </div>
                     <TabsBody>
 
-                        <TabPanel value="students_voted" >
+                        <TabPanel value="students_voted" className='px-0'>
                             <table className="mt-4 w-full min-w-max table-auto text-left">
                                 <thead>
                                     <tr>
@@ -343,6 +344,8 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                 )}
                             </table>
                         </TabPanel>
+
+
                         <TabPanel value="students_not_voted">
                             <div >
                                 <table className="mt-4 w-full min-w-max table-auto text-left">
@@ -380,9 +383,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
 
                                                 voters
                                                     .filter((voter) => !votes.some(vote => vote.voter_id === voter.id))
-
                                                     .map((voter, index) => (
-
                                                         <tr key={index}>
                                                             <td className={classes}>
                                                                 <div className="flex items-center gap-3">
@@ -437,27 +438,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                 </Tabs>
             </CardBody>
             <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                <Typography variant="small" color="blue-gray" className="font-normal">
-                    Page {currentPage} of {totalPages}
-                </Typography>
-                <div className="flex gap-2">
-                    <Button
-                        variant="outlined"
-                        size="sm"
-                        onClick={handlePreviousPage} // Corrected
-                        disabled={currentPage === 1 || searchQuery !== ""}
-                    >
-                        Previous
-                    </Button>
-                    <Button
-                        variant="outlined"
-                        size="sm"
-                        onClick={handleNextPage}
-                        disabled={currentPage === totalPages || searchQuery !== ""}
-                    >
-                        Next
-                    </Button>
-                </div>
+                <PaginationInTable dataPerPage={votesPerPage} />
             </CardFooter>
 
         </Card >

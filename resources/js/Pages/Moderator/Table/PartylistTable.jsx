@@ -42,6 +42,7 @@ import Modal from "@/Components/Modal";
 import toast from 'react-hot-toast';
 import { FaCircleCheck } from "react-icons/fa6";
 import CustomToast from "@/Components/CustomToast";
+import PaginationInTable from "@/Components/PaginationInTable";
 
 const TABLE_HEAD = ["Partylist ID", "Partylist Name", "Partylist Description", "Action"];
 
@@ -438,17 +439,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                   </table>
                 </CardBody>
                 <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                  <Typography variant="small" color="blue-gray" className="font-normal">
-                    Page {currentPage} of {totalPages}
-                  </Typography>
-                  <div className="flex gap-2">
-                    <Button variant="outlined" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1 || searchQuery !== ""}>
-                      Previous
-                    </Button>
-                    <Button variant="outlined" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages || searchQuery !== ""}>
-                      Next
-                    </Button>
-                  </div>
+                  <PaginationInTable dataPerPage={partylistsPerPage}/>
                 </CardFooter>
                 <DeleteModal
                   open={openDeleteModal}
@@ -559,6 +550,8 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
           </TabsBody>
         </Tabs>
       </div>
+
+      
       <Modal show={showAssignModal} onClose={() => setShowAssignModal(false)} maxWidth='md' >
         <div className="p-6">
           <div className="flex items-center justify-between mb-10">

@@ -7,15 +7,15 @@ import PartylistEditorDashboard from './Partylist_Editor/PartylistEditorDashboar
 import Sidebar from './Sidebar';
 import Countdown from '@/Components/Countdown';
 
-export default function Dashboard({ auth, candidates, candidatesAll, voterVoted, position_list, partylist_list, election, voters, votersVotedCount, voteCounts, castedVotes, voterHasVoted, totalCandidatesPerPositions, candidateWinners, totalVotesPerPosition }) {
+export default function Dashboard({ auth, usersPerPage, candidates, candidatesAll, voterVoted, position_list, partylist_list, election, voters, votersVotedCount, voteCounts, castedVotes, voterHasVoted, totalCandidatesPerPositions, candidateWinners, totalVotesPerPosition }) {
 
-    console.log(totalVotesPerPosition);
+
     const { role } = auth.user;
     let dashboardContent;
 
     switch (role) {
         case 'admin':
-            dashboardContent = <AdminDashboard />;
+            dashboardContent = <AdminDashboard usersPerPage={usersPerPage}/>;
             break;
         case 'moderator':
             dashboardContent = <ModeratorDashboard voters={voters} election={election} candidates={candidates} voteCounts={voteCounts} votersVotedCount={votersVotedCount} position_list={position_list} totalVotesPerPosition={totalVotesPerPosition} />;
@@ -31,7 +31,7 @@ export default function Dashboard({ auth, candidates, candidatesAll, voterVoted,
 
         <AuthenticatedLayout user={auth.user} header={election ? <Countdown election={election} /> : ''} >
             <div className="flex flex-col md:flex-row min-h-screen">
-             
+
                 <main className="flex-1 py-12">
                     <div className="max-w-full  mx-auto sm:max-w-3xl md:max-w-4xl lg:max-w-6xl xl:max-w-7xl">
                         {/* <Breadcrumbs className=''>
