@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Avatar } from '@material-tailwind/react';
 import PrimaryButton from '@/Components/PrimaryButton';
 import DefaultProfile from '../../../../../public/storage/profile_photos/default_profile.png'
-import { useForm } from '@inertiajs/inertia-react';
+import { useForm } from '@inertiajs/react';
 import InputError from '@/Components/InputError';
 import { Transition } from '@headlessui/react';
 
@@ -35,6 +35,7 @@ const UpdateProfilePicture = ({ user }) => {
           color='blue'
           className='p-0.5'
         />
+        
         <div className='mt-3s'>
           <input
             className='hidden'
@@ -59,8 +60,10 @@ const UpdateProfilePicture = ({ user }) => {
             Upload Profile Picture
           </label>
         </div>
-      </div>
 
+        
+      </div>
+      <InputError className='mt-2' message={errors.profile_picture}/>
       <div>
         <InputError className="mt-2" message={errors.name} />
       </div>
