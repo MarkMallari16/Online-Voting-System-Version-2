@@ -13,7 +13,7 @@ const AdminDashboardOverview = ({
     return (
         <>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
-                <div className="flex justify-between  shadow-sm bg-white ring-1 ring-inset ring-gray-300  rounded-lg p-5 ">
+                <div className="flex justify-between shadow-sm bg-white ring-1 ring-inset ring-gray-300  rounded-lg p-5 ">
                     <div>
                         <div>Number of Students:</div>
                         <div className="font-bold text-5xl">{totalStudents ? totalStudents : 0}</div>

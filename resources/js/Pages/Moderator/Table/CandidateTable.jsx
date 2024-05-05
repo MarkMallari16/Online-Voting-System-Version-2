@@ -69,7 +69,6 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
     const currentCandidatesPage = candidates.slice(indexOfFirstCandidate, indexOfLastCandidate);
 
-    const totalPages = candidatesPerPage.last_page;
 
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
@@ -86,7 +85,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
         );
     };
 
-    console.log(candidatesPerPage);
+
     const handleFileUpdateUpload = (e) => {
         const file = e.target.files[0]; // Get the selected file
 
@@ -214,17 +213,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
         }
     };
 
-    const handlePreviousClick = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
 
-    const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
 
     const handleSearch = (event) => {
         setSearchQuery(event.target.value);
@@ -306,16 +295,14 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                             </span>
                                                             <input
                                                                 type="file"
+                                                                id="candidateImage"
                                                                 name="candidate_profile"
                                                                 className="hidden"
-
-                                                                onChange={
-                                                                    handleFileUpload
-                                                                }
+                                                                onChange={handleFileUpload}
                                                             />
                                                         </label>
-
-                                                        <InputError className="mt-2" />
+                                                    
+                                                        <InputError className="mt-2" message={errors.candidate_profile} />
                                                     </div>
                                                 </div>
                                             </div>
@@ -746,7 +733,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                     </div>
                     <div className="flex flex-col items-center justify-end gap-4 md:flex-row me-3 mb-1">
                         <div className="flex justify-start gap-2">
-                           
+
                             <ExcelExport
                                 data={candidates}
                                 fileName="candidate"

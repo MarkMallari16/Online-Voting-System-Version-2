@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 
 import ModeratorOverview from './ModeratorOverview'
-import { Select, Option, Button, Avatar } from "@material-tailwind/react";
-import { Input } from "@material-tailwind/react";
+import { Select, Option, Avatar } from "@material-tailwind/react";
 import BarChartContainer from './BarChartContainer';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { FaRegFilePdf } from 'react-icons/fa';
 import VotesPDF from '@/Components/VotesPDF';
+import DefaultProfile from '../../../../public/storage/profile_photos/default_profile.png';
 import { Link } from '@inertiajs/react';
 import { FaBox } from "react-icons/fa";
 import DoughnutContainer from './DoughnutContainer';
@@ -131,7 +131,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                     </div>
                                 </div>}
                         </div>
-                        
+
                     </div>
                     <div className="bg-white flex-1 rounded-md">
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max px-5 py-5">
@@ -150,12 +150,12 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                 </div>
                             </div>
                         </div>
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max">
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max">
                             <div className="text-gray-900">
                                 {latestVotedVoter && Object.keys(latestVotedVoter).length > 0 ? (
                                     <div className='flex justify-between px-4 py-2 items-center'>
                                         <div>
-                                            <Avatar src={latestVotedVoter.profile_picture} alt="Avatar" />
+                                            <Avatar src={latestVotedVoter.profile_picture ? `storage/${latestVotedVoter.profile_picture}` : DefaultProfile} alt="Avatar" />
                                         </div>
                                         <div>
                                             {latestVotedVoter.name}

@@ -1,6 +1,10 @@
 import React from "react";
 import { GrStatusInfo } from "react-icons/gr";
 import { FaUser, FaUserTie, FaUserCheck } from "react-icons/fa6";
+import { PiStudentLight } from "react-icons/pi";
+import { BsPersonCheck } from "react-icons/bs";
+import { RiUser2Line } from "react-icons/ri";
+import { IoRibbonOutline } from "react-icons/io5";
 
 const ModeratorOverview = ({ voters, candidates, election, votersVotedCount }) => {
     // const status = election.status;
@@ -8,51 +12,55 @@ const ModeratorOverview = ({ voters, candidates, election, votersVotedCount }) =
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="w-full flex justify-between sm:w-full h-50 bg-yellow-300 rounded-lg p-10 mb-2 md:mb-0 ring-1 ring-inset ring-gray-300">
+            <div className="w-full flex justify-between sm:w-full  rounded-lg bg-white px-6 py-5  md:mb-0 ring-1 ring-inset ring-gray-300 ">
                 <div>
-                    <h2 className="text-3xl mb-8 font-bold">
+                    <p className="text-xl mb-8">Election Status</p>
+                    <h2 className="text-3xl  font-bold">
                         {election ? election.status : "Inactive"}
                     </h2>
-                    <p className="text-xl">Election Status</p>
+
                 </div>
                 <div>
-                    <GrStatusInfo className="text-3xl right-1 " />
+                    <GrStatusInfo className=" bg-amber-300 w-10 h-10 rounded-lg  p-2" />
                 </div>
             </div>
 
-            <div className="w-full  flex justify-between sm:w-full h-50  bg-light-blue-200 rounded-lg p-10 mb-2 md:mb-0 ring-1 ring-inset ring-gray-300">
+            <div className="w-full  flex justify-between sm:w-full px-6 py-5   bg-white  rounded-lg bg-whitemd:mb-0 ring-1 ring-inset ring-gray-300">
                 <div>
-                    <h2 className="text-4xl mb-8 font-bold">
+                    <p className="text-xl mb-8">No. of Candidates</p>
+                    <h2 className="text-4xl  font-bold">
                         {candidates.length}
                     </h2>
-                    <p className="text-lg">No. of Candidates</p>
+
                 </div>
                 <div>
-                    <FaUserTie className="  text-3xl" />
+                    <IoRibbonOutline className='  bg-light-blue-200 w-10 h-10 rounded-lg p-1' />
                 </div>
             </div>
 
-            <div className="w-full flex justify-between sm:w-full h-50  bg-deep-orange-200 rounded-lg p-10 ring-1 ring-inset ring-gray-300">
+            <div className="w-full flex justify-between sm:w-full  px-6 py-5  rounded-lg bg-white  ring-1 ring-inset ring-gray-300">
                 <div>
-                    <h2 className="text-4xl mb-8 font-bold">{voters.length}</h2>
-                    <p className="text-lg">Total Students</p>
+                    <p className="text-xl mb-8">Total Students</p>
+                    <h2 className="text-4xl  font-bold">{voters.length}</h2>
                 </div>
                 <div>
-                    <FaUser className="text-3xl" />
+                    <PiStudentLight className='bg-deep-orange-200 w-10 h-10 rounded-lg p-1' />
                 </div>
             </div>
 
-            <div className="w-full flex justify-between sm:w-full h-50  bg-cyan-200 rounded-lg p-10 ">
+            <div className="w-full flex justify-between sm:w-full  rounded-lg  bg-white  px-6 py-5  shadow-md ring-1 ring-inset ring-gray-300">
                 <div>
-                    <h2 className="text-3xl mb-8 font-bold">{votersVotedCount}</h2>
-                    <p className="text-xl ">Students Voted</p>
+                    <p className="text-xl mb-8">Students Voted</p>
+                    <h2 className="text-4xl  font-bold">{votersVotedCount}</h2>
+
                 </div>
 
                 <div>
 
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
-                        <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
-                    </svg>
+                    <div >
+                        <BsPersonCheck className=" w-10 h-10  rounded-lg p-2 bg-cyan-200" />
+
+                    </div>
 
                 </div>
             </div>
