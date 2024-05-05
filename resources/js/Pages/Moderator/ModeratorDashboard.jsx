@@ -72,7 +72,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
             <div className='mt-5 flex gap-3 flex-col sm:flex-row'>
                 <div className="flex-1 bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="p-6 text-gray-900">
-                        <h1 className='text-xl font-medium'>Votes Tally</h1>
+                        <h1 className='text-xl font-medium'>Current Votes</h1>
 
                     </div>
                     <div className='p-5'>
@@ -117,7 +117,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                 <div className='flex flex-col gap-5'>
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max">
                         <div className="p-4 text-gray-900">
-                            <h1 className='text-xl font-medium'>Votes Tally</h1>
+                            <h1 className='text-xl font-medium'>Current Students Votes</h1>
                         </div>
                         <div className='px-4 py-0 md:p-8'> {/* Adjust padding based on screen size */}
 
@@ -146,7 +146,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                 <div className=" text-gray-900 text-end">
 
                                     <Link href={route('votes')} className='font-medium border-b-2 border-black hover:border-blue-500 transition-all ease-in-out duration-50 hover:text-blue-500 cursor-pointer' >View All</Link>
-                                    {/* Place your latest votes components here */}
+                                   
                                 </div>
                             </div>
                         </div>

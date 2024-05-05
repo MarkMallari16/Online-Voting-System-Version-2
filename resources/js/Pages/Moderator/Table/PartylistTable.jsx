@@ -5,6 +5,10 @@ import {
   ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
 import { PencilIcon } from "@heroicons/react/24/solid";
+import { AiOutlineFileUnknown } from "react-icons/ai";
+
+
+
 
 import {
   Card,
@@ -40,14 +44,14 @@ import ExcelExport from "@/Components/ExcelExport";
 import Dropdown from "../../../Components/Dropdown";
 import Modal from "@/Components/Modal";
 import toast from 'react-hot-toast';
-import { FaCircleCheck } from "react-icons/fa6";
+import DefaultProfile from '../../../../../public/storage/profile_photos/default_profile.png';
 import CustomToast from "@/Components/CustomToast";
 import PaginationInTable from "@/Components/PaginationInTable";
 import SearchInput from "@/Components/SearchInput";
 
-const TABLE_HEAD = ["Partylist ID", "Partylist Name", "Partylist Description", "Action"];
+const TABLE_HEAD = ["Partylist ID", "Partylist Logo", "Partylist Name", "Partylist Description", "Action"];
 
-export function PartylistTable({ partylists, partylistsPerPage }) {
+export function PartylistTable({ partylists, partylistsPerPage, voters }) {
 
   const [partylist, setPartylist] = useState(partylists);
   const [openAddModal, setOpenAddModal] = useState(false);
@@ -80,19 +84,9 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
   const indexOfFirstPage = indexOfLastPage - partylistsPerPage.per_page;
 
   const currentPartylists = partylists.slice(indexOfFirstPage, indexOfLastPage);
-  const totalPages = partylistsPerPage.last_page;
 
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
-  }
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
-  }
 
+  console.log(voters);
   const handleAddOpen = () => {
     setOpenAddModal(!openAddModal);
 
@@ -105,7 +99,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
     const partylistToUpdate = partylists.find(partylist => partylist.id === id);
 
     if (partylistToUpdate) {
-      setData({ name: partylistToUpdate.name, description: partylistToUpdate.description });
+      setData({ name: partylistToUpdate.name, description: partylistToUpdate.description, partylist_logo: partylistToUpdate.partylist_logo });
     }
   };
 
@@ -146,7 +140,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
 
   const handleDeletePartylists = (partylistId) => {
     // Send a DELETE request to delete the partylists
-    router.delete(route('partylist.destroy', { id: partylistId }, { preserveScroll: false }));
+    router.delete(route('partylist.destroy', { id: partylistId }, { preserveScroll: true }));
     setIsSuccessMessage(true);
     // Close the delete modal
     setDeleteModal(false);
@@ -156,10 +150,11 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
   const handleSearch = ((event) => {
     setSearchQuery(event.target.value);
   })
+
   return (
     <div>
       <div >
-        {isSuccessMessage && <CustomToast/>}
+        {isSuccessMessage && <CustomToast />}
       </div>
 
       <div>
@@ -238,13 +233,13 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                             </div>
                             <div className="mt-4">
                               <InputLabel htmlFor="partylistLogo" value="Enter Partylist Logo" />
-                              <Input type="file" name="partylist_logo" className="mt-1" onChange={(e) => setData('partylist_logo', e.target.files[0])} />
+                              <input type="file" name="partylist_logo" className="mt-1" onChange={(e) => setData('partylist_logo', e.target.files[0])} />
                               {progress && (
                                 <progress value={progress.percentage} max="100">
                                   {progress.percentage}%
                                 </progress>
                               )}
-                              <InputError className="mt-2" />
+                              <InputError className="mt-2" message={errors.partylist_logo} />
                             </div>
                           </div>
                         </DialogBody>
@@ -291,9 +286,18 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                                 isFocused
                                 autoComplete="description"
                               />
-                              <InputError className="mt-2" message={errors.description} disabled={processing} />
+                              <InputError className="mt-2" message={errors.description} />
                             </div>
-
+                            <div className="mt-4">
+                              <InputLabel htmlFor="partylistLogo" value="Enter Partylist Logo" />
+                              <input type="file" name="partylist_logo" className="mt-1" onChange={(e) => setData('partylist_logo', e.target.files[0])} />
+                              {progress && (
+                                <progress value={progress.percentage} max="100">
+                                  {progress.percentage}%
+                                </progress>
+                              )}
+                              <InputError className="mt-2" message={errors.partylist_logo} />
+                            </div>
 
                           </div>
                         </DialogBody>
@@ -318,7 +322,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                       </div>
                       <ExcelExport data={partylists} fileName="partylists" />
                     </div>
-                    <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+                    <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
                   </div>
                 </CardHeader>
                 <CardBody className="overflow-scroll px-0">
@@ -358,7 +362,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                         {currentPartylists
                           .filter(partylist => partylist.name.toLowerCase().includes(searchQuery.toLowerCase()))
                           .map(
-                            ({ id, name, description }, index) => {
+                            ({ id, partylist_logo, name, description }, index) => {
                               const isLast = index === partylists.length - 1;
                               const classes = isLast
                                 ? "p-4"
@@ -376,6 +380,26 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                                           className="font-normal"
                                         >
                                           {id}
+                                        </Typography>
+
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td className={classes}>
+                                    <div className="flex items-center gap-3 text-center">
+
+                                      <div className="flex flex-col justify-center items-center">
+                                        <Typography
+                                          variant="small"
+                                          color="blue-gray"
+                                          className="font-normal"
+                                        >
+                                          {partylist_logo ? <img src={`storage/${partylist_logo}`} alt="Partylist Logo" className="max-w-20" /> : (
+                                            <div className="mx-auto">
+                                              <AiOutlineFileUnknown className="ms-5 text-4xl" />
+                                            </div>
+                                          )
+                                          }
                                         </Typography>
 
                                       </div>
@@ -432,7 +456,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                   </table>
                 </CardBody>
                 <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                  <PaginationInTable dataPerPage={partylistsPerPage}/>
+                  <PaginationInTable dataPerPage={partylistsPerPage} />
                 </CardFooter>
                 <DeleteModal
                   open={openDeleteModal}
@@ -544,7 +568,7 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
         </Tabs>
       </div>
 
-      
+
       <Modal show={showAssignModal} onClose={() => setShowAssignModal(false)} maxWidth='md' >
         <div className="p-6">
           <div className="flex items-center justify-between mb-10">
@@ -556,19 +580,13 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
             </div>
           </div>
           <div>
-            <Select label="Select Partylist Editor" className="py-5" >
-              <Option value="mark">
-                <Avatar src="https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1713956901~exp=1713960501~hmac=9a9f65b3d5a11843376aa8a34efdc0127f88304de0941d8a3b3c0df26597a19a&w=900" className="me-2" size="sm" />
-                <span>Mark Mallari</span>
-              </Option>
-              <Option value="jeremie">
-                <Avatar src="https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1713956901~exp=1713960501~hmac=9a9f65b3d5a11843376aa8a34efdc0127f88304de0941d8a3b3c0df26597a19a&w=900" className="me-2" size="sm" />
-                <span>Jeremie Novales</span>
-              </Option>
-              <Option value="saito">
-                <Avatar src="https://img.freepik.com/free-photo/waist-up-portrait-handsome-serious-unshaven-male-keeps-hands-together-dressed-dark-blue-shirt-has-talk-with-interlocutor-stands-against-white-wall-self-confident-man-freelancer_273609-16320.jpg?t=st=1713956901~exp=1713960501~hmac=9a9f65b3d5a11843376aa8a34efdc0127f88304de0941d8a3b3c0df26597a19a&w=900" className="me-2" size="sm" />
-                <span>Mark Mallari</span>
-              </Option>
+            <Select label="Select Partylist Editor" className="py-5" value={voters.id} name="voters">
+              {voters.map((voter) => (
+                <Option key={voter.id} value={voter.id} className="mt-2">
+                  <Avatar src={voter.profile_picture ? `storage/${voter.profile_picture}` : DefaultProfile} className="me-2" size="sm" />
+                  <span>{voter.name}</span>
+                </Option>
+              ))}
             </Select>
           </div>
           <div className="mt-3">
@@ -596,9 +614,9 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
             <Button color="blue" className="w-full mt-4">Add</Button>
           </div>
         </div>
-      </Modal>
+      </Modal >
 
-    </div>
+    </div >
 
 
   );

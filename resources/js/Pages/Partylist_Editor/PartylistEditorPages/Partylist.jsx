@@ -2,8 +2,8 @@ import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 import { PartylistTable } from '../../Moderator/Table/PartylistTable';
-const Partylist = ({ auth, partylists, partylistsPerPage }) => {
-
+const Partylist = ({ auth, partylists, partylistsPerPage}) => {
+  
   return (
     <AuthenticatedLayout user={auth.user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Manage Partylist</h2>} >
 

@@ -16,7 +16,7 @@ const SearchInput = ({ searchQuery, setSearchQuery }) => {
                     onChange={(e) => {
                         setSearchQuery(e.target.value);
                     }}
-                    placeHolder="Search"
+                    placeholder="Search"
                     value={searchQuery}
                     
                 />
