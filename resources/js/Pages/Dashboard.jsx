@@ -4,7 +4,7 @@ import AdminDashboard from './Admin/AdminDashboard';
 import ModeratorDashboard from './Moderator/ModeratorDashboard';
 import VoterDashboard from './Voter/VoterDashboard';
 import PartylistEditorDashboard from './Partylist_Editor/PartylistEditorDashboard';
-import Sidebar from './Sidebar';
+
 import Countdown from '@/Components/Countdown';
 
 export default function Dashboard({ auth, usersPerPage, candidates, candidatesAll, voterVoted, position_list, partylist_list, election, voters, votersVotedCount, voteCounts, castedVotes, voterHasVoted, totalCandidatesPerPositions, candidateWinners, totalVotesPerPosition }) {
@@ -34,13 +34,6 @@ export default function Dashboard({ auth, usersPerPage, candidates, candidatesAl
 
                 <main className="flex-1 py-12">
                     <div className="max-w-full  mx-auto sm:max-w-3xl md:max-w-4xl lg:max-w-6xl xl:max-w-7xl">
-                        {/* <Breadcrumbs className=''>
-                            <a href={route('dashboard')} className="opacity-60">
-                                Dashboard
-                            </a>
-
-
-                        </Breadcrumbs> */}
                         {dashboardContent}
                     </div>
                 </main>

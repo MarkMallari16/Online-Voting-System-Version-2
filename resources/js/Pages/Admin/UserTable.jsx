@@ -32,15 +32,13 @@ import ExcelExport from "@/Components/ExcelExport";
 import { Link, router } from "@inertiajs/react";
 import CustomToast from "@/Components/CustomToast";
 import PaginationInTable from "@/Components/PaginationInTable";
+import TextInput from "@/Components/TextInput";
+import SearchInput from "@/Components/SearchInput";
 
 
 
-const UserTable = ({
-    TABLE_HEAD,
-    users,
-    usersPerPage,
-}) => {
-    console.log(users);
+const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
+
     const [searchQuery, setSearchQuery] = useState("");
     const [filterValue, setFilterValue] = useState("");
 
@@ -81,22 +79,14 @@ const UserTable = ({
         }
     });
 
-    // //handle previous page
-    // const handlePreviousPage = () => {
-    //     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-    // };
-    // //handle next page
-    // const handleNextPage = () => {
-    //     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-    // };
-
     //handle add in add user modal
     const handleAddUser = async () => {
         try {
 
-            toast.success("User successfully added");
+
             setIsSuccessMessage(true);
             setIsAddUserModalOpen(false);
+            toast.success("User successfully added");
 
         } catch (error) {
             console.error("Error adding user:", error);
@@ -107,9 +97,11 @@ const UserTable = ({
     //handle the user in edit user modal
     const handleEditUser = async () => {
         try {
-            toast.success("User successfully updated");
+
             setIsSuccessMessage(true);
             setIsEditUserModalOpen(false);
+            toast.success("User successfully updated");
+            console.log(isSuccessMessage);
         } catch (error) {
             console.error("Error editing user:", error);
             setIsSuccessMessage(false);
@@ -121,11 +113,11 @@ const UserTable = ({
         try {
             router.delete(`/users/${userId}`);
 
-
-            toast.success("User successfully deleted");
             setIsSuccessMessage(true);
+            toast.success("User successfully deleted");
             setIsDeleteUserModalOpen(false);
             toast.success('User successfully deleted');
+
         } catch (error) {
             console.error("Error deleting user:", error.message);
             setIsSuccessMessage(false);
@@ -135,6 +127,7 @@ const UserTable = ({
     const handleFilter = (e) => {
         const selectedValue = e.target.value;
         setFilterValue(selectedValue);
+
     };
 
     return (
@@ -175,26 +168,24 @@ const UserTable = ({
                             </Button>
                         </div>
                     </div>
-                    <div className="flex gap-2 flex-col items-center justify-end md:flex-row">
-                        <div className="flex items-center gap-2 cursor-pointer ring-1 ring-inset ring-gray-300 text-gray-900 px-3 py-2 rounded-md">
+                    <div className="flex gap-2 justify-end items-center me-3 flex-wrap mb-1">
+                        <div className="flex justify-start md:justify-end lg:justify-end xl:justify-end items-center gap-2 cursor-pointer ring-1 ring-inset ring-gray-300 text-gray-900 px-3 py-2 rounded-lg w-full md:w-40 lg:w-40  ">
                             <div>
-                                <FaRegFilePdf className="text-xl" />
+                                <FaRegFilePdf className="text-xl text-gray-900" />
                             </div>
-
                             <PDFDownloadLink
                                 document={<UsersPDF users={users} />}
                                 fileName="users.pdf"
                             >
-                                {({ blob, url, loading, error }) =>
-                                    "Export to PDF"
-                                }
+                                {({ blob, url, loading, error }) => "Export to PDF"}
                             </PDFDownloadLink>
-
                         </div>
-                        <ExcelExport data={users} fileName="user" />
+                        <div className="w-full md:w-40 lg:w-40 ">
+                            <ExcelExport data={users} fileName="user" />
+                        </div>
 
-                        <div className="relative flex  cursor-pointer border-1  text-gray-800 px-2 py-2 rounded-md">
-                            <div className="absolute p-3 textblue">
+                        <div className="relative flex border border-gray-300 rounded-md w-full md:w-52 lg:w-52">
+                            <div className="absolute m-3 text-blue text-gray-900">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -215,31 +206,19 @@ const UserTable = ({
                                 variant="outlined"
                                 label="Filter by"
                                 onChange={handleFilter}
-                                className="inset-1 text-right rounded-md ring-1 ring-inset ring-gray-300 border-none w-full md:w-48 "
+                                className="ring-1 text-right rounded-md focus:ring-black ring-gray-300 border-none w-full"
                                 value={filterValue}
                             >
                                 <option value="">Filter by</option>
                                 <option value="admin">Admin</option>
                                 <option value="moderator">Moderator</option>
                                 <option value="voter">Voter</option>
-                                <option value="partylist_editor">
-                                    Partylist Editor
-                                </option>
+                                <option value="partylist_editor">Partylist Editor</option>
                             </select>
                         </div>
-                        <div className="flex w-full md:w-72">
-                            <Input
-                                label="Search"
-                                icon={
-                                    <MagnifyingGlassIcon className="h-5 w-5" />
-                                }
-                                onChange={(e) => {
-                                    setSearchQuery(e.target.value);
-                                    console.log(searchQuery);
-                                }}
-                            />
-                        </div>
+                        <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
                     </div>
+
                 </CardHeader>
                 <CardBody className="overflow-scroll overflow-x-auto p-0">
                     <table className="mt-4 min-w-full table-auto text-left">

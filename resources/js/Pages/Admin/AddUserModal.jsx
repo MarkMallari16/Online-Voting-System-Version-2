@@ -24,17 +24,15 @@ const AddUserModal = ({ open, handleClose }) => {
         role: null,
         password_confirmation: null,
     });
-    console.log(errors);
+  
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
 
     const handleShowPassword = () => {
         setShowPassword(!showPassword);
     }
     const handleShowConfirmPassword = () => {
         setShowConfirmPassword(!showConfirmPassword);
-
     }
 
     useEffect(() => {

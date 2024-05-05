@@ -346,7 +346,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                         </TabPanel>
 
 
-                        <TabPanel value="students_not_voted">
+                        <TabPanel value="students_not_voted" className='px-0'>
                             <div >
                                 <table className="mt-4 w-full min-w-max table-auto text-left">
                                     <thead>
