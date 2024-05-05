@@ -9,10 +9,10 @@ const SearchInput = ({ searchQuery, setSearchQuery }) => {
     }
 
     return (
-        <div className="w-[100%] md:w-96">
+        <div className="w-[100%] md:w-72">
             <div className="relative ">
                 <TextInput
-                    className=" pl-9 pr-3 py-2  rounded-lg border-transparent ring-1 ring-inset ring-gray-300  focus:ring-black focus:border-transparent w-full"
+                    className=" pl-9 pr-3  rounded-lg border-transparent ring-1 ring-inset ring-gray-300  focus:ring-black focus:border-transparent focus:outline-none w-full"
                     onChange={(e) => {
                         setSearchQuery(e.target.value);
                     }}

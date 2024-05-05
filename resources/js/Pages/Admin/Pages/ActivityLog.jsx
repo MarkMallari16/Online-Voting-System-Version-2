@@ -6,17 +6,13 @@ import { Avatar, Spinner } from "@material-tailwind/react";
 import ExcelExport from "@/Components/ExcelExport";
 import FilterDropdown from "@/Components/FilterDropdown";
 import PaginationComponent from "@/Components/PaginationComponent";
-
+import DefaultProfile from "../../../../../public/storage/profile_photos/default_profile.png";
 const ActivityLog = ({ auth, logs }) => {
-    const [activityLog, setActivityLog] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         setIsLoading(false);
-        setActivityLog(logs.data);
-        setTotalPages(logs.last_page);
+       
     }, [logs]);
 
     const handleSelectAction = (action) => {
@@ -36,7 +32,7 @@ const ActivityLog = ({ auth, logs }) => {
                 return " bg-gray-100 text-gray-800 rounded";
         }
     };
-   
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -137,7 +133,9 @@ const ActivityLog = ({ auth, logs }) => {
                                                                             src={
                                                                                 log
                                                                                     .user
-                                                                                    .profile_picture
+                                                                                    .profile_picture ? `/storage/${log
+                                                                                        .user
+                                                                                        .profile_picture}` : DefaultProfile
                                                                             }
                                                                             alt="User Profile"
                                                                             size="sm"

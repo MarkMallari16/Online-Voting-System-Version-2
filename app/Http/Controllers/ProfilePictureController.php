@@ -19,10 +19,10 @@ class ProfilePictureController extends Controller
         $profilePicture = $request->file('profile_picture');
 
         // Generate a unique filename
-        $imageName = time() . '.' . $profilePicture->getClientOriginalExtension();
+        $imageName = time() . '.' . $profilePicture->hashName();
 
         // Move the uploaded file to the desired location
-        $profilePicture->move(public_path('profile_photos'), $imageName);
+        $profilePicture->storeAs('profile_photos', $imageName, 'public');
 
         // Get the authenticated user
         $user = Auth::user();

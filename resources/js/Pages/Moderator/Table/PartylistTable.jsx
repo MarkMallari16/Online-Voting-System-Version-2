@@ -43,6 +43,7 @@ import toast from 'react-hot-toast';
 import { FaCircleCheck } from "react-icons/fa6";
 import CustomToast from "@/Components/CustomToast";
 import PaginationInTable from "@/Components/PaginationInTable";
+import SearchInput from "@/Components/SearchInput";
 
 const TABLE_HEAD = ["Partylist ID", "Partylist Name", "Partylist Description", "Action"];
 
@@ -307,25 +308,17 @@ export function PartylistTable({ partylists, partylistsPerPage }) {
                       </form>
                     </Dialog>
                   </div>
-                  <div className="flex flex-col items-center justify-end gap-4 md:flex-row">
+                  <div className="flex flex-col items-center justify-end gap-2 md:flex-row me-3 mb-1">
                     <div className='flex justify-start gap-2'>
                       <div className='border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md hidden'>
 
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
                         </svg>
-
-
                       </div>
                       <ExcelExport data={partylists} fileName="partylists" />
                     </div>
-                    <div className="w-full md:w-72">
-                      <Input
-                        label="Search"
-                        icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-                        onChange={handleSearch}
-                      />
-                    </div>
+                    <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
                   </div>
                 </CardHeader>
                 <CardBody className="overflow-scroll px-0">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import UsersPDF from "./UsersPDF";
 import { FaRegFilePdf } from "react-icons/fa6";
 
@@ -34,7 +34,7 @@ import CustomToast from "@/Components/CustomToast";
 import PaginationInTable from "@/Components/PaginationInTable";
 import TextInput from "@/Components/TextInput";
 import SearchInput from "@/Components/SearchInput";
-
+import DefaultProfile from "../../../../public/storage/profile_photos/default_profile.png";
 
 
 const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
@@ -309,7 +309,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
                                                     >
                                                         <Avatar
                                                             src={
-                                                                profile_picture
+                                                                profile_picture ? `storage/${profile_picture}` : DefaultProfile
                                                             }
                                                         />
                                                     </Typography>

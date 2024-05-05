@@ -28,6 +28,7 @@ import {
 
 import ExcelExport from '@/Components/ExcelExport';
 import PaginationInTable from '@/Components/PaginationInTable';
+import SearchInput from '@/Components/SearchInput';
 const TABS = [
     {
         label: "Students Voted",
@@ -46,30 +47,13 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
     const [open, setOpen] = useState(false);
     const [id, setId] = useState();
     const [searchQuery, setSearchQuery] = useState("");
-    const [currentPage, setCurrentPage] = useState(votesPerPage.current_page);
-
-    const indexOfLastVote = currentPage * votesPerPage.per_page;//1
-    const indexOfFirstVote = indexOfLastVote - votesPerPage.per_page;//10
-
-    const currentVotes = votes.slice(indexOfFirstVote, indexOfLastVote);
-
-    const totalPages = votesPerPage.last_page;
 
     const handleOpen = (id) => {
         setOpen(!open);
         setId(id);
 
     }
-    const handlePreviousPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    }
-    const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-        }
-    }
+
     const handleSearch = (event) => {
         setSearchQuery(event.target.value);
     }
@@ -140,7 +124,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                     </Dialog>
                 </div>
 
-                <div className="flex flex-col items-center justify-end gap-4 md:flex-row ">
+                <div className="flex flex-col items-center justify-end gap-2 md:flex-row me-3 mb-1">
                     <div className='flex  gap-2'>
                         <div className='border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-m hidden'>
 
@@ -150,18 +134,9 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
 
 
                         </div>
-                        <div className='flex justify-start gap-2'>
-
-                            <ExcelExport data={votes} fileName='votes' />
-                        </div>
+                        <ExcelExport data={votes} fileName='votes' />
                     </div>
-                    <div className="w-full md:w-72">
-                        <Input
-                            label="Search"
-                            icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-                            onChange={handleSearch}
-                        />
-                    </div>
+                    <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
                 </div>
             </CardHeader>
             <CardBody className="overflow-scroll px-0">
@@ -201,7 +176,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                         ))}
                                     </tr>
                                 </thead>
-                                {currentVotes.length === 0 || currentVotes.filter(vote => {
+                                {votesPerPage.data.length === 0 || votesPerPage.data.filter(vote => {
                                     const userMatches = vote.user.name.toLowerCase().includes(searchQuery.toLowerCase());
                                     const candidateMatches = `${vote.candidate.first_name} ${vote.candidate.last_name}`.toLowerCase().includes(searchQuery.toLowerCase());
                                     const position = positions.find(position => position.id === vote.candidate.position_id).name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -216,7 +191,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                     </tbody>
                                 ) : (
                                     <tbody>
-                                        {currentVotes
+                                        {votesPerPage.data
                                             .filter(vote => {
                                                 const userMatches = vote.user.name.toLowerCase().includes(searchQuery.toLowerCase());
                                                 const candidateMatches = `${vote.candidate.first_name} ${vote.candidate.last_name}`.toLowerCase().includes(searchQuery.toLowerCase());
