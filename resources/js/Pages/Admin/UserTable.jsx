@@ -156,7 +156,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
                         </div>
                         <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
                             <Button
-                                className="flex items-center gap-3 bg-blue-500"
+                                className="flex items-center gap-3 bg-blue-500 py-2"
                                 size="sm"
                                 onClick={() => setIsAddUserModalOpen(true)}
                             >
