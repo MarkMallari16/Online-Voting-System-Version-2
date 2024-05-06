@@ -15,7 +15,7 @@ const AdminDashboardOverview = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
                 <div className="flex justify-between shadow-sm bg-white ring-1 ring-inset ring-gray-300  rounded-lg p-5 ">
                     <div>
-                        <div className="text-gray-700">Number of Students</div>
+                        <div className="text-black">Number of Students</div>
                         <div className="font-medium text-5xl  mt-5">{totalStudents ? totalStudents : 0}</div>
                     </div>
                     <PiStudentLight className='w-10 h-10 bg-blue-200 rounded-lg p-1' />
@@ -24,7 +24,7 @@ const AdminDashboardOverview = ({
 
                 <div className="flex justify-between shadow-sm bg-white ring-1 ring-inset ring-gray-300  rounded-lg p-5 ">
                     <div>
-                        <div className="text-gray-700">Number of Admins</div>
+                        <div className="text-black">Number of Admins</div>
                         <div className="font-medium text-5xl  mt-5">{totalAdmins ? totalAdmins : 0}</div>
                     </div>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 bg-amber-200 rounded-lg p-2">
@@ -42,7 +42,7 @@ const AdminDashboardOverview = ({
                 </div> */}
                 <div className="flex justify-between shadow-sm bg-white ring-1 ring-inset ring-gray-300  rounded-lg p-5 ">
                     <div>
-                        <div className="text-gray-700">Number of Moderators</div>
+                        <div className="text-black">Number of Moderators</div>
                         <div className="font-medium text-5xl mt-5">
                             {totalModerators ? totalModerators : 0}
                         </div>
@@ -55,7 +55,7 @@ const AdminDashboardOverview = ({
 
                 <div className="flex justify-between shadow-sm bg-white ring-1 ring-inset ring-gray-300  rounded-lg p-5 ">
                     <div>
-                        <div className="text-gray-700">Number of Partylist Editor</div>
+                        <div className="text-black">Number of Partylist Editor</div>
                         <div className="font-medium text-5xl  mt-5">
                             {totalPartylistEditors ? totalPartylistEditors : 0}
                         </div>

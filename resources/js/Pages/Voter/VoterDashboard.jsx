@@ -4,8 +4,7 @@ import { useForm } from "@inertiajs/react";
 import CandidateCard from "@/Components/CandidateCard";
 import VoteConfirmationModal from "@/Components/VoteConfirmationModal";
 import AlreadyVoted from "@/Components/AlreadyVoted";
-import CouncilLogo from "../../../../public/councilLogo.png";
-import STIBacoorLogo from "../../assets/bacoor-logo.png";
+
 import BarChartContainer from "../Moderator/BarChartContainer";
 import PartylistCarousel from "@/Components/PartylistCarousel";
 import Time from '../../assets/time.svg';
@@ -62,7 +61,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
         election_id: electionId,
         candidate_ids: [],
     });
-
+    console.log(errors)
     useEffect(() => {
         // Update the candidate_ids field in the form data when selectedCandidates changes
         setData("candidate_ids", selectedCandidates);

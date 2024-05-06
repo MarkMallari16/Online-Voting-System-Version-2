@@ -19,9 +19,9 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
         onClose(selectedCandidates);
     };
     const sortSelectedCandidatesInfo = selectedCandidatesInfo.sort((a, b) => a.position.id - b.position.id);
-
+    console.log(selectedCandidatesInfo)
     const candidateProfiles = sortSelectedCandidatesInfo.map(candidate => candidate.candidateProfile);
-  
+
     return (
         <Modal show={isOpen} onClose={onClose} className='w-20'>
             <form onSubmit={handleVoteSubmit}>
@@ -46,7 +46,7 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
                                     <li key={candidate.id} className="mb-3 p-3 ring-1 ring-inset ring-gray-900 rounded-md ">
                                         <div className="flex justify-between items-center ">
                                             <div className='flex gap-3'>
-                                                <Avatar src={candidate.candidateProfile ? 'storage/${candidate.candidate_profile}' : DefaultCandidatePicture} />
+                                                <Avatar src={candidateProfiles ? `storage/${candidate.candidateProfile}` : DefaultCandidatePicture} />
                                                 <div>
                                                     <div className='font-medium'>{candidate.name}</div>
                                                     <div className='text-blue-gray-900 flex items-center gap-1'>
