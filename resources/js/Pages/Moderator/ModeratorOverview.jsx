@@ -51,7 +51,7 @@ const ModeratorOverview = ({ voters, candidates, election, votersVotedCount }) =
                 </div>
             </div>
 
-            <div className="w-full flex justify-between sm:w-full  rounded-lg  bg-white  px-6 py-5  shadow-md ring-1 ring-inset ring-gray-300">
+            <div className="w-full flex justify-between sm:w-full  rounded-lg  bg-white  px-6 py-5  ring-1 ring-inset ring-gray-300">
                 <div>
                     <p className="text-lg mb-8 text-black">Students Voted</p>
                     <h2 className="text-4xl  font-medium">{votersVotedCount}</h2>

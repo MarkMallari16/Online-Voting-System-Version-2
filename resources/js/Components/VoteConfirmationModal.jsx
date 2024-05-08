@@ -5,7 +5,6 @@ import PrimaryButton from './PrimaryButton';
 import DangerButton from './DangerButton';
 import { Avatar } from '@material-tailwind/react';
 import { FaVoteYea } from "react-icons/fa";
-import DefaultCandidatePicture from "../../../public/storage/candidate_profile_photos/default_candidate_profile.png";
 
 const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidates, selectedCandidatesInfo, processing }) => {
     // console.log(selectedCandidatesInfo);
@@ -46,7 +45,7 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
                                     <li key={candidate.id} className="mb-3 p-3 ring-1 ring-inset ring-gray-900 rounded-md ">
                                         <div className="flex justify-between items-center ">
                                             <div className='flex gap-3'>
-                                                <Avatar src={candidateProfiles ? `storage/${candidate.candidateProfile}` : DefaultCandidatePicture} />
+                                                <Avatar src={`storage/${candidate.candidateProfile}`}/>
                                                 <div>
                                                     <div className='font-medium'>{candidate.name}</div>
                                                     <div className='text-blue-gray-900 flex items-center gap-1'>

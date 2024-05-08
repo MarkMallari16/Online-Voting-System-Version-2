@@ -44,7 +44,6 @@ import ExcelExport from "@/Components/ExcelExport";
 import Dropdown from "../../../Components/Dropdown";
 import Modal from "@/Components/Modal";
 import toast from 'react-hot-toast';
-import DefaultProfile from '../../../../../public/storage/profile_photos/default_profile.png';
 import CustomToast from "@/Components/CustomToast";
 import PaginationInTable from "@/Components/PaginationInTable";
 import SearchInput from "@/Components/SearchInput";

@@ -6,13 +6,13 @@ import { Avatar, Spinner } from "@material-tailwind/react";
 import ExcelExport from "@/Components/ExcelExport";
 import FilterDropdown from "@/Components/FilterDropdown";
 import PaginationComponent from "@/Components/PaginationComponent";
-import DefaultProfile from "../../../../../public/storage/profile_photos/default_profile.png";
+import AvatarComponent from "@/Components/AvatarComponent";
 const ActivityLog = ({ auth, logs }) => {
     const [isLoading, setIsLoading] = useState(true);
-
+    console.log(logs);
     useEffect(() => {
         setIsLoading(false);
-       
+
     }, [logs]);
 
     const handleSelectAction = (action) => {
@@ -32,7 +32,7 @@ const ActivityLog = ({ auth, logs }) => {
                 return " bg-gray-100 text-gray-800 rounded";
         }
     };
-
+  
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -129,17 +129,7 @@ const ActivityLog = ({ auth, logs }) => {
                                                                 </td>
                                                                 <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                                                                     <div className="flex items-center gap-2">
-                                                                        <Avatar
-                                                                            src={
-                                                                                log
-                                                                                    .user
-                                                                                    .profile_picture ? `/storage/${log
-                                                                                        .user
-                                                                                        .profile_picture}` : DefaultProfile
-                                                                            }
-                                                                            alt="User Profile"
-                                                                            size="sm"
-                                                                        />
+                                                                       <AvatarComponent Profile={log.user.profile_picture}/>
                                                                         <span>
                                                                             {
                                                                                 log

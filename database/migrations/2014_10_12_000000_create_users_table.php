@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->enum('role', ['admin', 'moderator', 'voter', 'partylist_editor'])->default('voter');
-            $table->string('profile_picture')->default('profile_photos/default_profile.png');
+            $table->string('profile_picture')->default('images/default_profile.png');
             $table->timestamps();
         });
     }

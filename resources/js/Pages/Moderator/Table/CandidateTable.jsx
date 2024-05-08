@@ -27,7 +27,6 @@ import {
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
-import DefaultCandidatePicture from "../../../../../public/storage/candidate_profile_photos/default_candidate_profile.png";
 
 import { useForm, router } from "@inertiajs/react";
 import DeleteModal from "@/Components/DeleteModal";

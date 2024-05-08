@@ -32,13 +32,13 @@ import ExcelExport from "@/Components/ExcelExport";
 import { Link, router } from "@inertiajs/react";
 import CustomToast from "@/Components/CustomToast";
 import PaginationInTable from "@/Components/PaginationInTable";
-import TextInput from "@/Components/TextInput";
-import SearchInput from "@/Components/SearchInput";
-import DefaultProfile from "../../../../public/storage/profile_photos/default_profile.png";
 
+import SearchInput from "@/Components/SearchInput";
+import DefaultProfilePicture from '../../../../public/storage/images/default_profile.png'
+import AvatarComponent from "@/Components/AvatarComponent";
 
 const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
-
+    console.log(users);
     const [searchQuery, setSearchQuery] = useState("");
     const [filterValue, setFilterValue] = useState("");
 
@@ -307,11 +307,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
                                                         color="blue-gray"
                                                         className="font-normal"
                                                     >
-                                                        <Avatar
-                                                            src={
-                                                                profile_picture ? `storage/${profile_picture}` : DefaultProfile
-                                                            }
-                                                        />
+                                                        <AvatarComponent Profile={profile_picture}/>
                                                     </Typography>
                                                 </td>
                                                 <td className="p-4">

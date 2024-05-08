@@ -3,7 +3,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo';
 import Cover from '../assets/Voting-amico.svg';
 import BacoorLogo from '../assets/bacoor-logo.png';
 import CouncilLogo from '../assets/councilLogo.png'
-import TechnobytesLogo from '../assets/technobytes.png'
+
 import {
     Accordion,
     AccordionHeader,

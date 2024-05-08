@@ -22,9 +22,9 @@ class DashboardController extends Controller
             ->exists();
     }
     function dashboard()
-    {   
+    {
         //admin
-        
+
         $usersPerPage = User::paginate(10);
 
         //moderator
@@ -70,10 +70,13 @@ class DashboardController extends Controller
 
         $castedVotes = null;
 
-        $castedVotes = Vote::where('election_id', $election->id)
-            ->where('voter_id', $voterId)
-            ->with('candidate')
-            ->get();
+        if ($election && $voterId) {
+
+            $castedVotes = Vote::where('election_id', $election->id)
+                ->where('voter_id', $voterId)
+                ->with('candidate')
+                ->get();
+        }
 
         if ($election) {
             foreach ($candidates as $candidate) {
@@ -91,16 +94,18 @@ class DashboardController extends Controller
                 ];
             }
         }
+        $candidateWinners = [];
+        $totalVotesPerPosition = [];
+        $candidatesVotes = [];
+        $candidatesPerPosition = [];
+        $totalCandidatesPerPositions =  [];
 
+        $votersWhoVotedForWinners = 0;
         //display winner when election ends
         if ($election && $election->status === 'Active') {
-            $candidateWinners = [];
-
-            $candidatesVotes = [];
-            $totalVotesPerPosition = [];
 
 
-            $votersWhoVotedForWinners = 0;
+
             foreach ($positions as $position) {
                 //getting the position id 
                 $candidatesPerPosition = $candidates->where('position_id', $position->id);
