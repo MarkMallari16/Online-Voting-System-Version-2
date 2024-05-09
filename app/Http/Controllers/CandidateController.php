@@ -3,87 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidate;
+use App\Models\Election;
 use App\Models\Partylist;
 use App\Models\Positions;
-use App\Models\Election;
-use App\Models\User;
-use App\Models\Vote;
+
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CandidateController extends Controller
 {
 
-    function dashboard()
-    {
-        $positions = Positions::all();
-        $partylist = Partylist::all();
-        $candidates = Candidate::all();
-        $candidatesAll = Candidate::with('position', 'partylist')->get();
-
-        $user = Auth::user();
-        $voterId = $user->id;
-        if ($user && $user->role === 'voter') {
-            // Get the authenticated user's ID
-            $voterId = $user->id;
-        }
-
-        // Retrieve the latest election, whether active or inactive
-        $election = Election::where('status', 'Active')
-            ->orWhere('status', 'Inactive')
-            ->latest('start_date')
-            ->first();
-        $voters = User::where('role', 'voter')->get();
-
-        $votedVotersCount = Vote::distinct('voter_id')->count();
-
-        $voters->transform(function ($voter) use ($election) {
-            $voterId = $voter->id;
-            $voter->hasVoted = $this->getHasVotedStatus($voterId, $election->id);
-            return $voter;
-        });
-
-        $castedVotes = Vote::where('election_id', $election->id)
-            ->where('voter_id', $voterId)
-            ->with('candidate')
-            ->get();
-        $voteCounts = [];
-        //for vote counts
-        $voteCounts = [];
-        foreach ($candidates as $candidate) {
-            $positionId = $candidate->position->id;
-            $positionName = $candidate->position->name;
-            $candidateName = $candidate->first_name . ' '  . $candidate->last_name;
-            $voteCount = Vote::where('candidate_id', $candidate->id)->count();
-
-            $voteCounts[$candidate->id] = [
-                'position_id' => $positionId,
-                'position' => $positionName,
-                'candidate' => $candidateName,
-                'voteCount' => $voteCount,
-            ];
-        }
-
-        return Inertia::render('Dashboard', [
-            'partylist_list' => $partylist,
-            'position_list' => $positions,
-            'candidates' => $candidates,
-            'candidatesAll' => $candidatesAll,
-            'election' => $election,
-            'voters' => $voters,
-            'votersVotedCount' => $votedVotersCount,
-            'voteCounts' => $voteCounts,
-            'castedVotes' => $castedVotes
-        ]);
-    }
-    public function getHasVotedStatus($userId, $electionId)
-    {
-        // Check if the user has voted in the specified election
-        return Vote::where('voter_id', $userId)
-            ->where('election_id', $electionId)
-            ->exists();
-    }
     public function index()
     {
         // Retrieve all candidates
@@ -107,13 +38,13 @@ class CandidateController extends Controller
         ]);
 
         if ($request->hasFile('candidate_profile')) {
-            $candidateProfileName = time() . '.' . $request->file('candidate_profile')->getClientOriginalExtension();
+            $candidateProfileName = time() . '.' . $request->file('candidate_profile')->hashName();
 
             // Move the file to the public/candidate_profile_photos directory
-            $request->file('candidate_profile')->move(public_path('candidate_profile_photos'), $candidateProfileName);
+            $path = $request->file('candidate_profile')->storeAs('candidate_profile_photos', $candidateProfileName,'public');
 
             // Return the path relative to the public directory
-            return 'candidate_profile_photos/' . $candidateProfileName;
+            return $path;
         }
 
         // If no file is uploaded, return null
@@ -122,15 +53,27 @@ class CandidateController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'first_name' => 'required|string',
-            'middle_name' => 'nullable|string',
-            'last_name' => 'required|string',
-            'manifesto' => 'required|string',
-            'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'partylist_id' => 'required|exists:partylists,id',
-            'position_id' => 'required|exists:positions,id'
-        ]);
+        $election = Election::latest()->first();
+
+        if (!$election) {
+            return redirect()->back();
+        }
+
+        $validatedData = $request->validate(
+            [
+                'first_name' => 'required|alpha',
+                'middle_name' => 'nullable|string',
+                'last_name' => 'required|alpha',
+                'manifesto' => 'required|string',
+                'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'partylist_id' => 'required|exists:partylists,id',
+                'position_id' => 'required|exists:positions,id',
+            ],
+            [
+                'partylist_id.required' => 'The partylist field is required',
+                'position_id.required' =>  'The position field is required'
+            ]
+        );
 
         $middleName = $validatedData['middle_name'] ?? null;
         $candidateImagePath = null;
@@ -141,83 +84,75 @@ class CandidateController extends Controller
 
         Candidate::create([
             'first_name' => $validatedData['first_name'],
-            'middle_name' => $validatedData['middle_name'],
+            'middle_name' => $middleName,
             'last_name' => $validatedData['last_name'],
             'manifesto' => $validatedData['manifesto'],
             'candidate_profile' => $candidateImagePath,
             'partylist_id' => $validatedData['partylist_id'],
-            'position_id' => $validatedData['position_id']
+            'position_id' => $validatedData['position_id'],
+            'election_id' => $election->id
         ]);
+
 
         return redirect()->back()->with('success', 'Candidate added successfully');
     }
 
     public function update(Request $request, $id)
     {
+        $election = Election::latest()->first();
+
         $candidate = Candidate::findOrFail($id);
 
         $validatedData = $request->validate([
-            'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'first_name' => 'required|string',
+            'first_name' => 'required|alpha',
             'middle_name' => 'nullable|string',
-            'last_name' => 'required|string',
+            'last_name' => 'required|alpha',
             'manifesto' => 'required|string',
+            // 'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'partylist_id' => 'required|exists:partylists,id',
-            'position_id' => 'required|exists:positions,id'
+            'position_id' => 'required|exists:positions,id',
+
         ]);
 
         $middleName = $validatedData['middle_name'] ?? null;
 
+        // if ($request->hasFile('candidate_profile') && $candidate->candidate_profile) {
+        //     Storage::delete('public/' . $candidate->candidate_profile);
+        // }
+
         $candidateImagePath = $candidate->candidate_profile;
 
         if ($request->hasFile('candidate_profile')) {
-            // If a new profile image is uploaded, delete the old one
-            if ($candidate->candidate_profile) {
-                // Delete the old profile image file
-                unlink(public_path($candidate->candidate_profile));
-            }
-            // Upload and save the new profile image
+            // Upload and save the new profile image with a new filename
             $candidateImagePath = $this->uploadImage($request);
         }
 
+
         // Update candidate data
         $candidate->update([
-            'candidate_profile' => $candidateImagePath,
             'first_name' => $validatedData['first_name'],
-            'middle_name' => $validatedData['middle_name'],
+            'middle_name' => $middleName,
             'last_name' => $validatedData['last_name'],
             'manifesto' => $validatedData['manifesto'],
             'partylist_id' => $validatedData['partylist_id'],
-            'position_id' => $validatedData['position_id']
+            'position_id' => $validatedData['position_id'],
+            'candidate_profile' => $candidateImagePath,
+            'election_id' => $election->id
         ]);
 
-        // Redirect back with success message
-        return redirect()->back()->with('success', 'Candidate updated successfully');
+        return dd($candidateImagePath);
     }
-    public function hasVoted($userId, $electionId)
-    {
-        // Check if the user has voted in the specified election
-        $hasVoted = Vote::where('voter_id', $userId)
-            ->where('election_id', $electionId)
-            ->exists();
 
-        // Return the result as part of the props for Inertia
-        return Inertia::render('Dashboard', [
-            'hasVoted' => $hasVoted
-        ]);
-    }
-    public function destroy($id)
+    public function destroy(Candidate $candidate)
     {
-        try {
-            // Delete the candidate
-            $candidate = Candidate::findOrFail($id);
-            $candidate->delete();
+        $associatedVotes = DB::table('votes')->where('candidate_id', $candidate->id)->exists();
 
-            // Redirect back with success message
-            return redirect()->back()->with('success', 'Candidate successfully deleted');
-        } catch (\Exception $e) {
-            // Redirect back with error message
-            return redirect()->back()->with('error', 'Failed to delete candidate');
+        if ($associatedVotes) {
+            return redirect()->back()->with('error', 'Cannot delete candidate. There are associated votes.');
         }
+        $candidate->delete();
+
+
+        return redirect()->back()->with('success', 'Candidate deleted successfully');
     }
 }

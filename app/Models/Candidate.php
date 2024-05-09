@@ -16,7 +16,8 @@ class Candidate extends Model
         'manifesto',
         'candidate_profile',
         'position_id',
-        'partylist_id'
+        'partylist_id',
+        'election_id'
     ];
 
     public function votes()
@@ -29,7 +30,7 @@ class Candidate extends Model
         return $this->belongsTo(Positions::class);
     }
 
-    // Define the relationship with Partylist
+
     public function partylist()
     {
         return $this->belongsTo(Partylist::class);

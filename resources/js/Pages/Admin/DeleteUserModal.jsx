@@ -35,6 +35,7 @@ const DeleteUserModal = ({ open, handleClose, handleDeleteUser, userId }) => {
                     onClick={handleDelete}
                     variant="gradient"
                     color="red"
+                
                 >
                     <span>Delete</span>
                 </Button>

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('voter_id')->constrained('users'); 
             $table->foreignId('election_id')->constrained('elections');
-            $table->foreignId('candidate_id')->constrained('candidates');
+            $table->foreignId('candidate_id')->nullable()->constrained('candidates');
             $table->dateTime('vote_timestamp');
             $table->timestamps();
         });

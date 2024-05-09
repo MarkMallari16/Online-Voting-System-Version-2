@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\BallotController;
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -12,8 +14,8 @@ use App\Http\Controllers\ProfilePictureController;
 use App\Http\Controllers\ElectionController;
 use App\Http\Controllers\PartylistController;
 use App\Http\Controllers\PositionController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\VoteController;
-use App\Http\Controllers\VoterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,10 +40,11 @@ Route::get('/', function () {
 //for admin page 
 
 Route::middleware(['auth', 'verified', 'admin'])->group(function () {
+    //get user
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
     //retrieved data and display in table
-    Route::get('/activitylog', function () {
-        return Inertia::render('Admin/Pages/ActivityLog');
-    })->name('activitylog');
+    Route::get('/activitylog', [UserController::class, 'displayActivityLogs'])->name('activitylog');
+
     //add users
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
     // Update user (process form submission)
@@ -64,9 +67,7 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
         ]);
     })->name('election');
 
-    Route::get('/ballots', function () {
-        return Inertia::render('Moderator/ModeratorPages/Ballots');
-    })->name('ballots');
+    Route::get('/ballot', [BallotController::class, 'displayBallot'])->name('ballot');
 
     Route::get('/live-result', function () {
         return Inertia::render('Moderator/ModeratorPages/LiveResult');
@@ -80,48 +81,49 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::get('/candidate', [CandidateController::class, 'index'])->name('candidate');
     Route::post('/candidate', [CandidateController::class, 'store'])->name('candidate.store');
     Route::put('/candidate/{id}', [CandidateController::class, 'update'])->name('candidate.update');
-    Route::delete('/candidate/{id}', [CandidateController::class, 'destroy'])->name('candidate.destroy');
+    Route::delete('/candidate/{candidate}', [CandidateController::class, 'destroy'])->name('candidate.destroy');
+
+    //display partylists
+    Route::get('/partylists', [PartylistController::class, 'index'])->name('partylists');
+
+    // Create a new partylist
+    Route::post('/partylist', [PartylistController::class, 'store'])->name('partylist.store');
+
+    // Update an existing partylist
+    Route::put('/partylist/{id}', [PartylistController::class, 'update'])->name('partylist.update');
+
+    // Delete a partylist
+    Route::delete('/partylist/{id}', [PartylistController::class, 'destroy'])->name('partylist.destroy');
 
 
     Route::get('/positions', [PositionController::class, 'index'])->name('positions');
-    Route::post('/positions', [PositionController::class, 'store'])->name('positions.store');
-    Route::put('/positions/{id}', [PositionController::class, 'update'])->name('positions.update');
-    Route::delete('/positions/{id}', [PositionController::class, 'destroy'])->name('positions.destroy');
+    Route::post('/position', [PositionController::class, 'store'])->name('positions.store');
+    Route::put('/position/{id}', [PositionController::class, 'update'])->name('positions.update');
+    Route::delete('/position/{id}', [PositionController::class, 'destroy'])->name('positions.destroy');
 
     Route::get('/votes', [VoteController::class, 'index'])->name('votes');
     Route::post('/hasVoted', [CandidateController::class, 'hasVoted'])->name('vote.hasVoted');
 
+
+    Route::post('assign-partylist-editor/{partylistId}/assign-editor/{userId}', [PartylistController::class, 'assignEditor']);
+    Route::put('/users/{userId}/switch-role', [RoleController::class, 'switchRole'])->name('users.switchRole');
 });
 
 
-Route::middleware(['auth', 'verified', 'partylist_editor'])->group(function () {
-    Route::get('/partylists', [PartylistController::class, 'index'])->name('partylists');
-
-    // Create a new partylist
-    Route::post('/partylists', [PartylistController::class, 'store']);
-
-    // Update an existing partylist
-    Route::put('/partylists/{id}', [PartylistController::class, 'update']);
-
-    // Delete a partylist
-    Route::delete('/partylists/{id}', [PartylistController::class, 'destroy']);
-});
 
 //render
-Route::get('/dashboard', [CandidateController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/moderator-overview', [CandidateController::class, 'moderatorOverview'])->middleware(['auth', 'verified', 'moderator']);
-
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/votes', [VoteController::class, 'createVote'])->name('votes.create');
-    Route::get('/casted-votes',[VoteController::class,'castedVotes'])->name('casted.votes');
+    Route::get('/casted-votes', [VoteController::class, 'castedVotes'])->name('casted.votes');
+
     //upload Profile picture
     Route::post('/upload-profile-picture', [ProfilePictureController::class, 'uploadProfile'])->name('profile.uploadProfile');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    //get user
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
 });
 require __DIR__ . '/auth.php';

@@ -18,7 +18,5 @@ use App\Http\Controllers\VoteController;
 */
 
 
-Route::resource('candidates', CandidateController::class);
-Route::resource('elections', ElectionController::class);
 
 

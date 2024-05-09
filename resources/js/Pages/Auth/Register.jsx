@@ -5,9 +5,20 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
-import ApplicationLogo from '@/Components/ApplicationLogo';
+import { useState } from 'react';
+import PasswordToggle from '@/Components/PasswordToggle';
 
 export default function Register() {
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const handlePassword = () => {
+        setShowPassword(!showPassword);
+    }
+    const handleConfirmPassword = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    }
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
@@ -30,7 +41,7 @@ export default function Register() {
     return (
         <GuestLayout>
             <Head title="Register" />
-          
+
             <div className='mb-5'>
                 <h1 className='text-3xl font-bold'>Register</h1>
 
@@ -48,6 +59,8 @@ export default function Register() {
                         isFocused={true}
                         onChange={(e) => setData('name', e.target.value)}
                         required
+                        place
+                        placeholder="John Doe"
                     />
 
                     <InputError message={errors.name} className="mt-2" />
@@ -65,56 +78,72 @@ export default function Register() {
                         autoComplete="username"
                         onChange={(e) => setData('email', e.target.value)}
                         required
+                        placeholder="doe.131415@bacoor.sti.edu.ph"
                     />
 
                     <InputError message={errors.email} className="mt-2" />
                 </div>
 
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+                <div className='mt-4 relative'>
 
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) => setData('password', e.target.value)}
-                        required
-                    />
+                    <div className="mb-12">
+                        <InputLabel htmlFor="password" value="Password" />
 
-                    <InputError message={errors.password} className="mt-2" />
+                        <TextInput
+                            id="password"
+                            type={showPassword ? 'text' : 'password'}
+                            name="password"
+                            value={data.password}
+                            className="absolute block w-full"
+                            autoComplete="new-password"
+                            onChange={(e) => setData('password', e.target.value)}
+                            required
+                        />
+                        {data.password && (
+                            <PasswordToggle showPassword={showPassword} handlePassword={handlePassword} />
+                        )}
+
+                    </div>
+
+                    <InputError message={errors.password} className='mt-2' />
                 </div>
 
-                <div className="mt-4">
+                <div className='mt-4'>
                     <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
 
-                    <TextInput
-                        id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
-                        value={data.password_confirmation}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) => setData('password_confirmation', e.target.value)}
-                        required
-                    />
+                    <div className="relative mb-14">
+                        <TextInput
+                            id="password_confirmation"
+                            type={showConfirmPassword ? 'text' : 'password'}
+                            name="password_confirmation"
+                            value={data.password_confirmation}
+                            className="absolute block w-full"
+                            autoComplete="new-password"
+                            onChange={(e) => setData('password_confirmation', e.target.value)}
+                            required
+                        />
+                        {data.password_confirmation && (
+                            <PasswordToggle showPassword={showConfirmPassword} handlePassword={handleConfirmPassword} />
+                        )}
 
-                    <InputError message={errors.password_confirmation} className="mt-2" />
+                    </div>
+                    <InputError message={errors.password_confirmation} className='mt-2' />
+
                 </div>
-
                 <div className="flex items-center justify-end mt-4">
-                    <Link
-                        href={route('login')}
-                        className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    >
-                        Already registered?
-                    </Link>
-
                     <PrimaryButton className="ms-4" disabled={processing}>
                         Register
                     </PrimaryButton>
+                </div>
+                <div className='text-center mt-2'>
+                    <div className='text-gray-600 '>
+                        Already registered?  <Link
+                            href={route('login')}
+                            className=" font-medium text-blue-500 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        >
+                            Log in
+                        </Link>
+                    </div>
                 </div>
             </form>
         </GuestLayout>

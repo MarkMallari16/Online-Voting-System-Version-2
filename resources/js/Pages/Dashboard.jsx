@@ -4,30 +4,27 @@ import AdminDashboard from './Admin/AdminDashboard';
 import ModeratorDashboard from './Moderator/ModeratorDashboard';
 import VoterDashboard from './Voter/VoterDashboard';
 import PartylistEditorDashboard from './Partylist_Editor/PartylistEditorDashboard';
-import Sidebar from './Sidebar';
+
 import Countdown from '@/Components/Countdown';
-import { Breadcrumbs } from '@material-tailwind/react';
-export default function Dashboard({ auth, candidates, candidatesAll, position_list, partylist_list, election, voters, votersVotedCount, voteCounts, castedVotes }) {
 
-    // const studentsHasVoted = voters.filter(voter => voter.hasVoted);
-    console.log(voteCounts);
-    const hasVotedIds = voters.filter(voter => voter.hasVoted).map(voter => voter.voter_id);
+export default function Dashboard({ auth, usersPerPage, candidates, candidatesAll, voterVoted, position_list, partylist_list, election, voters, votersVotedCount, voteCounts, castedVotes, voterHasVoted, totalCandidatesPerPositions, candidateWinners, totalVotesPerPosition }) {
 
-    console.log(castedVotes);
+
     const { role } = auth.user;
     let dashboardContent;
+
     switch (role) {
         case 'admin':
-            dashboardContent = <AdminDashboard />;
+            dashboardContent = <AdminDashboard usersPerPage={usersPerPage} />;
             break;
         case 'moderator':
-            dashboardContent = <ModeratorDashboard voters={voters} election={election} candidates={candidates} voteCounts={voteCounts} votersVotedCount={votersVotedCount} position_list={position_list} />;
+            dashboardContent = <ModeratorDashboard voters={voters} election={election} candidates={candidates} voteCounts={voteCounts} votersVotedCount={votersVotedCount} position_list={position_list} totalVotesPerPosition={totalVotesPerPosition} />;
             break;
         case 'partylist_editor':
-            dashboardContent = <PartylistEditorDashboard />;
+            dashboardContent = <PartylistEditorDashboard partylists={partylist_list} />;
             break;
         case 'voter':
-            dashboardContent = <VoterDashboard election={election} partyList={partylist_list} candidatesAll={candidatesAll} candidates={candidates} positionList={position_list} hasVoted={hasVotedIds} votersVotedCount={votersVotedCount} voters={voters} castedVotes={castedVotes} voteCounts={voteCounts}/>;
+            dashboardContent = <VoterDashboard voterVoted={voterVoted} election={election} partyList={partylist_list} candidatesAll={candidatesAll} candidates={candidates} positionList={position_list}  voters={voters} castedVotes={castedVotes} voteCounts={voteCounts} voterHasVoted={voterHasVoted} candidateWinners={candidateWinners} />;
             break;
     }
     return (
@@ -36,14 +33,7 @@ export default function Dashboard({ auth, candidates, candidatesAll, position_li
             <div className="flex flex-col md:flex-row min-h-screen">
 
                 <main className="flex-1 py-12">
-                    <div className="max-w-full  mx-auto px-4 sm:max-w-3xl md:max-w-4xl lg:max-w-6xl xl:max-w-7xl">
-                        {/* <Breadcrumbs className=''>
-                            <a href={route('dashboard')} className="opacity-60">
-                                Dashboard
-                            </a>
-
-
-                        </Breadcrumbs> */}
+                    <div className="max-w-full  mx-auto sm:max-w-3xl md:max-w-4xl lg:max-w-6xl xl:max-w-7xl">
                         {dashboardContent}
                     </div>
                 </main>

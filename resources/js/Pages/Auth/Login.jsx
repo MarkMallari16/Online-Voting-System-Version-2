@@ -33,7 +33,7 @@ export default function Login({ status, canResetPassword }) {
             <div>
                 {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
                 <div className='mb-5'>
-                    <h1 className='text-3xl font-bold'>Log in</h1>
+                    <h1 className='text-3xl font-bold'>Welcome back!</h1>
                     <span className='font-light text-gray-600'>Enter your school email and password to access your account</span>
                 </div>
                 <form onSubmit={submit}>
@@ -49,6 +49,7 @@ export default function Login({ status, canResetPassword }) {
                             autoComplete="username"
                             isFocused={true}
                             onChange={(e) => setData('email', e.target.value)}
+                            placeholder="Enter your school email"
                         />
 
                         <InputError message={errors.email} className="mt-2" />
@@ -65,35 +66,50 @@ export default function Login({ status, canResetPassword }) {
                             className="mt-1 block w-full"
                             autoComplete="current-password"
                             onChange={(e) => setData('password', e.target.value)}
+                            placeholder="Enter your password"
                         />
 
                         <InputError message={errors.password} className="mt-2" />
                     </div>
 
-                    <div className="block mt-4">
-                        <label className="flex items-center">
-                            <Checkbox
-                                name="remember"
-                                checked={data.remember}
-                                onChange={(e) => setData('remember', e.target.checked)}
-                            />
-                            <span className="ms-2 text-sm text-gray-600">Remember me</span>
-                        </label>
+
+
+                    <div className='flex justify-between mt-3'>
+                        <div className="block">
+                            <label className="flex items-center">
+                                <Checkbox
+                                    name="remember"
+                                    checked={data.remember}
+                                    onChange={(e) => setData('remember', e.target.checked)}
+                                />
+                                <span className="ms-2 text-sm text-gray-600">Remember me</span>
+                            </label>
+                        </div>
+
+                        <div className="flex items-center justify-end">
+                            {canResetPassword && (
+                                <Link
+                                    href={route('password.request')}
+                                    className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                >
+                                    Forgot your password?
+                                </Link>
+                            )}
+
+
+                        </div>
                     </div>
 
-                    <div className="flex items-center justify-end mt-4">
-                        {canResetPassword && (
-                            <Link
-                                href={route('password.request')}
-                                className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                            >
-                                Forgot your password?
-                            </Link>
-                        )}
-
-                        <PrimaryButton className="ms-4" disabled={processing}>
+                    <div className='w-full flex justify-end mt-5'>
+                        <PrimaryButton className="block " disabled={processing}>
                             Log in
                         </PrimaryButton>
+                    </div>  
+
+                    <div>
+                        <div className='text-gray-600 text-center mt-2'>
+                                Don't have an Account? <Link href={route('register')} className='text-blue-500 font-medium focus:ring-blue-500' >Sign up</Link>
+                        </div>
                     </div>
                 </form>
             </div>

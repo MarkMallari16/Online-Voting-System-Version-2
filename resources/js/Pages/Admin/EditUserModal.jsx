@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { useForm } from '@inertiajs/inertia-react';
+import { useForm } from '@inertiajs/react';
 import {
   Button,
   Input,
@@ -14,10 +14,24 @@ import {
 } from "@material-tailwind/react";
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
+import PasswordToggle from '@/Components/PasswordToggle';
+import InputError from '@/Components/InputError';
 
 const EditUserModal = ({ open, handleClose, user }) => {
 
-  const { data, setData, put, reset, errors } = useForm({
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  }
+  const handleShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+
+  }
+
+  const { data, setData, put, reset, errors, processing } = useForm({
     id: "",
     name: "",
     email: "",
@@ -60,15 +74,14 @@ const EditUserModal = ({ open, handleClose, user }) => {
         handleClose();
         reset();
       },
-      onError: (errors) => {
-        // Handle the errors if needed
-      }
-    });
-  };
 
+    });
+
+  };
+  console.log(errors);
   return (
     <Dialog open={open} handler={handleClose}>
-      <DialogHeader>Edit User</DialogHeader>
+      <DialogHeader>Update User</DialogHeader>
       <form onSubmit={handleSubmit}>
         <DialogBody>
           <div className=" mb-3">
@@ -79,7 +92,7 @@ const EditUserModal = ({ open, handleClose, user }) => {
           <div className=" mb-3">
             <InputLabel htmlFor='email' value="Email" />
             <TextInput type="email" label="Email" name="email" onChange={handleOnChange} value={data.email} className='w-full' />
-            {errors.email && <Text color="red">{errors.email}</Text>}
+            <InputError className='mt-2' message={errors.email} />
           </div>
           <div className=" mb-3">
             <Select
@@ -96,15 +109,22 @@ const EditUserModal = ({ open, handleClose, user }) => {
             </Select>
             {errors.role && <Text color="red">{errors.role}</Text>}
           </div>
-          <div className=" mb-3">
-            <InputLabel htmlFor='password' value="Password" />
-            <TextInput type='password' label="Password" name="password" onChange={handleOnChange} className='w-full' />
-            {errors.password && <Text color="red">{errors.password}</Text>}
+          <div className="mb-12 relative">
+            <InputLabel htmlFor="password" value="Password" />
+            <TextInput type={showPassword ? 'text' : 'password'} label="Password" name="password" onChange={handleOnChange} className='w-full absolute' autoComplete="new-password" />
+            {data.password && (
+              <PasswordToggle showPassword={showPassword} handlePassword={handleShowPassword} />
+            )}
           </div>
-          <div className="s mb-3">
-            <InputLabel htmlFor='confirm_password' value="Confirm Password" />
-            <TextInput type='password' label="Confirm Password" name="password_confirmation" onChange={handleOnChange} className='w-full' />
-            {errors.password_confirmation && <Text color="red">{errors.password_confirmation}</Text>}
+          <div className="mb-8 relative">
+
+            <InputLabel htmlFor="confirm_password" value="Confirm Password" />
+            <TextInput type={showConfirmPassword ? 'text' : 'password'} label="Confirm Password" name="password_confirmation" onChange={handleOnChange} className='w-full absolute' autoComplete="new-password" />
+
+            {data.password_confirmation && (
+              <PasswordToggle showPassword={showConfirmPassword} handlePassword={handleShowConfirmPassword} />
+
+            )}
           </div>
         </DialogBody>
         <DialogFooter>
@@ -116,7 +136,7 @@ const EditUserModal = ({ open, handleClose, user }) => {
           >
             <span>Cancel</span>
           </Button>
-          <Button type='submit' variant="gradient" color="blue">
+          <Button type='submit' variant="gradient" color="blue" disabled={processing}>
             <span>Confirm</span>
           </Button>
         </DialogFooter>

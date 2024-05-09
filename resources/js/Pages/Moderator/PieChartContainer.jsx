@@ -1,22 +1,24 @@
 import React from 'react'
 import PieChart from './PieChart';
 
-const PieChartContainer = ({voters, votersVotedCount}) => {
-    const notYetVoted = voters.length - votersVotedCount
+const PieChartContainer = ({ voters, votersVotedCount }) => {
+    const notYetVoted = voters.length - votersVotedCount;
+
     const pieChartData = {
         labels: ['Voters Voted', 'Voters Not Voted'],
         datasets: [
             {
-                data: [votersVotedCount, notYetVoted], // Replace these with the actual counts
-                backgroundColor: ["#60a5fa", "#ef4444"], // Blue for voters voted, gray for voters not voted
+                data: [votersVotedCount, notYetVoted],
+                backgroundColor: ["#60a5fa", "#9ca3af"],
                 borderWidth: 1,
-                borderRadius: 12
+                borderRadius: 12,
+                responsive:true
             },
         ],
     };
 
     return (
-        <div className='mt-8'>
+        <div className='flex justify-center mt-8'>
             <PieChart data={pieChartData} />
         </div>
     )

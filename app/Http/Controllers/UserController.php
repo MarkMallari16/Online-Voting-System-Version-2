@@ -8,50 +8,44 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\AuditLog;
-
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
-    public function index(Request $request)
-    {
-        $perPage = $request->input('perPage', 10);
-        $users = User::paginate($perPage);
 
-        return response()->json($users);
-    }
+    // public function index(Request $request)
+    // {
+    //     $perPage = $request->input('perPage', 10);
+    //     $users = User::paginate($perPage);
+
+    //     return Inertia::render('Dashboard', [
+    //         'users' => $users
+    //     ]);
+    // }
     public function store(CreateUserRequest $request)
     {
-        // Validate request data
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users|school_email', // Add the 'school_email' rule here |school_email
-            'password' => 'required|string|min:6',
-            'role' => 'required|in:admin,moderator,partylist_editor,voter',
-        ]);
 
+        $validatedData = $request->validated();
         $validatedData['profile_picture'] = 'profile_photos/default_profile.png';
 
         // Create the user
         $user = User::create($validatedData);
 
         AuditLog::create([
-            'user_id' => $request->user()->id, // Get the authenticated user's ID
+            'user_id' => $request->user()->id,
             'action' => 'User Created',
             'details' => 'User created with name: ' . $user->name,
         ]);
 
 
-        // Redirect to the dashboard route
+
         return redirect()->back()->with('success', 'User created successfully');
     }
 
     public function update(UpdateUserRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'email',
-            'role' => 'in:admin,moderator,voter,partylist_editor',
-        ]);
+        $request->validated();
 
         // Find the user by ID
         $user = User::findOrFail($id);
@@ -71,7 +65,7 @@ class UserController extends Controller
         $user->update($userData);
 
         AuditLog::create([
-            'user_id' => $request->user()->id, // Get the authenticated user's ID
+            'user_id' => $request->user()->id,
             'action' => 'User Updated',
             'details' => 'User updated with name: ' . $user->name,
         ]);
@@ -79,14 +73,14 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'User updated successfully');
     }
 
-    public function destroy(Request $request,User $user)
+    public function destroy(Request $request, User $user)
     {
         $authenticatedUser = $request->user();
 
         AuditLog::create([
             'user_id' => $authenticatedUser->id,
             'action' => 'User Deleted',
-            'details' => 'Deleted user with ID: ' . $user->id,
+            'details' => 'Deleted user with ID and Name: ' . $user->id . " " . $user->name,
         ]);
 
         $user->delete();
@@ -99,5 +93,14 @@ class UserController extends Controller
         $logs = AuditLog::with('user')->orderByDesc('created_at')->paginate($perPage);
 
         return response()->json($logs);
+    }
+    public function displayActivityLogs()
+    {
+        $query = AuditLog::query();
+        $logs = $query->with('user')->orderByDesc('created_at')->paginate(15);
+
+        return Inertia::render('Admin/Pages/ActivityLog', [
+            'logs' => $logs
+        ]);
     }
 }

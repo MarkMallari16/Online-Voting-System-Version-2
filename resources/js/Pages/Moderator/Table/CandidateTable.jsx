@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
@@ -22,20 +22,21 @@ import {
     DialogFooter,
     Select,
     Option,
-    Textarea,
     Alert,
 } from "@material-tailwind/react";
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
-import DefaultCandidatePicture from "../../../../../public/profile_photos/default_profile.png";
 
-import { useForm } from "@inertiajs/react";
-import { Inertia } from "@inertiajs/inertia";
+import { useForm, router } from "@inertiajs/react";
 import DeleteModal from "@/Components/DeleteModal";
 import ExcelExport from "@/Components/ExcelExport";
-import InfoIcon from "@/Components/InfoIcon";
-
+import toast from "react-hot-toast";
+import CustomToast from "@/Components/CustomToast";
+import PaginationInTable from "@/Components/PaginationInTable";
+import SearchInput from "@/Components/SearchInput";
+import DefaultProfileComponent from "@/Components/DefaultProfileComponent";
+import AvatarComponent from "@/Components/AvatarComponent";
 const TABLE_HEAD = [
     "Candidate ID",
     "Profile",
@@ -44,7 +45,7 @@ const TABLE_HEAD = [
     "Last Name",
     "Partylist",
     "Position",
-    "Manifesto",
+    "Candidate Platform",
     "Action",
 ];
 
@@ -57,63 +58,51 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     const [candidate, setCandidate] = useState(candidates);
 
     const [candidateProfile, setCandidateProfile] = useState(null);
-    const [candidateUpdateProfile, setCandidateUpdateProfile] = useState(null);
 
     const [currentPage, setCurrentPage] = useState(candidatesPerPage.current_page);
-    const currentCandidates = candidatesPerPage.data;
-    const totalPages = candidatesPerPage.last_page;
+
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const indexOfLastCandidate = currentPage * candidatesPerPage.per_page;
+    const indexOfFirstCandidate = indexOfLastCandidate - candidatesPerPage.per_page;
+
+    const currentCandidatesPage = candidates.slice(indexOfFirstCandidate, indexOfLastCandidate);
 
 
-
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
-
-    const [message, setMessage] = useState("");
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
-    const { data, setData, post, errors } = useForm();
+    const { data, setData, post, put, delete: destroy, errors, reset, processing, clearErrors } = useForm();
 
     const handleFileUpload = (e) => {
-        const file =
-            e.target.files[0];
+        const file = e.target.files[0];
         const formData = new FormData();
-        formData.append(
-            "candidate_profile",
-            file
-        );
+        formData.append("candidate_profile", file);
         setCandidateProfile(file);
         setData(
             "candidate_profile",
             file
         );
     };
-    
+
+
     const handleFileUpdateUpload = (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files[0]; // Get the selected file
 
-
-        const formData = new FormData();
-        formData.append("candidate_profile", file);
-
-
-        setCandidateUpdateProfile(file);
-
-
+        // Update the 'data' state with the selected file
         setData((prevData) => ({
             ...prevData,
             candidate_profile: file,
         }));
     };
+
     //for add modal
-    const handleOpen = () => setOpen(!open);
+    const handleOpen = () => {
+        setOpen(!open)
+    };
 
     //for update modal
     const handleUpdateOpen = (id) => {
         setUpdateModal(!openUpdateModal);
-
-
 
         // Find the candidate to update
         const candidateToUpdate = candidates.find(
@@ -132,23 +121,11 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                 partylist_id: candidateToUpdate.partylist_id,
                 position_id: candidateToUpdate.position_id,
                 manifesto: candidateToUpdate.manifesto,
-                candidate_profile: candidateToUpdate.candidate_profile,
+                candidate_profile: `storage/${candidateToUpdate.candidate_profile}`,
             });
-
-
 
         } else {
-            // Handle the case when no candidate is found with the given id
-            console.error(`No candidate found with id ${id}`);
-            setData({
-                first_name: '',
-                middle_name: '',
-                last_name: '',
-                partylist_id: 0,
-                position_id: 0,
-                manifesto: null,
-                candidate_profile: null
-            });
+            reset();
         }
 
     };
@@ -159,31 +136,24 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
         setId(id);
     };
 
-    console.log(candidates);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            await post(route("candidate.store"), data); // Await the post request
-            setOpen(false);
 
-            // Reset form data and state for partylist and position
-            setData({
-                first_name: "",
-                middle_name: "",
-                last_name: "",
-                partylist_id: null,
-                position_id: null,
-                manifesto: "",
-                candidate_profile: null,
-            });
-            setMessage(`Candidate successfully added`);
-            setIsSuccessMessage(true);
+        post(route("candidate.store", data), {
+            onSuccess: () => {
+                setOpen(false);
+                setIsSuccessMessage(true);
+                toast.success("Candidate successfully created");
+                reset();
+            },
+            onError: () => {
+                setOpen(true);
 
-        } catch (error) {
-            console.error("Error submitting form:", error);
-        }
+            }
+        });
     };
+
 
 
     const handleUpdateSubmit = async (e) => {
@@ -191,25 +161,18 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
         try {
             // Send PUT request to update candidate data
-            await Inertia.put(`/candidate/${id}`, data);
+            await put(route('candidate.update', { id: id }, data));
 
             // Close the update modal
             setUpdateModal(false);
 
             // Reset form data and state for candidate
-            setData({
-                first_name: '',
-                middle_name: '',
-                last_name: '',
-                partylist_id: null,
-                position_id: null,
-                manifesto: '',
-                candidate_profile: null
-            });
+            reset();
 
-            // Display success message
-            setMessage(`Candidate successfully updated`);
             setIsSuccessMessage(true);
+            // Display success message
+            toast.success("Candidate successfully updated");
+
 
         } catch (error) {
             console.error("Failed to update candidate:", error);
@@ -217,10 +180,22 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             // Example: setError("Failed to update candidate. Please try again.");
         }
     };
-    const handleDeleteCandidate = async (candidateId) => {
+
+    const handleDeleteCandidate = (candidateId) => {
         try {
             // Send a DELETE request to delete the candidate
-            await Inertia.delete(`/candidate/${candidateId}`);
+            router.delete(route('candidate.destroy', { id: candidateId }), {
+                onSuccess: () => {
+                    setIsSuccessMessage(true);
+                    toast.success("Candidate successfully deleted");
+                    // Close the delete modal
+                    setDeleteModal(false);
+                },
+                onError: () => {
+                    toast.error(data.error);
+                    setDeleteModal(true);
+                }
+            });
 
             // Update the positions state by filtering out the deleted position
             setCandidate((prevCandidate) =>
@@ -228,33 +203,19 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                     (candidate) => candidate.id !== candidateId
                 )
             );
-            setMessage(`Candidate successfully deleted`);
-            setIsSuccessMessage(true);
-            // Close the delete modal
-            setDeleteModal(false);
+
+
 
         } catch (error) {
             console.error("Failed to delete position:", error);
         }
     };
-    const handlePreviousClick = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
 
-    const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
     return (
         <div>
             <div className="mb-3">
                 {isSuccessMessage && (
-                    <Alert icon={<InfoIcon />} color="green">
-                        {message}
-                    </Alert>
+                    <CustomToast />
                 )}
             </div>
             <Card className="h-full w-full">
@@ -309,7 +270,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                 <div className="flex items-center gap-3">
                                                     <div className="mb-2">
                                                         <Avatar
-                                                            src={candidateProfile ? URL.createObjectURL(candidateProfile) : DefaultCandidatePicture}
+                                                            src={candidateProfile ? URL.createObjectURL(candidateProfile) : DefaultProfileComponent}
                                                             alt="Candidate Avatar"
                                                             size="xxl"
                                                             withBorder={true}
@@ -330,14 +291,11 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                                 id="candidateImage"
                                                                 name="candidate_profile"
                                                                 className="hidden"
-
-                                                                onChange={
-                                                                    handleFileUpload
-                                                                }
+                                                                onChange={handleFileUpload}
                                                             />
                                                         </label>
-
-                                                        <InputError className="mt-2" />
+                                                    
+                                                        <InputError className="mt-2" message={errors.candidate_profile} />
                                                     </div>
                                                 </div>
                                             </div>
@@ -345,7 +303,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                 <div className="flex-1">
                                                     <InputLabel
                                                         htmlFor="firstName"
-                                                        value="Enter Candidate First Name"
+                                                        value="Candidate First Name"
                                                     />
 
                                                     <TextInput
@@ -362,18 +320,19 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                                 e.target.value
                                                             )
                                                         }
-                                                        required
+
                                                         autoFocus
                                                         autoComplete="firstName"
+                                                        placeholder="Enter Candidate First Name"
                                                     />
 
-                                                    <InputError className="mt-2" />
+                                                    <InputError className="mt-2" message={errors.first_name} />
                                                 </div>
 
                                                 <div className="flex-1">
                                                     <InputLabel
-                                                        htmlFor="lastName"
-                                                        value="Enter Candidate Middle Name (optional)"
+                                                        htmlFor="middle_name"
+                                                        value=" Candidate Middle Name (optional)"
                                                     />
 
                                                     <TextInput
@@ -393,15 +352,16 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
                                                         autoFocus
                                                         autoComplete="middleName"
+                                                        placeholder="Enter Candidate Middle Name"
                                                     />
 
-                                                    <InputError className="mt-2" />
+                                                    <InputError className="mt-2" message={errors.middle_name} />
                                                 </div>
 
                                                 <div className="flex-1">
                                                     <InputLabel
                                                         htmlFor="lastName"
-                                                        value="Enter Candidate Last Name"
+                                                        value="Candidate Last Name"
                                                     />
 
                                                     <TextInput
@@ -417,12 +377,13 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                                 e.target.value
                                                             )
                                                         }
-                                                        required
+
                                                         autoFocus
                                                         autoComplete="lastName"
+                                                        placeholder="Enter Candidate last Name"
                                                     />
 
-                                                    <InputError className="mt-2" />
+                                                    <InputError className="mt-2" message={errors.last_name} />
                                                 </div>
                                             </div>
 
@@ -450,7 +411,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                     )}
                                                 </Select>
 
-                                                <InputError className="mt-2" />
+                                                <InputError className="mt-2" message={errors.partylist_id} />
                                             </div>
 
                                             <div className="mt-4">
@@ -477,13 +438,18 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                     )}
                                                 </Select>
 
-                                                <InputError className="mt-2" />
+                                                <InputError className="mt-2" message={errors.position_id} />
                                             </div>
-                                            <div className="mt-4">
-                                                <Textarea
-                                                    position="manifesto"
+                                            <div className="mt-2">
+                                                <InputLabel
+                                                    htmlFor="lastName"
+                                                    value="Candidate Platform"
+                                                />
+                                                <textarea
+                                                    className="w-full rounded-md resize-none h-40 mt-1"
+
                                                     size="lg"
-                                                    label="Enter manifesto"
+                                                    label="Enter Candidate Platform"
                                                     value={data.manifesto}
                                                     onChange={(e) =>
                                                         setData(
@@ -492,8 +458,9 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                         )
                                                     }
                                                     name="manifesto"
+                                                    placeholder="Enter candidate platform"
                                                 />
-                                                <InputError className="mt-2" />
+                                                <InputError message={errors.manifesto} />
                                             </div>
                                         </div>
                                     </DialogBody>
@@ -510,7 +477,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                             variant="gradient"
                                             color="blue"
                                             type="submit"
-                                        >
+                                            disabled={processing}>
                                             <span>Confirm</span>
                                         </Button>
                                     </DialogFooter>
@@ -533,14 +500,18 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                         <div>
                                             <div className="mb-2">
                                                 <InputLabel
-                                                    htmlFor="candidateProfile"
-                                                    value="Candidate Profile"
+                                                    htmlFor="candidateUpdateProfile"
+                                                    value="Update Candidate Profile"
                                                     className="mb-4"
                                                 />
                                                 <div className="flex items-center gap-3">
                                                     <div className="mb-2">
                                                         <Avatar
-                                                            src={data.candidate_profile instanceof File ? URL.createObjectURL(data.candidate_profile) : (data.candidate_profile ? data.candidate_profile : DefaultCandidatePicture)}
+                                                            src={
+                                                                data.candidate_profile instanceof File
+                                                                    ? URL.createObjectURL(data.candidate_profile)
+                                                                    : (data.candidate_profile ? data.candidate_profile : DefaultProfileComponent)
+                                                            }
                                                             alt="Candidate Avatar"
                                                             size="xxl"
                                                             color="blue"
@@ -590,7 +561,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                                 e.target.value
                                                             )
                                                         }
-                                                        required
+
                                                         autoFocus
                                                         autoComplete="firstName"
                                                     />
@@ -600,7 +571,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
                                                 <div className="flex-1">
                                                     <InputLabel
-                                                        htmlFor="lastName"
+                                                        htmlFor="middleName"
                                                         value="Enter Candidate Middle Name (optional)"
                                                     />
 
@@ -618,7 +589,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                                 e.target.value
                                                             )
                                                         }
-                                                        required
+
                                                         autoFocus
                                                         autoComplete="middleName"
                                                     />
@@ -682,6 +653,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                             </div>
 
                                             <div className="mt-4">
+
                                                 <Select
                                                     label="Select Position"
                                                     value={data.position_id}
@@ -708,10 +680,15 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                 <InputError className="mt-2" />
                                             </div>
                                             <div className="mt-4">
-                                                <Textarea
-                                                    position="manifesto"
+                                                <InputLabel
+                                                    htmlFor="lastName"
+                                                    value="Enter Candidate Platform"
+                                                />
+                                                <textarea
+                                                    className="w-full rounded-md resize-none h-40 mt-1"
+
                                                     size="lg"
-                                                    label="Enter manifesto"
+                                                    label="Enter Candidate Platform"
                                                     value={data.manifesto}
                                                     onChange={(e) =>
                                                         setData(
@@ -721,7 +698,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                     }
                                                     name="manifesto"
                                                 />
-                                                <InputError className="mt-2" />
+                                                <InputError className="mt-1" />
                                             </div>
                                         </div>
                                     </DialogBody>
@@ -738,6 +715,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                             variant="gradient"
                                             color="blue"
                                             type="submit"
+                                            disabled={processing}
                                         >
                                             <span>Confirm</span>
                                         </Button>
@@ -746,37 +724,15 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                             </Dialog>
                         </div>
                     </div>
-                    <div className="flex flex-col items-center justify-end gap-4 md:flex-row">
+                    <div className="flex flex-col items-center justify-end gap-4 md:flex-row me-3 mb-1">
                         <div className="flex justify-start gap-2">
-                            <div className="border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth={1.5}
-                                    stroke="currentColor"
-                                    className="w-6 h-6"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
-                                    />
-                                </svg>
-                            </div>
+
                             <ExcelExport
                                 data={candidates}
                                 fileName="candidate"
                             />
                         </div>
-                        <div className="w-full md:w-72">
-                            <Input
-                                label="Search"
-                                icon={
-                                    <MagnifyingGlassIcon className="h-5 w-5" />
-                                }
-                            />
-                        </div>
+                        <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
                     </div>
                 </CardHeader>
                 <CardBody className="overflow-scroll px-0">
@@ -808,7 +764,12 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                         </thead>
 
                         <tbody>
-                            {currentCandidates.length === 0 ? (
+                            {currentCandidatesPage.length === 0 || currentCandidatesPage.filter(candidate =>
+                                candidate.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                candidate.middle_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                candidate.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+
+                                candidate.manifesto.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
                                 <tr>
                                     <td
                                         colSpan={TABLE_HEAD.length}
@@ -818,197 +779,186 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                     </td>
                                 </tr>
                             ) : (
-                                currentCandidates.map(
-                                    (
-                                        {
-                                            id,
-                                            first_name,
-                                            middle_name,
-                                            last_name,
-                                            partylist_id,
-                                            position_id,
-                                            manifesto,
-                                            candidate_profile,
-                                        },
-                                        index
-                                    ) => {
-                                        const partylist = partylist_list.find(
-                                            (item) => item.id === partylist_id
-                                        );
-                                        const position = position_list.find(
-                                            (item) => item.id === position_id
-                                        );
+                                currentCandidatesPage
+                                    .filter(candidate =>
+                                        candidate.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                        candidate.middle_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                        candidate.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                        candidate.manifesto.toLowerCase().includes(searchQuery.toLowerCase()))
+                                    .map(
+                                        (
+                                            {
+                                                id,
+                                                first_name,
+                                                middle_name,
+                                                last_name,
+                                                partylist_id,
+                                                position_id,
+                                                manifesto,
+                                                candidate_profile,
+                                            },
+                                            index
+                                        ) => {
+                                            const partylist = partylist_list.find(
+                                                (item) => item.id === partylist_id
+                                            );
+                                            const position = position_list.find(
+                                                (item) => item.id === position_id
+                                            );
 
-                                        // If partylist or position is not found, display 'Unknown'
-                                        const partylistName = partylist
-                                            ? partylist.name
-                                            : "Unknown";
-                                        const positionName = position
-                                            ? position.name
-                                            : "Unknown";
+                                            // If partylist or position is not found, display 'Unknown'
+                                            const partylistName = partylist
+                                                ? partylist.name
+                                                : "Unknown";
+                                            const positionName = position
+                                                ? position.name
+                                                : "Unknown";
 
-                                        const isLast =
-                                            index === candidates.length - 1;
-                                        const classes = isLast
-                                            ? "p-4"
-                                            : "p-4 border-b border-blue-gray-50";
+                                            const isLast =
+                                                index === candidates.length - 1;
+                                            const classes = isLast
+                                                ? "p-4"
+                                                : "p-4 border-b border-blue-gray-50";
 
-                                        return (
-                                            <tr key={id}>
-                                                <td className={classes}>
-                                                    <div className="flex items-center gap-3">
+                                            return (
+                                                <tr key={id}>
+                                                    <td className={classes}>
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="flex flex-col">
+                                                                <Typography
+                                                                    variant="small"
+                                                                    color="blue-gray"
+                                                                    className="font-normal"
+                                                                >
+                                                                    {id}
+                                                                </Typography>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className={classes}>
                                                         <div className="flex flex-col">
                                                             <Typography
                                                                 variant="small"
                                                                 color="blue-gray"
                                                                 className="font-normal"
                                                             >
-                                                                {id}
+                                                                <AvatarComponent Profile={candidate_profile}/>
                                                             </Typography>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                                <td className={classes}>
-                                                    <div className="flex flex-col">
+                                                    </td>
+                                                    <td className={classes}>
                                                         <Typography
                                                             variant="small"
                                                             color="blue-gray"
                                                             className="font-normal"
                                                         >
-                                                            <Avatar
-                                                                src={
-                                                                    candidate_profile
-                                                                        ? candidate_profile
-                                                                        : DefaultCandidatePicture
-                                                                }
-                                                            />
+                                                            {first_name}
                                                         </Typography>
-                                                    </div>
-                                                </td>
-                                                <td className={classes}>
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {first_name}
-                                                    </Typography>
-                                                </td>
-                                                <td className={classes}>
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {middle_name}
-                                                    </Typography>
-                                                </td>
-                                                <td className={classes}>
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {last_name}
-                                                    </Typography>
-                                                </td>
-                                                <td className={classes}>
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {partylistName}
-                                                    </Typography>
-                                                </td>
-                                                <td className={classes}>
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {positionName}
-                                                    </Typography>
-                                                </td>
-                                                <td className={classes}>
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="font-normal"
-                                                    >
-                                                        {manifesto}
-                                                    </Typography>
-                                                </td>
-                                                <td className={classes}>
-                                                    <div className="flex gap-2">
-                                                        <Tooltip content="Edit Candidate">
-                                                            <IconButton
-                                                                variant="text"
-                                                                className="bg-amber-700 text-white"
-                                                                onClick={() =>
-                                                                    handleUpdateOpen(
-                                                                        id
-                                                                    )
-                                                                }
-                                                            >
-                                                                <PencilIcon className="h-5 w-5" />
-                                                            </IconButton>
-                                                        </Tooltip>
-                                                        <Tooltip content="Delete Candidate">
-                                                            <IconButton
-                                                                variant="text"
-                                                                className="bg-red-700 text-white"
-                                                                onClick={() =>
-                                                                    handleDeleteOpen(
-                                                                        id
-                                                                    )
-                                                                }
-                                                            >
-                                                                <svg
-                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 24 24"
-                                                                    fill="currentColor"
-                                                                    className="w-5 h-5"
+                                                    </td>
+                                                    <td className={classes}>
+                                                        <Typography
+                                                            variant="small"
+                                                            color="blue-gray"
+                                                            className="font-normal"
+                                                        >
+                                                            {middle_name}
+                                                        </Typography>
+                                                    </td>
+                                                    <td className={classes}>
+                                                        <Typography
+                                                            variant="small"
+                                                            color="blue-gray"
+                                                            className="font-normal"
+                                                        >
+                                                            {last_name}
+                                                        </Typography>
+                                                    </td>
+                                                    <td className={classes}>
+                                                        <Typography
+                                                            variant="small"
+                                                            color="blue-gray"
+                                                            className="font-normal"
+                                                        >
+                                                            {partylistName}
+                                                        </Typography>
+                                                    </td>
+                                                    <td className={classes}>
+                                                        <Typography
+                                                            variant="small"
+                                                            color="blue-gray"
+                                                            className="font-normal"
+                                                        >
+                                                            {positionName}
+                                                        </Typography>
+                                                    </td>
+                                                    <td className={classes}>
+                                                        <Typography
+                                                            variant="small"
+                                                            color="blue-gray"
+                                                            className="font-normal"
+                                                        >
+                                                            {manifesto}
+                                                        </Typography>
+                                                    </td>
+                                                    <td className={classes}>
+                                                        <div className="flex gap-2">
+                                                            <Tooltip content="Edit Candidate">
+                                                                <IconButton
+                                                                    variant="text"
+                                                                    className="bg-amber-700 text-white"
+                                                                    onClick={() =>
+                                                                        handleUpdateOpen(
+                                                                            id
+                                                                        )
+                                                                    }
                                                                 >
-                                                                    <path
-                                                                        fillRule="evenodd"
-                                                                        d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
-                                                                        clipRule="evenodd"
-                                                                    />
-                                                                </svg>
-                                                            </IconButton>
-                                                        </Tooltip>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        );
-                                    }
-                                )
+                                                                    <PencilIcon className="h-5 w-5" />
+                                                                </IconButton>
+                                                            </Tooltip>
+                                                            <Tooltip content="Delete Candidate">
+                                                                <IconButton
+                                                                    variant="text"
+                                                                    className="bg-red-700 text-white"
+                                                                    onClick={() =>
+                                                                        handleDeleteOpen(
+                                                                            id
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    <svg
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 24 24"
+                                                                        fill="currentColor"
+                                                                        className="w-5 h-5"
+                                                                    >
+                                                                        <path
+                                                                            fillRule="evenodd"
+                                                                            d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
+                                                                            clipRule="evenodd"
+                                                                        />
+                                                                    </svg>
+                                                                </IconButton>
+                                                            </Tooltip>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        }
+                                    )
                             )}
                         </tbody>
 
                     </table>
                 </CardBody>
                 <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                    <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                    >
-                        Page {1} of {10}
-                    </Typography>
-                    <div className="flex gap-2">
-
-                        <Button variant="outlined" size="sm" onClick={handlePreviousClick} disabled={candidatesPerPage.current_page === 1}>
-                            Previous
-                        </Button>
-
-                        <Button variant="outlined" size="sm" onClick={handleNextPage} disabled={candidatesPerPage.current_page === candidatesPerPage.per_page}>
-                            Next
-                        </Button>
-                    </div>
+                    <PaginationInTable dataPerPage={candidatesPerPage} />
                 </CardFooter>
+
             </Card>
+            {/** <div className="flex justify-center mt-8">
+           <PaginationComponent dataPerPage={candidatesPerPage} />
+
+       </div> */}
             <DeleteModal
                 open={openDeleteModal}
                 handleDeleteOpen={handleDeleteOpen}

@@ -1,11 +1,11 @@
 import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
-import PieChart from '../PieChart';
+
 import VoteTable from '../Table/VoteTable';
 const Votes = ({ auth, votes, votesPerPage, voters, candidates, positions }) => {
 
   return (
-    <AuthenticatedLayout user={auth.user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Votes</h2>} >
+    <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Votes</h2>} >
 
       <div className="flex flex-col md:flex-row min-h-screen">
 

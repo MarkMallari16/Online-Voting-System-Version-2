@@ -5,14 +5,14 @@ import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 import ModeratorNavigation from '@/Pages/Moderator/ModeratorNavigation';
-import defaultProfile from '../../../public/profile_photos/default_profile.png';
 import { Avatar } from '@material-tailwind/react';
+import { GrDocumentTime } from "react-icons/gr";
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <nav className="bg-white border-b border-gray-100 p-4">
+            <nav className="bg-white border-b border-gray-100 p-5">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex">
@@ -39,21 +39,23 @@ export default function Authenticated({ user, header, children }) {
                                         href={route('activitylog')}
                                         active={route().current('activitylog')}
                                         className={` ${route().current('activitylog')}`}
-                                    > <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 me-1">
-                                            <path fillRule="evenodd" d="M2.625 6.75a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0A.75.75 0 0 1 8.25 6h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75ZM2.625 12a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0ZM7.5 12a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12A.75.75 0 0 1 7.5 12Zm-4.875 5.25a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Zm4.875 0a.75.75 0 0 1 .75-.75h12a.75.75 0 0 1 0 1.5h-12a.75.75 0 0 1-.75-.75Z" clipRule="evenodd" />
-                                        </svg>
-                                        Activity Log</NavLink>
+                                    >
+                                        <GrDocumentTime className='w-5 h-5  me-2' />
+
+
+                                        Activity Log
+                                    </NavLink>
 
                                 }
                                 {user.role === 'moderator' &&
                                     <ModeratorNavigation />
                                 }
-                                {user.role === 'partylist_editor' &&
+                                {/**  {user.role === 'partylist_editor' &&
                                     <NavLink href={route('partylists')} active={route().current('partylists')} className={`${route().current('partylists')}`}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 me-1">
                                         <path fillRule="evenodd" d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z" clipRule="evenodd" />
                                         <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
                                     </svg>Partylist</NavLink>
-                                }
+                                } */}
                             </div>
                         </div>
 
@@ -69,11 +71,11 @@ export default function Authenticated({ user, header, children }) {
                                                 className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                             >
                                                 {/*user.name */}
-                                                <div className='flex gap-1 items-center'>
+                                                <div className='flex items-center'>
                                                     <div>
-                                                        <Avatar src={user.profile_picture ? user.profile_picture : defaultProfile} />
+                                                        <Avatar src={`/storage/${user.profile_picture}` } />
                                                     </div>
-                                                    <div>{user.name}</div>
+                                                    {/**<div>{user.name}</div> */}
                                                 </div>
                                                 {/*console.log(user.profile_picture)*/}
 
@@ -137,7 +139,7 @@ export default function Authenticated({ user, header, children }) {
                     </div>
                 </div>
 
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
+                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden '}>
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                             Dashboard
@@ -162,7 +164,11 @@ export default function Authenticated({ user, header, children }) {
                                     active={route().current('votes')}
                                     className={` ${route().current('votes')}`}
                                 >Votes</ResponsiveNavLink>
-
+                                <ResponsiveNavLink
+                                    href={route('partylists')}
+                                    active={route().current('partylists')}
+                                    className={` ${route().current('partylists')}`}
+                                >Partylists</ResponsiveNavLink>
                                 <ResponsiveNavLink
                                     href={route('positions')}
                                     active={route().current('positions')}
@@ -174,22 +180,22 @@ export default function Authenticated({ user, header, children }) {
                                     className={` ${route().current('candidate')}`}
                                 >Candidate</ResponsiveNavLink>
                                 <ResponsiveNavLink
-                                    href={route('ballots')}
-                                    active={route().current('ballots')}
-                                    className={` ${route().current('ballots')}`}
+                                    href={route('ballot')}
+                                    active={route().current('ballot')}
+                                    className={` ${route().current('ballot')}`}
                                 >Ballot</ResponsiveNavLink>
                             </>
 
                         }
-                        {user.role === 'partylist_editor' &&
-                            <ResponsiveNavLink
-                                href={route('partylists')}
-                                active={route().current('partylists')}
-                                className={`${route().current('partylists') ? 'active' : ''}`}
-                            >
-                                Partylist
-                            </ResponsiveNavLink>
-                        }
+                        {/**{user.role === 'partylist_editor' &&
+                        <ResponsiveNavLink
+                            href={route('partylists')}
+                            active={route().current('partylists')}
+                            className={`${route().current('partylists') ? 'active' : ''}`}
+                        >
+                            Partylist
+                        </ResponsiveNavLink>
+                    } */}
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200">

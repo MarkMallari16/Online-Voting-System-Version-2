@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
-import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import { PencilIcon } from "@heroicons/react/24/solid";
 import {
     Card,
     CardHeader,
@@ -23,19 +23,22 @@ import {
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
-import { useForm } from '@inertiajs/inertia-react';
-import { Inertia } from '@inertiajs/inertia';
-import Modal from "@/Components/Modal";
-import InfoIcon from "@/Components/InfoIcon";
+import { useForm, router } from "@inertiajs/react";
+
+
 import ExcelExport from "@/Components/ExcelExport";
 import DeleteModal from "@/Components/DeleteModal";
+import CustomToast from "@/Components/CustomToast";
+import toast from "react-hot-toast";
+import PaginationInTable from "@/Components/PaginationInTable";
+import SearchInput from "@/Components/SearchInput";
 
 
 const TABLE_HEAD = ["Position ID", "Position", "Action"];
 
 
 export function PositionsTable(props) {
-
+    const { data, setData, post, put, delete: destroy, errors, progress, processing, reset } = useForm();
     const [positions, setPositions] = useState(props.positions);
 
     const [openAddModal, setOpenAddModal] = useState(false);
@@ -46,43 +49,45 @@ export function PositionsTable(props) {
 
     const [id, setId] = useState(null);
 
-    const [message, setMessage] = useState('');
+
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
-    
+
     const positionsPerPage = props.positionsPerPage;
 
     const [currentPage, setCurrentPage] = useState(positionsPerPage.current_page);
-    const [totalPages, setTotalPages] = useState(positionsPerPage.last_page);
-
 
     const indexOfLastPositions = currentPage * positionsPerPage.per_page;
-    const indexOfFirstPositions = indexOfLastPositions - positionsPerPage;
+    const indexOfFirstPositions = indexOfLastPositions - positionsPerPage.per_page;
     const currentPositions = positions.slice(indexOfFirstPositions, indexOfLastPositions);
 
-    console.log(positionsPerPage);
-    const { data, setData, post, errors } = useForm();
+    useEffect(() => {
+        setPositions(props.positions)
+    }, [props.positions])
+
+    const totalPages = positionsPerPage.last_page;
 
     //modal add
-    const handleAddOpen = () => setOpenAddModal(!openAddModal);
+    const handleAddOpen = () => {
+        setOpenAddModal(!openAddModal)
+        setData('name', '');
+    };
 
-    const handleAddSubmit = async (e) => {
+    const handleAddSubmit = (e) => {
         e.preventDefault(); // Prevent the default form submission behavior
 
-        try {
-            // Send a POST request to '/positions.store'
-            await post('/positions', data);
+        post(route('positions.store', data), {
+            onSuccess: () => {
+                setOpenAddModal(false);
+                toast.success("Position created successfully")
+                setIsSuccessMessage(true);
 
-            // Close the add modal
-            setOpenAddModal(false);
-            setMessage('Position successfully added');
-            setIsSuccessMessage(true);
-            // Reset the positionName field to empty
-            setData('name', '');
+            },
+            onError: () => {
+                setOpenAddModal(true);
+            },
+            preserveScroll: true,
 
-            window.location.reload();
-        } catch (error) {
-            console.error('Failed to create position:', error);
-        }
+        });
     };
     //modal update
     const handleUpdateOpen = (id) => {
@@ -91,44 +96,31 @@ export function PositionsTable(props) {
         // Set the initial value of the input field to the current position name
         const positionToUpdate = positions.find(position => position.id === id);
         // console.log("positionToUpdate:", positionToUpdate); // Add this line for debugging
-        if (positionToUpdate) {
-            setData('name', positionToUpdate.name);
-        } else {
-            console.error("Position not found with id:", id);
-            setData('name', '');
-        }
+        setData('name', positionToUpdate.name);
 
     };
 
     const handleUpdateSubmit = async (e) => {
         e.preventDefault();
 
-        try {
-            // Send a PUT request to '/positions/{id}'
-            await Inertia.put(`/positions/${id}`, data);
+        // Send a PUT request to '/positions/{id}'
+        await put(`/position/${id}`, data);
 
-            // Close the update modal
-            setUpdateModal(false);
+        // Close the update modal
+        setUpdateModal(false);
 
-            setMessage('Position successfully updated');
-            setIsSuccessMessage(true);
-            // Reset the positionName field to empty
-            setData('name', '');
+        toast.success("Position updated successfully")
+        setIsSuccessMessage(true);
 
-            window.location.reload();
-        } catch (error) {
-            console.error('Failed to update position:', error);
-        }
+        // Reset the positionName field to empty
+        reset();
+
     };
 
     //modal for delete
     const handleDeleteOpen = (id) => {
         setDeleteModal(!openDeleteModal)
         setId(id);
-        console.log(id);
-        console.log(openDeleteModal);
-
-
     };
 
     const handleChange = (event) => {
@@ -138,30 +130,18 @@ export function PositionsTable(props) {
     const handleDeletePositions = (positionId) => {
         try {
             // Send a DELETE request to delete the position
-            Inertia.delete(`/positions/${positionId}`);
+            router.delete(`/position/${positionId}`);
 
-            // Update the positions state by filtering out the deleted position
-            setPositions(prevPositions => prevPositions.filter(position => position.id !== positionId));
-            setMessage(`Position successfully deleted`);
+
+            toast.success("Position deleted successfully")
             setIsSuccessMessage(true);
             // Close the delete modal
             setDeleteModal(false);
-            window.location.reload();
+
         } catch (error) {
             console.error('Failed to delete position:', error);
         }
     };
-
-    const handlePreviousClick = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    }
-    const handleNextPage = () => {
-        if (currentPage < Math.ceil(props.positions.length / votesPerPage)) {
-            setCurrentPage(currentPage + 1);
-        }
-    }
 
     const handleSearch = (event) => {
         setSearchQuery(event.target.value);
@@ -169,7 +149,7 @@ export function PositionsTable(props) {
     return (
         <div>
             <div className="mb-3">
-                {isSuccessMessage && <Alert icon={<InfoIcon />} color="green">{message}</Alert>}
+                {isSuccessMessage && <CustomToast />}
             </div>
             <Card className="h-full w-full">
                 <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -186,7 +166,7 @@ export function PositionsTable(props) {
 
                             <Button className="flex items-center gap-3 bg-blue-500" size="sm" onClick={handleAddOpen}>
 
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className=" w-4 h-4">
                                     <path fillRule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
                                 </svg>
                                 Add position
@@ -197,38 +177,43 @@ export function PositionsTable(props) {
                         {/*Dialog for add */}
                         <Dialog open={openAddModal} handler={handleAddOpen}>
                             <DialogHeader>Add Position</DialogHeader>
-                            <DialogBody>
-                                <form onSubmit={handleAddSubmit}>
+                            <form onSubmit={handleAddSubmit}>
+                                <DialogBody>
+
                                     <div>
-                                        <InputLabel htmlFor="positionName" value="Enter Position Name" />
+                                        <InputLabel htmlFor="positionName" value="Position Name" />
                                         <TextInput
                                             id="positionName"
                                             className="mt-1 block w-full"
                                             name="name"
                                             value={data.name || ''}
                                             onChange={handleChange}
-                                            required
+
                                             autoFocus
+                                            placeholder="Enter position name"
                                         />
-                                        <InputError>{errors.name}</InputError>
+                                        <InputError className="mt-2" message={errors.name} />
                                     </div>
-                                    <DialogFooter>
-                                        <Button variant="text" color="red" onClick={handleAddOpen} className="mr-1">
-                                            <span>Cancel</span>
-                                        </Button>
-                                        <Button variant="gradient" color="blue" type="submit">
-                                            <span>Confirm</span>
-                                        </Button>
-                                    </DialogFooter>
-                                </form>
-                            </DialogBody>
+
+
+                                </DialogBody>
+                                <DialogFooter>
+                                    <Button variant="text" color="red" onClick={handleAddOpen} className="mr-1">
+                                        <span>Cancel</span>
+                                    </Button>
+                                    <Button variant="gradient" color="blue" type="submit" disabled={processing}>
+                                        <span>Confirm</span>
+                                    </Button>
+                                </DialogFooter>
+                            </form>
                         </Dialog>
 
                         {/*Dialog for update*/}
                         <Dialog open={openUpdateModal} handler={handleUpdateOpen}>
                             <DialogHeader>Update Position</DialogHeader>
-                            <DialogBody>
-                                <form onSubmit={handleUpdateSubmit}>
+                            <form onSubmit={handleUpdateSubmit}>
+                                <DialogBody>
+
                                     <div>
                                         <InputLabel htmlFor="positionName" value="Enter Position Name" />
                                         <TextInput
@@ -242,39 +227,27 @@ export function PositionsTable(props) {
                                         />
                                         <InputError>{errors.name}</InputError>
                                     </div>
-                                    <DialogFooter>
-                                        <Button variant="text" color="red" onClick={handleUpdateOpen} className="mr-1">
-                                            <span>Cancel</span>
-                                        </Button>
-                                        <Button variant="gradient" color="blue" type="submit">
-                                            <span>Confirm</span>
-                                        </Button>
-                                    </DialogFooter>
-                                </form>
-                            </DialogBody>
+
+
+                                </DialogBody>
+                                <DialogFooter>
+                                    <Button variant="text" color="red" onClick={handleUpdateOpen} className="mr-1" >
+                                        <span>Cancel</span>
+                                    </Button>
+                                    <Button variant="gradient" color="blue" type="submit" disabled={processing}>
+                                        <span>Confirm</span>
+                                    </Button>
+                                </DialogFooter>
+                            </form>
                         </Dialog>
 
                     </div>
-                    <div className="flex flex-col items-center justify-end gap-4 md:flex-row">
+                    <div className="flex flex-col items-center justify-end gap-2 md:flex-row me-3 mb-1">
                         <div className='flex justify-start gap-2'>
-                            <div className='border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md'>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
-                                </svg>
-
-
-                            </div>
                             <ExcelExport data={positions} fileName="positions" />
+
                         </div>
-                        <div className="w-full md:w-72">
-                            <Input
-                                label="Search"
-                                icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-                                value={searchQuery}
-                                onChange={handleSearch}
-                            />
-                        </div>
+                        <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
                     </div>
                 </CardHeader>
                 <CardBody className="overflow-scroll px-0">
@@ -300,18 +273,24 @@ export function PositionsTable(props) {
                                 ))}
                             </tr>
                         </thead>
-                        {positions.length > 0 ? (
+                        {currentPositions.length === 0 || currentPositions.filter(position =>
+                            position.name.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
+                            <tbody>
+                                <tr>
+                                    <td colSpan="3" className="text-center py-4 ">
+                                        No position found
+                                    </td>
+                                </tr>
+                            </tbody>
+                        ) : (
                             <tbody>
                                 {currentPositions
                                     .filter(position => position.name.toLowerCase().includes(searchQuery.toLowerCase()))
-                                    .map(({ id, name, created_at }) => {
+                                    .map(({ id, name }) => {
 
                                         const classes = "p-4 border-b border-blue-gray-50";
 
-                                        const formatDate = (dateString) => {
-                                            const date = new Date(dateString);
-                                            return date.toLocaleString();
-                                        };
+
                                         return (
                                             <tr key={id}>
                                                 <td className={classes}>
@@ -338,28 +317,7 @@ export function PositionsTable(props) {
                                                         </Typography>
                                                     </div>
                                                 </td>
-                                                {/* <td className={classes}>
-                                                   <div className="flex flex-col">
-                                                       <Typography
-                                                           variant="small"
-                                                           color="blue-gray"
-                                                           className="font-normal"
-                                                       >
-                                                           {formatDate(created_at)}
-                                                       </Typography>
-                                                   </div>
-                                               </td> */}
-                                                {/* <td className={classes}>
-                                                   <div className="flex flex-col">
-                                                       <Typography
-                                                           variant="small"
-                                                           color="blue-gray"
-                                                           className="font-normal"
-                                                       >
-                                                           {formatDate(updated_at)}
-                                                       </Typography>
-                                                   </div>
-                                               </td> */}
+
                                                 <td className={classes}>
                                                     <div className="flex gap-2">
                                                         <Tooltip content="Edit Position">
@@ -395,30 +353,13 @@ export function PositionsTable(props) {
                                         );
                                     })}
                             </tbody>
-                        ) : (
-                            <tbody>
-                                <tr>
-                                    <td colSpan="3" className="text-center py-4 text-gray-500">
-                                        No position found
-                                    </td>
-                                </tr>
-                            </tbody>
+
                         )}
 
                     </table>
                 </CardBody>
                 <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                    <Typography variant="small" color="blue-gray" className="font-normal">
-                        Page {currentPage} of {totalPages}
-                    </Typography>
-                    <div className="flex gap-2">
-                        <Button variant="outlined" size="sm" onClick={handlePreviousClick} disabled={currentPage === 1}>
-                            Previous
-                        </Button>
-                        <Button variant="outlined" size="sm" onClick={handleNextPage} disabled={currentPage === totalPages}>
-                            Next
-                        </Button>
-                    </div>
+                    <PaginationInTable dataPerPage={positionsPerPage} />
                 </CardFooter>
 
                 <DeleteModal

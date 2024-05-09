@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Avatar } from '@material-tailwind/react';
 import PrimaryButton from '@/Components/PrimaryButton';
-import defaultProfile from '../../../../../public/profile_photos/default_profile.png';
-import { useForm } from '@inertiajs/inertia-react';
+
+import { useForm } from '@inertiajs/react';
 import InputError from '@/Components/InputError';
 import { Transition } from '@headlessui/react';
+import DefaultUserProfile from '@/Components/DefaultUserProfile';
 
 const UpdateProfilePicture = ({ user }) => {
   const { data, setData, post, errors, processing, recentlySuccessful } = useForm({
@@ -17,12 +18,7 @@ const UpdateProfilePicture = ({ user }) => {
 
   const handleUpload = (e) => {
     e.preventDefault();
-    post(route('profile.uploadProfile'), {
-      onSuccess: () => {
-
-       
-      },
-    });
+    post(route('profile.uploadProfile'));
   };
 
   return (
@@ -33,13 +29,14 @@ const UpdateProfilePicture = ({ user }) => {
       </div>
       <div className='flex gap-2'>
         <Avatar
-          src={data.profile_picture ? URL.createObjectURL(data.profile_picture) : user.profile_picture ? user.profile_picture : defaultProfile}
-          alt='profile'
+          src={data.profile_picture ? URL.createObjectURL(data.profile_picture) : user.profile_picture ? `storage/${user.profile_picture}` : <DefaultUserProfile/>}
+          alt="Default Profile Picture"
           size='xxl'
           withBorder={true}
           color='blue'
           className='p-0.5'
         />
+        
         <div className='mt-3s'>
           <input
             className='hidden'
@@ -64,8 +61,10 @@ const UpdateProfilePicture = ({ user }) => {
             Upload Profile Picture
           </label>
         </div>
-      </div>
 
+        
+      </div>
+      <InputError className='mt-2' message={errors.profile_picture}/>
       <div>
         <InputError className="mt-2" message={errors.name} />
       </div>

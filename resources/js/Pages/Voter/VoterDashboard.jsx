@@ -1,29 +1,27 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
-import { useForm } from "@inertiajs/inertia-react";
-import CandidateCard from "./CandidateCard";
+import { useForm } from "@inertiajs/react";
+import CandidateCard from "@/Components/CandidateCard";
 import VoteConfirmationModal from "@/Components/VoteConfirmationModal";
 import AlreadyVoted from "@/Components/AlreadyVoted";
-import CouncilLogo from "../../../../public/councilLogo.png";
-import STIBacoorLogo from "../../assets/bacoor-logo.png";
+
 import BarChartContainer from "../Moderator/BarChartContainer";
+import PartylistCarousel from "@/Components/PartylistCarousel";
+import Time from '../../assets/time.svg';
+import ElectionHeader from "@/Components/ElectionHeader";
 
-
-const findVoterWhoVoted = (voters, setVoterId) => {
-    const voterWhoVoted = voters.find(voter => voter.hasVoted);
-    console.log(voterWhoVoted);
-    if (voterWhoVoted) {
-        setVoterId(voterWhoVoted.id);
-    }
-};
-
-
-const VoterDashboard = ({ election, candidatesAll, positionList, partyList, voters, castedVotes, voteCounts }) => {
-    const [isSuccessMessage, setIsSuccessMessage] = useState(false);
+const VoterDashboard = ({ election, candidatesAll, positionList, partyList, castedVotes, voteCounts, voterHasVoted }) => {
     const [selectedCandidates, setSelectedCandidates] = useState([]);
     const [now, setNow] = useState(new Date());
-    const [voterId, setVoterId] = useState(null);
-    const memoizedEndingDate = useMemo(() => election.status === 'Inactive' ? '' : election.end_date, [election.end_date, election.status]);
+
+    const memoizedEndingDate = useMemo(() => {
+
+        if (!election || election.status === 'Inactive') {
+            return '';
+        } else {
+            return election.end_date;
+        }
+    }, [election]);
 
     const endDate = memoizedEndingDate ? new Date(memoizedEndingDate) : new Date(0);
 
@@ -31,19 +29,20 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, vote
 
     const [result, setResult] = useState(now > endDate);
 
+    const resultRef = useRef(null);
+
     useEffect(() => {
-        findVoterWhoVoted(voters, setVoterId);
-    }, [voters, setVoterId]);
+        if (result && resultRef.current) {
+            resultRef.current.scrollIntoView({ behavior: 'smooth', block: "start" });
+        }
+    }, [result])
 
     useEffect(() => {
         const updateNow = () => {
             setNow(new Date());
-            setTimeout(updateNow, 1000); 
+            setTimeout(updateNow, 1000);
         };
-
-    
         updateNow();
-
         return () => clearTimeout(updateNow);
     }, []);
 
@@ -51,13 +50,16 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, vote
         setResult(now > endDate);
     }, [endDate, now]);
 
-    const electionId = election ? election.id : null;
+    const electionId = election ? election.id : 0;
+
+    const isElectionStarted = now > new Date(election?.start_date);
+
 
     const { data, setData, post, errors, processing } = useForm({
         election_id: electionId,
         candidate_ids: [],
     });
-
+    console.log(errors)
     useEffect(() => {
         // Update the candidate_ids field in the form data when selectedCandidates changes
         setData("candidate_ids", selectedCandidates);
@@ -92,14 +94,14 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, vote
         }
     };
 
-    const onVoteSubmit = async (e) => {
+    const onVoteSubmit = (e) => {
         e.preventDefault();
 
-        if (selectedCandidates.length === 0) {
-            // Handle case where no candidates are selected
-            console.error("No candidates selected.");
-            return;
-        }
+        // if (selectedCandidates.length === 0) {
+        //     // Handle case where no candidates are selected
+        //     console.error("No candidates selected.");
+        //     return;
+        // }
 
         setShowConfirmationModal(true);
     };
@@ -115,25 +117,26 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, vote
                 candidate_ids: selectedCandidates,
             });
             setIsSuccessMessage(true);
-            // setVoterHasVoted(true);
+           
+
         } catch (error) {
-            // Handle error
+
             console.error("Error submitting vote:", error);
         }
 
         setShowConfirmationModal(false);
     };
-    // console.log(hasVoted);
+
     const getSelectedCandidatesInfo = () => {
 
         return selectedCandidates.map(candidateId => {
-            // Find the candidate object with the matching ID
+
             const candidate = candidatesAll.find(candidate => candidate.id === candidateId);
-            // Return an object with the required information
+
             return {
                 id: candidate.id,
                 candidateProfile: candidate.candidate_profile,
-                name: `${candidate.first_name} ${candidate?.middle_name} ${candidate.last_name}`,
+                name: `${candidate.first_name} ${candidate?.middle_name ? candidate?.middle_name : ''} ${candidate.last_name}`,
                 partylist: candidate.partylist.name,
                 position: candidate.position
             };
@@ -141,49 +144,29 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, vote
     };
 
 
+    // console.log(election)
+    console.log(partyList)
 
     return (
         <div>
-            {election ? (
+            {(election && election?.status === "Active") && isElectionStarted ? (
+
                 <div>
-                    <div className="bg-white border border-black border-3 p-5 rounded-md ">
-                        <div className="flex  items-center justify-between">
-                            <div><img src={STIBacoorLogo} alt="STI Bacoor Logo" className="w-52 sm:w-32" /></div>
-                            <div className="text-xl md:text-5xl text-center font-medium">{election.title}</div>
-
-                            <div><img src={CouncilLogo} alt="Council Logo" className="w-48 sm:w-36" /></div>
-                        </div>
-                        {election.start_date < election.end_date && (
-                            <div className="text-center flex justify-center text-wrap gap-4">
-                                <div className="flex items-center gap-2">
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                                            <path fillRule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clipRule="evenodd" />
-                                        </svg>
-                                    </span>
-
-                                    Start Date: {new Date(election.start_date).toLocaleString()}
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                                        <path fillRule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clipRule="evenodd" />
-                                    </svg>
-
-                                    End Date: {new Date(election.end_date).toLocaleString()}
-                                </div>
-                            </div>
-                        )}
-                    </div>
+                    <PartylistCarousel partyList={partyList}/>
+                    <ElectionHeader election={election} />
                     <div>
                         {result ? (
-                            <div className="mt-20">
-                                <div className="w-full text-xl md:text-2xl lg:text-3xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 justify-center">
+                            <div ref={resultRef} className="mt-10">
+                                <div className="text-end">
+                                    <PrimaryButton>See Winners</PrimaryButton>
+                                </div>
+                                <div className="w-full text-xl md:text-2xl lg:text-3xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 justify-center ">
                                     {positionList.map(position => (
                                         <BarChartContainer key={position.id} positionId={position.id} positionName={position.name} voteCounts={voteCounts} />
                                     ))}
                                 </div>
                             </div>
-                        ) : voterId ? (
+                        ) : voterHasVoted ? (
                             <AlreadyVoted castedVotes={castedVotes} positionList={positionList} partyList={partyList} />
                         ) : (
                             <form onSubmit={onVoteSubmit}>
@@ -238,10 +221,11 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, vote
                 </div>
             ) : (
 
-                <div className="h-screen w-full flex justify-center items-center">
-                    <div className="text-gray-600 p-5 text-center ">
-                        <div className="text-xl">Please wait for the moderator</div>
-                        <div className="text-xl">Election for this position will be available soon.</div>
+                <div className=" w-full flex justify-center items-center bg-white py-10 rounded-md ring-1 inset-1 ring-gray-300">
+                    <div className="text-gray-800 p-5 text-center flex justify-center items-center flex-col">
+                        <img src={Time} alt="waiting" className="w-44" />
+                        <div className="mt-2 text-xl">Please wait for the Moderator</div>
+                        <div className="text-xl mb-2">Election for this position will be available soon.</div>
                     </div>
 
                 </div>

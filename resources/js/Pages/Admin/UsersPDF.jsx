@@ -1,76 +1,67 @@
 import React from "react";
-import {
-    Document,
-    Page,
-    Text,
-    View,
-    StyleSheet,
-    Image,
-} from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet,Image } from '@react-pdf/renderer';
 import SHSLogo from "@/assets/councilLogo.png";
 import STIBacoorLogo from "@/assets/bacoor-logo.png";
-const styles = StyleSheet.create({
-    page: {
-        flexDirection: "row",
-        backgroundColor: "#ffffff",
-    },
-    section: {
-        margin: 10,
-        padding: 10,
-        flexGrow: 1,
-    },
-    container: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-evenly",
-    },
-    topHeading: {
-        flex: 1,
-        fontSize: 16,
-        marginBottom: 10,
-        fontWeight: "bold",
-        textAlign: "center",
-    },
-    heading: {
-        fontSize: 16,
-        marginBottom: 10,
-        fontWeight: "bold",
-    },
 
-    table: {
-        display: "table",
-        width: "100%", 
-        borderStyle: "solid",
-        borderWidth: 1,
-        borderColor: "#bfbfbf",
-        marginBottom: 10,
-    },
-    tableRow: {
-        
-        flexDirection: "row",
-    },
-    tableCell: {
-        flex: 1, 
-        fontSize: 12,
-        padding: 5,
-        borderStyle: "solid",
-        borderWidth: 1,
-        borderColor: "#bfbfbf",
-        textAlign: "center", 
-    },
-    logoImage: {
-        width: 100,
-        height: 100,
-        marginBottom: 10,
-    },
-    stiLogo: {
-        width: 70,
-        height: 50,
-        marginBottom: 10,
-    },
-});
 const UsersPDF = ({ users }) => {
+    const styles = StyleSheet.create({
+        page: {
+            flexDirection: "row",
+            backgroundColor: "#ffffff",
+        },
+        section: {
+            margin: 10,
+            padding: 10,
+            flexGrow: 1,
+        },
+        container: {
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+        },
+        topHeading: {
+            flex: 1,
+            fontSize: 16,
+            marginBottom: 10,
+            fontWeight: "bold",
+            textAlign: "center",
+        },
+        heading: {
+            fontSize: 16,
+            marginBottom: 10,
+            fontWeight: "bold",
+        },
+
+        table: {
+            display: "table",
+            width: "100%",
+            border: '1px solid black',
+            borderRadius: 4,
+            marginBottom: 10,
+        },
+        tableRow: {
+            flexDirection: "row",
+        },
+        tableCell: {
+            flex: 1,
+            fontSize: 12,
+            padding: 5,
+            borderBottom: '1px solid black',
+            borderRight: '1px solid black',
+            textAlign: "center",
+        },
+        logoImage: {
+            width: 100,
+            height: 100,
+            marginBottom: 10,
+        },
+        stiLogo: {
+            width: 70,
+            height: 50,
+            marginBottom: 10,
+        },
+    });
     return (
         <Document>
             <Page size="A4" style={styles.page}>
@@ -86,7 +77,7 @@ const UsersPDF = ({ users }) => {
                     <Text style={styles.heading}>Users List</Text>
                     <View style={styles.table}>
                         <View style={styles.tableRow}>
-                            <Text style={styles.tableCell}>ID</Text>
+                            <Text style={styles.tableCell}>UID</Text>
                             <Text style={styles.tableCell}>Name</Text>
                             <Text style={styles.tableCell}>Email</Text>
                             <Text style={styles.tableCell}>Role</Text>

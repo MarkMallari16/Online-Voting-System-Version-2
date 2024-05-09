@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useForm } from '@inertiajs/inertia-react';
+import { useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
@@ -13,45 +13,38 @@ import {
   DialogFooter,
   Switch
 } from "@material-tailwind/react";
-import { Alert } from "@material-tailwind/react";
-import InfoIcon from '@/Components/InfoIcon';
-
+import toast from 'react-hot-toast';
+import CustomToast from '@/Components/CustomToast';
 const Election = ({ auth, existingElection, election }) => {
 
   const status = election?.status == 'Active' ? true : false;
 
-  const { data, setData, post, put, errors, reset } = useForm({
+  const { data, setData, post, put, errors, reset, processing } = useForm({
     title: status ? election.title : '',
     start_date: status ? election.start_date : '',
     end_date: status ? election.end_date : '',
     status: status ? status : false
   });
-
-
-
-  // console.log(data.end_date)
-
-
+  console.log(errors);
   const [activateOpen, setActivateOpen] = useState(false);
   const [deactivateOpen, setDeactivateOpen] = useState(false);
 
-  const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
 
 
-  useEffect(() => {
-    setData({
-      title: status ? election.title : '',
-      start_date: status ? election.start_date : '',
-      end_date: status ? election.end_date : '',
-      status: status ? election.status : false
-    });
-  }, [election]);
+  const [isSuccessMessage, setIsSuccessMessage] = useState(false);
+
+    useEffect(() => {
+      setData({
+        title: status ? election.title : '',
+        start_date: status ? election.start_date : '',
+        end_date: status ? election.end_date : '',
+        status: status ? election.status : false
+      });
+    }, [election]);
 
 
   const handleActivateOpen = () => setActivateOpen(!activateOpen);
   const handleDeactivateOpen = () => setDeactivateOpen(!deactivateOpen);
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,30 +52,27 @@ const Election = ({ auth, existingElection, election }) => {
       const route = existingElection ? `/election/${existingElection.id}` : '/election';
       await post(route);
 
-      setSuccessMessage(status ? 'Election updated successfully.' : 'Election created successfully.');
+      setIsSuccessMessage(true);
+      toast.success(status ? 'Election updated successfully.' : 'Election created successfully.');
       reset();
-      window.location.reload();
+
     } catch (error) {
       console.error(error);
-      if (error.response.status === 422) {
-        setError('Validation error. Please check your input.');
-      } else {
-        setError('Failed to create/update election. Please try again.');
-      }
+
     }
   };
-
   const handleActivate = () => {
     try {
       put('/election/activate');
       setData('status', true);
-      setSuccessMessage('Election activated successfully.');
+      toast.success("Election activated successfully.");
+      setIsSuccessMessage(true);
       setActivateOpen(false);
-      window.location.reload();
+
 
     } catch (error) {
       console.error(error);
-      setError('Failed to activate election. Please try again.');
+
     }
   };
 
@@ -90,22 +80,26 @@ const Election = ({ auth, existingElection, election }) => {
     try {
       put('/election/deactivate');
       setData('status', false);
-      setSuccessMessage('Election deactivated successfully.');
+
+      toast.success("Election deactivated successfully.");
+      setIsSuccessMessage(true);
+
       setDeactivateOpen(false);
-      window.location.reload();
 
     } catch (error) {
       console.error(error);
-      setError('Failed to deactivate election. Please try again.');
+
     }
   };
 
   return (
-    <AuthenticatedLayout user={auth.user} header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Election</h2>}>
+    <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Election</h2>}>
       <div className="flex flex-col md:flex-row min-h-screen">
         <main className="flex-1 py-12">
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            {successMessage && <Alert icon={<InfoIcon />} color="green" className="mt-3">{successMessage}</Alert>}
+            <div >
+              {isSuccessMessage && <CustomToast />}
+            </div>
             <form onSubmit={handleSubmit}>
               <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg mb-5">
                 <div className='flex gap-3'>
@@ -137,7 +131,7 @@ const Election = ({ auth, existingElection, election }) => {
                       onChange={(e) => setData('title', e.target.value)}
                       disabled={!status}
                     />
-                    <InputError className="mt-2" error={errors.title} />
+                    <InputError className="mt-2" message={errors.title} />
                   </div>
                 </div>
                 <div className="mt-5">
@@ -157,7 +151,7 @@ const Election = ({ auth, existingElection, election }) => {
                       onChange={(e) => setData('start_date', e.target.value)}
                       disabled={!status}
                     />
-                    <InputError className="mt-2" error={errors.start_date} />
+                    <InputError className="mt-2" message={errors.start_date} />
                   </div>
                   <div>
                     <InputLabel htmlFor="end_date" value="End Date" />
@@ -169,12 +163,11 @@ const Election = ({ auth, existingElection, election }) => {
                       onChange={(e) => setData('end_date', e.target.value)}
                       disabled={!status}
                     />
-                    <InputError className="mt-2" error={errors.end_date} />
+                    <InputError className="mt-2" message={errors.end_date} />
                   </div>
                 </div>
                 <div className='mt-5'>
                   <PrimaryButton type="submit" disabled={!status}>{status ? 'Update' : 'Save'}</PrimaryButton>
-                  {error && <p className="text-red-500 mt-2">{error}</p>}
 
 
                 </div>
@@ -195,7 +188,7 @@ const Election = ({ auth, existingElection, election }) => {
             </div>
           </div>
 
-          Are you sure you want to activate the election? Once status, students will be able to participate in the election.
+          <div>Are you sure you want to activate the election? Once status, students will be able to participate in the election.</div>
         </DialogBody>
         <DialogFooter>
           <Button

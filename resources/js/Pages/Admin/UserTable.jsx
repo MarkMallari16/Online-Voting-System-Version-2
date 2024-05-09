@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import UsersPDF from "./UsersPDF";
-import { FaRegFilePdf, FaRegFileExcel } from "react-icons/fa6";
-import { SiMicrosoftexcel } from "react-icons/si";
+import { FaRegFilePdf } from "react-icons/fa6";
+
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
-    PencilIcon,
+
     UserPlusIcon,
 } from "@heroicons/react/24/outline";
-
+import { PencilIcon } from "@heroicons/react/24/solid"
 import {
     Card,
     CardHeader,
@@ -20,35 +20,37 @@ import {
     IconButton,
     Tooltip,
     Avatar,
-    Alert,
+
 } from "@material-tailwind/react";
 
 import AddUserModal from "./AddUserModal";
 import EditUserModal from "./EditUserModal";
 import DeleteUserModal from "./DeleteUserModal";
-import { Inertia } from "@inertiajs/inertia";
+import toast from 'react-hot-toast';
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ExcelExport from "@/Components/ExcelExport";
+import { Link, router } from "@inertiajs/react";
+import CustomToast from "@/Components/CustomToast";
+import PaginationInTable from "@/Components/PaginationInTable";
 
-const UserTable = ({
-    TABLE_HEAD,
-    users,
-    currentPage,
-    totalPages,
-    setCurrentPage,
-}) => {
+import SearchInput from "@/Components/SearchInput";
+import DefaultProfilePicture from '../../../../public/storage/images/default_profile.png'
+import AvatarComponent from "@/Components/AvatarComponent";
+
+const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
+    console.log(users);
     const [searchQuery, setSearchQuery] = useState("");
     const [filterValue, setFilterValue] = useState("");
 
+    //modal
     const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
 
     const [isEditUserModalOpen, setIsEditUserModalOpen] = useState(false);
     const [isDeleteUserModalOpen, setIsDeleteUserModalOpen] = useState(false);
+    //getting id
     const [selectedUser, setSelectedUser] = useState(null);
     const [selectedUserId, setSelectedUserId] = useState(null);
 
-    //message
-    const [message, setMessage] = useState(null);
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
     //filtered users
@@ -77,21 +79,13 @@ const UserTable = ({
         }
     });
 
-    //handle previous page
-    const handlePreviousPage = () => {
-        setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-    };
-    //handle next page
-    const handleNextPage = () => {
-        setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-    };
-
     //handle add in add user modal
     const handleAddUser = async () => {
         try {
             setIsSuccessMessage(true);
-            setMessage("User added successfully!");
             setIsAddUserModalOpen(false);
+            toast.success("User successfully added");
+
         } catch (error) {
             console.error("Error adding user:", error);
             setIsSuccessMessage(false);
@@ -101,9 +95,11 @@ const UserTable = ({
     //handle the user in edit user modal
     const handleEditUser = async () => {
         try {
+
             setIsSuccessMessage(true);
-            setMessage("User updated successfully!");
-            setIsEditUserModalOpen(false); // Close the edit user modal
+            setIsEditUserModalOpen(false);
+            toast.success("User successfully updated");
+            console.log(isSuccessMessage);
         } catch (error) {
             console.error("Error editing user:", error);
             setIsSuccessMessage(false);
@@ -111,12 +107,15 @@ const UserTable = ({
     };
 
     //handle the user in delete user modal
-    const handleDeleteUser = async (userId) => {
+    const handleDeleteUser = (userId) => {
         try {
-            await Inertia.delete(`/users/${userId}`);
+            router.delete(`/users/${userId}`);
+
             setIsSuccessMessage(true);
-            setMessage("User deleted successfully");
+            toast.success("User successfully deleted");
             setIsDeleteUserModalOpen(false);
+            toast.success('User successfully deleted');
+
         } catch (error) {
             console.error("Error deleting user:", error.message);
             setIsSuccessMessage(false);
@@ -126,16 +125,15 @@ const UserTable = ({
     const handleFilter = (e) => {
         const selectedValue = e.target.value;
         setFilterValue(selectedValue);
-        console.log(selectedValue);
     };
 
     return (
         <div>
             <div className="mb-5">
-                {isSuccessMessage && <Alert color="green">{message}</Alert>}
+                {isSuccessMessage && <CustomToast />}
             </div>
 
-            <Card className="h-full w-full p-4 ">
+            <Card className="h-full w-full ">
                 <CardHeader
                     floated={false}
                     shadow={false}
@@ -155,7 +153,7 @@ const UserTable = ({
                         </div>
                         <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
                             <Button
-                                className="flex items-center gap-3 bg-blue-500"
+                                className="flex items-center gap-3 bg-blue-500 py-2"
                                 size="sm"
                                 onClick={() => setIsAddUserModalOpen(true)}
                             >
@@ -167,24 +165,24 @@ const UserTable = ({
                             </Button>
                         </div>
                     </div>
-                    <div className="flex gap-2 flex-col items-center justify-end md:flex-row">
-                        <div className="flex items-center gap-2 cursor-pointer border-1 bg-gray-200 border-gray-200 text-black px-2 py-2 rounded-md">
+                    <div className="flex gap-2 justify-end items-center me-3 flex-wrap mb-1">
+                        <div className="flex justify-start md:justify-end lg:justify-end xl:justify-end items-center gap-2 cursor-pointer ring-1 ring-inset ring-gray-300 text-gray-900 px-3 py-2 rounded-lg w-full md:w-40 lg:w-40  ">
                             <div>
-                                <FaRegFilePdf className="text-xl" />
+                                <FaRegFilePdf className="text-xl text-gray-900" />
                             </div>
                             <PDFDownloadLink
                                 document={<UsersPDF users={users} />}
                                 fileName="users.pdf"
                             >
-                                {({ blob, url, loading, error }) =>
-                                    "Export to PDF"
-                                }
+                                {({ blob, url, loading, error }) => "Export to PDF"}
                             </PDFDownloadLink>
                         </div>
-                        <ExcelExport data={users} fileName="user" />
+                        <div className="w-full md:w-40 lg:w-40 ">
+                            <ExcelExport data={users} fileName="user" />
+                        </div>
 
-                        <div className="relative flex gap-2 cursor-pointer border-1  text-gray-800 px-2 py-2 rounded-md">
-                            <div className="absolute p-3 textblue">
+                        <div className="relative flex border border-gray-300 rounded-md w-full md:w-52 lg:w-52">
+                            <div className="absolute m-3 text-blue text-gray-900">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -205,33 +203,21 @@ const UserTable = ({
                                 variant="outlined"
                                 label="Filter by"
                                 onChange={handleFilter}
-                                className=" border-1 text-right rounded-lg w-full md:w-40 "
+                                className="ring-1 text-right rounded-md focus:ring-black ring-gray-300 border-none w-full"
                                 value={filterValue}
                             >
                                 <option value="">Filter by</option>
                                 <option value="admin">Admin</option>
                                 <option value="moderator">Moderator</option>
                                 <option value="voter">Voter</option>
-                                <option value="partylist_editor">
-                                    Partylist Editor
-                                </option>
+                                <option value="partylist_editor">Partylist Editor</option>
                             </select>
                         </div>
-                        <div className="flex w-full md:w-72">
-                            <Input
-                                label="Search"
-                                icon={
-                                    <MagnifyingGlassIcon className="h-5 w-5" />
-                                }
-                                onChange={(e) => {
-                                    setSearchQuery(e.target.value);
-                                    console.log(searchQuery);
-                                }}
-                            />
-                        </div>
+                        <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
                     </div>
+
                 </CardHeader>
-                <CardBody className="overflow-scroll overflow-x-auto">
+                <CardBody className="overflow-scroll overflow-x-auto p-0">
                     <table className="mt-4 min-w-full table-auto text-left">
                         <thead>
                             <tr>
@@ -248,11 +234,11 @@ const UserTable = ({
                                             {head}{" "}
                                             {index !==
                                                 TABLE_HEAD.length - 1 && (
-                                                <ChevronUpDownIcon
-                                                    strokeWidth={2}
-                                                    className="h-4 w-4"
-                                                />
-                                            )}
+                                                    <ChevronUpDownIcon
+                                                        strokeWidth={2}
+                                                        className="h-4 w-4"
+                                                    />
+                                                )}
                                         </Typography>
                                     </th>
                                 ))}
@@ -263,7 +249,7 @@ const UserTable = ({
                             <tbody>
                                 <tr className="text-center">
                                     <td
-                                        colSpan="9"
+                                        colSpan="10"
                                         className="py-10 text-center"
                                     >
                                         No matching users found.
@@ -318,11 +304,7 @@ const UserTable = ({
                                                         color="blue-gray"
                                                         className="font-normal"
                                                     >
-                                                        <Avatar
-                                                            src={
-                                                                profile_picture
-                                                            }
-                                                        />
+                                                        <AvatarComponent Profile={profile_picture}/>
                                                     </Typography>
                                                 </td>
                                                 <td className="p-4">
@@ -343,7 +325,7 @@ const UserTable = ({
                                                         {role}
                                                     </Typography>
                                                 </td>
-                                                <td className="p-4">
+                                                <td className="p-4 ">
                                                     <Typography
                                                         variant="small"
                                                         color="blue-gray"
@@ -369,11 +351,10 @@ const UserTable = ({
                                                     <Typography
                                                         variant="small"
                                                         color="blue-gray"
-                                                        className={`text-white font-semibold text-center rounded-md  px-2 py-2  ${
-                                                            email_verified_at
-                                                                ? "bg-green-100 text-green-700"
-                                                                : "bg-red-100 text-red-700"
-                                                        }`}
+                                                        className={`text-white font-semibold text-center rounded-md  px-2 py-2  ${email_verified_at
+                                                            ? "bg-green-100 text-green-700"
+                                                            : "bg-red-100 text-red-700"
+                                                            }`}
                                                     >
                                                         {email_verified_at
                                                             ? "VERIFIED"
@@ -381,12 +362,13 @@ const UserTable = ({
                                                     </Typography>
                                                 </td>
                                                 <td className={classes}>
-                                                    <div className="flex">
+                                                    <div className="flex gap-3">
                                                         <Tooltip
                                                             content="Edit User"
                                                             className="bg-amber-700"
                                                         >
                                                             <IconButton
+                                                                className="bg-amber-700 "
                                                                 variant="text"
                                                                 onClick={() => {
                                                                     setSelectedUser(
@@ -404,14 +386,15 @@ const UserTable = ({
                                                                     );
                                                                 }}
                                                             >
-                                                                <PencilIcon className="text-amber-500  h-4 w-4" />
+                                                                <PencilIcon className="h-5 w-5 text-white" />
                                                             </IconButton>
                                                         </Tooltip>
                                                         <Tooltip
                                                             content="Delete User"
-                                                            className="bg-red-900"
+                                                            className="bg-red-700"
                                                         >
                                                             <IconButton
+                                                                className="bg-red-700 "
                                                                 variant="text"
                                                                 onClick={() => {
                                                                     setSelectedUserId(
@@ -426,7 +409,7 @@ const UserTable = ({
                                                                     xmlns="http://www.w3.org/2000/svg"
                                                                     viewBox="0 0 24 24"
                                                                     fill="currentColor"
-                                                                    className="w-5 h-5 text-red-400"
+                                                                    className="w-5 h-5 text-white"
                                                                 >
                                                                     <path
                                                                         fillRule="evenodd"
@@ -447,31 +430,7 @@ const UserTable = ({
                     </table>
                 </CardBody>
                 <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                    <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                    >
-                        Page {currentPage} of {totalPages}
-                    </Typography>
-                    <div className="flex gap-2">
-                        <Button
-                            variant="outlined"
-                            size="sm"
-                            onClick={handlePreviousPage}
-                            disabled={currentPage === 1}
-                        >
-                            Previous
-                        </Button>
-                        <Button
-                            variant="outlined"
-                            size="sm"
-                            onClick={handleNextPage}
-                            disabled={currentPage === totalPages}
-                        >
-                            Next
-                        </Button>
-                    </div>
+                    <PaginationInTable dataPerPage={usersPerPage} />
                 </CardFooter>
             </Card>
             <AddUserModal
@@ -491,10 +450,8 @@ const UserTable = ({
                 handleClose={() => setIsDeleteUserModalOpen(false)}
                 handleDeleteUser={handleDeleteUser}
                 userId={selectedUserId}
+
             />
-            <div id="pdf-content" className="hidden">
-                <UsersPDF users={users} />
-            </div>
         </div>
     );
 };

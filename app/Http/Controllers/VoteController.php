@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreVoteRequest;
 use App\Models\Candidate;
 use App\Models\Positions;
 use App\Models\User;
@@ -13,10 +14,15 @@ class VoteController extends Controller
 {
     public function index()
     {
-        $votes = Vote::with('user', 'candidate')->get();
+        $votes = Vote::with('user', 'candidate')
+            ->orderByDesc('vote_timestamp')
+            ->get();
         $voters = User::where('role', 'voter')->get();
+
         $positions = Positions::all();
-        $votesPerPage = Vote::with('user', 'candidate')->paginate(10);
+        $votesPerPage = Vote::with('user', 'candidate')
+            ->orderByDesc('vote_timestamp')
+            ->paginate(10);
 
         return Inertia::render(
             'Moderator/ModeratorPages/Votes',
@@ -28,20 +34,19 @@ class VoteController extends Controller
             ]
         );
     }
-   
-    
 
     public function createVote(Request $request)
     {
         // Validate the request
         $validatedData = $request->validate([
             'election_id' => 'required|exists:elections,id',
-            'candidate_ids' => 'required|array',
-            'candidate_ids.*' => 'required|exists:candidates,id',
+            'candidate_ids' => 'nullable|array',
+            'candidate_ids.*' => 'required|exists:candidates,id'
         ]);
 
         // Check if the authenticated user is a voter
         $user = auth()->user();
+        
         if (!$user || $user->role !== 'voter') {
             return redirect()->back()->with('error', 'You are not authorized to vote');
         }
@@ -53,6 +58,11 @@ class VoteController extends Controller
 
         if ($existingVote) {
             return redirect()->back()->with('error', 'You have already voted in this election');
+        }
+        if (empty($validatedData['candidate_ids'])) {
+            $validatedData['candidate_ids'] = [];
+
+            return redirect()->back()->with('success', 'Successfully abstained');
         }
 
         // Create a new vote for each selected candidate
