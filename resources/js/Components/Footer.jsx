@@ -13,7 +13,11 @@ const Footer = () => {
   };
   return (
     <>
+<<<<<<< HEAD
       <footer className="mt-24 w-auto p-8 mx-0  md:mx-6" >
+=======
+      <footer className="mt-24 w-auto p-8 mx-0  md:mx-20" >
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
         <div className="flex flex-row flex-wrap items-center justify-between gap-y-6 gap-x-12 bg-white text-center md:justify-between">
           <img src={BacoorSHSLogo} alt="council-logo" className='w-36' />
           <ul className="flex flex-wrap items-center gap-y-12 gap-x-8">

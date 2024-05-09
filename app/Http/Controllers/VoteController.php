@@ -40,8 +40,13 @@ class VoteController extends Controller
         // Validate the request
         $validatedData = $request->validate([
             'election_id' => 'required|exists:elections,id',
+<<<<<<< HEAD
             'candidate_ids' => 'nullable|array',
             'candidate_ids.*' => 'required|exists:candidates,id'
+=======
+            'candidate_ids' => 'required|array',
+            'candidate_ids.*' => 'nullable|exists:candidates,id'
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
         ]);
 
         // Check if the authenticated user is a voter

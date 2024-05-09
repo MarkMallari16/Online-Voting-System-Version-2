@@ -1,8 +1,6 @@
 import { Link } from '@inertiajs/react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Cover from '../assets/Voting-amico.svg';
-import BacoorLogo from '../assets/bacoor-logo.png';
-import CouncilLogo from '../assets/councilLogo.png'
 
 import {
     Accordion,

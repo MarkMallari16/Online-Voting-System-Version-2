@@ -1,11 +1,19 @@
 import React from 'react';
 import { Dialog, DialogHeader, DialogBody, DialogFooter, Avatar } from "@material-tailwind/react";
+<<<<<<< HEAD
+=======
+import DefaultCandidateProfile from '../../../public/storage/candidate_profile_photos/default_candidate_profile.png'
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
 const CandidateModal = ({ candidate, isOpen, onClose }) => {
     return (
         <Dialog size='lg' open={isOpen} handler={onClose}>
             <DialogHeader>
                 <div className="flex items-center gap-2">
+<<<<<<< HEAD
                     <Avatar src={`storage/${candidate.candidate_profile}`} size="xxl" />
+=======
+                    <Avatar src={candidate.candidate_profile ? `storage/${candidate.candidate_profile}` : DefaultCandidateProfile} size="xxl" />
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
                     <div>
                         <span className='font-medium'>Vote!</span>
                         <h3 className="font-extrabold text-gray-900">{`${candidate.first_name} ${candidate?.middle_name ? candidate.middle_name : ''} ${candidate.last_name}`}</h3>

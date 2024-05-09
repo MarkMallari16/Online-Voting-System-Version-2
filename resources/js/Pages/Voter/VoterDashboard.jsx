@@ -145,14 +145,22 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
 
     // console.log(election)
+<<<<<<< HEAD
     console.log(partyList)
+=======
+
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
 
     return (
         <div>
             {(election && election?.status === "Active") && isElectionStarted ? (
 
                 <div>
+<<<<<<< HEAD
                     <PartylistCarousel partyList={partyList}/>
+=======
+                    <PartylistCarousel />
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
                     <ElectionHeader election={election} />
                     <div>
                         {result ? (

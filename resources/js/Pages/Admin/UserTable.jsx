@@ -29,16 +29,14 @@ import DeleteUserModal from "./DeleteUserModal";
 import toast from 'react-hot-toast';
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ExcelExport from "@/Components/ExcelExport";
-import { Link, router } from "@inertiajs/react";
-import CustomToast from "@/Components/CustomToast";
-import PaginationInTable from "@/Components/PaginationInTable";
 
-import SearchInput from "@/Components/SearchInput";
-import DefaultProfilePicture from '../../../../public/storage/images/default_profile.png'
-import AvatarComponent from "@/Components/AvatarComponent";
-
-const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
-    console.log(users);
+const UserTable = ({
+    TABLE_HEAD,
+    users,
+    currentPage,
+    totalPages,
+    setCurrentPage,
+}) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [filterValue, setFilterValue] = useState("");
 
@@ -82,6 +80,8 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
     //handle add in add user modal
     const handleAddUser = async () => {
         try {
+
+
             setIsSuccessMessage(true);
             setIsAddUserModalOpen(false);
             toast.success("User successfully added");
@@ -125,6 +125,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
     const handleFilter = (e) => {
         const selectedValue = e.target.value;
         setFilterValue(selectedValue);
+        console.log(selectedValue);
     };
 
     return (
@@ -304,7 +305,11 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
                                                         color="blue-gray"
                                                         className="font-normal"
                                                     >
-                                                        <AvatarComponent Profile={profile_picture}/>
+                                                        <Avatar
+                                                            src={
+                                                                profile_picture
+                                                            }
+                                                        />
                                                     </Typography>
                                                 </td>
                                                 <td className="p-4">

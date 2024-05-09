@@ -6,6 +6,10 @@ import BarChartContainer from './BarChartContainer';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { FaRegFilePdf } from 'react-icons/fa';
 import VotesPDF from '@/Components/VotesPDF';
+<<<<<<< HEAD
+=======
+import DefaultProfile from '../../../../public/storage/profile_photos/default_profile.png';
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
 import { Link } from '@inertiajs/react';
 import { FaBox } from "react-icons/fa";
 import DoughnutContainer from './DoughnutContainer';
@@ -154,7 +158,11 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                 {latestVotedVoter && Object.keys(latestVotedVoter).length > 0 ? (
                                     <div className='flex justify-between px-4 py-2 items-center'>
                                         <div>
+<<<<<<< HEAD
                                             <Avatar src={`storage/${latestVotedVoter.profile_picture}`} alt="Avatar" />
+=======
+                                            <Avatar src={latestVotedVoter.profile_picture ? `storage/${latestVotedVoter.profile_picture}` : DefaultProfile} alt="Avatar" />
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
                                         </div>
                                         <div>
                                             {latestVotedVoter.name}

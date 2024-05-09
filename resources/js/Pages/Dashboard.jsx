@@ -24,7 +24,7 @@ export default function Dashboard({ auth, usersPerPage, candidates, candidatesAl
             dashboardContent = <PartylistEditorDashboard partylists={partylist_list} />;
             break;
         case 'voter':
-            dashboardContent = <VoterDashboard voterVoted={voterVoted} election={election} partyList={partylist_list} candidatesAll={candidatesAll} candidates={candidates} positionList={position_list}  voters={voters} castedVotes={castedVotes} voteCounts={voteCounts} voterHasVoted={voterHasVoted} candidateWinners={candidateWinners} />;
+            dashboardContent = <VoterDashboard voterVoted={voterVoted} election={election} partyList={partylist_list} candidatesAll={candidatesAll} candidates={candidates} positionList={position_list} voters={voters} castedVotes={castedVotes} voteCounts={voteCounts} voterHasVoted={voterHasVoted} candidateWinners={candidateWinners} />;
             break;
     }
     return (

@@ -5,6 +5,10 @@ import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 import ModeratorNavigation from '@/Pages/Moderator/ModeratorNavigation';
+<<<<<<< HEAD
+=======
+import DefaultProfile from '../../../public/storage/profile_photos/default_profile.png';
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
 import { Avatar } from '@material-tailwind/react';
 import { GrDocumentTime } from "react-icons/gr";
 export default function Authenticated({ user, header, children }) {
@@ -73,7 +77,11 @@ export default function Authenticated({ user, header, children }) {
                                                 {/*user.name */}
                                                 <div className='flex items-center'>
                                                     <div>
+<<<<<<< HEAD
                                                         <Avatar src={`/storage/${user.profile_picture}` } />
+=======
+                                                        <Avatar src={user.profile_picture ? `/storage/${user.profile_picture}` : DefaultProfile} />
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
                                                     </div>
                                                     {/**<div>{user.name}</div> */}
                                                 </div>

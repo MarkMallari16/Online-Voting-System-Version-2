@@ -6,6 +6,10 @@ import { FaVoteYea } from "react-icons/fa";
 import { Avatar } from '@material-tailwind/react';
 
 import { IoIosCheckboxOutline } from "react-icons/io";
+<<<<<<< HEAD
+=======
+import DefaultCandidatePicture from "../../../public/storage/candidate_profile_photos/default_candidate_profile.png";
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
 
 const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
   const [showModal, setShowModal] = useState(false);
@@ -65,7 +69,11 @@ const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
                   <li key={vote.id} className="mb-3 ring-1 ring-inset ring-gray-900   p-3 rounded-md w-full">
                     <div className="flex justify-between items-center ">
                       <div className='flex gap-3'>
+<<<<<<< HEAD
                         <Avatar src={ `storage/${vote.candidate.candidate_profile}`} />
+=======
+                        <Avatar src={vote.candidate.candidate_profile ? `storage/${vote.candidate.candidate_profile}` : DefaultCandidatePicture} />
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
                         <div>
                           <div className='font-medium'>{`${vote.candidate.first_name} ${vote.candidate?.middle_name ? vote.candidate.middle_name : ''} ${vote.candidate.last_name}`}</div>
                           <div className='text-blue-gray-900 flex items-center gap-1'>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Avatar } from '@material-tailwind/react';
 import PrimaryButton from '@/Components/PrimaryButton';
-
-import { useForm } from '@inertiajs/react';
+import defaultProfile from '../../../../../public/profile_photos/default_profile.png';
+import { useForm } from '@inertiajs/inertia-react';
 import InputError from '@/Components/InputError';
 import { Transition } from '@headlessui/react';
 import DefaultUserProfile from '@/Components/DefaultUserProfile';
@@ -29,8 +29,8 @@ const UpdateProfilePicture = ({ user }) => {
       </div>
       <div className='flex gap-2'>
         <Avatar
-          src={data.profile_picture ? URL.createObjectURL(data.profile_picture) : user.profile_picture ? `storage/${user.profile_picture}` : <DefaultUserProfile/>}
-          alt="Default Profile Picture"
+          src={data.profile_picture ? URL.createObjectURL(data.profile_picture) : user.profile_picture ? user.profile_picture : defaultProfile}
+          alt='profile'
           size='xxl'
           withBorder={true}
           color='blue'
