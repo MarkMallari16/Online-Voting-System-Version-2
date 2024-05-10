@@ -34,7 +34,6 @@ import CustomToast from "@/Components/CustomToast";
 import PaginationInTable from "@/Components/PaginationInTable";
 
 import SearchInput from "@/Components/SearchInput";
-import DefaultProfilePicture from '../../../../public/storage/images/default_profile.png'
 import AvatarComponent from "@/Components/AvatarComponent";
 
 const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
