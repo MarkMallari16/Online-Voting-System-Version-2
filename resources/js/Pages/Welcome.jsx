@@ -97,7 +97,7 @@ export default function Welcome({ auth }) {
                                 </Link>
                                 <Link
                                     href={route('login')}
-                                    className=" text-black px-4 py-2 rounded-md hover:ring-1 hover:ring-inset hover:ring-gray-300 hover:bg-gray-100 transition-all ease-in-out"
+                                    className=" text-black px-4 py-2 rounded-md transition-all ease-in-out"
                                 >
                                     Already have an account?
                                 </Link>
