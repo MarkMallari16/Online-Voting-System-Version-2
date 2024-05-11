@@ -5,7 +5,6 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import { useForm } from '@inertiajs/react';
 import InputError from '@/Components/InputError';
 import { Transition } from '@headlessui/react';
-import DefaultUserProfile from '@/Components/DefaultUserProfile';
 
 const UpdateProfilePicture = ({ user }) => {
   const { data, setData, post, errors, processing, recentlySuccessful } = useForm({
@@ -29,7 +28,7 @@ const UpdateProfilePicture = ({ user }) => {
       </div>
       <div className='flex gap-2'>
         <Avatar
-          src={data.profile_picture ? URL.createObjectURL(data.profile_picture) : user.profile_picture ? `storage/${user.profile_picture}` : <DefaultUserProfile/>}
+          src={data.profile_picture ? URL.createObjectURL(data.profile_picture) : user.profile_picture ? `storage/${user.profile_picture}` : DefaultUserProfile}
           alt="Default Profile Picture"
           size='xxl'
           withBorder={true}

@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('voter_id')->constrained('users'); 
+            $table->foreignId('voter_id')->constrained('users');
             $table->foreignId('election_id')->constrained('elections');
             $table->foreignId('candidate_id')->nullable()->constrained('candidates');
             $table->dateTime('vote_timestamp');
+            $table->boolean('isAbstained')->default(false);
             $table->timestamps();
         });
     }

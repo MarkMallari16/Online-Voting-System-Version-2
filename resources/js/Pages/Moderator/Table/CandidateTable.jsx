@@ -33,10 +33,10 @@ import DeleteModal from "@/Components/DeleteModal";
 import ExcelExport from "@/Components/ExcelExport";
 import toast from "react-hot-toast";
 import CustomToast from "@/Components/CustomToast";
-import PaginationComponent from "@/Components/PaginationComponent";
 import PaginationInTable from "@/Components/PaginationInTable";
 import SearchInput from "@/Components/SearchInput";
-
+import DefaultCandidatePicture from '../../../../../public/storage/images/default_profile.png';
+import AvatarComponent from "@/Components/AvatarComponent";
 const TABLE_HEAD = [
     "Candidate ID",
     "Profile",
@@ -261,10 +261,11 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                 size="xl"
                                 open={open}
                                 handler={handleOpen}
-                                className="overflow-y-auto"
+                                className="overflow-y-auto md:h-[95vh] "
                             >
                                 <form onSubmit={handleSubmit}>
                                     <DialogHeader>Add Candidate</DialogHeader>
+                                    <hr />
                                     <DialogBody>
                                         <div>
                                             <div className="mb-2">
@@ -281,9 +282,9 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                             size="xxl"
                                                             withBorder={true}
                                                             color="blue"
-                                                            className="p-0.5"
-                                                        />
+                                                            className="p-0.5" />
                                                     </div>
+
                                                     <div>
                                                         <label
                                                             htmlFor="candidateImage"
@@ -300,8 +301,8 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                                 onChange={handleFileUpload}
                                                             />
                                                         </label>
-                                                    
-                                                        <InputError className="mt-2" message={errors.candidate_profile} />
+
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -848,14 +849,8 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                                 color="blue-gray"
                                                                 className="font-normal"
                                                             >
-                                                                <Avatar
-                                                                    src={
-                                                                        candidate_profile
-                                                                            ? `/storage/${candidate_profile}`
-                                                                            : DefaultCandidatePicture
-                                                                    }
-                                                                    alt="Candidate profile"
-                                                                />
+
+                                                                <AvatarComponent Profile={candidate_profile} />
                                                             </Typography>
                                                         </div>
                                                     </td>

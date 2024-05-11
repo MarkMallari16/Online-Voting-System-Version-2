@@ -8,10 +8,9 @@ import { CiSquareInfo } from "react-icons/ci";
 
 
 import { TbTie } from "react-icons/tb";
+import { FaUserCheck } from "react-icons/fa";
 
 const ModeratorOverview = ({ voters, candidates, election, votersVotedCount }) => {
-    // const status = election.status;
-    // console.log(voters)
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">

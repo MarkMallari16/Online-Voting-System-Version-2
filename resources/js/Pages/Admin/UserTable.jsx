@@ -77,7 +77,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
             return true;
         }
     });
-
+    console.log(users);
     //handle add in add user modal
     const handleAddUser = async () => {
         try {
@@ -306,7 +306,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
                                                         color="blue-gray"
                                                         className="font-normal"
                                                     >
-                                                        <AvatarComponent Profile={profile_picture}/>
+                                                        <AvatarComponent Profile={profile_picture} />
                                                     </Typography>
                                                 </td>
                                                 <td className="p-4">

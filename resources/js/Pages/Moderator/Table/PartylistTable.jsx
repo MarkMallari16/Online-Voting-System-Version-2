@@ -390,7 +390,7 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
                                           color="blue-gray"
                                           className="font-normal"
                                         >
-                                          {partylist_logo ? <img src={`storage/${partylist_logo}`} alt="Partylist Logo" className="max-w-20" /> : (
+                                          {partylist_logo ? <img src={`storage/${partylist_logo}`} alt="Partylist Logo" className="max-w-20 rounded-md" /> : (
                                             <div className="mx-auto">
                                               <AiOutlineFileUnknown className="ms-5 text-4xl" />
                                             </div>

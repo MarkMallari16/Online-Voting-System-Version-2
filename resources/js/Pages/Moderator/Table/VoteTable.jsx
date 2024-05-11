@@ -54,9 +54,6 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
 
     }
 
-    const handleSearch = (event) => {
-        setSearchQuery(event.target.value);
-    }
 
     const classes = "p-4 border-b border-blue-gray-50";
     return (
@@ -87,7 +84,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                 </div>
 
                                 <div className='text-xl text-black font-medium'>
-                                    <div>Voter's Name: <span>{votes.find(vote => vote.id === id)?.user.name}</span></div>
+                                    <div>Voter's Name: <span>{votes.find(vote => vote.id === id)?.user?.name}</span></div>
                                 </div>
 
                                 <div className='text-xl text-black font-medium'>
@@ -177,9 +174,9 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                     </tr>
                                 </thead>
                                 {votesPerPage.data.length === 0 || votesPerPage.data.filter(vote => {
-                                    const userMatches = vote.user.name.toLowerCase().includes(searchQuery.toLowerCase());
-                                    const candidateMatches = `${vote.candidate.first_name} ${vote.candidate.last_name}`.toLowerCase().includes(searchQuery.toLowerCase());
-                                    const position = positions.find(position => position.id === vote.candidate.position_id).name.toLowerCase().includes(searchQuery.toLowerCase());
+                                    const userMatches = vote?.user?.name.toLowerCase().includes(searchQuery.toLowerCase());
+                                    const candidateMatches = `${vote?.candidate?.first_name} ${vote?.candidate?.last_name}`.toLowerCase().includes(searchQuery.toLowerCase());
+                                    const position = positions.find(position => position?.id === vote?.candidate?.position_id).name?.toLowerCase().includes(searchQuery.toLowerCase());
                                     return userMatches || candidateMatches || position;
                                 }).length === 0 ? (
                                     <tbody>
@@ -191,11 +188,11 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                     </tbody>
                                 ) : (
                                     <tbody>
-                                        {votesPerPage.data
+                                        {votesPerPage?.data
                                             .filter(vote => {
-                                                const userMatches = vote.user.name.toLowerCase().includes(searchQuery.toLowerCase());
-                                                const candidateMatches = `${vote.candidate.first_name} ${vote.candidate.last_name}`.toLowerCase().includes(searchQuery.toLowerCase());
-                                                const position = positions.find(position => position.id === vote.candidate.position_id).name.toLowerCase().includes(searchQuery.toLowerCase());
+                                                const userMatches = vote?.user?.name.toLowerCase().includes(searchQuery.toLowerCase());
+                                                const candidateMatches = `${vote?.candidate?.first_name} ${vote?.candidate?.last_name}`.toLowerCase().includes(searchQuery.toLowerCase());
+                                                const position = positions.find(position => position?.id === vote.candidate?.position_id).name.toLowerCase().includes(searchQuery.toLowerCase());
                                                 return userMatches || candidateMatches || position;
                                             })
                                             .map(({ id, voter_id, user, candidate, election_id, vote_timestamp }) => {
@@ -245,7 +242,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                                         color="blue-gray"
                                                                         className="font-normal"
                                                                     >
-                                                                        {user.name}
+                                                                        {user?.name}
                                                                     </Typography>
                                                                 </div>
                                                             </div>
@@ -259,7 +256,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                                     color="blue-gray"
                                                                     className="font-normal"
                                                                 >
-                                                                    {`${candidate.first_name} ${candidate.last_name}`}
+                                                                    {`${candidate?.first_name} ${candidate?.last_name}`}
                                                                 </Typography>
                                                             </div>
                                                         </td>

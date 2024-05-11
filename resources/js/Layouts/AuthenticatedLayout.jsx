@@ -7,6 +7,7 @@ import { Link } from '@inertiajs/react';
 import ModeratorNavigation from '@/Pages/Moderator/ModeratorNavigation';
 import { Avatar } from '@material-tailwind/react';
 import { GrDocumentTime } from "react-icons/gr";
+import DefaultProfile from '../../../public/storage/images/default_profile.png'
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
@@ -73,7 +74,8 @@ export default function Authenticated({ user, header, children }) {
                                                 {/*user.name */}
                                                 <div className='flex items-center'>
                                                     <div>
-                                                        <Avatar src={`/storage/${user.profile_picture}` } />
+                                                        <Avatar src={`/storage/${user.profile_picture}` ?
+                                                            `/storage/${user.profile_picture}` : DefaultProfile} />
                                                     </div>
                                                     {/**<div>{user.name}</div> */}
                                                 </div>

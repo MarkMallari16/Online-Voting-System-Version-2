@@ -9,7 +9,7 @@ import PaginationComponent from "@/Components/PaginationComponent";
 import AvatarComponent from "@/Components/AvatarComponent";
 const ActivityLog = ({ auth, logs }) => {
     const [isLoading, setIsLoading] = useState(true);
-    console.log(logs);
+  
     useEffect(() => {
         setIsLoading(false);
 

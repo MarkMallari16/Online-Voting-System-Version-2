@@ -13,9 +13,9 @@ const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
         <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Ballot</h2>} >
 
             <div className='mt-10 md:mx-10 lg:mx-20 xl:mx-44'>
-                <ElectionHeader election={election}/>
+                <ElectionHeader election={election} />
                 {positionList.map((position) => (
-                    <div key={position.id} className="bg-white overflow-hidden shadow-md sm:rounded-lg mt-7">
+                    <div key={position.id} className="bg-white overflow-hidden shadow-md sm:rounded-md mt-7">
                         <div className="mt-11 font-medium text-2xl text-center">
                             Vote for {position.name}
                         </div>

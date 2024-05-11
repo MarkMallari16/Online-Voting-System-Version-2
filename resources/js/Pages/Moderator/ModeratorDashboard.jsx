@@ -145,11 +145,11 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                 <div className=" text-gray-900 text-end">
 
                                     <Link href={route('votes')} className='font-medium border-b-2 border-black hover:border-blue-500 transition-all ease-in-out duration-50 hover:text-blue-500 cursor-pointer' >View All</Link>
-                                   
+
                                 </div>
                             </div>
                         </div>
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max">
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max">
                             <div className="text-gray-900">
                                 {latestVotedVoter && Object.keys(latestVotedVoter).length > 0 ? (
                                     <div className='flex justify-between px-4 py-2 items-center'>

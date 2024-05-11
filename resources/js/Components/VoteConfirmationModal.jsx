@@ -7,7 +7,7 @@ import { Avatar } from '@material-tailwind/react';
 import { FaVoteYea } from "react-icons/fa";
 
 const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidates, selectedCandidatesInfo, processing }) => {
-    // console.log(selectedCandidatesInfo);
+
     const handleVoteSubmit = async (e) => {
         e.preventDefault();
         onSubmitVote();
@@ -22,7 +22,7 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
     const candidateProfiles = sortSelectedCandidatesInfo.map(candidate => candidate.candidateProfile);
 
     return (
-        <Modal show={isOpen} onClose={onClose} className='w-20'>
+        <Modal show={isOpen} onClose={onClose} className='overflow-y-auto'>
             <form onSubmit={handleVoteSubmit}>
                 <div className="p-6">
                     <div className=" flex items-center gap-3">
@@ -45,7 +45,7 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
                                     <li key={candidate.id} className="mb-3 p-3 ring-1 ring-inset ring-gray-900 rounded-md ">
                                         <div className="flex justify-between items-center ">
                                             <div className='flex gap-3'>
-                                                <Avatar src={`storage/${candidate.candidateProfile}`}/>
+                                                <Avatar src={`storage/${candidate.candidateProfile}`} />
                                                 <div>
                                                     <div className='font-medium'>{candidate.name}</div>
                                                     <div className='text-blue-gray-900 flex items-center gap-1'>

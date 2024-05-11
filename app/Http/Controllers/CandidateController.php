@@ -41,7 +41,7 @@ class CandidateController extends Controller
             $candidateProfileName = time() . '.' . $request->file('candidate_profile')->hashName();
 
             // Move the file to the public/candidate_profile_photos directory
-            $path = $request->file('candidate_profile')->storeAs('candidate_profile_photos', $candidateProfileName,'public');
+            $path = $request->file('candidate_profile')->storeAs('candidate_profile_photos', $candidateProfileName, 'public');
 
             // Return the path relative to the public directory
             return $path;
@@ -104,7 +104,7 @@ class CandidateController extends Controller
         $candidate = Candidate::findOrFail($id);
 
         $validatedData = $request->validate([
-            'first_name' => 'required|alpha',
+            'first_name' => 'required|string',
             'middle_name' => 'nullable|string',
             'last_name' => 'required|alpha',
             'manifesto' => 'required|string',
@@ -116,9 +116,9 @@ class CandidateController extends Controller
 
         $middleName = $validatedData['middle_name'] ?? null;
 
-        // if ($request->hasFile('candidate_profile') && $candidate->candidate_profile) {
-        //     Storage::delete('public/' . $candidate->candidate_profile);
-        // }
+        if ($request->hasFile('candidate_profile') && $candidate->candidate_profile) {
+            Storage::delete('public/' . $candidate->candidate_profile);
+        }
 
         $candidateImagePath = $candidate->candidate_profile;
 
@@ -136,7 +136,7 @@ class CandidateController extends Controller
             'manifesto' => $validatedData['manifesto'],
             'partylist_id' => $validatedData['partylist_id'],
             'position_id' => $validatedData['position_id'],
-            'candidate_profile' => $candidateImagePath,
+            // 'candidate_profile' => $candidateImagePath,
             'election_id' => $election->id
         ]);
 

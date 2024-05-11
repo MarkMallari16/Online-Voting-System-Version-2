@@ -18,7 +18,7 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, chartPosition
         label: "Vote/s",
         pointBackgroundColor: "#fcd34d",
         data: data,
-        backgroundColor: ["#3b82f6", "#fcd34d"],
+        backgroundColor: ["#3b82f6", "#fcd34d", "#94a3b8"],
         borderRadius: 12,
         borderWidth: 1,
         responsive: true
@@ -27,7 +27,7 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, chartPosition
   };
 
   const chartOptions = {
-    indexAxis: chartPositionOption  ? chartPositionOption : 'y',
+    indexAxis: chartPositionOption ? chartPositionOption : 'y',
     legend: {
       display: false
     },

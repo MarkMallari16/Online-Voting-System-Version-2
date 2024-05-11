@@ -34,11 +34,11 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
     return (
         <>
             {/**hover:border-blue-500 focus:border-blue-500 */}
-            <Card className={`p-5 w-full shadow-md border-2 md:w-96 h-auto cursor-pointer  ${isSelected ? 'border-blue-500' : 'border-transparent'}  transition-all duration-200 ease-in-out `} onClick={handleCandidateClick} >
+            <Card className={`p-5 w-full ring-1 ring-inset ring-gray-300  md:w-96 h-auto cursor-pointer  ${isSelected ? 'ring-2 ring-blue-500 ' : ''}  transition-all duration-200 ease-in-out `} onClick={handleCandidateClick} >
                 <div className='flex justify-center'>
                     <Avatar src={`storage/${candidate.candidate_profile}`} size="xxl" withBorder={true} className='border-black p-0.5' />
-
                 </div>
+
                 <input
                     type='radio'
                     name={positionId}
@@ -51,7 +51,7 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
                     <Typography variant="h5" color="blue-gray" className="mb-2">
                         {`${candidate.first_name} ${candidate.middle_name === null ? '' : ''} ${candidate.last_name}`}
                     </Typography>
-                    <div className='flex items-center justify-center gap-2'>
+                    <div className='flex items-center justify-center gap-1 text-gray-900'>
                         <span><FaUsers className='text-lg' /></span>
                         <span>{candidate.partylist.name}</span>
                     </div>

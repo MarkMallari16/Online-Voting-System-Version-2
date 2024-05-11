@@ -9,13 +9,14 @@ import BarChartContainer from "../Moderator/BarChartContainer";
 import PartylistCarousel from "@/Components/PartylistCarousel";
 import Time from '../../assets/time.svg';
 import ElectionHeader from "@/Components/ElectionHeader";
-
+import toast from "react-hot-toast";
+import CustomToast from "@/Components/CustomToast";
 
 
 const VoterDashboard = ({ election, candidatesAll, positionList, partyList, castedVotes, voteCounts, voterHasVoted }) => {
     const [selectedCandidates, setSelectedCandidates] = useState([]);
     const [now, setNow] = useState(new Date());
-
+    const [isSuccessMessage,setIsSuccessMessage] = useState(false);
     const memoizedEndingDate = useMemo(() => {
 
         if (!election || election.status === 'Inactive') {
@@ -61,6 +62,8 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
         election_id: electionId,
         candidate_ids: [],
     });
+
+    
     console.log(errors)
     useEffect(() => {
         // Update the candidate_ids field in the form data when selectedCandidates changes
@@ -110,16 +113,16 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
     const confirmVote = async () => {
         try {
-            // Set the candidate_ids field in the form data
+
             setData("candidate_ids", selectedCandidates);
 
-            // Make POST request to create votes
             await post("/votes", {
                 election_id: electionId,
                 candidate_ids: selectedCandidates,
             });
+            toast.success("You have successfully voted!");
             setIsSuccessMessage(true);
-           
+
 
         } catch (error) {
 
@@ -151,10 +154,11 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
     return (
         <div>
+            {isSuccessMessage && <CustomToast/>}
             {(election && election?.status === "Active") && isElectionStarted ? (
 
                 <div>
-                    <PartylistCarousel />
+                    <PartylistCarousel partylistCarouselData={partyList}/>
                     <ElectionHeader election={election} />
                     <div>
                         {result ? (
@@ -173,7 +177,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                         ) : (
                             <form onSubmit={onVoteSubmit}>
                                 {positionList.map((position) => (
-                                    <div key={position.id} className="bg-white overflow-hidden shadow-md sm:rounded-lg mt-7">
+                                    <div key={position.id} className="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-7">
                                         <div className="mt-11 font-medium text-2xl text-center">
                                             Vote for {position.name}
                                         </div>
@@ -207,7 +211,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
                                 <div className="text-center mt-7">
                                     {
-                                        result ? "" : <PrimaryButton
+                                        result || candidatesAll.length === 0 ? "" : <PrimaryButton
 
                                             onClick={onVoteSubmit}
                                             disabled={processing}
