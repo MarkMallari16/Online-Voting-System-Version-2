@@ -27,7 +27,7 @@ import {
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
-s
+
 
 import { useForm, router } from "@inertiajs/react";
 import DeleteModal from "@/Components/DeleteModal";
@@ -153,28 +153,39 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             onError: () => {
                 setOpen(true);
 
-            }
+            },
+            preserveScroll: true
         });
     };
 
-
+    console.log(errors);
 
     const handleUpdateSubmit = async (e) => {
         e.preventDefault();
 
         try {
             // Send PUT request to update candidate data
-            await put(route('candidate.update', { id: id }, data));
+            await post(route('candidate.update', { id: id }, data), {
+                onSuccess: () => {
 
-            // Close the update modal
-            setUpdateModal(false);
+                    // Close the update modal
+                    setUpdateModal(false);
+                    // Reset form data and state for candidate
+                    reset();
 
-            // Reset form data and state for candidate
-            reset();
+                    setIsSuccessMessage(true);
+                    // Display success message
+                    toast.success("Candidate successfully updated");
+                },
+                onError: () => {
+                    setUpdateModal(true);
+                },
+                preserveScroll: true
+            });
 
-            setIsSuccessMessage(true);
-            // Display success message
-            toast.success("Candidate successfully updated");
+
+
+
 
 
         } catch (error) {
@@ -187,18 +198,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     const handleDeleteCandidate = (candidateId) => {
         try {
             // Send a DELETE request to delete the candidate
-            router.delete(route('candidate.destroy', { id: candidateId }), {
-                onSuccess: () => {
-                    setIsSuccessMessage(true);
-                    toast.success("Candidate successfully deleted");
-                    // Close the delete modal
-                    setDeleteModal(false);
-                },
-                onError: () => {
-                    toast.error(data.error);
-                    setDeleteModal(true);
-                }
-            });
+            router.delete(route('candidate.destroy', { id: candidateId }));
 
             // Update the positions state by filtering out the deleted position
             setCandidate((prevCandidate) =>
@@ -207,7 +207,10 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                 )
             );
 
-
+            setIsSuccessMessage(true);
+            toast.success("Candidate successfully deleted");
+            // Close the delete modal
+            setDeleteModal(false);
 
         } catch (error) {
             console.error("Failed to delete position:", error);
@@ -215,10 +218,6 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     };
 
 
-
-    const handleSearch = (event) => {
-        setSearchQuery(event.target.value);
-    }
     return (
         <div>
             <div className="mb-3">
@@ -539,7 +538,9 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                             withBorder={true}
                                                             className="p-0.5"
                                                         />
+
                                                     </div>
+
                                                     <div>
                                                         <label
                                                             htmlFor="candidateImage"
@@ -553,14 +554,17 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                                 id="candidateImage"
                                                                 name="candidate_profile"
                                                                 className="hidden"
-                                                                onChange={handleFileUpdateUpload}
+                                                                onChange={(e) => setData({ ...data, candidate_profile: e.target.files[0] })}
                                                             />
                                                         </label>
 
-                                                        <InputError className="mt-2" />
+                                                  
                                                     </div>
+                                                   
                                                 </div>
+                                                <InputError className="mt-1" message={errors.candidate_profile} />
                                             </div>
+                                         
                                             <div className="md:flex md:flex-wrap md:gap-2">
                                                 <div className="flex-1">
                                                     <InputLabel
@@ -696,7 +700,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                             </Option>
                                                         )
                                                     )}
-                                                    
+
                                                 </Select>
 
                                                 <InputError className="mt-2" />
@@ -988,6 +992,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                 handleDeleteData={handleDeleteCandidate}
                 id={id}
                 dataName="Candidate"
+                processing={processing}
             />
         </div>
     );

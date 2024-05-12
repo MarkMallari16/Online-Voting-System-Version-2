@@ -4,7 +4,7 @@ import CandidateCard from '@/Components/CandidateCard'; // Assuming you have Can
 import ElectionHeader from '@/Components/ElectionHeader';
 import { Button } from '@material-tailwind/react';
 import { Link } from '@inertiajs/react';
-
+import { MdOutlineQuestionMark } from "react-icons/md";
 const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
     console.log(candidatesPerPosition);
 
@@ -18,7 +18,7 @@ const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
                 {positionList.length > 0 ? (
 
                     positionList.map((position) => (
-                        <div key={position.id} className="bg-white overflow-hidden shadow-md sm:rounded-md mt-7">
+                        <div key={position.id} className="bg-white overflow-hidden shadow-sm sm:rounded-md mt-7">
                             <div className="mt-11 font-medium text-2xl text-center">
                                 Vote for {position.name}
                             </div>
@@ -40,8 +40,12 @@ const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
                                             ))}
                                     </div>
                                 ) : (
-                                    <div className="text-center text-gray-600">
-                                        No candidates found for this position.
+                                    <div className="flex flex-col justify-center items-center text-gray-900 py-5">
+
+                                        <div><MdOutlineQuestionMark className='mb-2 h-10 w-10' /></div>
+                                        <div>
+                                            No candidates found for this position.
+                                        </div>
                                     </div>
                                 )}
                             </div>

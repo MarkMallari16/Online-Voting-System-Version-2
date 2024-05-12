@@ -102,12 +102,6 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
     const onVoteSubmit = (e) => {
         e.preventDefault();
 
-        // if (selectedCandidates.length === 0) {
-        //     // Handle case where no candidates are selected
-        //     console.error("No candidates selected.");
-        //     return;
-        // }
-
         setShowConfirmationModal(true);
     };
 
@@ -200,8 +194,8 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                                                         ))}
                                                 </div>
                                             ) : (
-                                                <div className="text-gray-600 p-5 text-center">
-                                                    <div>No candidate available</div>
+                                                <div className="text-gray-900 p-5 text-center ">
+                                                    <div>No candidate available for this position</div>
                                                 </div>
                                             )}
                                         </div>

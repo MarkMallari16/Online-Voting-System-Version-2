@@ -54,7 +54,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
 
     }
 
-
+    console.log(votes);
     const classes = "p-4 border-b border-blue-gray-50";
     return (
         <Card className="h-full w-full">
@@ -89,11 +89,11 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
 
                                 <div className='text-xl text-black font-medium'>
 
-                                    <div>Candidate Voted For: <span>{`${votes.find(vote => vote.id === id)?.candidate.first_name} ${votes.find(vote => vote.id === id)?.candidate.last_name}`}</span></div>
+                                    <div>Candidate Voted For: <span>votes.candidate</span></div>
                                 </div>
 
                                 <div className='text-xl text-black font-medium'>
-                                    <div>Candidate Position: <span>{votes.find(vote => vote.id === id)?.candidate.position_id ? positions.find(position => position.id === votes.find(vote => vote.id === id).candidate.position_id).name : ''}</span></div>
+                                    <div>Candidate Position: <span>{votes.some(vote => vote.isAbstained) ? 'Abstained' : votes.find(vote => vote?.id === id)?.candidate?.position_id ? positions.find(position => position?.id === votes.find(vote => vote?.id === id).candidate?.position_id)?.name : ''}</span></div>
 
                                 </div>
 
@@ -181,7 +181,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                 }).length === 0 ? (
                                     <tbody>
                                         <tr>
-                                            <td colSpan="8" className="text-center py-4 ">
+                                            <td colSpan="8" className="text-center py-5 ">
                                                 No votes found
                                             </td>
                                         </tr>

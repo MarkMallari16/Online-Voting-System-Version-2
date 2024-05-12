@@ -71,8 +71,8 @@ class PartylistController extends Controller
             // Delete old logo if exists
             if ($partylist->partylist_logo) {
                 Storage::delete($partylist->partylist_logo);
+                
             }
-
             // Upload new logo
             $partylist_logo = $request->file('partylist_logo');
             $path = $partylist_logo->storeAs('partylist_logos', $partylist_logo->hashName(), 'public');

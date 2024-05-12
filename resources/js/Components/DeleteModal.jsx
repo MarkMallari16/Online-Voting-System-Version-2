@@ -7,7 +7,7 @@ import {
     DialogFooter,
 
 } from "@material-tailwind/react";
-const DeleteModal = ({ open, handleDeleteOpen, handleDeleteData, id, dataName }) => {
+const DeleteModal = ({ open, handleDeleteOpen, handleDeleteData, id, dataName, processing }) => {
     return (
         <Dialog open={open} handler={handleDeleteOpen}>
             <DialogHeader>Delete {dataName}</DialogHeader>
@@ -32,6 +32,7 @@ const DeleteModal = ({ open, handleDeleteOpen, handleDeleteData, id, dataName })
                     onClick={() => handleDeleteData(id)}
                     variant="gradient"
                     color="red"
+                    disabled={processing}
                 >
                     <span>Delete</span>
                 </Button>

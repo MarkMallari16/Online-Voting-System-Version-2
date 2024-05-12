@@ -11,6 +11,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class CandidateController extends Controller
 {
@@ -59,24 +60,34 @@ class CandidateController extends Controller
             return redirect()->back();
         }
 
-        $validatedData = $request->validate(
-            [
-                'first_name' => 'required|alpha',
-                'middle_name' => 'nullable|string',
-                'last_name' => 'required|alpha',
-                'manifesto' => 'required|string',
-                'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-                'partylist_id' => 'required|exists:partylists,id',
-                'position_id' => 'required|exists:positions,id',
+        $validatedData = $request->validate([
+            'first_name' => 'required|alpha',
+            'middle_name' => 'nullable|string',
+            'last_name' => 'required|alpha',
+            'manifesto' => 'required|string',
+            'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'partylist_id' => [
+                'required',
+                'exists:partylists,id',
+
             ],
-            [
-                'partylist_id.required' => 'The partylist field is required',
-                'position_id.required' =>  'The position field is required'
-            ]
-        );
+            'position_id' => [
+                'required',
+                'exists:positions,id',
+                Rule::unique('candidates')->where(function ($query) use ($request) {
+                    return $query->where('position_id', $request->position_id)
+                        ->where('partylist_id', $request->partylist_id);
+                })->ignore($request->candidate_id)
+            ],
+        ], [
+            'partylist_id.required' => 'The partylist field is required',
+            'position_id.required' =>  'The position field is required',
+            'position_id.unique' => 'An existing candidate has already been registered for this position. Consider updating the existing candidate instead.',
+        ]);
+
 
         $middleName = $validatedData['middle_name'] ?? null;
-        $candidateImagePath = null;
+        $candidateImagePath = 'images/default_profile.png';
 
         if ($request->hasFile('candidate_profile')) {
             $candidateImagePath = $this->uploadImage($request);
@@ -100,15 +111,14 @@ class CandidateController extends Controller
     public function update(Request $request, $id)
     {
         $election = Election::latest()->first();
-
         $candidate = Candidate::findOrFail($id);
-
+    
         $validatedData = $request->validate([
             'first_name' => 'required|string',
             'middle_name' => 'nullable|string',
             'last_name' => 'required|alpha',
             'manifesto' => 'required|string',
-            // 'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'partylist_id' => 'required|exists:partylists,id',
             'position_id' => 'required|exists:positions,id',
 
@@ -117,30 +127,26 @@ class CandidateController extends Controller
         $middleName = $validatedData['middle_name'] ?? null;
 
         if ($request->hasFile('candidate_profile') && $candidate->candidate_profile) {
-            Storage::delete('public/' . $candidate->candidate_profile);
+            Storage::delete($candidate->candidate_profile);
+
+            $candidateImagePath = $validatedData['candidate_profile'];
+
+            if ($request->hasFile('candidate_profile')) {
+                $candidateImagePath = $this->uploadImage($request);
+            }
         }
 
-        $candidateImagePath = $candidate->candidate_profile;
+        $candidate->first_name = $validatedData['first_name'];
+        $candidate->middle_name = $middleName;
+        $candidate->last_name = $validatedData['last_name'];
+        $candidate->manifesto = $validatedData['manifesto'];
+        $candidate->partylist_id = $validatedData['partylist_id'];
+        $candidate->position_id = $validatedData['position_id'];
+        $candidate->candidate_profile = $candidateImagePath;
+        $candidate->election_id = $election->id;
 
-        if ($request->hasFile('candidate_profile')) {
-            // Upload and save the new profile image with a new filename
-            $candidateImagePath = $this->uploadImage($request);
-        }
-
-
-        // Update candidate data
-        $candidate->save([
-            'first_name' => $validatedData['first_name'],
-            'middle_name' => $middleName,
-            'last_name' => $validatedData['last_name'],
-            'manifesto' => $validatedData['manifesto'],
-            'partylist_id' => $validatedData['partylist_id'],
-            'position_id' => $validatedData['position_id'],
-            // 'candidate_profile' => $candidateImagePath,
-            'election_id' => $election->id
-        ]);
-
-        return dd($candidateImagePath);
+        $candidate->save();
+        return redirect()->back()->with('success', 'Candidate deleted successfully');
     }
 
     public function destroy(Candidate $candidate)

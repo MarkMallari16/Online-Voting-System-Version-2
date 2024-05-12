@@ -80,7 +80,7 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
 
     Route::get('/candidate', [CandidateController::class, 'index'])->name('candidate');
     Route::post('/candidate', [CandidateController::class, 'store'])->name('candidate.store');
-    Route::put('/candidate/{id}', [CandidateController::class, 'update'])->name('candidate.update');
+    Route::post('/candidate/{id}', [CandidateController::class, 'update'])->name('candidate.update');
     Route::delete('/candidate/{candidate}', [CandidateController::class, 'destroy'])->name('candidate.destroy');
 
     //display partylists
