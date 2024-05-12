@@ -1,18 +1,18 @@
 import React from 'react'
 import DoughnutChart from './DoughnutChart';
 
-const DoughnutContainer = ({ voters, votersVotedCount }) => {
+const DoughnutContainer = ({ voters, votersVotedCount, abstainCount }) => {
     const notYetVoted = voters.length - votersVotedCount;
 
     const pieChartData = {
-        labels: ['Students Voted', 'Students Not Voted'],
+        labels: ['Students Voted', 'Students Not Voted', 'Students Abstain'],
         datasets: [
             {
-                data: [votersVotedCount, notYetVoted],
-                backgroundColor: ["#60a5fa", "#9ca3af"],
+                data: [votersVotedCount, notYetVoted, abstainCount],
+                backgroundColor: ["#60a5fa", "#9ca3af", "#334155"],
                 borderWidth: 1,
                 borderRadius: 12,
-                responsive:true
+                responsive: true
             },
         ],
     };

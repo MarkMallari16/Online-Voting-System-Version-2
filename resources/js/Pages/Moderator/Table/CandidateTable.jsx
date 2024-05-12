@@ -558,13 +558,13 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                             />
                                                         </label>
 
-                                                  
+
                                                     </div>
-                                                   
+
                                                 </div>
                                                 <InputError className="mt-1" message={errors.candidate_profile} />
                                             </div>
-                                         
+
                                             <div className="md:flex md:flex-wrap md:gap-2">
                                                 <div className="flex-1">
                                                     <InputLabel
@@ -750,7 +750,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                             </Dialog>
                         </div>
                     </div>
-                    <div className="flex flex-col items-center justify-end gap-4 md:flex-row me-3 mb-1">
+                    <div className="flex flex-col items-center justify-end gap-2 md:flex-row me-3 mb-1">
                         <div className="flex justify-start gap-2">
 
                             <ExcelExport

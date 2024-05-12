@@ -53,7 +53,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
         setId(id);
 
     }
-
+    console.log(voters);
     console.log(votes);
     const classes = "p-4 border-b border-blue-gray-50";
     return (
@@ -345,7 +345,14 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                     <tbody>
 
                                         {
-                                            voters.filter((voter) => !votes.some(vote => vote.voter_id === voter.id)).length === 0 ? (
+                                            voters.length === 0 ||
+                                                voters.filter((voter) => !votes.some(vote => vote.voter_id === voter.id)).length === 0 ||
+                                                voters.filter((voter) => {
+                                                    const voterName = voter.name.toLowerCase().includes(searchQuery.toLowerCase());
+
+
+                                                    return voterName;
+                                                }).length === 0 ? (
                                                 <tr>
                                                     <td colSpan="4" className="text-center py-4 text-gray-500">
                                                         No voters found
@@ -355,6 +362,11 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
 
                                                 voters
                                                     .filter((voter) => !votes.some(vote => vote.voter_id === voter.id))
+                                                    .filter((voter) => {
+                                                        const voterName = voter.name.toLowerCase().includes(searchQuery.toLowerCase());
+
+                                                        return voterName;
+                                                    })
                                                     .map((voter, index) => (
                                                         <tr key={index}>
                                                             <td className={classes}>

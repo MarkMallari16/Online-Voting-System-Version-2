@@ -244,7 +244,7 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
                                   {progress.percentage}%
                                 </progress>
                               )}
-                              
+
                               <InputError className="mt-2" message={errors.partylist_logo} />
                             </div>
                           </div>

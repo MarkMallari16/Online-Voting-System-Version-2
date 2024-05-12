@@ -35,7 +35,7 @@ class CandidateController extends Controller
     public function uploadImage(Request $request)
     {
         $request->validate([
-            'candidate_profile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($request->hasFile('candidate_profile')) {
@@ -112,7 +112,7 @@ class CandidateController extends Controller
     {
         $election = Election::latest()->first();
         $candidate = Candidate::findOrFail($id);
-    
+
         $validatedData = $request->validate([
             'first_name' => 'required|string',
             'middle_name' => 'nullable|string',
@@ -125,15 +125,15 @@ class CandidateController extends Controller
         ]);
 
         $middleName = $validatedData['middle_name'] ?? null;
+        $candidateImagePath = $candidate->candidate_profile;
 
-        if ($request->hasFile('candidate_profile') && $candidate->candidate_profile) {
-            Storage::delete($candidate->candidate_profile);
-
-            $candidateImagePath = $validatedData['candidate_profile'];
+        if ($request->hasFile('candidate_profile')) {
 
             if ($request->hasFile('candidate_profile')) {
                 $candidateImagePath = $this->uploadImage($request);
             }
+        } else if ($candidate->candidate_profile) {
+            $candidateImagePath = $candidate->candidate_profile;
         }
 
         $candidate->first_name = $validatedData['first_name'];

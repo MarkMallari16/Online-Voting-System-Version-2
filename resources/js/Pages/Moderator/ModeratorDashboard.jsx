@@ -19,7 +19,7 @@ function PositionSelector({ label, onChange, value, positionList }) {
         </Select>
     );
 }
-const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount, totalVotesPerPosition }) => {
+const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount, totalVotesPerPosition, abstainCount }) => {
 
     const electionTitle = election ? election.title : '';
 
@@ -52,7 +52,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
         (new Date(prev.updated_at) > new Date(current.updated_at)) ? prev : current, []
     );
 
- 
+
     console.log(voteCounts);
 
     return (
@@ -124,7 +124,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                         </div>
                         <div className='px-4 py-0 md:p-8'> {/* Adjust padding based on screen size */}
 
-                            {votedVoters.length > 0 ? <DoughnutContainer voters={voters} votersVotedCount={votersVotedCount} /> :
+                            {votedVoters.length > 0 ? <DoughnutContainer voters={voters} votersVotedCount={votersVotedCount} abstainCount={abstainCount} /> :
 
                                 <div className='flex justify-center flex-col items-center h-96'>
 
@@ -180,9 +180,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                             </div>
                         </div>
                     </div>
-                    <div className='bg-white rounded-md p- w-96'>
-                
-                    </div>
+                   
                 </div>
             </div>
         </div>

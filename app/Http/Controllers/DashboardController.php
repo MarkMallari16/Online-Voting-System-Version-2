@@ -58,7 +58,7 @@ class DashboardController extends Controller
 
         $voters = User::where('role', 'voter')->get();
 
-        $votedVotersCount = Vote::distinct('voter_id')->count();
+
 
         $voters->transform(function ($voter) use ($election) {
             $voterId = $voter->id;
@@ -99,12 +99,22 @@ class DashboardController extends Controller
         $candidatesVotes = [];
         $candidatesPerPosition = [];
         $totalCandidatesPerPositions =  [];
-
+        $votersVotedCount = 0;
+        $abstainCount = 0;
         $votersWhoVotedForWinners = 0;
         //display winner when election ends
         if ($election && $election->status === 'Active') {
+            $votersVotedCount = Vote::where('election_id', $election->id)
+                ->whereNotNull('candidate_id')
+                ->distinct('voter_id')
+                ->count();
 
 
+
+            $abstainCount = Vote::where('election_id', $election->id)
+                ->whereNull('candidate_id')
+                ->distinct('voter_id')
+                ->count();
 
             foreach ($positions as $position) {
                 //getting the position id 
@@ -144,7 +154,8 @@ class DashboardController extends Controller
             'candidatesAll' => $candidatesAll,
             'election' => $election,
             'voters' => $voters,
-            'votersVotedCount' => $votedVotersCount,
+            'votersVotedCount' => $votersVotedCount,
+            'abstainCount' => $abstainCount,
             'voteCounts' => $voteCounts,
             'castedVotes' => $castedVotes,
             'voterVoted' => $voterVoted,
@@ -152,6 +163,7 @@ class DashboardController extends Controller
             'candidateWinners' => $candidateWinners,
             'totalCandidatesPerPositions' => $totalCandidatesPerPositions,
             'totalVotesPerPosition' => $totalVotesPerPosition,
+
         ]);
     }
 }
