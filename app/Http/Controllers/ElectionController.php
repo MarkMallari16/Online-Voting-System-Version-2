@@ -29,7 +29,7 @@ class ElectionController extends Controller
             'end_date.after_or_equal' => 'The end date must be after or equal to the start date.',
         ]);
 
-        $existingElection = Election::first();
+        $existingElection = Election::latest()->first();
 
         try {
             if ($existingElection) {
@@ -41,7 +41,6 @@ class ElectionController extends Controller
 
                 return redirect()->back()->with('success', 'Election updated successfully.');
             } else {
-                // Create a new election
                 $election = Election::create([
                     'title' => $request->title,
                     'start_date' => $request->start_date,
@@ -59,7 +58,7 @@ class ElectionController extends Controller
     public function activate()
     {
         // Retrieve the first (and only) election
-        $election = Election::first();
+        $election = Election::latest()->first();
 
         try {
             if ($election) {
@@ -85,9 +84,9 @@ class ElectionController extends Controller
             $users = User::where('role', 'voter')->get();
 
             // Send email notification for election activation to all users
-            foreach ($users as $user) {
-                $user->notify(new ElectionActivated());
-            }
+            // foreach ($users as $user) {
+            //     $user->notify(new ElectionActivated());
+            // }
 
             return redirect()->back()->with('success', 'Election activated successfully.');
         } catch (\Exception $e) {
@@ -110,9 +109,9 @@ class ElectionController extends Controller
             $users = User::where('role', 'voter')->get();
 
             // Send email notification for election deactivation to all users
-            foreach ($users as $user) {
-                $user->notify(new ElectionDeactivated());
-            }
+            // foreach ($users as $user) {
+            //     $user->notify(new ElectionDeactivated());
+            // }
             return redirect()->back()->with('success', 'Election deactivated successfully.');
         } else {
             return redirect()->back()->with('success', 'Election deactivated successfully.');

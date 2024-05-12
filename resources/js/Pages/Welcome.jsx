@@ -74,14 +74,14 @@ export default function Welcome({ auth }) {
                                     <div className='mx-5' >
                                         <Link
                                             href={route('login')}
-                                            className="font-medium text-black   focus:outline focus:outline-2 focus:rounded-sm focus:outline-blue-500"
+                                            className="font-medium text-black  focus:text-white transition-all ease-in-out"
                                         >
                                             Log in
                                         </Link>
 
                                         <Link
                                             href={route('register')}
-                                            className="ms-4 font-medium  px-6 py-2 border-0 text-white rounded-md  bg-gradient-to-b from-blue-400 to-blue-600 focus:outline  ease-in duration-75 dark:text-gray-400 dark:hover:text-white  focus:blue-red-500"
+                                            className="ms-4 font-medium  px-6 py-2 border-0 text-white rounded-md  bg-gradient-to-b from-blue-400 to-blue-600 focus:outline focus:outline-2   duration-75 dark:text-gray-400 dark:hover:text-white  focus:blue-red-500 ease-in-out"
                                         >
                                             Register
                                         </Link>
@@ -107,7 +107,7 @@ export default function Welcome({ auth }) {
                             <div className='mt-3 flex  md:flex-row gap-2 items-center justify-center md:justify-start'>
                                 <Link
                                     href={route('register')}
-                                    className="font-medium  px-6 py-2 text-white rounded-md hover:bg-blue-600 bg-gradient-to-b from-blue-400 to-blue-600 ease-in duration-75 "
+                                    className="font-medium  px-6 py-2 text-white rounded-md hover:bg-blue-600 bg-gradient-to-b from-blue-400 to-blue-600  duration-75 focus:outline focus:outline-2 transition-all  ease-in-out"
                                 >
                                     Register
                                 </Link>

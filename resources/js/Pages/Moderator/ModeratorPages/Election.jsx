@@ -33,14 +33,14 @@ const Election = ({ auth, existingElection, election }) => {
 
   const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
-    useEffect(() => {
-      setData({
-        title: status ? election.title : '',
-        start_date: status ? election.start_date : '',
-        end_date: status ? election.end_date : '',
-        status: status ? election.status : false
-      });
-    }, [election]);
+  useEffect(() => {
+    setData({
+      title: status ? election.title : '',
+      start_date: status ? election.start_date : '',
+      end_date: status ? election.end_date : '',
+      status: status ? election.status : false
+    });
+  }, [election]);
 
 
   const handleActivateOpen = () => setActivateOpen(!activateOpen);
