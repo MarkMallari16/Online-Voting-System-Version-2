@@ -9,6 +9,7 @@ import VotesPDF from '@/Components/VotesPDF';
 import { Link } from '@inertiajs/react';
 import { FaBox } from "react-icons/fa";
 import DoughnutContainer from './DoughnutContainer';
+
 function PositionSelector({ label, onChange, value, positionList }) {
     return (
         <Select label={label} onChange={onChange} value={value}>
@@ -50,6 +51,8 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
     const latestVotedVoter = votedVoters.reduce((prev, current) =>
         (new Date(prev.updated_at) > new Date(current.updated_at)) ? prev : current, []
     );
+
+ 
     console.log(voteCounts);
 
     return (
@@ -111,6 +114,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                 </div>
                             </div>}
                     </div>
+
                 </div>
 
                 <div className='flex flex-col gap-5'>
@@ -175,7 +179,9 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                 )}
                             </div>
                         </div>
-
+                    </div>
+                    <div className='bg-white rounded-md p- w-96'>
+                
                     </div>
                 </div>
             </div>

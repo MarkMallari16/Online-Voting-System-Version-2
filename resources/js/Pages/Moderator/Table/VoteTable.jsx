@@ -80,16 +80,16 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                         <DialogBody>
                             <div >
                                 <div className='text-xl text-black font-medium'>
-                                    <div>Voter ID: <span>{votes.find(vote => vote.id === id)?.voter_id}</span></div>
+                                    <div>Voter ID: <span>{votes.find(vote => vote?.id === id)?.voter_id}</span></div>
                                 </div>
 
                                 <div className='text-xl text-black font-medium'>
-                                    <div>Voter's Name: <span>{votes.find(vote => vote.id === id)?.user?.name}</span></div>
+                                    <div>Voter's Name: <span>{votes.find(vote => vote?.id === id)?.user?.name}</span></div>
                                 </div>
 
                                 <div className='text-xl text-black font-medium'>
 
-                                    <div>Candidate Voted For: <span>votes.candidate</span></div>
+                                    <div>Candidate Voted For: <span>{votes.some(vote => vote.isAbstained) ? 'Abstained' : votes?.candidate}</span></div>
                                 </div>
 
                                 <div className='text-xl text-black font-medium'>
@@ -98,7 +98,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                 </div>
 
                                 <div className='text-xl text-black font-medium'>
-                                    <div>Election ID: <span>{votes.find(vote => vote.id === id)?.election_id}</span></div>
+                                    <div>Election ID: <span>{votes.find(vote => vote?.id === id)?.election_id}</span></div>
 
                                 </div>
 
@@ -173,10 +173,10 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                         ))}
                                     </tr>
                                 </thead>
-                                {votesPerPage.data.length === 0 || votesPerPage.data.filter(vote => {
+                                {votesPerPage?.data.length === 0 || votesPerPage?.data.filter(vote => {
                                     const userMatches = vote?.user?.name.toLowerCase().includes(searchQuery.toLowerCase());
                                     const candidateMatches = `${vote?.candidate?.first_name} ${vote?.candidate?.last_name}`.toLowerCase().includes(searchQuery.toLowerCase());
-                                    const position = positions.find(position => position?.id === vote?.candidate?.position_id).name?.toLowerCase().includes(searchQuery.toLowerCase());
+                                    const position = positions.find(position => position?.id === vote?.candidate?.position_id)?.name?.toLowerCase().includes(searchQuery.toLowerCase());
                                     return userMatches || candidateMatches || position;
                                 }).length === 0 ? (
                                     <tbody>
@@ -192,7 +192,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                             .filter(vote => {
                                                 const userMatches = vote?.user?.name.toLowerCase().includes(searchQuery.toLowerCase());
                                                 const candidateMatches = `${vote?.candidate?.first_name} ${vote?.candidate?.last_name}`.toLowerCase().includes(searchQuery.toLowerCase());
-                                                const position = positions.find(position => position?.id === vote.candidate?.position_id).name.toLowerCase().includes(searchQuery.toLowerCase());
+                                                const position = positions?.find(position => position?.id === vote.candidate?.position_id)?.name?.toLowerCase().includes(searchQuery.toLowerCase());
                                                 return userMatches || candidateMatches || position;
                                             })
                                             .map(({ id, voter_id, user, candidate, election_id, vote_timestamp }) => {
@@ -256,7 +256,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                                     color="blue-gray"
                                                                     className="font-normal"
                                                                 >
-                                                                    {`${candidate?.first_name} ${candidate?.last_name}`}
+                                                                    {votes.some(vote => vote.isAbstained) ? 'Abstained' : `${candidate?.first_name} ${candidate?.last_name}`}
                                                                 </Typography>
                                                             </div>
                                                         </td>
@@ -268,7 +268,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                                     color="blue-gray"
                                                                     className="font-normal"
                                                                 >
-                                                                    {candidate.position_id ? positions.find(position => position.id === candidate.position_id).name : ''}
+                                                                    {votes.some(vote => vote.isAbstained) ? 'Abstained' : candidate.position_id ? positions.find(position => position.id === candidate.position_id)?.name : ''}
                                                                 </Typography>
                                                             </div>
                                                         </td>
