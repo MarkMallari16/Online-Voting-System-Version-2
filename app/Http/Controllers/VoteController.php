@@ -14,7 +14,7 @@ class VoteController extends Controller
 {
     public function index()
     {
-        $votes = Vote::with('user', 'candidate')
+        $votes = Vote::with('user', 'candidate','election')
             ->orderByDesc('vote_timestamp')
             ->get();
         $voters = User::where('role', 'voter')->get();

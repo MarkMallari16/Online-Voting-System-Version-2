@@ -119,10 +119,10 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
 
                 <div className='flex flex-col gap-5'>
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max">
-                        <div className="p-4 text-gray-900">
+                        <div className="px-5 py-4 text-gray-900">
                             <h1 className='text-xl font-medium'>Current Students Votes</h1>
                         </div>
-                        <div className='px-4 py-0 md:p-8'> {/* Adjust padding based on screen size */}
+                        <div className='px-4 py-0 md:p-8'> 
 
                             {votedVoters.length > 0 ? <DoughnutContainer voters={voters} votersVotedCount={votersVotedCount} abstainCount={abstainCount} /> :
 

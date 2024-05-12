@@ -42,7 +42,7 @@ const TABS = [
 ];
 
 const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
-    const TABLE_HEAD = ["#", "Voter ID", "Voter's Name", "Candidate Voted For", "Candidate Position", "Election ID", "Vote Timestamp", "Action"];
+    const TABLE_HEAD = ["#", "Voter ID", "Voter's Name", "Candidate Voted For", "Candidate Position", "Election Name", "Vote Timestamp", "Action"];
     const VOTER_NOT_VOTED_TABLE_HEAD = ["#", "Voter ID", "Voter's Name",];
     const [open, setOpen] = useState(false);
     const [id, setId] = useState();
@@ -55,6 +55,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
     }
     console.log(voters);
     console.log(votes);
+    console.log(votes.candidate)
     const classes = "p-4 border-b border-blue-gray-50";
     return (
         <Card className="h-full w-full">
@@ -73,7 +74,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
 
                     </div>
                     {/*Dialog* */}
-                    <Dialog open={open} size='lg' handler={handleOpen}>
+                    <Dialog open={open} size='md' handler={handleOpen}>
                         <DialogHeader>
                             Vote Details
                         </DialogHeader>
@@ -89,16 +90,16 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
 
                                 <div className='text-xl text-black font-medium'>
 
-                                    <div>Candidate Voted For: <span>{votes.some(vote => vote.isAbstained) ? 'Abstained' : votes?.candidate}</span></div>
+                                    <div>Candidate Voted For: <span>{votes.some(vote => vote.isAbstained) ? 'Abstained' : `${votes.find(vote => vote.id === id)?.candidate.first_name} ${votes.find(vote => vote.id === id)?.candidate.last_name}`} </span></div>
                                 </div>
 
                                 <div className='text-xl text-black font-medium'>
-                                    <div>Candidate Position: <span>{votes.some(vote => vote.isAbstained) ? 'Abstained' : votes.find(vote => vote?.id === id)?.candidate?.position_id ? positions.find(position => position?.id === votes.find(vote => vote?.id === id).candidate?.position_id)?.name : ''}</span></div>
-
+                                    <div>Candidate Position: <span>{votes.some(vote => vote.isAbstained) ? 'Abstained' : votes.find(vote => vote?.id === id)?.candidate?.position_id ? positions.find(position => position?.id === votes.find(vote => vote?.id === id).candidate?.position_id)?.name : ''}</span>
+                                    </div>
                                 </div>
 
                                 <div className='text-xl text-black font-medium'>
-                                    <div>Election ID: <span>{votes.find(vote => vote?.id === id)?.election_id}</span></div>
+                                    <div>Election Name: <span>{votes.find(vote => vote?.id === id)?.election.title}</span></div>
 
                                 </div>
 
@@ -195,7 +196,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                 const position = positions?.find(position => position?.id === vote.candidate?.position_id)?.name?.toLowerCase().includes(searchQuery.toLowerCase());
                                                 return userMatches || candidateMatches || position;
                                             })
-                                            .map(({ id, voter_id, user, candidate, election_id, vote_timestamp }) => {
+                                            .map(({ id, voter_id, user, candidate, election, vote_timestamp }) => {
 
 
 
@@ -279,7 +280,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                                     color="blue-gray"
                                                                     className="font-normal"
                                                                 >
-                                                                    {election_id}
+                                                                    {votes.find(vote => vote.id === id)?.election.title}
                                                                 </Typography>
                                                             </div>
                                                         </td>

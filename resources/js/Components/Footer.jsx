@@ -46,7 +46,7 @@ const Footer = () => {
         <div className='flex justify-between items-center'>
           <div>
             <Typography color="blue-gray" className="text-center font-normal">
-              &copy; {new Date().getFullYear()} STI Bacoor SHS Student Council
+              &copy; {new Date().getFullYear()} STI College Bacoor SHS Student Council
             </Typography>
           </div>
           <div className='flex gap-2'>
