@@ -90,7 +90,8 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
 
                                 <div className='text-xl text-black font-medium'>
 
-                                    <div>Candidate Voted For: <span>{votes.some(vote => vote.isAbstained) ? 'Abstained' : `${votes.find(vote => vote.id === id)?.candidate.first_name} ${votes.find(vote => vote.id === id)?.candidate.last_name}`} </span></div>
+                                    <div>Candidate Voted For: <span>{votes.find(vote => vote?.id === id)?.isAbstained ? 'Abstained' : `${votes.find(vote => vote.id === id)?.candidate.first_name} ${votes.find(vote => vote.id === id)?.candidate.last_name}`}</span></div>
+
                                 </div>
 
                                 <div className='text-xl text-black font-medium'>
