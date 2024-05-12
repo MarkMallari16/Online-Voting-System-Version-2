@@ -22,9 +22,21 @@ class DashboardController extends Controller
             ->exists();
     }
     function dashboard()
+<<<<<<< HEAD
     {
         //admin
 
+=======
+<<<<<<< HEAD
+    {
+        //admin
+
+=======
+    {   
+        //admin
+        
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
         $usersPerPage = User::paginate(10);
 
         //moderator
@@ -70,6 +82,10 @@ class DashboardController extends Controller
 
         $castedVotes = null;
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
         if ($election && $voterId) {
 
             $castedVotes = Vote::where('election_id', $election->id)
@@ -77,6 +93,15 @@ class DashboardController extends Controller
                 ->with('candidate')
                 ->get();
         }
+<<<<<<< HEAD
+=======
+=======
+        $castedVotes = Vote::where('election_id', $election->id)
+            ->where('voter_id', $voterId)
+            ->with('candidate')
+            ->get();
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
 
         if ($election) {
             foreach ($candidates as $candidate) {
@@ -94,14 +119,30 @@ class DashboardController extends Controller
                 ];
             }
         }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
         $candidateWinners = [];
         $totalVotesPerPosition = [];
         $candidatesVotes = [];
         $candidatesPerPosition = [];
         $totalCandidatesPerPositions =  [];
+<<<<<<< HEAD
         $votersVotedCount = 0;
         $abstainCount = 0;
         $votersWhoVotedForWinners = 0;
+=======
+
+        $votersWhoVotedForWinners = 0;
+        //display winner when election ends
+        if ($election && $election->status === 'Active') {
+
+
+
+=======
+
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
         //display winner when election ends
         if ($election && $election->status === 'Active') {
             $votersVotedCount = Vote::where('election_id', $election->id)
@@ -110,12 +151,17 @@ class DashboardController extends Controller
                 ->count();
 
 
+<<<<<<< HEAD
 
             $abstainCount = Vote::where('election_id', $election->id)
                 ->whereNull('candidate_id')
                 ->distinct('voter_id')
                 ->count();
 
+=======
+            $votersWhoVotedForWinners = 0;
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
             foreach ($positions as $position) {
                 //getting the position id 
                 $candidatesPerPosition = $candidates->where('position_id', $position->id);

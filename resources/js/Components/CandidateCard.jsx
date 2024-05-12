@@ -10,6 +10,7 @@ import {
 
 } from "@material-tailwind/react";
 import CandidateModal from '@/Components/CandidateModal';
+import AvatarComponent from './AvatarComponent';
 const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) => {
     const [isSelected, setIsSelected] = useState(false);
 
@@ -36,7 +37,11 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
             {/**hover:border-blue-500 focus:border-blue-500 */}
             <Card className={`p-5 w-full ring-1 ring-gray-300  md:w-96 h-auto cursor-pointer  ${isSelected ? 'ring-2 ring-blue-500 ' : ''}  transition-all duration-200 ease-in-out `} onClick={handleCandidateClick} >
                 <div className='flex justify-center'>
+<<<<<<< HEAD
                     <Avatar src={`storage/${candidate.candidate_profile}`} size="xxl" withBorder={true} className='border-black p-0.5' />
+=======
+                    <AvatarComponent Profile={candidate.candidate_profile} size='xxl'/>
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
                 </div>
 
                 <input

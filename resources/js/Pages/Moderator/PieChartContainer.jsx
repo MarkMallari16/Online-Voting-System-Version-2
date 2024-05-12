@@ -5,6 +5,7 @@ const PieChartContainer = ({ voters, votersVotedCount }) => {
     const notYetVoted = voters.length - votersVotedCount;
 
     const pieChartData = {
+<<<<<<< HEAD
         labels: ['Voters Voted', 'Voters Not Voted', 'Abstain'],
         datasets: [
             {
@@ -13,6 +14,16 @@ const PieChartContainer = ({ voters, votersVotedCount }) => {
                 borderWidth: 1,
                 borderRadius: 12,
                 responsive: true
+=======
+        labels: ['Voters Voted', 'Voters Not Voted'],
+        datasets: [
+            {
+                data: [votersVotedCount, notYetVoted],
+                backgroundColor: ["#60a5fa", "#9ca3af"],
+                borderWidth: 1,
+                borderRadius: 12,
+                responsive:true
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
             },
         ],
     };

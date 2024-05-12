@@ -9,9 +9,12 @@ import BarChartContainer from "../Moderator/BarChartContainer";
 import PartylistCarousel from "@/Components/PartylistCarousel";
 import Time from '../../assets/time.svg';
 import ElectionHeader from "@/Components/ElectionHeader";
+<<<<<<< HEAD
 import toast from "react-hot-toast";
 import CustomToast from "@/Components/CustomToast";
 
+=======
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
 
 const VoterDashboard = ({ election, candidatesAll, positionList, partyList, castedVotes, voteCounts, voterHasVoted }) => {
     const [selectedCandidates, setSelectedCandidates] = useState([]);
@@ -62,8 +65,11 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
         election_id: electionId,
         candidate_ids: [],
     });
+<<<<<<< HEAD
 
     
+=======
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
     console.log(errors)
     useEffect(() => {
         // Update the candidate_ids field in the form data when selectedCandidates changes
@@ -144,7 +150,11 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
 
     // console.log(election)
+<<<<<<< HEAD
+    console.log(partyList)
+=======
 
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
 
     return (
         <div>
@@ -152,7 +162,15 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
             {(election && election?.status === "Active") && isElectionStarted ? (
 
                 <div>
+<<<<<<< HEAD
                     <PartylistCarousel partylistCarouselData={partyList}/>
+=======
+<<<<<<< HEAD
+                    <PartylistCarousel partyList={partyList}/>
+=======
+                    <PartylistCarousel />
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
                     <ElectionHeader election={election} />
                     <div>
                         {result ? (

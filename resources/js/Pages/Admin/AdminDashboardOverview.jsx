@@ -19,7 +19,6 @@ const AdminDashboardOverview = ({
                         <div className="font-medium text-5xl  mt-5">{totalStudents ? totalStudents : 0}</div>
                     </div>
                     <PiStudentLight className='w-10 h-10 bg-blue-200 rounded-lg p-1' />
-
                 </div>
 
                 <div className="flex justify-between shadow-sm bg-white ring-1 ring-inset ring-gray-300  rounded-lg p-5 ">

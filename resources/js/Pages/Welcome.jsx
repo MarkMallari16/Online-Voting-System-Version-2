@@ -1,8 +1,11 @@
 import { Link } from '@inertiajs/react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Cover from '../assets/Voting-amico.svg';
+<<<<<<< HEAD
 import BacoorLogo from '../assets/bacoor-logo.png';
 import CouncilLogo from '../assets/councilLogo.png'
+=======
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
 
 import {
     Accordion,
@@ -113,7 +116,11 @@ export default function Welcome({ auth }) {
                                 </Link>
                                 <Link
                                     href={route('login')}
+<<<<<<< HEAD
                                     className=" text-black px-4 py-2 rounded-md transition-all ease-in-out"
+=======
+                                    className=" text-black px-4 py-2 rounded-md hover:ring-1 hover:ring-inset hover:ring-gray-300 hover:bg-gray-100 transition-all ease-in-out"
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
                                 >
                                     Already have an account?
                                 </Link>

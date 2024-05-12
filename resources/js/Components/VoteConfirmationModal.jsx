@@ -18,9 +18,21 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
         onClose(selectedCandidates);
     };
     const sortSelectedCandidatesInfo = selectedCandidatesInfo.sort((a, b) => a.position.id - b.position.id);
+<<<<<<< HEAD
     console.log(selectedCandidatesInfo)
     const candidateProfiles = sortSelectedCandidatesInfo.map(candidate => candidate.candidateProfile);
 
+=======
+<<<<<<< HEAD
+    console.log(selectedCandidatesInfo)
+    const candidateProfiles = sortSelectedCandidatesInfo.map(candidate => candidate.candidateProfile);
+
+=======
+
+    const candidateProfiles = sortSelectedCandidatesInfo.map(candidate => candidate.candidateProfile);
+  
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
     return (
         <Modal show={isOpen} onClose={onClose} className='overflow-y-auto'>
             <form onSubmit={handleVoteSubmit}>
@@ -45,7 +57,15 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
                                     <li key={candidate.id} className="mb-3 p-3 ring-1 ring-inset ring-gray-900 rounded-md ">
                                         <div className="flex justify-between items-center ">
                                             <div className='flex gap-3'>
+<<<<<<< HEAD
                                                 <Avatar src={`storage/${candidate.candidateProfile}`} />
+=======
+<<<<<<< HEAD
+                                                <Avatar src={`storage/${candidate.candidateProfile}`}/>
+=======
+                                                <Avatar src={candidate.candidateProfile ? 'storage/${candidate.candidate_profile}' : DefaultCandidatePicture} />
+>>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
                                                 <div>
                                                     <div className='font-medium'>{candidate.name}</div>
                                                     <div className='text-blue-gray-900 flex items-center gap-1'>
