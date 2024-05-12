@@ -13,10 +13,10 @@ import {
 import TextInput from '@/Components/TextInput';
 import InputLabel from '@/Components/InputLabel';
 import PasswordToggle from '@/Components/PasswordToggle';
-import { useForm, router } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 import InputError from '@/Components/InputError';
-
-const AddUserModal = ({ open, handleClose }) => {
+import toast from 'react-hot-toast';
+const AddUserModal = ({ open, handleClose,setIsSuccessMessage }) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: null,
         email: null,
@@ -24,7 +24,7 @@ const AddUserModal = ({ open, handleClose }) => {
         role: null,
         password_confirmation: null,
     });
-  
+
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -55,17 +55,18 @@ const AddUserModal = ({ open, handleClose }) => {
         e.preventDefault();
         post(route('users.store'), {
             onSuccess: () => {
+                setIsSuccessMessage(false);
+                toast.success("User successfully added");
                 handleClose();
                 reset();
             },
             onError: () => {
-
-            }
+                // Handle error if needed
+            },
+            preserveScroll: true
         });
-
-
     };
-
+    
     useEffect(() => {
         return () => {
             reset("password", "password_confirmation");
@@ -76,7 +77,6 @@ const AddUserModal = ({ open, handleClose }) => {
     return (
         <Dialog open={open} handler={handleClose}>
             <DialogHeader>Add User</DialogHeader>
-
             <form onSubmit={submit}>
                 <DialogBody>
                     <div className="mb-3">
@@ -116,9 +116,7 @@ const AddUserModal = ({ open, handleClose }) => {
                                 <PasswordToggle showPassword={showConfirmPassword} handlePassword={handleShowConfirmPassword} />
                             )
                         }
-
                     </div>
-
                 </DialogBody>
                 <DialogFooter>
                     <Button onClick={handleClose} variant="text" color="red" className="mr-1">

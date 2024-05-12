@@ -6,10 +6,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { PencilIcon } from "@heroicons/react/24/solid";
 import { AiOutlineFileUnknown } from "react-icons/ai";
-
-
-
-
+import { CiImageOn } from "react-icons/ci";
 import {
   Card,
   CardHeader,
@@ -34,6 +31,7 @@ import {
   TabPanel,
   Select,
   Option,
+  Menu,
 } from "@material-tailwind/react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
@@ -62,7 +60,7 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
 
   const [showAssignModal, setShowAssignModal] = useState(false);
 
-  const { data, setData, post, put, delete: destroy, errors, progress, processing, reset } = useForm();
+  const { data, setData, post, delete: destroy, errors, progress, processing, reset } = useForm();
 
   const TABS = [
     {
@@ -123,11 +121,15 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
 
   function updateSubmit(e) {
     e.preventDefault();
-    put(route('partylist.update', { id: id }, data), {
+
+    console.log('Partylist Logo:', data.partylist_logo);
+
+    post(route('partylist.update', { id: id }, data), {
       onSuccess: () => {
         setOpenUpdateModal(false)
         setIsSuccessMessage(true);
         toast.success("Partylist successfully updated");
+        reset();
       },
       preserveScroll: true
     });
@@ -229,12 +231,20 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
                             </div>
                             <div className="mt-4">
                               <InputLabel htmlFor="partylistLogo" value="Enter Partylist Logo" />
-                              <input type="file" name="partylist_logo" className="mt-1" onChange={(e) => setData('partylist_logo', e.target.files[0])} />
+                              <input
+                                name="partylist_logo"
+                                onChange={(e) => setData('partylist_logo', e.target.files[0])}
+                                className="mt-2 relative block w-full cursor-pointer  flex-auto rounded ring-1 ring-inset ring-gray-300 px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-gray-900 file:cursor-pointer file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-gray-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none "
+                                type="file"
+                                id="formFile"
+                              />
+
                               {progress && (
-                                <progress value={progress.percentage} max="100">
+                                <progress value={progress.percentage} max="100" className="mt-3 text-blue-500 bg-blue-500 rounded-md">
                                   {progress.percentage}%
                                 </progress>
                               )}
+                              
                               <InputError className="mt-2" message={errors.partylist_logo} />
                             </div>
                           </div>
@@ -253,7 +263,7 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
                     {/*Update Modal */}
                     <Dialog open={openUpdateModal} handler={handleUpdateOpen}>
                       <DialogHeader>Update Partylist</DialogHeader>
-                      <form onSubmit={updateSubmit}>
+                      <form onSubmit={updateSubmit} encType="multipart/form-data">
                         <DialogBody>
                           <div>
                             <div>
@@ -263,7 +273,7 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
                                 id="partylistName"
                                 className="mt-1 block w-full"
                                 value={data.name}
-                                onChange={(e) => setData('name', e.target.value)}
+                                onChange={(e) => setData({ ...data, name: e.target.value })}
                                 required
                                 isFocused
                                 autoComplete="name"
@@ -277,7 +287,7 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
                                 id="partylistDescription"
                                 className="mt-1 block w-full rounded-md resize-none h-40"
                                 value={data.description}
-                                onChange={(e) => setData('description', e.target.value)}
+                                onChange={(e) => setData({ ...data, description: e.target.value })}
                                 required
                                 isFocused
                                 autoComplete="description"
@@ -286,14 +296,24 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
                             </div>
                             <div className="mt-4">
                               <InputLabel htmlFor="partylistLogo" value="Enter Partylist Logo" />
-                              <input type="file" name="partylist_logo" className="mt-1" onChange={(e) => setData('partylist_logo', e.target.files[0])} />
+
+
+                              <input
+                                name="partylist_logo"
+                                onChange={((e) => setData({ ...data, partylist_logo: e.target.files[0] }))}
+                                className="mt-2 relative block w-full cursor-pointer  flex-auto rounded ring-1 ring-inset ring-gray-300 px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-gray-900 file:cursor-pointer file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-gray-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none "
+                                type="file"
+                                id="formFile"
+                              />
+
                               {progress && (
-                                <progress value={progress.percentage} max="100">
+                                <progress value={progress.percentage} max="100" className="mt-3 text-blue-500 bg-blue-500 rounded-md">
                                   {progress.percentage}%
                                 </progress>
                               )}
                               <InputError className="mt-2" message={errors.partylist_logo} />
                             </div>
+
 
                           </div>
                         </DialogBody>
@@ -392,7 +412,7 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
                                         >
                                           {partylist_logo ? <img src={`storage/${partylist_logo}`} alt="Partylist Logo" className="max-w-20 rounded-md" /> : (
                                             <div className="mx-auto">
-                                              <AiOutlineFileUnknown className="ms-5 text-4xl" />
+                                              <CiImageOn className="ms-5 text-4xl" />
                                             </div>
                                           )
                                           }

@@ -27,7 +27,7 @@ class UserController extends Controller
     {
 
         $validatedData = $request->validated();
-        $validatedData['profile_picture'] = 'profile_photos/default_profile.png';
+        $validatedData['profile_picture'] = 'images/default_profile.png';
 
         // Create the user
         $user = User::create($validatedData);

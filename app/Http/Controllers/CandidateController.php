@@ -129,7 +129,7 @@ class CandidateController extends Controller
 
 
         // Update candidate data
-        $candidate->update([
+        $candidate->save([
             'first_name' => $validatedData['first_name'],
             'middle_name' => $middleName,
             'last_name' => $validatedData['last_name'],

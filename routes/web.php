@@ -90,7 +90,7 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::post('/partylist', [PartylistController::class, 'store'])->name('partylist.store');
 
     // Update an existing partylist
-    Route::put('/partylist/{id}', [PartylistController::class, 'update'])->name('partylist.update');
+    Route::post('/partylist/{id}', [PartylistController::class, 'update'])->name('partylist.update');
 
     // Delete a partylist
     Route::delete('/partylist/{id}', [PartylistController::class, 'destroy'])->name('partylist.destroy');

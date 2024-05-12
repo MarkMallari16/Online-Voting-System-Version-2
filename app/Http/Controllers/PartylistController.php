@@ -60,7 +60,7 @@ class PartylistController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|max:18',
             'description' => 'max:255',
-            'partylist_logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'partylist_logo' => 'nullable|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $partylist->name = $validatedData['name'];

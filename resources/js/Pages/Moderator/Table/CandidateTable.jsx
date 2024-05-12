@@ -27,6 +27,7 @@ import {
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
+s
 
 import { useForm, router } from "@inertiajs/react";
 import DeleteModal from "@/Components/DeleteModal";
@@ -37,20 +38,21 @@ import PaginationInTable from "@/Components/PaginationInTable";
 import SearchInput from "@/Components/SearchInput";
 import DefaultCandidatePicture from '../../../../../public/storage/images/default_profile.png';
 import AvatarComponent from "@/Components/AvatarComponent";
-const TABLE_HEAD = [
-    "Candidate ID",
-    "Profile",
-    "First Name",
-    "Middle Name",
-    "Last Name",
-    "Partylist",
-    "Position",
-    "Candidate Platform",
-    "Action",
-];
+
+
 
 export function CandidateTable({ partylist_list, position_list, candidates, candidatesPerPage }) {
-
+    const TABLE_HEAD = [
+        "Candidate ID",
+        "Profile",
+        "First Name",
+        "Middle Name",
+        "Last Name",
+        "Partylist",
+        "Position",
+        "Candidate Platform",
+        "Action",
+    ];
     const [open, setOpen] = useState(false);
     const [openUpdateModal, setUpdateModal] = useState(false);
     const [openDeleteModal, setDeleteModal] = useState(false);
@@ -276,13 +278,25 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                 />
                                                 <div className="flex items-center gap-3">
                                                     <div className="mb-2">
-                                                        <Avatar
-                                                            src={candidateProfile ? URL.createObjectURL(candidateProfile) : DefaultCandidatePicture}
-                                                            alt="Candidate Avatar"
-                                                            size="xxl"
-                                                            withBorder={true}
-                                                            color="blue"
-                                                            className="p-0.5" />
+                                                        {candidateProfile ? (
+                                                            <Avatar
+                                                                src={URL.createObjectURL(candidateProfile)}
+                                                                alt="Candidate Avatar"
+                                                                size="xxl"
+                                                                withBorder={true}
+                                                                color="blue"
+                                                                className="p-0.5"
+                                                            />
+                                                        ) : (
+                                                            <Avatar
+                                                                src={DefaultCandidatePicture}
+                                                                alt="Default Candidate Avatar"
+                                                                size="xxl"
+                                                                withBorder={true}
+                                                                color="blue"
+                                                                className="p-0.5"
+                                                            />
+                                                        )}
                                                     </div>
 
                                                     <div>
@@ -682,6 +696,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                             </Option>
                                                         )
                                                     )}
+                                                    
                                                 </Select>
 
                                                 <InputError className="mt-2" />

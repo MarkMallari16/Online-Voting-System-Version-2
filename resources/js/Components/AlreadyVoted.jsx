@@ -5,7 +5,9 @@ import Modal from './Modal'
 import { FaVoteYea } from "react-icons/fa";
 import { Avatar } from '@material-tailwind/react';
 
-import { IoIosCheckboxOutline } from "react-icons/io";
+
+import { FaBox } from "react-icons/fa";
+
 import Thankyou from '../../js/assets/thankyou.svg';
 const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
   const [showModal, setShowModal] = useState(false);
@@ -35,7 +37,7 @@ const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
     <div className='mt-10 w-full flex justify-center items-center'>
       <div className='bg-white shadow-sm w-full rounded-md py-10'>
         <div className='flex justify-center text-blue-500'>
-          <img src={Thankyou} alt="Thank you image" className='w-1/3' />
+          <img src={Thankyou} alt="Thank you image" className='w-1/4' />
         </div>
         <div className='text-6xl md:text-8xl font-bold text-center'>Thank you!</div>
         <div className='text-center mt-2 text-gray-900'>You have successfully voted!</div>
@@ -65,11 +67,15 @@ const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
             <div className='mt-2 w-full'>
               <ul>
                 {castedVotes.some(vote => vote.isAbstained) ? (
-
-                  <div className='text-center'>You abstained from votes</div>
+                  <div className='flex flex-col justify-center items-center'>
+                    <div>
+                      <FaBox className='w-10 h-10  mb-4 text-gray-900' />
+                    </div>
+                    <div className='text-center text-gray-900'>You have chosen to abstain from voting for all positions.</div>
+                  </div>
 
                 ) : (
-                  castedVotes?.sort((vote1, vote2) => vote1?.candidate?.position_id - vote2?.candidate?.position_id).map(vote => (
+                  castedVotes?.filter(vote => vote.candidate).sort((vote1, vote2) => vote1?.candidate?.position_id - vote2?.candidate?.position_id).map(vote => (
                     <li key={vote.id} className="mb-3 ring-1 ring-inset ring-gray-900 p-3 rounded-md w-full">
                       <div className="flex justify-between items-center">
                         <div className='flex gap-3'>

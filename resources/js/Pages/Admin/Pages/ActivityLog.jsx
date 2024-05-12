@@ -7,18 +7,18 @@ import ExcelExport from "@/Components/ExcelExport";
 import FilterDropdown from "@/Components/FilterDropdown";
 import PaginationComponent from "@/Components/PaginationComponent";
 import AvatarComponent from "@/Components/AvatarComponent";
+import SearchInput from "@/Components/SearchInput";
 const ActivityLog = ({ auth, logs }) => {
+
+    const [selectedFilter, setSelectedFilter] = useState(null); 
+    const [searchQuery, setSearchQuery] = useState("");
     const [isLoading, setIsLoading] = useState(true);
-  
+
     useEffect(() => {
         setIsLoading(false);
 
     }, [logs]);
 
-    const handleSelectAction = (action) => {
-        setCurrentPage(1);
-        setSelectedAction(action);
-    };
 
     const getClassByAction = (action) => {
         switch (action) {
@@ -32,7 +32,19 @@ const ActivityLog = ({ auth, logs }) => {
                 return " bg-gray-100 text-gray-800 rounded";
         }
     };
-  
+
+    const handleSelectedFilter = (filter) => {
+        setSelectedFilter(filter);
+        
+    }
+
+    const options = [
+        { value: '', label: 'All' },
+        { value: 'User Created', label: 'Created' },
+        { value: 'User Updated', label: 'Updated' },
+        { value: 'User Deleted', label: 'Deleted' }
+    ]
+    console.log(logs)
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -59,20 +71,21 @@ const ActivityLog = ({ auth, logs }) => {
                                     <div >
                                         <div className="flex justify-between items-center">
 
-                                            <div className="text-lg  font-medium text-gray-900 flex gap-1 items-center ">
-                                                <div>
+                                            <div className="text-lg  font-medium text-gray-900 flex gap-1 ">
 
-                                                </div>
                                                 <div className="text-2xl">
                                                     Activity
                                                 </div>
                                             </div>
                                             <div className="flex justify-end gap-2">
-                                                <div className="hidden">
-                                                    <FilterDropdown onSelectAction={handleSelectAction} activityLog={logs.data} />
-                                                </div>
                                                 <div>
                                                     <ExcelExport data={logs.data} fileName='activity_logs' />
+                                                </div>
+                                                <div >
+                                                    <FilterDropdown onSelectFilter={handleSelectedFilter} options={options}/>
+                                                </div>
+                                                <div>
+                                                    <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
                                                 </div>
                                             </div>
                                         </div>
@@ -105,62 +118,72 @@ const ActivityLog = ({ auth, logs }) => {
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            {logs.data.length == 0 ? (
+                                            {logs.data.length == 0 || logs.data.filter(log =>
+                                                log.user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                                log.action.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
                                                 <tbody>
                                                     <tr className="text-center">
                                                         <td
                                                             colSpan="5"
                                                             className="py-5 text-center text-gray-600"
                                                         >
-                                                            No matching users found.
+                                                            No activity logs found.
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             ) : (
                                                 <tbody>
-                                                    {logs.data.map(
-                                                        (log, index) => (
-                                                            <tr
-                                                                key={index}
-                                                                className="bg-white"
-                                                            >
-                                                                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                                                    {log.user_id}
-                                                                </td>
-                                                                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                                                    <div className="flex items-center gap-2">
-                                                                       <AvatarComponent Profile={log.user.profile_picture}/>
-                                                                        <span>
-                                                                            {
-                                                                                log
-                                                                                    .user
-                                                                                    .name
-                                                                            }
-                                                                        </span>
-                                                                    </div>
-                                                                </td>
-                                                                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-                                                                    {new Date(
-                                                                        log.created_at
-                                                                    ).toLocaleString()}
-                                                                </td>
-                                                                <td
-                                                                    className={`font-medium whitespace-no-wrap text-sm sm:text-base leading-5`}
+                                                    {logs.data
+                                                        .filter(log => (
+                                                            selectedFilter ? log.action === selectedFilter : true
+                                                        ))
+                                                        .filter(log => (
+                                                            log.user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                                            log.action.toLowerCase().includes(searchQuery.toLowerCase())
+                                                        ))
+                                                        .map(
+                                                            (log, index) => (
+                                                                <tr
+                                                                    key={index}
+                                                                    className="bg-white"
                                                                 >
-                                                                    <span
-                                                                        className={`${getClassByAction(
-                                                                            log.action
-                                                                        )} px-2 py-2 sm:px-3 sm:py-2 inline-block w-[140px] text-center`}
+                                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                                                        {log.user_id}
+                                                                    </td>
+                                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                                                        <div className="flex items-center gap-2">
+                                                                            <AvatarComponent Profile={log.user.profile_picture} />
+                                                                            <span>
+                                                                                {
+                                                                                    log
+                                                                                        .user
+                                                                                        .name
+                                                                                }
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                                                                        {new Date(
+                                                                            log.created_at
+                                                                        ).toLocaleString()}
+                                                                    </td>
+                                                                    <td
+                                                                        className={`font-medium whitespace-no-wrap text-sm sm:text-base leading-5`}
                                                                     >
-                                                                        {log.action}
-                                                                    </span>
-                                                                </td>
-                                                                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500 ">
-                                                                    {log.details}
-                                                                </td>
-                                                            </tr>
-                                                        )
-                                                    )}
+                                                                        <span
+                                                                            className={`${getClassByAction(
+                                                                                log.action
+                                                                            )} px-2 py-2 sm:px-3 sm:py-2 inline-block w-[140px] text-center`}
+                                                                        >
+                                                                            {log.action}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500 ">
+                                                                        {log.details}
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        )}
                                                 </tbody>
                                             )}
                                         </table>
