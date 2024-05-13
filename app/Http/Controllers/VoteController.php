@@ -17,7 +17,7 @@ class VoteController extends Controller
         $votes = Vote::with('user', 'candidate','election')
             ->orderByDesc('vote_timestamp')
             ->get();
-        $voters = User::where('role', 'voter')->get();
+        $voters = User::where('role', 'voter')->paginate(10);
 
         $positions = Positions::all();
         $votesPerPage = Vote::with('user', 'candidate')

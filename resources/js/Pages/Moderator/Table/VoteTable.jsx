@@ -29,6 +29,9 @@ import {
 import ExcelExport from '@/Components/ExcelExport';
 import PaginationInTable from '@/Components/PaginationInTable';
 import SearchInput from '@/Components/SearchInput';
+import { TbInfoSquareRounded } from "react-icons/tb";
+import { LiaUserTieSolid } from "react-icons/lia";
+
 const TABS = [
     {
         label: "Students Voted",
@@ -53,9 +56,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
         setId(id);
 
     }
-    console.log(voters);
-    console.log(votes);
-    console.log(votes.candidate)
+
     const classes = "p-4 border-b border-blue-gray-50";
     return (
         <Card className="h-full w-full">
@@ -75,37 +76,74 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                     </div>
                     {/*Dialog* */}
                     <Dialog open={open} size='md' handler={handleOpen}>
-                        <DialogHeader>
+                        <DialogHeader className='flex gap-1 text-gray-900'>
+                            <div>
+                                <TbInfoSquareRounded className='text-3xl' />
+                            </div>
                             Vote Details
                         </DialogHeader>
                         <DialogBody>
                             <div >
-                                <div className='text-xl text-black font-medium'>
-                                    <div>Voter ID: <span>{votes.find(vote => vote?.id === id)?.voter_id}</span></div>
-                                </div>
+                                <div>
+                                    <div className='text-xl text-gray-900 font-medium'>
+                                        <div className='flex items-center gap-2'>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                                            </svg>
+                                            Voter ID:
+                                            <div>{votes.find(vote => vote?.id === id)?.voter_id}</div></div>
+                                    </div>
 
-                                <div className='text-xl text-black font-medium'>
-                                    <div>Voter's Name: <span>{votes.find(vote => vote?.id === id)?.user?.name}</span></div>
-                                </div>
-
-                                <div className='text-xl text-black font-medium'>
-
-                                    <div>Candidate Voted For: <span>{votes.find(vote => vote?.id === id)?.isAbstained ? 'Abstained' : `${votes.find(vote => vote.id === id)?.candidate.first_name} ${votes.find(vote => vote.id === id)?.candidate.last_name}`}</span></div>
-
-                                </div>
-
-                                <div className='text-xl text-black font-medium'>
-                                    <div>Candidate Position: <span>{votes.some(vote => vote.isAbstained) ? 'Abstained' : votes.find(vote => vote?.id === id)?.candidate?.position_id ? positions.find(position => position?.id === votes.find(vote => vote?.id === id).candidate?.position_id)?.name : ''}</span>
+                                    <div className='text-xl text-gray-900 font-medium flex items-center gap-2'>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                                        </svg>
+                                        <div>Voter's Name: <span>{votes.find(vote => vote?.id === id)?.user?.name}</span></div>
                                     </div>
                                 </div>
 
-                                <div className='text-xl text-black font-medium'>
-                                    <div>Election Name: <span>{votes.find(vote => vote?.id === id)?.election.title}</span></div>
+                                <div className='mt-4'>
+                                    <div className='text-xl text-gray-900 font-medium flex items-center gap-2'>
+
+                                        <div>
+                                            <LiaUserTieSolid className='h-6 w-6' />
+
+                                        </div>
+                                        <div>{votes.find(vote => vote?.id === id)?.isAbstained ? 'Abstained' : `${votes.find(vote => vote.id === id)?.candidate.first_name} ${votes.find(vote => vote.id === id)?.candidate.last_name}`}</div>
+                                    </div>
+
+                                    <div className='text-xl text-gray-900 font-medium flex items-center gap-2'>
+                                        <div>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                                            </svg>
+
+                                        </div>
+                                        <div>{votes.find(vote => vote?.id === id)?.isAbstained ? 'Abstained' : votes.find(vote => vote?.id === id)?.candidate?.position_id ? positions.find(position => position?.id === votes.find(vote => vote?.id === id).candidate?.position_id)?.name : ''}</div>
+                                    </div>
+
+                                </div>
+                                <div className='text-xl text-gray-900 font-medium mt-4 flex items-center gap-2'>
+                                    <div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
+                                        </svg>
+                                    </div>
+                                    <div>{votes.find(vote => vote?.id === id)?.election.title}</div>
 
                                 </div>
 
-                                <div className='text-xl text-black font-medium'>
-                                    <div>Vote Timestamp: <span>{new Date(votes.find(vote => vote.id === id)?.vote_timestamp).toLocaleString()}</span></div>
+                                <div className='text-xl text-gray-900 font-medium mt-4 flex items-center gap-2'>
+                                    <div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                        </svg>
+
+                                    </div>
+                                    <div>
+                                        {new Date(votes.find(vote => vote.id === id)?.vote_timestamp).toLocaleString()}
+                                    </div>
+
                                 </div>
                             </div>
                         </DialogBody>
@@ -258,7 +296,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                                     color="blue-gray"
                                                                     className="font-normal"
                                                                 >
-                                                                    {votes.some(vote => vote.isAbstained) ? 'Abstained' : `${candidate?.first_name} ${candidate?.last_name}`}
+                                                                    {votes.find(vote => !vote.isAbstained) ? candidate ? `${candidate?.first_name} ${candidate?.last_name}` : 'Abstained' : ''}
                                                                 </Typography>
                                                             </div>
                                                         </td>
@@ -270,7 +308,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                                     color="blue-gray"
                                                                     className="font-normal"
                                                                 >
-                                                                    {votes.some(vote => vote.isAbstained) ? 'Abstained' : candidate.position_id ? positions.find(position => position.id === candidate.position_id)?.name : ''}
+                                                                    {votes.find(vote => !vote.isAbstained) ? candidate?.position_id ? positions.find(position => position?.id === candidate.position_id)?.name : 'Abstained' : ''}
                                                                 </Typography>
                                                             </div>
                                                         </td>
@@ -347,9 +385,9 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                     <tbody>
 
                                         {
-                                            voters.length === 0 ||
-                                                voters.filter((voter) => !votes.some(vote => vote.voter_id === voter.id)).length === 0 ||
-                                                voters.filter((voter) => {
+                                            voters.data.length === 0 ||
+                                                voters.data.filter((voter) => !votes.some(vote => vote.voter_id === voter.id)).length === 0 ||
+                                                voters.data.filter((voter) => {
                                                     const voterName = voter.name.toLowerCase().includes(searchQuery.toLowerCase());
 
 
@@ -362,7 +400,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                 </tr>
                                             ) : (
 
-                                                voters
+                                                voters.data
                                                     .filter((voter) => !votes.some(vote => vote.voter_id === voter.id))
                                                     .filter((voter) => {
                                                         const voterName = voter.name.toLowerCase().includes(searchQuery.toLowerCase());

@@ -2,7 +2,7 @@ import React from 'react'
 import DoughnutChart from './DoughnutChart';
 
 const DoughnutContainer = ({ voters, votersVotedCount, abstainCount }) => {
-    const notYetVoted = voters.length - votersVotedCount;
+    const notYetVoted = voters.length - votersVotedCount - abstainCount;
 
     const pieChartData = {
         labels: ['Students Voted', 'Students Not Voted', 'Students Abstain'],
