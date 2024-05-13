@@ -11,11 +11,11 @@ import { FaBox } from "react-icons/fa";
 import Thankyou from '../../js/assets/thankyou.svg';
 const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
   const [showModal, setShowModal] = useState(false);
+
   const handleSeeCastedVote = () => {
     setShowModal(true);
   };
-  // console.log(positionList);
-  // console.log(partyList);
+
   const handleClose = () => {
     setShowModal(false);
   };
@@ -31,8 +31,8 @@ const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
     return partylist && partylist.name;
   }
 
-  console.log(castedVotes.isAbstained);
-  console.log(castedVotes);
+  // console.log(castedVotes.isAbstained);
+  // console.log(castedVotes);
   return (
     <div className='mt-10 w-full flex justify-center items-center'>
       <div className='bg-white shadow-sm w-full rounded-md py-10'>

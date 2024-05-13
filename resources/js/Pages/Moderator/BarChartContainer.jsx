@@ -18,7 +18,7 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, chartPosition
         label: "Vote/s",
         pointBackgroundColor: "#fcd34d",
         data: data,
-        backgroundColor: ["#3b82f6", "#fcd34d", "#94a3b8"],
+        backgroundColor: ["#3b82f6", "#fcd34d"],
         borderRadius: 12,
         borderWidth: 1,
         responsive: true

@@ -19,7 +19,7 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
     };
     const sortSelectedCandidatesInfo = selectedCandidatesInfo.sort((a, b) => a.position.id - b.position.id);
     console.log(selectedCandidatesInfo)
-    const candidateProfiles = sortSelectedCandidatesInfo.map(candidate => candidate.candidateProfile);
+    // const candidateProfiles = sortSelectedCandidatesInfo.map(candidate => candidate.candidateProfile);
 
     return (
         <Modal show={isOpen} onClose={onClose} className='overflow-y-auto'>
