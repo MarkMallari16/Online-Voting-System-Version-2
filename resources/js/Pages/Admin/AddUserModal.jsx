@@ -94,7 +94,6 @@ const AddUserModal = ({ open, handleClose,setIsSuccessMessage }) => {
                         <Select label="Select Role" name="role" onChange={(value) => setData('role', value)} value={data.role} >
                             <Option value='admin'>Admin</Option>
                             <Option value='moderator'>Moderator</Option>
-                            <Option value='partylist_editor'>Partylist Editor</Option>
                             <Option value='voter'>Voter</Option>
                         </Select>
                         <InputError className='mt-2' message={errors.role} />

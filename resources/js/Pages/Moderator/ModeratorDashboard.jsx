@@ -151,17 +151,20 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                             <div className="text-gray-900 mt-4">
                                 {latestVotedUsers.length > 0 ? (
                                     latestVotedUsers.map((latestVotedUser, id) => (
-                                        <div key={id} className='flex justify-between  px-2 py-4 items-center ring-1 ring-inset ring-gray-300  mb-4 rounded-md '>
-                                            <div>
-                                                <Avatar src={`storage/${latestVotedUser.profile_picture}`} alt="Avatar" />
-                                            </div>
-                                            <div className='flex  flex-col '>
-
-                                                <div className='font-medium'>
-                                                    {latestVotedUser.name}
+                                        <div key={id} className='flex justify-between  px-4 py-3 items-center ring-1 ring-inset ring-gray-300  mb-4 rounded-md '>
+                                            <div className='flex items-center gap-3'>
+                                                <div>
+                                                    <Avatar src={`storage/${latestVotedUser.profile_picture}`} alt="Avatar" size='lg' />
                                                 </div>
-                                                <div className='text-sm text-gray-800'>{moment(latestVotedUser.vote_timestamp).fromNow()}</div>
+                                                <div className='flex  flex-col '>
+
+                                                    <div className='font-medium'>
+                                                        {latestVotedUser.name}
+                                                    </div>
+                                                    <div className='text-sm text-gray-800'>{moment(latestVotedUser.vote_timestamp).fromNow()}</div>
+                                                </div>
                                             </div>
+
                                             <Link href={route('votes')} className='flex items-center hover:text-blue-500 transition-all ease-in font-medium' >
                                                 <div>
                                                     View

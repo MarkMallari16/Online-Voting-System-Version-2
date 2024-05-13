@@ -114,6 +114,7 @@ class DashboardController extends Controller
         $votersWhoVotedForWinners = 0;
         //display winner when election ends
         if ($election && $election->status === 'Active') {
+            
             $votersVotedCount = Vote::where('election_id', $election->id)
                 ->whereNotNull('candidate_id')
                 ->distinct('voter_id')

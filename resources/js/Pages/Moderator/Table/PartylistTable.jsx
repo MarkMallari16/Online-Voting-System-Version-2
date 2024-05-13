@@ -111,18 +111,16 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
         reset();
 
       },
-      preserveScroll: true,
       onError: () => {
         setOpenAddModal(true);
         toast.error("error");
-      }
+      },
+      preserveScroll: true,
     })
   }
 
   function updateSubmit(e) {
     e.preventDefault();
-
-    console.log('Partylist Logo:', data.partylist_logo);
 
     post(route('partylist.update', { id: id }, data), {
       onSuccess: () => {
@@ -143,7 +141,9 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
 
   const handleDeletePartylists = (partylistId) => {
     // Send a DELETE request to delete the partylists
-    router.delete(route('partylist.destroy', { id: partylistId }, { preserveScroll: true }));
+    router.delete(route('partylist.destroy', { id: partylistId }), {
+      preserveScroll: true
+    });
     setIsSuccessMessage(true);
     // Close the delete modal
     setDeleteModal(false);
