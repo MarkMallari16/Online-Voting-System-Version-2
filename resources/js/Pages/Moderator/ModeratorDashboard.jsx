@@ -58,7 +58,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
     return (
         <div>
 
-            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-4">
+            <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-5">
                 <div className="p-6 text-gray-900">
                     <h1 className="text-xl font-medium">Welcome back, Moderator!</h1>
                 </div>

@@ -13,7 +13,7 @@ const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
     return (
         <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Ballot</h2>} >
 
-            <div className='mt-10 md:mx-10 lg:mx-20 xl:mx-44'>
+            <div className='mt-10 md:mx-10'>
                 <ElectionHeader election={election} />
                 {positionList.length > 0 ? (
 
