@@ -475,7 +475,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                         </TabPanel>
                     </TabsBody>
                 </Tabs>
-            </CardBody>
+            </CardBody>//sadasd
             <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
                 <PaginationInTable dataPerPage={votesPerPage} />
             </CardFooter>
