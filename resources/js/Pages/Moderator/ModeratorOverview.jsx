@@ -6,10 +6,10 @@ import { LiaUserTieSolid } from "react-icons/lia";
 import { CiSquareInfo } from "react-icons/ci";
 
 
-const ModeratorOverview = ({ voters, candidates, election, votersVotedCount }) => {
+const ModeratorOverview = ({ voters, candidates, election, votersVotedCount, numberOfPartylists, numberOfPositions }) => {
 
     return (
-        <div className="grid grid-cols-1 grid-rows-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 grid-rows-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="w-full flex justify-between sm:w-full  rounded-lg bg-white px-6 py-5  md:mb-0 ring-1 ring-inset ring-gray-300 ">
                 <div>
                     <p className="text-lg mb-8 text-black">Election Status</p>
@@ -57,7 +57,7 @@ const ModeratorOverview = ({ voters, candidates, election, votersVotedCount }) =
                 <div>
 
                     <div >
-                       
+
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className=" w-10 h-10  rounded-lg p-2 bg-light-blue-200">
                             <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                         </svg>
@@ -66,10 +66,10 @@ const ModeratorOverview = ({ voters, candidates, election, votersVotedCount }) =
 
                 </div>
             </div>
-            <div className="w-full flex justify-between sm:w-full  rounded-lg  bg-white  px-6 py-5  ring-1 ring-inset ring-gray-300 col-span-2">
+            <div className="w-full flex justify-between sm:w-full  rounded-lg  bg-white  px-6 py-5  ring-1 ring-inset ring-gray-300 col-span-1 sm:col-span-2">
                 <div>
                     <p className="text-lg mb-8 text-black">No. of  Partylists</p>
-                    <h2 className="text-4xl  font-medium">{votersVotedCount}</h2>
+                    <h2 className="text-4xl  font-medium">{numberOfPartylists}</h2>
 
                 </div>
 
@@ -87,10 +87,10 @@ const ModeratorOverview = ({ voters, candidates, election, votersVotedCount }) =
 
                 </div>
             </div>
-            <div className="w-full flex justify-between sm:w-full  rounded-lg  bg-white  px-6 py-5  ring-1 ring-inset ring-gray-300 col-span-2">
+            <div className="w-full flex justify-between sm:w-full  rounded-lg  bg-white  px-6 py-5  ring-1 ring-inset ring-gray-300 col-span-1 sm:col-span-2">
                 <div>
                     <p className="text-lg mb-8 text-black">No. of Positions</p>
-                    <h2 className="text-4xl  font-medium">{votersVotedCount}</h2>
+                    <h2 className="text-4xl  font-medium">{numberOfPositions}</h2>
 
                 </div>
 

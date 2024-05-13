@@ -29,8 +29,7 @@ import {
 import ExcelExport from '@/Components/ExcelExport';
 import PaginationInTable from '@/Components/PaginationInTable';
 import SearchInput from '@/Components/SearchInput';
-import { TbInfoSquareRounded } from "react-icons/tb";
-import { LiaUserTieSolid } from "react-icons/lia";
+
 
 const TABS = [
     {
@@ -88,40 +87,51 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                         <DialogBody>
                             <div >
                                 <div>
-                                    <div className='text-xl text-gray-900 font-medium'>
-                                        <div className='flex items-center gap-2'>
+                                    <div className=' text-gray-900 '>
+                                        <div className='flex items-center gap-2 text-xl font-medium '>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
                                             </svg>
+
+                                            <div>
+                                                Voter Information
+                                            </div>
+                                        </div>
+
+                                        <div className='flex items-center gap-2 text-lg'>
+
                                             Voter ID:
                                             <div>{votes.find(vote => vote?.id === id)?.voter_id}</div></div>
                                     </div>
 
-                                    <div className='text-xl text-gray-900 font-medium flex items-center gap-2'>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
-                                        </svg>
+                                    <div className='text-lg text-gray-900 flex items-center gap-2'>
+
                                         <div>Voter's Name: <span>{votes.find(vote => vote?.id === id)?.user?.name}</span></div>
                                     </div>
                                 </div>
 
                                 <div className='mt-4'>
-                                    <div className='text-xl text-gray-900 font-medium flex items-center gap-2'>
-
-                                        <div>
-                                            <LiaUserTieSolid className='h-6 w-6' />
-
-                                        </div>
-                                        <div>{votes.find(vote => vote?.id === id)?.isAbstained ? 'Abstained' : `${votes.find(vote => vote.id === id)?.candidate.first_name} ${votes.find(vote => vote.id === id)?.candidate.last_name}`}</div>
-                                    </div>
-
-                                    <div className='text-xl text-gray-900 font-medium flex items-center gap-2'>
-                                        <div>
+                                    <div className=' text-gray-900 '>
+                                        <div className='flex items-center gap-2 text-xl font-medium '>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
                                             </svg>
 
+                                            <div>
+                                                Candidate Information
+                                            </div>
                                         </div>
+
+                                        <div className='flex items-center gap-2 text-lg text-gray-900'>
+                                            <div>Candidate Voted For:</div>
+                                            <div>{votes.find(vote => vote?.id === id)?.isAbstained ? 'Abstained' : `${votes.find(vote => vote.id === id)?.candidate.first_name} ${votes.find(vote => vote.id === id)?.candidate.last_name}`}</div>
+                                        </div>
+
+                                    </div>
+
+                                    <div className='text-lg text-gray-900 flex items-center gap-2'>
+
+                                        <div>Candidate Position:</div>
                                         <div>{votes.find(vote => vote?.id === id)?.isAbstained ? 'Abstained' : votes.find(vote => vote?.id === id)?.candidate?.position_id ? positions.find(position => position?.id === votes.find(vote => vote?.id === id).candidate?.position_id)?.name : ''}</div>
                                     </div>
 
@@ -132,6 +142,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
                                         </svg>
                                     </div>
+                                    <div>Election Title:</div>
                                     <div>{votes.find(vote => vote?.id === id)?.election.title}</div>
 
                                 </div>
@@ -143,6 +154,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                         </svg>
 
                                     </div>
+                                    <div>Vote Timestamp:</div>
                                     <div>
                                         {new Date(votes.find(vote => vote.id === id)?.vote_timestamp).toLocaleString()}
                                     </div>

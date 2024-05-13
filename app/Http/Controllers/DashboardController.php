@@ -34,6 +34,9 @@ class DashboardController extends Controller
         $candidates = Candidate::all();
         $candidatesAll = Candidate::with('position', 'partylist')->get();
 
+        $numberOfPartylists = $this->countPartylists();
+        $numberOfPositions = $this->countPositions();
+
         // Retrieve the latest election, whether active or inactive
         $election = $this->getLatestElection();
 
@@ -161,7 +164,10 @@ class DashboardController extends Controller
             'voters' => $voters,
             'votersVotedCount' => $votersVotedCount,
             'abstainCount' => $abstainCount,
+
             'voteCounts' => $voteCounts,
+            'numberOfPartylists' => $numberOfPartylists,
+            'numberOfPositions' => $numberOfPositions,
             'castedVotes' => $castedVotes,
             'voterVoted' => $voterVoted,
             'latestVotedUsers' => $latestVotedUsers,
@@ -176,6 +182,14 @@ class DashboardController extends Controller
     private function getUsersPerPage()
     {
         return User::paginate(10);
+    }
+    private function countPartylists()
+    {
+        return Partylist::all()->count();
+    }
+    private function countPositions()
+    {
+        return Positions::all()->count();
     }
     private function getLatestElection()
     {

@@ -19,7 +19,7 @@ function PositionSelector({ label, onChange, value, positionList }) {
         </Select>
     );
 }
-const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount, latestVotedUsers, totalVotesPerPosition, abstainCount }) => {
+const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount, numberOfPartylists, numberOfPositions, latestVotedUsers, totalVotesPerPosition, abstainCount }) => {
     console.log(position_list)
 
 
@@ -43,7 +43,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
     };
     const handleChartPositionOption = (value) => {
         setChartPositionOption(value);
-      
+
         localStorage.setItem('chartPositionOption', value);
     }
     const votedVoters = voters.filter(voter => voter.hasVoted);
@@ -60,7 +60,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
 
             <div className="overflow-hidden  sm:rounded-lg mb-3 ">
                 <div className=" text-gray-900">
-                    <ModeratorOverview voters={voters} election={election} candidates={candidates} votersVotedCount={votersVotedCount} />
+                    <ModeratorOverview voters={voters} election={election} candidates={candidates} votersVotedCount={votersVotedCount} numberOfPartylists={numberOfPartylists} numberOfPositions={numberOfPositions} />
 
                 </div>
             </div>
