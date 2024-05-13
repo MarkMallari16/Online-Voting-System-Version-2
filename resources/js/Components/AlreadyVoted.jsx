@@ -3,7 +3,7 @@ import PrimaryButton from './PrimaryButton'
 import Modal from './Modal'
 
 import { FaVoteYea } from "react-icons/fa";
-import { Avatar } from '@material-tailwind/react';
+import { Avatar, Button } from '@material-tailwind/react';
 
 
 import { FaBox } from "react-icons/fa";
@@ -40,12 +40,12 @@ const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
           <img src={Thankyou} alt="Thank you image" className='w-1/4' />
         </div>
         <div className='text-6xl md:text-8xl font-bold text-center'>Thank you!</div>
-        <div className='text-center mt-2 text-gray-900'>You have successfully voted!</div>
+        <div className='text-center my-2 text-gray-900'>You have successfully voted!</div>
         <div className='text-8xl text-green-700 flex justify-center'>
 
         </div>
         <div className='text-center mt-3'>
-          <PrimaryButton onClick={handleSeeCastedVote} className='bg-blue-500 hover:bg-blue-700 text-white px-6 py-3 rounded-md'>See Casted Vote</PrimaryButton>
+          <Button color='blue' variant='gradient' onClick={handleSeeCastedVote} className='bg-blue-500 hover:bg-blue-700 text-white px-6 py-3 rounded-md'>See Casted Vote</Button>
         </div>
       </div>
 

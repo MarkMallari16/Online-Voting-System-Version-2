@@ -220,7 +220,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
     return (
         <div>
-            <div className="mb-3">
+            <div >
                 {isSuccessMessage && (
                     <CustomToast />
                 )}

@@ -11,12 +11,14 @@ import Time from '../../assets/time.svg';
 import ElectionHeader from "@/Components/ElectionHeader";
 import toast from "react-hot-toast";
 import CustomToast from "@/Components/CustomToast";
+import { Button } from "@material-tailwind/react";
 
 
-const VoterDashboard = ({ election, candidatesAll, positionList, partyList, castedVotes, voteCounts, voterHasVoted }) => {
+const VoterDashboard = ({ election, candidatesAll, positionList, partyList, castedVotes, voteCounts, voterHasVoted, candidateWinners }) => {
     const [selectedCandidates, setSelectedCandidates] = useState([]);
     const [now, setNow] = useState(new Date());
-    const [isSuccessMessage,setIsSuccessMessage] = useState(false);
+    const [isSuccessMessage, setIsSuccessMessage] = useState(false);
+
     const memoizedEndingDate = useMemo(() => {
 
         if (!election || election.status === 'Inactive') {
@@ -63,8 +65,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
         candidate_ids: [],
     });
 
-    
-    console.log(errors)
+
     useEffect(() => {
         // Update the candidate_ids field in the form data when selectedCandidates changes
         setData("candidate_ids", selectedCandidates);
@@ -148,17 +149,17 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
     return (
         <div>
-            {isSuccessMessage && <CustomToast/>}
+            {isSuccessMessage && <CustomToast />}
             {(election && election?.status === "Active") && isElectionStarted ? (
 
                 <div>
-                    <PartylistCarousel partylistCarouselData={partyList}/>
+                    <PartylistCarousel partylistCarouselData={partyList} />
                     <ElectionHeader election={election} />
                     <div>
                         {result ? (
                             <div ref={resultRef} className="mt-10">
                                 <div className="text-end">
-                                    <PrimaryButton>See Winners</PrimaryButton>
+                                    <Button color="blue" variant="gradient" >See Winners</Button>
                                 </div>
                                 <div className="w-full text-xl md:text-2xl lg:text-3xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 justify-center ">
                                     {positionList.map(position => (
@@ -205,14 +206,15 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
                                 <div className="text-center mt-7">
                                     {
-                                        result || candidatesAll.length === 0 ? "" : <PrimaryButton
+                                        result || candidatesAll.length === 0 ? "" :
+                                            <Button color="blue" variant="gradient"
 
-                                            onClick={onVoteSubmit}
-                                            disabled={processing}
-                                            className="bg-blue-500 hover:bg-blue-700  text-white px-6 py-3 rounded-md"
-                                        >
-                                            Submit
-                                        </PrimaryButton>
+                                                onClick={onVoteSubmit}
+                                                disabled={processing}
+                                                className=" text-white px-10 py-3 rounded-md"
+                                            >
+                                                Submit
+                                            </Button>
                                     }
                                 </div>
                             </form>

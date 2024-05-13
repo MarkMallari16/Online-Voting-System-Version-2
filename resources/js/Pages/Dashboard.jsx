@@ -7,9 +7,9 @@ import PartylistEditorDashboard from './Partylist_Editor/PartylistEditorDashboar
 
 import Countdown from '@/Components/Countdown';
 
-export default function Dashboard({ auth, usersPerPage, candidates, candidatesAll, voterVoted, position_list, partylist_list, election, voters, votersVotedCount, voteCounts, castedVotes, voterHasVoted, totalCandidatesPerPositions, candidateWinners, totalVotesPerPosition, abstainCount }) {
+export default function Dashboard({ auth, usersPerPage, candidates, candidatesAll, voterVoted, position_list, partylist_list, election, voters, votersVotedCount, voteCounts, castedVotes, voterHasVoted, latestVotedUsers, totalCandidatesPerPositions, candidateWinners, totalVotesPerPosition, abstainCount }) {
 
-    console.log(abstainCount);
+    console.log(candidateWinners);
     const { role } = auth.user;
     let dashboardContent;
 
@@ -18,7 +18,7 @@ export default function Dashboard({ auth, usersPerPage, candidates, candidatesAl
             dashboardContent = <AdminDashboard usersPerPage={usersPerPage} />;
             break;
         case 'moderator':
-            dashboardContent = <ModeratorDashboard voters={voters} election={election} candidates={candidates} voteCounts={voteCounts} votersVotedCount={votersVotedCount} position_list={position_list} totalVotesPerPosition={totalVotesPerPosition} abstainCount={abstainCount} />;
+            dashboardContent = <ModeratorDashboard voters={voters} election={election} candidates={candidates} voteCounts={voteCounts} votersVotedCount={votersVotedCount} latestVotedUsers={latestVotedUsers} position_list={position_list} totalVotesPerPosition={totalVotesPerPosition} abstainCount={abstainCount} />;
             break;
         case 'partylist_editor':
             dashboardContent = <PartylistEditorDashboard partylists={partylist_list} />;

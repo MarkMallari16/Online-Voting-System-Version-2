@@ -9,7 +9,7 @@ import VotesPDF from '@/Components/VotesPDF';
 import { Link } from '@inertiajs/react';
 import { FaBox } from "react-icons/fa";
 import DoughnutContainer from './DoughnutContainer';
-
+import moment from 'moment';
 function PositionSelector({ label, onChange, value, positionList }) {
     return (
         <Select label={label} onChange={onChange} value={value}>
@@ -19,7 +19,9 @@ function PositionSelector({ label, onChange, value, positionList }) {
         </Select>
     );
 }
-const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount, totalVotesPerPosition, abstainCount }) => {
+const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount, latestVotedUsers, totalVotesPerPosition, abstainCount }) => {
+    console.log(position_list)
+
 
     const electionTitle = election ? election.title : '';
 
@@ -27,7 +29,6 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
     const [selectedPosition, setSelectedPosition] = useState(defaultPositionId);
 
     const [chartPositionOption, setChartPositionOption] = useState(() => {
-        // Retrieve the stored option from localStorage or default to "y"
         return localStorage.getItem('chartPositionOption') || 'y';
     });
     const selectedPositionData = position_list.find(position => position.id === selectedPosition);
@@ -42,19 +43,12 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
     };
     const handleChartPositionOption = (value) => {
         setChartPositionOption(value);
-        console.log(value);
+      
         localStorage.setItem('chartPositionOption', value);
     }
     const votedVoters = voters.filter(voter => voter.hasVoted);
-    console.log(votedVoters);
 
-    const latestVotedVoter = votedVoters.reduce((prev, current) =>
-        (new Date(prev.updated_at) > new Date(current.updated_at)) ? prev : current, []
-    );
-
-
-    console.log(voteCounts);
-
+    console.log(latestVotedUsers)
     return (
         <div>
 
@@ -108,7 +102,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
 
                             <div className='flex justify-center flex-col items-center h-96'>
 
-                                <div className='text-gray-600  mb-3'>No voters have cast their votes yet</div>
+                                <div className='text-gray-900  mb-3'>No voters have cast their votes yet</div>
                                 <div>
                                     <FaBox className='text-2xl' />
                                 </div>
@@ -122,13 +116,13 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                         <div className="px-5 py-4 text-gray-900">
                             <h1 className='text-xl font-medium'>Current Students Votes</h1>
                         </div>
-                        <div className='px-4 py-0 md:p-8'> 
+                        <div className='px-4 py-0 md:p-8'>
 
                             {votedVoters.length > 0 ? <DoughnutContainer voters={voters} votersVotedCount={votersVotedCount} abstainCount={abstainCount} /> :
 
                                 <div className='flex justify-center flex-col items-center h-96'>
 
-                                    <div className='text-gray-700  mb-3'>No voters have cast their votes yet</div>
+                                    <div className='text-gray-900  mb-3'>No voters have cast their votes yet</div>
                                     <div>
                                         <FaBox className='text-2xl' />
                                     </div>
@@ -137,13 +131,13 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
 
                     </div>
                     <div className="bg-white flex-1 rounded-md">
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max px-5 py-5">
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max px-5 pt-5">
                             <div className="flex justify-between">
                                 <div >
                                     <div className='font-medium'>Today, {new Date().toLocaleDateString()}</div>
 
 
-                                    <div className='text-gray-700 text-sm'>Latest voter voted</div>
+                                    <div className='text-gray-800 text-sm'>Latest voter voted</div>
                                 </div>
 
                                 <div className=" text-gray-900 text-end">
@@ -153,20 +147,33 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                 </div>
                             </div>
                         </div>
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max">
-                            <div className="text-gray-900">
-                                {latestVotedVoter && Object.keys(latestVotedVoter).length > 0 ? (
-                                    <div className='flex justify-between px-4 py-2 items-center'>
-                                        <div>
-                                            <Avatar src={`storage/${latestVotedVoter.profile_picture}`} alt="Avatar" />
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg px-5">
+                            <div className="text-gray-900 mt-4">
+                                {latestVotedUsers.length > 0 ? (
+                                    latestVotedUsers.map((latestVotedUser, id) => (
+                                        <div key={id} className='flex justify-between  px-2 py-4 items-center ring-1 ring-inset ring-gray-300  mb-4 rounded-md '>
+                                            <div>
+                                                <Avatar src={`storage/${latestVotedUser.profile_picture}`} alt="Avatar" />
+                                            </div>
+                                            <div className='flex  flex-col '>
+
+                                                <div className='font-medium'>
+                                                    {latestVotedUser.name}
+                                                </div>
+                                                <div className='text-sm text-gray-800'>{moment(latestVotedUser.vote_timestamp).fromNow()}</div>
+                                            </div>
+                                            <Link href={route('votes')} className='flex items-center hover:text-blue-500 transition-all ease-in font-medium' >
+                                                <div>
+                                                    View
+                                                </div>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                                                    <path fillRule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clipRule="evenodd" />
+                                                </svg>
+
+                                            </Link>
+
                                         </div>
-                                        <div>
-                                            {latestVotedVoter.name}
-                                        </div>
-                                        <div className='text-blue-500 font-medium'>
-                                            {latestVotedVoter.hasVoted && 'Voted'}
-                                        </div>
-                                    </div>
+                                    ))
                                 ) : (
                                     <div className='flex justify-center items-center flex-col mb-3'>
                                         <div className='mb-3'>
@@ -180,7 +187,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                             </div>
                         </div>
                     </div>
-                   
+
                 </div>
             </div>
         </div>

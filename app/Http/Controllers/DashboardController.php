@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Vote;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -25,7 +26,7 @@ class DashboardController extends Controller
     {
         //admin
 
-        $usersPerPage = User::paginate(10);
+        $usersPerPage = $this->getUsersPerPage();
 
         //moderator
         $positions = Positions::all();
@@ -34,10 +35,7 @@ class DashboardController extends Controller
         $candidatesAll = Candidate::with('position', 'partylist')->get();
 
         // Retrieve the latest election, whether active or inactive
-        $election = Election::where('status', 'Active')
-            ->orWhere('status', 'Inactive')
-            ->latest('start_date')
-            ->first();
+        $election = $this->getLatestElection();
 
         // get the authenticated user
         $user = Auth::user();
@@ -65,6 +63,15 @@ class DashboardController extends Controller
             $voter->hasVoted = $election ? $this->getHasVotedStatus($voterId, $election->id) : false;
             return $voter;
         });
+        $latestVotedUsers = User::join('votes', 'users.id', '=', 'votes.voter_id')
+            ->select('users.*', 'votes.vote_timestamp')
+            ->whereNotNull('votes.voter_id')
+            ->orderBy('votes.vote_timestamp', 'desc')
+            ->distinct()
+            ->limit(2)
+            ->get();
+
+
 
         $voteCounts = [];
 
@@ -108,8 +115,6 @@ class DashboardController extends Controller
                 ->whereNotNull('candidate_id')
                 ->distinct('voter_id')
                 ->count();
-
-
 
             $abstainCount = Vote::where('election_id', $election->id)
                 ->whereNull('candidate_id')
@@ -159,11 +164,24 @@ class DashboardController extends Controller
             'voteCounts' => $voteCounts,
             'castedVotes' => $castedVotes,
             'voterVoted' => $voterVoted,
+            'latestVotedUsers' => $latestVotedUsers,
             'voterHasVoted' => $voterHasVoted,
             'candidateWinners' => $candidateWinners,
             'totalCandidatesPerPositions' => $totalCandidatesPerPositions,
             'totalVotesPerPosition' => $totalVotesPerPosition,
 
         ]);
+    }
+
+    private function getUsersPerPage()
+    {
+        return User::paginate(10);
+    }
+    private function getLatestElection()
+    {
+        return Election::where('status', 'Active')
+            ->orWhere('status', 'Inactive')
+            ->latest('start_date')
+            ->first();
     }
 }

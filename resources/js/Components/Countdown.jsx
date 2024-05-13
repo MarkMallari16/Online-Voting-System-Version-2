@@ -111,7 +111,7 @@ function Countdown({ election }) {
                             ) : isVotingEnded ? (
                                 (
                                     <div className='text-center mb-4'>
-                                        <h2 className="text-2xl font-semibold text-red-600">Election Ended</h2>
+                                        <h2 className="text-2xl font-bold text-red-700">Election Ended</h2>
                                         <p className="text-sm text-blue-gray-600">Thank you for participating!</p>
                                     </div>
 

@@ -148,7 +148,7 @@ export function PositionsTable(props) {
     };
     return (
         <div>
-            <div className="mb-3">
+            <div >
                 {isSuccessMessage && <CustomToast />}
             </div>
             <Card className="h-full w-full">

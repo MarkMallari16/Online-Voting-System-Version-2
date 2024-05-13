@@ -5,6 +5,7 @@ import ElectionHeader from '@/Components/ElectionHeader';
 import { Button } from '@material-tailwind/react';
 import { Link } from '@inertiajs/react';
 import { MdOutlineQuestionMark } from "react-icons/md";
+import PrimaryButton from '@/Components/PrimaryButton';
 const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
     console.log(candidatesPerPosition);
 
@@ -13,10 +14,10 @@ const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
     return (
         <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Ballot</h2>} >
 
-            <div className='mt-10 md:mx-10'>
+            <div className='mt-10 md:mx-44'>
                 <ElectionHeader election={election} />
-                {positionList.length > 0 ? (
 
+                {positionList.length > 0 ? (
                     positionList.map((position) => (
                         <div key={position.id} className="bg-white overflow-hidden shadow-sm sm:rounded-md mt-7">
                             <div className="mt-11 font-medium text-2xl text-center">
@@ -56,9 +57,9 @@ const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
                     <div className='flex  flex-col justify-center items-center mt-10 bg-white h-52'>
                         <div className='text-gray-900 mb-2'>No candidates found</div>
                         <div>
-                            <Button color='blue' variant='gradient'>
+                            <PrimaryButton color='blue' variant='gradient'>
                                 <Link href={route('candidate')} >Create candidate</Link>
-                            </Button>
+                            </PrimaryButton>
                         </div>
 
                     </div>
