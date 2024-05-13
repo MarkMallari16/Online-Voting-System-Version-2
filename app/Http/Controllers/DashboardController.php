@@ -114,7 +114,7 @@ class DashboardController extends Controller
         $votersWhoVotedForWinners = 0;
         //display winner when election ends
         if ($election && $election->status === 'Active') {
-            
+
             $votersVotedCount = Vote::where('election_id', $election->id)
                 ->whereNotNull('candidate_id')
                 ->distinct('voter_id')
@@ -148,7 +148,15 @@ class DashboardController extends Controller
                     $totalVotesForPosition += $voteCountsPerCandidates;
                     $totalCandidatesPerPositions[$position->name][$candidate->last_name . ', ' . $candidate->first_name] = $voteCountsPerCandidates;
                 }
-                $candidateWinners[$position->name] = $winnerForPosition;
+
+                if ($winnerForPosition) {
+                    $candidateWinners[$position->name] = [
+                        'candidate_profile' => $winnerForPosition->candidate_profile,
+                        'candidate_full_name' => $winnerForPosition->first_name . ' ' . $winnerForPosition->last_name,
+                        'partylist_name' => $winnerForPosition->partylist->name,
+                        'totalVotes' => $maxVotesPerPosition
+                    ];
+                }
                 $totalVotesPerPosition[$position->name] = $totalVotesForPosition;
             }
         }

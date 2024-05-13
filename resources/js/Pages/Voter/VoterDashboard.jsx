@@ -39,6 +39,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
     const resultRef = useRef(null);
 
+
     useEffect(() => {
         if (result && resultRef.current) {
             resultRef.current.scrollIntoView({ behavior: 'smooth', block: "start" });
@@ -167,7 +168,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                                             </div>
                                             <div>
 
-                                                See Winners
+                                                View Election Winners
                                             </div>
                                         </div>
                                     </Button>
@@ -253,7 +254,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                 selectedCandidatesInfo={getSelectedCandidatesInfo()}
             />
 
-            <VoteCandidateWinnerModal isOpen={showCandidateWinnerModal} onClose={() => setShowCandidateWinnerModal(false)} candidateWinners={candidateWinners} electionTitle={election.title}/>
+            <VoteCandidateWinnerModal isOpen={showCandidateWinnerModal} onClose={() => setShowCandidateWinnerModal(false)} candidateWinners={candidateWinners} electionTitle={election.title} />
         </div >
 
     )

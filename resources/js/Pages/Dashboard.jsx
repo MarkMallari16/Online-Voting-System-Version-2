@@ -9,7 +9,7 @@ import Countdown from '@/Components/Countdown';
 
 export default function Dashboard({ auth, usersPerPage, candidates, candidatesAll, voterVoted, position_list, partylist_list, election, voters, votersVotedCount, voteCounts, numberOfPartylists, numberOfPositions, castedVotes, voterHasVoted, latestVotedUsers, totalCandidatesPerPositions, candidateWinners, totalVotesPerPosition, abstainCount }) {
 
-    console.log(candidateWinners);
+    // console.log(candidateWinners);
     const { role } = auth.user;
     let dashboardContent;
     switch (role) {

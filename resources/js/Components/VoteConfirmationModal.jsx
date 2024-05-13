@@ -18,7 +18,7 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
         onClose(selectedCandidates);
     };
     const sortSelectedCandidatesInfo = selectedCandidatesInfo.sort((a, b) => a.position.id - b.position.id);
-    console.log(selectedCandidatesInfo)
+    // console.log(selectedCandidatesInfo)
     // const candidateProfiles = sortSelectedCandidatesInfo.map(candidate => candidate.candidateProfile);
 
     return (

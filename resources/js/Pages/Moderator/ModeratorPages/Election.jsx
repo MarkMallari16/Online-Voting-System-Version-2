@@ -120,7 +120,7 @@ const Election = ({ auth, existingElection, election }) => {
                   <h2 className="text-lg font-medium text-gray-900" >Election Title</h2>
                   <p className="mt-1 text-sm text-gray-600">Set Election Title</p>
                 </header>
-                <div className='flex gap-4'>
+                <div className=''>
                   <div>
                     <InputLabel htmlFor="title" value="Set Election Title" />
                     <TextInput
@@ -167,7 +167,7 @@ const Election = ({ auth, existingElection, election }) => {
                   </div>
                 </div>
                 <div className='mt-5'>
-                  <PrimaryButton type="submit" disabled={!status}>{status ? 'Update' : 'Save'}</PrimaryButton>
+                  <PrimaryButton type="submit" disabled={!status || processing}>{status ? 'Update' : 'Save'}</PrimaryButton>
 
 
                 </div>
