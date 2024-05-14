@@ -4,20 +4,20 @@ import CandidateCard from '@/Components/CandidateCard'; // Assuming you have Can
 import ElectionHeader from '@/Components/ElectionHeader';
 import { Button } from '@material-tailwind/react';
 import { Link } from '@inertiajs/react';
-import { MdOutlineQuestionMark } from "react-icons/md";
-import PrimaryButton from '@/Components/PrimaryButton';
+
+import { LiaUserAltSlashSolid } from "react-icons/lia";
+import { FaBox } from "react-icons/fa";
+
 const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
+
     console.log(candidatesPerPosition);
-
-    console.log(election);
-
     return (
         <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Ballot</h2>} >
 
             <div className='mt-10 md:mx-44'>
                 <ElectionHeader election={election} />
 
-                {positionList.length > 0 ? (
+                {positionList.length > 0 || candidatesPerPosition.length > 0 ? (
                     positionList.map((position) => (
                         <div key={position.id} className="bg-white overflow-hidden shadow-sm sm:rounded-md mt-7">
                             <div className="mt-11 font-medium text-2xl text-center">
@@ -43,9 +43,21 @@ const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
                                 ) : (
                                     <div className="flex flex-col justify-center items-center text-gray-900 py-5">
 
-                                        <div><MdOutlineQuestionMark className='mb-2 h-10 w-10' /></div>
                                         <div>
+                                            <LiaUserAltSlashSolid className='h-16 w-16' />
+
+                                        </div>
+
+                                        <div className='mt-4 mb-1'>
                                             No candidates found for this position.
+                                        </div>
+
+
+                                        <div>
+                                            <Link href={route('candidate')} >
+
+                                                <Button color='blue' variant='gradient'> Create candidate </Button>
+                                            </Link>
                                         </div>
                                     </div>
                                 )}
@@ -54,12 +66,19 @@ const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
                     ))
 
                 ) : (
-                    <div className='flex  flex-col justify-center items-center mt-10 bg-white h-52'>
-                        <div className='text-gray-900 mb-2'>No candidates found</div>
+                    <div className='flex  flex-col justify-center items-center mt-10 bg-white h-52 rounded-md shadow-sm'>
+
                         <div>
-                            <PrimaryButton color='blue' variant='gradient'>
-                                <Link href={route('candidate')} >Create candidate</Link>
-                            </PrimaryButton>
+                            <FaBox className='h-14 w-14' />
+                        </div>
+                        <div className='text-gray-900 mt-4 mb-2'>No candidate position found</div>
+                        <div>
+
+                            <Link href={route('positions')} >
+
+                                <Button color='blue' variant='gradient'> Create candidate positions </Button>
+                            </Link>
+
                         </div>
 
                     </div>

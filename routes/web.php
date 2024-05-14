@@ -105,8 +105,8 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::post('/hasVoted', [CandidateController::class, 'hasVoted'])->name('vote.hasVoted');
 
 
-    Route::post('assign-partylist-editor/{partylistId}/assign-editor/{userId}', [PartylistController::class, 'assignEditor']);
-    Route::put('/users/{userId}/switch-role', [RoleController::class, 'switchRole'])->name('users.switchRole');
+    // Route::post('assign-partylist-editor/{partylistId}/assign-editor/{userId}', [PartylistController::class, 'assignEditor']);
+    // Route::put('/users/{userId}/switch-role', [RoleController::class, 'switchRole'])->name('users.switchRole');
 });
 
 

@@ -8,7 +8,7 @@ const ElectionHeader = ({ election }) => {
             <div className="bg-white border shadow-sm border-3 rounded-md  p-10 ">
                 <div className="flex items-center justify-between">
                     <div><img src={STIBacoorLogo} alt="STI Bacoor Logo" className="w-32 sm:w-32" /></div>
-                    <div className="text-xl md:text-5xl text-center font-medium">{election?.title ? election.title : 'Inactive'}</div>
+                    <div className="text-3xl md:text-5xl text-center font-medium">{election?.title ? election.title : 'Inactive'}</div>
 
                     <div><img src={CouncilLogo} alt="Council Logo" className="w-32 sm:w-32" /></div>
                 </div>

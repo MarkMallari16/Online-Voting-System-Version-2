@@ -118,7 +118,7 @@ class CandidateController extends Controller
             'middle_name' => 'nullable|string',
             'last_name' => 'required|alpha',
             'manifesto' => 'required|string',
-            'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // 'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'partylist_id' => 'required|exists:partylists,id',
             'position_id' => 'required|exists:positions,id',
 

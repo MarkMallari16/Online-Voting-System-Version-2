@@ -254,7 +254,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                 selectedCandidatesInfo={getSelectedCandidatesInfo()}
             />
 
-            <VoteCandidateWinnerModal isOpen={showCandidateWinnerModal} onClose={() => setShowCandidateWinnerModal(false)} candidateWinners={candidateWinners} electionTitle={election.title} />
+            <VoteCandidateWinnerModal isOpen={showCandidateWinnerModal} onClose={() => setShowCandidateWinnerModal(false)} candidateWinners={candidateWinners} electionTitle={election?.title} />
         </div >
 
     )

@@ -180,7 +180,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                 ) : (
                                     <div className='flex justify-center items-center flex-col mb-3'>
                                         <div className='mb-3'>
-                                            <div className='text-gray-700'>No Voters Yet</div>
+                                            <div className='text-gray-900'>No Voters Yet</div>
                                         </div>
                                         <div>
                                             <FaBox className='text-2xl mb-3' />

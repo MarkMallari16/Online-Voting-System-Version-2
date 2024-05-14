@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
@@ -40,12 +40,18 @@ const TABS = [
         label: "Students Not Voted",
         value: "students_not_voted",
     },
+    {
+        label: "Students Abstain",
+        value: "students_abstain",
+    },
 
 ];
 
 const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
     const TABLE_HEAD = ["#", "Voter ID", "Voter's Name", "Candidate Voted For", "Candidate Position", "Election Name", "Vote Timestamp", "Action"];
     const VOTER_NOT_VOTED_TABLE_HEAD = ["#", "Voter ID", "Voter's Name",];
+
+    const VOTER_ABSTAIN_TABLE_HEAD = ["#", "Voter ID", "Voter's Name"];
     const [open, setOpen] = useState(false);
     const [id, setId] = useState();
     const [searchQuery, setSearchQuery] = useState("");
@@ -73,7 +79,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
 
 
                     </div>
-                    {/*Dialog* */}
+                    {/*Modal* */}
                     <Dialog open={open} size='md' handler={handleOpen}>
                         <DialogHeader className='flex gap-1 text-gray-900'>
                             <div>
@@ -193,7 +199,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
             </CardHeader>
             <CardBody className="overflow-scroll px-0">
                 <Tabs value="students_voted">
-                    <div className="w-full  mx-4 ">
+                    <div className="w-full px-5 ">
                         <TabsHeader >
                             {TABS.map(({ label, value }) => (
                                 <Tab key={value} value={value}>
@@ -206,7 +212,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                     <TabsBody>
 
                         <TabPanel value="students_voted" className='px-0'>
-                            <table className="mt-4 w-full min-w-max table-auto text-left">
+                            <table className="w-full min-w-max table-auto text-left">
                                 <thead>
                                     <tr>
                                         {TABLE_HEAD.map((head, index) => (
@@ -236,7 +242,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                 }).length === 0 ? (
                                     <tbody>
                                         <tr>
-                                            <td colSpan="8" className="text-center py-5 ">
+                                            <td colSpan="8" className="text-center py-5 text-gray-900 ">
                                                 No votes found
                                             </td>
                                         </tr>
@@ -311,7 +317,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                                     color="blue-gray"
                                                                     className="font-normal"
                                                                 >
-                                                                    {votes.find(vote => !vote.isAbstained) ? candidate ? `${candidate?.first_name} ${candidate?.last_name}` : 'Abstained' : ''}
+                                                                    {votes.find(vote =>vote.isAbstained) ? candidate ? `${candidate?.first_name} ${candidate?.last_name}` : 'Abstained' : ''}
                                                                 </Typography>
                                                             </div>
                                                         </td>
@@ -323,7 +329,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                                     color="blue-gray"
                                                                     className="font-normal"
                                                                 >
-                                                                    {votes.find(vote => !vote.isAbstained) ? candidate?.position_id ? positions.find(position => position?.id === candidate.position_id)?.name : 'Abstained' : ''}
+                                                                    {votes.find(vote => vote.isAbstained) ? candidate?.position_id ? positions.find(position => position?.id === candidate.position_id)?.name : 'Abstained' : ''}
                                                                 </Typography>
                                                             </div>
                                                         </td>
@@ -375,7 +381,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
 
                         <TabPanel value="students_not_voted" className='px-0'>
                             <div >
-                                <table className="mt-4 w-full min-w-max table-auto text-left">
+                                <table className=" w-full min-w-max table-auto text-left">
                                     <thead>
                                         <tr>
                                             {VOTER_NOT_VOTED_TABLE_HEAD.map((head, index) => (
@@ -409,7 +415,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                     return voterName;
                                                 }).length === 0 ? (
                                                 <tr>
-                                                    <td colSpan="4" className="text-center py-4 text-gray-500">
+                                                    <td colSpan="4" className="text-center py-5 text-gray-900 ">
                                                         No voters found
                                                     </td>
                                                 </tr>
@@ -472,6 +478,106 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                     </tbody>
                                 </table>
                             </div>
+                        </TabPanel>
+
+                        <TabPanel value="students_abstain" className='px-0'>
+                            <div >
+                                <table className=" w-full min-w-max table-auto text-left">
+                                    <thead>
+                                        <tr>
+                                            {VOTER_ABSTAIN_TABLE_HEAD.map((head, index) => (
+                                                <th
+                                                    key={head}
+                                                    className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50"
+                                                >
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="flex items-center justify-between gap-2 font-normal leading-none opacity-70"
+                                                    >
+                                                        {head}{" "}
+                                                        {index !== VOTER_ABSTAIN_TABLE_HEAD.length - 1 && (
+                                                            <ChevronUpDownIcon strokeWidth={2} className="h-4 w-4" />
+                                                        )}
+                                                    </Typography>
+                                                </th>
+                                            ))}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        {
+                                            voters.data.length === 0 ||
+                                                voters.data.filter((voter) => !votes.some(vote => vote.isAbstained)).length === 0 ||
+                                                voters.data.filter((voter) => {
+                                                    const voterName = voter.name.toLowerCase().includes(searchQuery.toLowerCase());
+                                                    return voterName;
+                                                }).length === 0 ? (
+                                                <tr>
+                                                    <td colSpan="4" className="text-center py-5 text-gray-900 ">
+                                                        No voters abstain found
+                                                    </td>
+                                                </tr>
+                                            ) : (
+
+                                                voters.data
+                                                    .filter((vote) => !votes.some(vote => vote.isAbstained))
+                                                    .filter((voter) => {
+                                                        const voterName = voter.name.toLowerCase().includes(searchQuery.toLowerCase());
+
+                                                        return voterName;
+                                                    })
+                                                    .map((voter, index) => (
+                                                        <tr key={index}>
+                                                            <td className={classes}>
+                                                                <div className="flex items-center gap-3">
+                                                                    <div className="flex flex-col">
+                                                                        <Typography
+                                                                            variant="small"
+                                                                            color="blue-gray"
+                                                                            className="font-normal"
+                                                                        >
+                                                                            {voter.id}
+                                                                        </Typography>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={classes}>
+                                                                <div className="flex items-center gap-3">
+                                                                    <div className="flex flex-col">
+                                                                        <Typography
+                                                                            variant="small"
+                                                                            color="blue-gray"
+                                                                            className="font-normal"
+                                                                        >
+                                                                            {voter.id}
+                                                                        </Typography>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={classes}>
+                                                                <div className="flex items-center gap-3">
+                                                                    <div className="flex flex-col">
+                                                                        <Typography
+                                                                            variant="small"
+                                                                            color="blue-gray"
+                                                                            className="font-normal"
+                                                                        >
+                                                                            {voter.name}
+                                                                        </Typography>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                            )
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
                         </TabPanel>
                     </TabsBody>
                 </Tabs>
