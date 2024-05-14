@@ -27,7 +27,7 @@ const UpdateProfilePicture = ({ user }) => {
         <p className='mt-1 text-sm text-gray-600'>Update your profile picture.</p>
       </div>
       <div className='flex gap-4 mb-10'>
-        <div className='bg-[url("/sti_images/BeSTICover.jpg")] bg-cover h-72 w-full rounded-md relative'>
+        <div className='bg-[url("/sti-images/BeSTICover.jpg")] bg-cover h-72 w-full rounded-md relative'>
           <div className='relative '>
             <Avatar
               src={data.profile_picture ? URL.createObjectURL(data.profile_picture) : user.profile_picture ? `storage/${user.profile_picture}` : DefaultUserProfile}

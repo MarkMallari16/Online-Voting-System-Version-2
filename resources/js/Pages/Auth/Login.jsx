@@ -8,7 +8,8 @@ import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
 import PasswordToggle from '@/Components/PasswordToggle';
 import { useState } from 'react';
-import STISHSBacoorLogo from '../../assets/bacoor-shs-logo.png'
+import STISHSCouncilLogo from '../../assets/councilLogo.png'
+import STIBacoorSHSLogo from '../../assets/bacoor-logo.png'
 import { Button } from '@material-tailwind/react';
 
 export default function Login({ status, canResetPassword }) {
@@ -34,16 +35,16 @@ export default function Login({ status, canResetPassword }) {
         setShowPassword(!showPassword);
     }
     return (
-        <div className=' grid grid-cols-1 sm:grid-cols-6 h-screen'>
-            <div className=' bg-blue-600 flex flex-col items-center justify-center ps-5 col-span-4 m-5 rounded-md'>
-                <div className='flex font-bold text-white text-5xl'>Online Voting System for STI College Bacoor SHS Student Council</div>
-                <div className='flex font-bold text-white text-5xl'></div>
+        <div className=' grid grid-cols-1 sm:grid-cols-5 h-screen'>
+            <div className=' bg-[url("/sti-images/BeSTICoverWithBacoor.png")] bg-left bg-no-repeat bg-cover md:flex  items-center justify-center m-4 col-span-3 sm:hidden sm:rounded-r-3xl'>
+
+
             </div>
             <div className='flex items-center justify-center col-span-2'>
                 <div>
                     {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
-                    <div className='mb-5'>
-                        <h1 className='text-3xl font-bold'>Welcome back!</h1>
+                    <div className='mb-8'>
+                        <h1 className='text-3xl font-bold mb-2'>Welcome back!</h1>
                         <span className='font-light text-gray-600'>Enter your school email and password to access your account</span>
                     </div>
                     <form onSubmit={submit}>
@@ -89,10 +90,6 @@ export default function Login({ status, canResetPassword }) {
 
                             <InputError message={errors.password} className='mt-2' />
                         </div>
-
-
-
-
                         <div className='flex justify-between mt-14'>
                             <div className="block">
                                 <label className="flex items-center">
@@ -120,13 +117,13 @@ export default function Login({ status, canResetPassword }) {
                         </div>
 
                         <div className='w-full flex justify-end mt-5'>
-                            <Button  type='submit' color='blue' variant='gradient' className="block w-full" disabled={processing}>
+                            <Button type='submit' color='blue' variant='gradient' className="block w-full py-4" disabled={processing}>
                                 Log in
                             </Button>
                         </div>
 
                         <div>
-                            <div className='text-gray-600 text-center mt-2'>
+                            <div className='text-gray-600 text-center mt-3'>
                                 Don't have an Account? <Link href={route('register')} className='text-blue-500 font-medium focus:ring-blue-500' >Sign up</Link>
                             </div>
                         </div>

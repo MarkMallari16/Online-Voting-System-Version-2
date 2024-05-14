@@ -12,10 +12,8 @@ import {
     Button,
 } from "@material-tailwind/react";
 import { useState, useEffect } from 'react';
-import { FaAngleUp } from "react-icons/fa";
-
 import Footer from '@/Components/Footer';
-import { ArrowUpIcon } from '@heroicons/react/20/solid';
+
 
 
 export default function Welcome({ auth }) {
@@ -64,14 +62,14 @@ export default function Welcome({ auth }) {
                     style={bgStyle}
                 >
                     <div className={`z-50 sticky top-0 transition-all duration-300   ${scrolled ? ' bg-blue-500 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 ' : 'bg-none'}`}>
-                        <div className={`flex sm:mx-24  md:mx-20 `} >
-                            <div className="logo">
+                        <div className={`flex sm:mx-10  md:mx-20 `} >
+                            <div className="mx-3 sm:mx-0">
                                 <Link href='/' > <ApplicationLogo /></Link>
                             </div>
                             <div className={`flex items-center ms-auto`} >
 
                                 <>
-                                    <div className='mx-5' >
+                                    <div className='mx-3 sm:mx-0' >
                                         <Link
                                             href={route('login')}
                                             className="font-medium text-black  focus:text-white transition-all ease-in-out"
@@ -94,20 +92,20 @@ export default function Welcome({ auth }) {
 
 
 
-                    <div className="sm:mt-5 md:my-24 lg:mt-5 mt-24 flex flex-col-reverse sm:flex-col-reverse md:flex-row items-center gap-5 sm:gap-24  mx-5 sm:mx-24  md:mx-20"
+                    <div className="sm:mt-5 sm:mb-40 md:my-24 lg:mt-5 mt-24 flex items-center flex-col-reverse sm:flex-col-reverse md:flex-row  gap-5 sm:gap-24  mx-5 sm:mx-10  md:mx-20"
 
                     >
                         <div className='flex-1'>
                             <div>
                                 <p className='tracking-wide font-bold text-gray-900 text-center  md:text-left'><span >STAND UP, SPEAK OUT, AND CREATE CHANGE!</span></p>
-                                <h1 className="text-5xl md:text-6xl font-extrabold text-center  md:text-left mb-3">MAKE YOUR <span className='text-blue-600'>VOICE HEARD</span></h1>
+                                <h1 className="text-5xl sm:text-6xl md:text-6xl font-extrabold text-center  md:text-left mb-3">MAKE YOUR <span className='text-blue-600'>VOICE HEARD</span></h1>
 
                             </div>
                             <p className='text-lg text-center md:text-left'>Exercise your right to vote and elect your senior high school student leaders.</p>
                             <div className='mt-3 flex  md:flex-row gap-2 items-center justify-center md:justify-start'>
                                 <Link
                                     href={route('register')}
-                                    className="font-medium  px-6 py-2 text-white rounded-md hover:bg-blue-600 bg-gradient-to-b from-blue-400 to-blue-600  duration-75 focus:outline focus:outline-2 transition-all  ease-in-out"
+                                    className="font-medium  px-6 py-2 text-white rounded-md bg-blue-500 hover:bg-blue-800  bg-gradient-to-b from-blue-400 to-blue-600  duration-75 focus:outline focus:outline-2 transition-all  ease-in-out"
                                 >
                                     Register
                                 </Link>
@@ -124,7 +122,7 @@ export default function Welcome({ auth }) {
                             </div>
                         </div>
                         <div className="flex-1 drop-shadow-2xl" >
-                            <img src={Cover} alt="hero-section" className="w-auto sm:w-[89%] md:w-50" />
+                            <img src={Cover} alt="hero-section" className="w-auto sm:w-[89%] md:w-50 hidden sm:hiddent md:block" />
                         </div>
 
                     </div>
