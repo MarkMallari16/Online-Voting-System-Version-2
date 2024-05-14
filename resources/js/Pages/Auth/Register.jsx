@@ -7,6 +7,7 @@ import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 import PasswordToggle from '@/Components/PasswordToggle';
+import { Button } from '@material-tailwind/react';
 
 export default function Register() {
 
@@ -131,9 +132,9 @@ export default function Register() {
 
                 </div>
                 <div className="flex items-center justify-end mt-4">
-                    <PrimaryButton className="ms-4" disabled={processing}>
+                    <Button type='submit' color='blue' variant='gradient' className="w-full" disabled={processing}>
                         Register
-                    </PrimaryButton>
+                    </Button>
                 </div>
                 <div className='text-center mt-2'>
                     <div className='text-gray-600 '>

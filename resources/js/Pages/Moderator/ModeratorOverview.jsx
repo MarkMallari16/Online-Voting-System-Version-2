@@ -6,9 +6,10 @@ import { LiaUserTieSolid } from "react-icons/lia";
 import { CiSquareInfo } from "react-icons/ci";
 import { HiOutlineCheckCircle } from "react-icons/hi";
 
+import { FiSlash } from "react-icons/fi";
 
 
-const ModeratorOverview = ({ voters, candidates, election, votersVotedCount, numberOfPartylists, numberOfPositions }) => {
+const ModeratorOverview = ({ voters, candidates, election, votersVotedCount, numberOfPartylists, numberOfPositions, abstainCount }) => {
 
     return (
         <div className="grid grid-cols-1 grid-rows-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -19,54 +20,13 @@ const ModeratorOverview = ({ voters, candidates, election, votersVotedCount, num
                         {election ? (new Date(election.end_date) < new Date() ? 'Ended' : election.status) : 'Inactive'
                         }
                     </h2>
-
                 </div>
                 <div>
                     <CiSquareInfo className=" bg-amber-200 w-10 h-10 rounded-lg  p-1" />
                 </div>
             </div>
 
-            <div className="w-full sm:w-full md:w-auto flex justify-between  px-6 py-5   bg-white  rounded-lg bg-whitemd:mb-0 ring-1 ring-inset ring-gray-300">
-                <div>
-                    <p className="text-lg mb-8 text-black">No. of Candidates</p>
-                    <h2 className="text-4xl  font-medium">
-                        {candidates.length}
-                    </h2>
-
-                </div>
-                <div>
-                    <LiaUserTieSolid className='  bg-green-200 w-10 h-10 rounded-lg p-1' />
-                </div>
-            </div>
-
-            <div className="w-full sm:w-full md:w-auto  flex justify-between   px-6 py-5  rounded-lg bg-white  ring-1 ring-inset ring-gray-300 ">
-                <div>
-                    <p className="text-lg mb-8 text-black">Total Students</p>
-                    <h2 className="text-4xl  font-medium">{voters.length}</h2>
-                </div>
-                <div>
-                    <PiStudent className='bg-blue-200 w-10 h-10 rounded-lg p-1' />
-                </div>
-            </div>
-
-            <div className="w-full sm:w-full md:w-auto  flex justify-between   rounded-lg  bg-white  px-6 py-5  ring-1 ring-inset ring-gray-300">
-                <div>
-                    <p className="text-lg mb-8 text-black">Students Voted</p>
-                    <h2 className="text-4xl  font-medium">{votersVotedCount}</h2>
-
-                </div>
-
-                <div>
-
-                    <div >
-                        <HiOutlineCheckCircle className=" w-10 h-10  rounded-lg p-2 bg-light-blue-200" />
-                     
-
-                    </div>
-
-                </div>
-            </div>
-            <div className="w-full sm:w-full md:w-auto  flex justify-between  rounded-lg  bg-white  px-6 py-5  ring-1 ring-inset ring-gray-300 col-span-1 sm:col-span-2">
+            <div className="w-full sm:w-full md:w-auto  flex justify-between  rounded-lg  bg-white  px-6 py-5  ring-1 ring-inset ring-gray-300 col-span-1 ">
                 <div>
                     <p className="text-lg mb-8 text-black">No. of  Partylists</p>
                     <h2 className="text-4xl  font-medium">{numberOfPartylists}</h2>
@@ -87,7 +47,8 @@ const ModeratorOverview = ({ voters, candidates, election, votersVotedCount, num
 
                 </div>
             </div>
-            <div className="w-full sm:w-full md:w-auto  flex justify-between rounded-lg  bg-white  px-6 py-5  ring-1 ring-inset ring-gray-300 col-span-1 sm:col-span-2">
+
+            <div className="w-full sm:w-full md:w-auto  flex justify-between rounded-lg  bg-white  px-6 py-5  ring-1 ring-inset ring-gray-300 col-span-1 ">
                 <div>
                     <p className="text-lg mb-8 text-black">No. of Positions</p>
                     <h2 className="text-4xl  font-medium">{numberOfPositions}</h2>
@@ -106,6 +67,60 @@ const ModeratorOverview = ({ voters, candidates, election, votersVotedCount, num
 
                 </div>
             </div>
+
+            <div className="w-full sm:w-full md:w-auto flex justify-between  px-6 py-5   bg-white  rounded-lg bg-whitemd:mb-0 ring-1 ring-inset ring-gray-300 ">
+                <div>
+                    <p className="text-lg mb-8 text-black">No. of Candidates</p>
+                    <h2 className="text-4xl  font-medium">
+                        {candidates.length}
+                    </h2>
+
+                </div>
+                <div>
+                    <LiaUserTieSolid className='  bg-green-200 w-10 h-10 rounded-lg p-1' />
+                </div>
+            </div>
+
+            <div className="w-full sm:w-full md:w-auto  flex justify-between   px-6 py-5  rounded-lg bg-white  ring-1 ring-inset ring-gray-300 sm:col-span-2 ">
+                <div>
+                    <p className="text-lg mb-8 text-black">Total Students</p>
+                    <h2 className="text-4xl  font-medium">{voters.length}</h2>
+                </div>
+                <div>
+                    <PiStudent className='bg-blue-200 w-10 h-10 rounded-lg p-1' />
+                </div>
+            </div>
+            <div className="w-full sm:w-full md:w-auto  flex justify-between   rounded-lg  bg-white  px-6 py-5  ring-1 ring-inset ring-gray-300 sm:col-span-2 ">
+                <div>
+                    <p className="text-lg mb-8 text-black">Students Voted</p>
+                    <h2 className="text-4xl  font-medium">{votersVotedCount}</h2>
+
+                </div>
+
+                <div>
+
+                    <div >
+                        <HiOutlineCheckCircle className=" w-10 h-10  rounded-lg p-2 bg-light-blue-200" />
+
+
+                    </div>
+
+                </div>
+            </div>
+            <div className="w-full sm:w-full md:w-auto  flex justify-between   rounded-lg  bg-white  px-6 py-5  ring-1 ring-inset ring-gray-300 sm:col-span-4">
+                <div>
+                    <p className="text-lg mb-8 text-black">No. Students Abstain</p>
+                    <h2 className="text-4xl  font-medium">{abstainCount}</h2>
+
+                </div>
+                <div >
+                    <div >
+                        <FiSlash className=" w-10 h-10  rounded-lg p-2 bg-red-200" />
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     );
 };

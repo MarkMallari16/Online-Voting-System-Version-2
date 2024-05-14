@@ -60,7 +60,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
 
             <div className="overflow-hidden  sm:rounded-lg mb-3 ">
                 <div className=" text-gray-900">
-                    <ModeratorOverview voters={voters} election={election} candidates={candidates} votersVotedCount={votersVotedCount} numberOfPartylists={numberOfPartylists} numberOfPositions={numberOfPositions} />
+                    <ModeratorOverview voters={voters} election={election} candidates={candidates} votersVotedCount={votersVotedCount} numberOfPartylists={numberOfPartylists} numberOfPositions={numberOfPositions} abstainCount={abstainCount}/>
 
                 </div>
             </div>

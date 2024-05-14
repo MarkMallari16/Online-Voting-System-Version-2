@@ -51,7 +51,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
     const TABLE_HEAD = ["#", "Voter ID", "Voter's Name", "Candidate Voted For", "Candidate Position", "Election Name", "Vote Timestamp", "Action"];
     const VOTER_NOT_VOTED_TABLE_HEAD = ["#", "Voter ID", "Voter's Name",];
 
-    const VOTER_ABSTAIN_TABLE_HEAD = ["#", "Voter ID", "Voter's Name"];
+    const VOTER_ABSTAIN_TABLE_HEAD = ["#", "Voter ID", "Voter's Name", "Status", "Timestamp"];
     const [open, setOpen] = useState(false);
     const [id, setId] = useState();
     const [searchQuery, setSearchQuery] = useState("");
@@ -61,7 +61,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
         setId(id);
 
     }
-
+    console.log(votesPerPage)
     const classes = "p-4 border-b border-blue-gray-50";
     return (
         <Card className="h-full w-full">
@@ -238,7 +238,9 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                     const userMatches = vote?.user?.name.toLowerCase().includes(searchQuery.toLowerCase());
                                     const candidateMatches = `${vote?.candidate?.first_name} ${vote?.candidate?.last_name}`.toLowerCase().includes(searchQuery.toLowerCase());
                                     const position = positions.find(position => position?.id === vote?.candidate?.position_id)?.name?.toLowerCase().includes(searchQuery.toLowerCase());
-                                    return userMatches || candidateMatches || position;
+
+                                    const isNotAbstained = vote.isAbstained === 0;
+                                    return isNotAbstained && (userMatches || candidateMatches || position);
                                 }).length === 0 ? (
                                     <tbody>
                                         <tr>
@@ -254,7 +256,9 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                 const userMatches = vote?.user?.name.toLowerCase().includes(searchQuery.toLowerCase());
                                                 const candidateMatches = `${vote?.candidate?.first_name} ${vote?.candidate?.last_name}`.toLowerCase().includes(searchQuery.toLowerCase());
                                                 const position = positions?.find(position => position?.id === vote.candidate?.position_id)?.name?.toLowerCase().includes(searchQuery.toLowerCase());
-                                                return userMatches || candidateMatches || position;
+                                                const isNotAbstained = vote.isAbstained === 0;
+
+                                                return isNotAbstained && (userMatches || candidateMatches || position);
                                             })
                                             .map(({ id, voter_id, user, candidate, election, vote_timestamp }) => {
 
@@ -317,7 +321,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                                     color="blue-gray"
                                                                     className="font-normal"
                                                                 >
-                                                                    {votes.find(vote =>vote.isAbstained) ? candidate ? `${candidate?.first_name} ${candidate?.last_name}` : 'Abstained' : ''}
+                                                                    {`${candidate?.first_name} ${candidate?.last_name}`}
                                                                 </Typography>
                                                             </div>
                                                         </td>
@@ -507,28 +511,24 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                     <tbody>
 
                                         {
-                                            voters.data.length === 0 ||
-                                                voters.data.filter((voter) => !votes.some(vote => vote.isAbstained)).length === 0 ||
-                                                voters.data.filter((voter) => {
-                                                    const voterName = voter.name.toLowerCase().includes(searchQuery.toLowerCase());
-                                                    return voterName;
-                                                }).length === 0 ? (
+                                            votesPerPage?.data.length === 0 || votesPerPage?.data.filter(vote => {
+                                                const userMatches = vote?.user?.name.toLowerCase().includes(searchQuery.toLowerCase());
+                                                return userMatches && vote.isAbstained === 1;
+                                            }).length === 0 ? (
                                                 <tr>
-                                                    <td colSpan="4" className="text-center py-5 text-gray-900 ">
+                                                    <td colSpan="5" className="text-center py-5 text-gray-900 ">
                                                         No voters abstain found
                                                     </td>
                                                 </tr>
                                             ) : (
 
-                                                voters.data
-                                                    .filter((vote) => !votes.some(vote => vote.isAbstained))
-                                                    .filter((voter) => {
-                                                        const voterName = voter.name.toLowerCase().includes(searchQuery.toLowerCase());
-
-                                                        return voterName;
+                                                votesPerPage?.data
+                                                    .filter(vote => {
+                                                        const userMatches = vote?.user?.name.toLowerCase().includes(searchQuery.toLowerCase());
+                                                        return userMatches && vote.isAbstained === 1;
                                                     })
-                                                    .map((voter, index) => (
-                                                        <tr key={index}>
+                                                    .map(({ id, voter, voter_id, user, vote_timestamp }) => (
+                                                        <tr key={id}>
                                                             <td className={classes}>
                                                                 <div className="flex items-center gap-3">
                                                                     <div className="flex flex-col">
@@ -537,7 +537,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                                             color="blue-gray"
                                                                             className="font-normal"
                                                                         >
-                                                                            {voter.id}
+                                                                            {id}
                                                                         </Typography>
                                                                     </div>
                                                                 </div>
@@ -551,7 +551,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                                             color="blue-gray"
                                                                             className="font-normal"
                                                                         >
-                                                                            {voter.id}
+                                                                            {voter_id}
                                                                         </Typography>
                                                                     </div>
                                                                 </div>
@@ -565,11 +565,40 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                                             color="blue-gray"
                                                                             className="font-normal"
                                                                         >
-                                                                            {voter.name}
+                                                                            {user?.name}
                                                                         </Typography>
                                                                     </div>
                                                                 </div>
                                                             </td>
+
+                                                            <td className={classes}>
+                                                                <div className="flex items-center gap-3">
+                                                                    <div className="flex flex-col">
+                                                                        <Typography
+                                                                            variant="small"
+                                                                            color="blue-gray"
+                                                                            className="font-normal"
+                                                                        >
+                                                                            Abstained
+                                                                        </Typography>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+
+                                                            <td className={classes}>
+                                                                <div className="flex items-center gap-3">
+                                                                    <div className="flex flex-col">
+                                                                        <Typography
+                                                                            variant="small"
+                                                                            color="blue-gray"
+                                                                            className="font-normal"
+                                                                        >
+                                                                            {new Date(vote_timestamp).toLocaleString()}
+                                                                        </Typography>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+
                                                         </tr>
                                                     ))
                                             )
