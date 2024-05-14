@@ -151,7 +151,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                             <div className="text-gray-900 mt-4">
                                 {latestVotedUsers.length > 0 ? (
                                     latestVotedUsers.map((latestVotedUser, id) => (
-                                        <div key={id} className='flex justify-between  px-4 py-3 items-center ring-1 ring-inset ring-gray-300  mb-4 rounded-md '>
+                                        <div key={id} className='flex justify-between  px-2 py-2 items-center ring-1 ring-inset ring-gray-400  mb-4 rounded-md '>
                                             <div className='flex items-center gap-3'>
                                                 <div>
                                                     <Avatar src={`storage/${latestVotedUser.profile_picture}`} alt="Avatar" size='lg' />
