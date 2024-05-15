@@ -11,6 +11,7 @@ import { useState } from 'react';
 import STISHSCouncilLogo from '../../assets/councilLogo.png'
 import STIBacoorSHSLogo from '../../assets/bacoor-logo.png'
 import { Button } from '@material-tailwind/react';
+import ApplicationLogo from '@/Components/ApplicationLogo';
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -35,13 +36,16 @@ export default function Login({ status, canResetPassword }) {
         setShowPassword(!showPassword);
     }
     return (
-        <div className=' grid grid-cols-1 sm:grid-cols-5 h-screen'>
-            <div className=' bg-[url("/sti-images/BeSTICoverWithBacoor.png")] bg-left bg-no-repeat bg-cover md:flex  items-center justify-center m-4 col-span-3 sm:hidden sm:rounded-r-3xl'>
-
+        <div className=' grid grid-cols-1  lg:grid-cols-5 h-screen '>
+            <div className='lg:bg-[url("/sti-images/STIBacoor.jpg")] lg:bg-right lg:bg-no-repeat lg:bg-cover lg:flex  lg:items-center lg:justify-center m-0 lg:m-4 lg:col-span-3 bg-none sm:rounded-r-3xl  sm:rounded-l-lg opacity-100'>
 
             </div>
-            <div className='flex items-center justify-center col-span-2'>
-                <div>
+
+            <div className='flex flex-col items-center lg:justify-center col-span-2 '>
+                <div className='flex justify-center items-center lg:hidden mb-2 '>
+                    <ApplicationLogo className='block lg:hidden' />
+                </div>
+                <div className='mx-8 lg:mx-0 ring-1 ring-gray-300 p-5  lg:ring-0 rounded-lg  lg:rounded-none lg:p-0'>
                     {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
                     <div className='mb-8'>
                         <h1 className='text-3xl font-bold mb-2'>Welcome back!</h1>
@@ -123,8 +127,8 @@ export default function Login({ status, canResetPassword }) {
                         </div>
 
                         <div>
-                            <div className='text-gray-600 text-center mt-3'>
-                                Don't have an Account? <Link href={route('register')} className='text-blue-500 font-medium focus:ring-blue-500' >Sign up</Link>
+                            <div className='text-gray-700 text-center mt-3 '>
+                                Don't have an Account? <Link href={route('register')} className='text-blue-500 font-medium focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded-md' >Sign up</Link>
                             </div>
                         </div>
                     </form>

@@ -8,6 +8,7 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 import PasswordToggle from '@/Components/PasswordToggle';
 import { Button } from '@material-tailwind/react';
+import ApplicationLogo from '@/Components/ApplicationLogo';
 
 export default function Register() {
 
@@ -42,11 +43,13 @@ export default function Register() {
     return (
 
         <div className=' grid grid-cols-1 sm:grid-cols-5 h-screen'>
-            <div className='col-span-2 w-full flex items-center'>
-                <div className='flex-1 mx-10'>
+            <div className='col-span-2 w-full flex justify-center items-center '>
+                <div className='lg:flex-1 lg:mx-16 mx-8 w-full  ring-1 ring-gray-300 p-5  lg:ring-0 rounded-lg  lg:rounded-none lg:p-0'>
+                    <div className='flex justify-center items-center lg:hidden mb-2'>
+                        <ApplicationLogo className='block lg:hidden' />
+                    </div>
                     <div className='mb-5'>
                         <h1 className='text-3xl font-bold'>Register</h1>
-
                     </div>
                     <form onSubmit={submit}>
                         <div>
@@ -60,7 +63,7 @@ export default function Register() {
                                 autoComplete="name"
                                 isFocused={true}
                                 onChange={(e) => setData('name', e.target.value)}
-                                required
+
                                 place
                                 placeholder="John Doe"
                             />
@@ -99,7 +102,7 @@ export default function Register() {
                                     className="absolute block w-full"
                                     autoComplete="new-password"
                                     onChange={(e) => setData('password', e.target.value)}
-                                    required
+
                                 />
                                 {data.password && (
                                     <PasswordToggle showPassword={showPassword} handlePassword={handlePassword} />
@@ -122,7 +125,7 @@ export default function Register() {
                                     className="absolute block w-full"
                                     autoComplete="new-password"
                                     onChange={(e) => setData('password_confirmation', e.target.value)}
-                                    required
+
                                 />
                                 {data.password_confirmation && (
                                     <PasswordToggle showPassword={showConfirmPassword} handlePassword={handleConfirmPassword} />
@@ -132,13 +135,13 @@ export default function Register() {
                             <InputError message={errors.password_confirmation} className='mt-2' />
 
                         </div>
-                        <div className="flex items-center justify-end mt-4">
-                            <Button type='submit' color='blue' variant='gradient' className="w-full mt-5 py-4" disabled={processing}>
+                        <div className="mt-12">
+                            <Button type='submit' color='blue' variant='gradient' className="w-full mt-3 py-4" disabled={processing}>
                                 Register
                             </Button>
                         </div>
                         <div className='text-center mt-2'>
-                            <div className='text-gray-600 '>
+                            <div className='text-gray-700 '>
                                 Already registered?  <Link
                                     href={route('login')}
                                     className=" font-medium text-blue-500 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
@@ -151,7 +154,7 @@ export default function Register() {
 
                 </div>
             </div>
-            <div className=' bg-[url("/sti-images/BeSTICoverWithBacoor.png")] bg-left bg-no-repeat bg-cover md:flex  items-center justify-center m-4 col-span-3 sm:hidden sm:rounded-l-3xl'>
+            <div className=' md:bg-[url("/sti-images/BeSTICoverWithBacoor.png")] md:bg-left md:bg-no-repeatmd: bg-cover md:block md:m-4 md:col-span-3  rounded-l-3xl  rounded-r-lg'>
 
 
             </div>

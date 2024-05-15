@@ -54,7 +54,7 @@ const Election = ({ auth, existingElection, election }) => {
 
       setIsSuccessMessage(true);
       toast.success(status ? 'Election updated successfully.' : 'Election created successfully.');
-      reset();
+      reset(data);
 
     } catch (error) {
       console.error(error);
@@ -91,7 +91,6 @@ const Election = ({ auth, existingElection, election }) => {
 
     }
   };
-
   return (
     <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Election</h2>}>
       <div className="flex flex-col md:flex-row min-h-screen">
@@ -125,7 +124,7 @@ const Election = ({ auth, existingElection, election }) => {
                     <InputLabel htmlFor="title" value="Set Election Title" />
                     <TextInput
                       id="title"
-                      className="mt-1 block w-full"
+                      className="mt-1 block w-96"
                       type='text'
                       value={data.title}
                       onChange={(e) => setData('title', e.target.value)}
@@ -146,8 +145,8 @@ const Election = ({ auth, existingElection, election }) => {
                     <TextInput
                       id="start_date"
                       className="mt-1 block w-full"
-                      type='datetime-local' // Change type to 'datetime-local'
-                      value={data.start_date} // Display the start_date from the data object
+                      type='datetime-local'
+                      value={data.start_date}
                       onChange={(e) => setData('start_date', e.target.value)}
                       disabled={!status}
                     />
@@ -158,8 +157,8 @@ const Election = ({ auth, existingElection, election }) => {
                     <TextInput
                       id="end_date"
                       className="mt-1 block w-full"
-                      type='datetime-local' // Change type to 'datetime-local'
-                      value={data.end_date} // Display the end_date from the data object
+                      type='datetime-local'
+                      value={data.end_date}
                       onChange={(e) => setData('end_date', e.target.value)}
                       disabled={!status}
                     />
