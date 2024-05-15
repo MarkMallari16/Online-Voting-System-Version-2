@@ -15,6 +15,9 @@ import {
 } from "@material-tailwind/react";
 import toast from 'react-hot-toast';
 import CustomToast from '@/Components/CustomToast';
+
+import { LuAlarmClockOff } from "react-icons/lu";
+
 const Election = ({ auth, existingElection, election }) => {
 
   const status = election?.status == 'Active' ? true : false;
@@ -25,12 +28,11 @@ const Election = ({ auth, existingElection, election }) => {
     end_date: status ? election.end_date : '',
     status: status ? status : false
   });
-  console.log(errors);
+
   const [activateOpen, setActivateOpen] = useState(false);
   const [deactivateOpen, setDeactivateOpen] = useState(false);
-
-
-
+  const [electionEndedModalOpen, setElectionEndedModalOpen] = useState(false);
+  const [archivedElectionModal, setArchivedElectionModal] = useState(false);
   const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
   useEffect(() => {
@@ -40,11 +42,18 @@ const Election = ({ auth, existingElection, election }) => {
       end_date: status ? election.end_date : '',
       status: status ? election.status : false
     });
+
+    // if (election && new Date(election.end_date) < new Date()) {
+    //   setElectionEndedModalOpen(true);
+    //   // setArchivedElectionModal(true); // Show archived election modal when election ends
+    // }
   }, [election]);
 
 
   const handleActivateOpen = () => setActivateOpen(!activateOpen);
   const handleDeactivateOpen = () => setDeactivateOpen(!deactivateOpen);
+  const handleElectionEndedModalOpen = () => setElectionEndedModalOpen(!electionEndedModalOpen);
+  const handleArchiveElectionModal = () => setArchivedElectionModal(!archivedElectionModal);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,14 +62,22 @@ const Election = ({ auth, existingElection, election }) => {
       await post(route);
 
       setIsSuccessMessage(true);
+      setElectionEndedModalOpen(false);
       toast.success(status ? 'Election updated successfully.' : 'Election created successfully.');
-      reset(data);
+
+      // Reset form data
+      reset({
+        title: '',
+        start_date: '',
+        end_date: '',
+        status: false
+      });
 
     } catch (error) {
       console.error(error);
-
     }
   };
+
   const handleActivate = () => {
     try {
       put('/election/activate');
@@ -91,15 +108,45 @@ const Election = ({ auth, existingElection, election }) => {
 
     }
   };
+
+  const handleArchive = async () => {
+    try {
+      put(`/election/${existingElection.id}/archive`); // Send a PUT request to archive the election
+      // Update state or display success message upon successful archiving
+      toast.success('Election archived successfully.');
+      setIsSuccessMessage(true);
+      setArchivedElectionModal(false);
+    } catch (error) {
+      console.error(error);
+      // Handle errors
+    }
+  };
   return (
     <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Election</h2>}>
+      {election && election.end_date && election.end_date < new Date() && setElectionEndedModalOpen(true)}
       <div className="flex flex-col md:flex-row min-h-screen">
-        <main className="flex-1 py-12">
+        <main className="flex-1">
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div >
               {isSuccessMessage && <CustomToast />}
             </div>
-            <form onSubmit={handleSubmit}>
+            <div className='flex gap-2 justify-end'>
+              <div className='text-end'>
+                {/*
+               <Button color='blue' variant='gradient' onClick={handleArchiveElectionModal}>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                  </svg>
+                </Button>
+              */}
+              </div>
+              {/**   {election && new Date(election.end_date) < new Date() && (
+                <div className='text-end'>
+                  <Button color='blue' variant='gradient' onClick={handleElectionEndedModalOpen}>Create New Election</Button>
+                </div>
+              )} */}
+            </div>
+            <form onSubmit={handleSubmit} >
               <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg mb-5">
                 <div className='flex gap-3'>
                   <div className='text-lg font-medium'>Activate Election</div>
@@ -135,10 +182,12 @@ const Election = ({ auth, existingElection, election }) => {
                 </div>
                 <div className="mt-5">
                 </div>
+
                 <header className='mb-5'>
                   <h2 className="text-lg font-medium text-gray-900">Election Date</h2>
                   <p className="mt-1 text-sm text-gray-600">Set Election Date</p>
                 </header>
+
                 <div className='flex flex-col md:flex-row lg:flex-row gap-4'>
                   <div>
                     <InputLabel htmlFor="start_date" value="Start Date" />
@@ -166,15 +215,66 @@ const Election = ({ auth, existingElection, election }) => {
                   </div>
                 </div>
                 <div className='mt-5'>
-                  <PrimaryButton type="submit" disabled={!status || processing}>{status ? 'Update' : 'Save'}</PrimaryButton>
-
-
+                  <Button color='blue' variant='gradient' type="submit" disabled={!status || processing}>{status ? 'Update' : 'Save'}</Button>
                 </div>
               </div>
             </form>
           </div>
         </main>
       </div>
+      {/*Eleciton Ended Modal */}
+      <Dialog open={electionEndedModalOpen} handler={handleElectionEndedModalOpen}>
+        <DialogHeader>Election Ended</DialogHeader>
+        <form onSubmit={handleSubmit}>
+          <DialogBody>
+            <div className='flex justify-center mb-5'>
+              <LuAlarmClockOff className='w-32 h-32 text-red-500' />
+            </div>
+            <div className='text-gray-900 text-center'>The election has ended. Do you want to create a new election?</div>
+          </DialogBody>
+          <DialogFooter>
+            <Button
+              variant="text"
+              color="red"
+              onClick={handleElectionEndedModalOpen}
+              className="mr-1"
+            >
+              Cancel
+            </Button>
+            <Button variant="gradient" color="blue" type='submit' disabled={processing}>
+              Create New Election
+            </Button>
+          </DialogFooter>
+
+        </form>
+      </Dialog>
+      {/*Archived Election Modal */}
+      <Dialog open={archivedElectionModal} handler={handleArchiveElectionModal}>
+        <DialogHeader>Election Archived</DialogHeader>
+        <DialogBody>
+          <div className='flex justify-center mb-5'>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-32 h-32 text-blue-gray-900">
+              <path strokeLinecap="round" strokeLinejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+            </svg>
+
+          </div>
+          <div className='text-gray-900 '>The election has ended. Do you want to archived previous  election?</div>
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            onClick={handleArchiveElectionModal}
+            className="mr-1"
+          >
+            Cancel
+          </Button>
+          <Button variant="gradient" color="blue" >
+            Archived
+          </Button>
+        </DialogFooter>
+      </Dialog>
+      {/*Activate Modal */}
       <Dialog open={activateOpen} handler={handleActivateOpen}>
         <DialogHeader>Confirm Election Activation</DialogHeader>
         <DialogBody>
@@ -187,7 +287,7 @@ const Election = ({ auth, existingElection, election }) => {
             </div>
           </div>
 
-          <div>Are you sure you want to activate the election? Once status, students will be able to participate in the election.</div>
+          <div className='text-gray-900'>Are you sure you want to activate the election? Once status, students will be able to participate in the election.</div>
         </DialogBody>
         <DialogFooter>
           <Button
@@ -203,6 +303,7 @@ const Election = ({ auth, existingElection, election }) => {
           </Button>
         </DialogFooter>
       </Dialog>
+      {/*Deactivate Modal */}
       <Dialog open={deactivateOpen} handler={handleDeactivateOpen}>
         <DialogHeader>Confirm Election Deactivation</DialogHeader>
         <DialogBody>
@@ -214,7 +315,9 @@ const Election = ({ auth, existingElection, election }) => {
 
             </div>
           </div>
-          Are you sure you want to deactivate the election? Once deactivated, users will no longer be able to participate in the election.
+          <div className='text-gray-900'>
+            Are you sure you want to deactivate the election? Once deactivated, users will no longer be able to participate in the election.
+          </div>
         </DialogBody>
         <DialogFooter>
           <Button

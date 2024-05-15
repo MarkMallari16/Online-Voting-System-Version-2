@@ -61,7 +61,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
         setId(id);
 
     }
-    console.log(votesPerPage)
+    
     const classes = "p-4 border-b border-blue-gray-50";
     return (
         <Card className="h-full w-full">
@@ -266,7 +266,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
 
                                                 const formatDate = (dateString) => {
                                                     const date = new Date(dateString);
-                                                    return date.toLocaleString(); // or use other methods to format the date
+                                                    return date.toLocaleString(); 
                                                 };
 
                                                 return (
@@ -333,7 +333,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                                     color="blue-gray"
                                                                     className="font-normal"
                                                                 >
-                                                                    {votes.find(vote => vote.isAbstained) ? candidate?.position_id ? positions.find(position => position?.id === candidate.position_id)?.name : 'Abstained' : ''}
+                                                                    {positions.find(position => position?.id === candidate.position_id)?.name}
                                                                 </Typography>
                                                             </div>
                                                         </td>

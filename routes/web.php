@@ -67,6 +67,7 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
         ]);
     })->name('election');
 
+
     Route::get('/ballot', [BallotController::class, 'displayBallot'])->name('ballot');
 
     Route::get('/live-result', function () {
@@ -77,6 +78,8 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::post('/election', [ElectionController::class, 'store']);
     Route::put('/election/activate', [ElectionController::class, 'activate']);
     Route::put('/election/deactivate', [ElectionController::class, 'deactivate']);
+
+
 
     Route::get('/candidate', [CandidateController::class, 'index'])->name('candidate');
     Route::post('/candidate', [CandidateController::class, 'store'])->name('candidate.store');

@@ -18,7 +18,9 @@ class ElectionController extends Controller
 
     public function store(Request $request)
     {
+        // Check if there is an existing election
 
+        // Validate the request data
         $request->validate([
             'title' => 'nullable|string',
             'start_date' => 'required|date',
@@ -68,7 +70,7 @@ class ElectionController extends Controller
             else {
                 $election = Election::create([
                     // Add default values for the new election here
-                    'title' => 'Default',
+                    'title' => 'Default Election',
                     'start_date' => now(),
                     'end_date' => now()->addDays(1), // Set the end date to 1 day from now
                     'status' => 'Active'
