@@ -34,8 +34,8 @@ const UpdateProfilePicture = ({ user }) => {
               alt="Profile Picture"
               size='xxl'
               withBorder={true}
-              color='white'
-              className='absolute p-0.5 top-56 right-10  '
+              color='blue'
+              className='bg-white absolute p-0.5 top-56 right-10  '
             />
             <div className='absolute text-white top-72 right-10  bg-gray-800 hover:bg-gray-900 transition-all ease-out p-2 rounded-full cursor-pointer  z-50'>
               <label htmlFor="fileInput">

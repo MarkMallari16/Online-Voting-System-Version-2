@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AuditLog;
 use Illuminate\Http\Request;
 use App\Models\Partylist;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -49,6 +51,12 @@ class PartylistController extends Controller
             'description' => $validatedData['description'],
             'partylist_logo' => $path
         ]);
+        $user = Auth::user();
+        AuditLog::create([
+            'user_id' => $request->user()->id,
+            'action' => 'User Created',
+            'details' => 'User created with name: ' . $user->name,
+        ]);
 
         return redirect()->back()->with('success', 'partylist added successfully');
     }
@@ -71,7 +79,6 @@ class PartylistController extends Controller
             // Delete old logo if exists
             if ($partylist->partylist_logo) {
                 Storage::delete($partylist->partylist_logo);
-                
             }
             // Upload new logo
             $partylist_logo = $request->file('partylist_logo');

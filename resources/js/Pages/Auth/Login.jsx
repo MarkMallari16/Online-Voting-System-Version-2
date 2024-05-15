@@ -37,8 +37,8 @@ export default function Login({ status, canResetPassword }) {
     }
     return (
         <div className=' grid grid-cols-1  lg:grid-cols-5 h-screen '>
-            <div className='lg:bg-[url("/sti-images/STIBacoor.jpg")] lg:bg-right lg:bg-no-repeat lg:bg-cover lg:flex  lg:items-center lg:justify-center m-0 lg:m-4 lg:col-span-3 bg-none sm:rounded-r-3xl  sm:rounded-l-lg opacity-100'>
-
+            <div className='lg:bg-[url("/sti-images/STIStudents2.png")] lg:bg-center  lg:bg-no-repeat lg:bg-cover lg:flex  lg:items-center lg:justify-center m-0 lg:m-4 lg:col-span-3 bg-none sm:rounded-r-3xl  sm:rounded-l-lg brightness-90'>
+               
             </div>
 
             <div className='flex flex-col items-center lg:justify-center col-span-2 '>
