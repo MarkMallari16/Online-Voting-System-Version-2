@@ -10,7 +10,7 @@ import AvatarComponent from "@/Components/AvatarComponent";
 import SearchInput from "@/Components/SearchInput";
 const ActivityLog = ({ auth, logs }) => {
 
-    const [selectedFilter, setSelectedFilter] = useState(null); 
+    const [selectedFilter, setSelectedFilter] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [isLoading, setIsLoading] = useState(true);
 
@@ -35,7 +35,7 @@ const ActivityLog = ({ auth, logs }) => {
 
     const handleSelectedFilter = (filter) => {
         setSelectedFilter(filter);
-        
+
     }
 
     const options = [
@@ -82,7 +82,7 @@ const ActivityLog = ({ auth, logs }) => {
                                                     <ExcelExport data={logs.data} fileName='activity_logs' />
                                                 </div>
                                                 <div >
-                                                    <FilterDropdown onSelectFilter={handleSelectedFilter} options={options}/>
+                                                    <FilterDropdown onSelectFilter={handleSelectedFilter} options={options} />
                                                 </div>
                                                 <div>
                                                     <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
@@ -119,6 +119,7 @@ const ActivityLog = ({ auth, logs }) => {
                                                 </tr>
                                             </thead>
                                             {logs.data.length == 0 || logs.data.filter(log =>
+                                                selectedFilter ? log.action === selectedFilter : true ||
                                                 log.user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                                                 log.action.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
                                                 <tbody>
@@ -134,55 +135,54 @@ const ActivityLog = ({ auth, logs }) => {
                                             ) : (
                                                 <tbody>
                                                     {logs.data
+                                                       
                                                         .filter(log => (
-                                                            selectedFilter ? log.action === selectedFilter : true
-                                                        ))
-                                                        .filter(log => (
+                                                            selectedFilter ? log.action === selectedFilter : true || 
                                                             log.user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                                                             log.action.toLowerCase().includes(searchQuery.toLowerCase())
                                                         ))
-                                                        .map(
+                                                    .map(
                                                             (log, index) => (
-                                                                <tr
-                                                                    key={index}
-                                                                    className="bg-white"
-                                                                >
-                                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                                                        {log.user_id}
-                                                                    </td>
-                                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                                                        <div className="flex items-center gap-2">
-                                                                            <AvatarComponent Profile={log.user.profile_picture} />
-                                                                            <span>
-                                                                                {
-                                                                                    log
-                                                                                        .user
-                                                                                        .name
-                                                                                }
-                                                                            </span>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-                                                                        {new Date(
-                                                                            log.created_at
-                                                                        ).toLocaleString()}
-                                                                    </td>
-                                                                    <td
-                                                                        className={`font-medium whitespace-no-wrap text-sm sm:text-base leading-5`}
-                                                                    >
-                                                                        <span
-                                                                            className={`${getClassByAction(
-                                                                                log.action
-                                                                            )} px-2 py-2 sm:px-3 sm:py-2 inline-block w-[140px] text-center`}
-                                                                        >
-                                                                            {log.action}
-                                                                        </span>
-                                                                    </td>
-                                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500 ">
-                                                                        {log.details}
-                                                                    </td>
-                                                                </tr>
-                                                            )
+                                                    <tr
+                                                        key={index}
+                                                        className="bg-white"
+                                                    >
+                                                        <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                                            {log.user_id}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                                            <div className="flex items-center gap-2">
+                                                                <AvatarComponent Profile={log.user.profile_picture} />
+                                                                <span>
+                                                                    {
+                                                                        log
+                                                                            .user
+                                                                            .name
+                                                                    }
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                                                            {new Date(
+                                                                log.created_at
+                                                            ).toLocaleString()}
+                                                        </td>
+                                                        <td
+                                                            className={`font-medium whitespace-no-wrap text-sm sm:text-base leading-5`}
+                                                        >
+                                                            <span
+                                                                className={`${getClassByAction(
+                                                                    log.action
+                                                                )} px-2 py-2 sm:px-3 sm:py-2 inline-block w-[140px] text-center`}
+                                                            >
+                                                                {log.action}
+                                                            </span>
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500 ">
+                                                            {log.details}
+                                                        </td>
+                                                    </tr>
+                                                    )
                                                         )}
                                                 </tbody>
                                             )}

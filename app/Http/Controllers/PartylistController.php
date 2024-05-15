@@ -51,11 +51,11 @@ class PartylistController extends Controller
             'description' => $validatedData['description'],
             'partylist_logo' => $path
         ]);
-        $user = Auth::user();
+
         AuditLog::create([
-            'user_id' => $request->user()->id,
+            'user_id' => Auth::id(),
             'action' => 'User Created',
-            'details' => 'User created with name: ' . $user->name,
+            'details' => 'Partylist created with name: ' . $partylist->name,
         ]);
 
         return redirect()->back()->with('success', 'partylist added successfully');
@@ -64,6 +64,8 @@ class PartylistController extends Controller
     public function update(Request $request,  $id)
     {
         $partylist = Partylist::findOrFail($id);
+
+        $oldName = $partylist->name;
 
         $validatedData = $request->validate([
             'name' => 'required|max:18',
@@ -90,6 +92,12 @@ class PartylistController extends Controller
 
         $partylist->save();
 
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Updated',
+            'details' => 'Partylist with name: ' . $oldName . ' updated to: ' . $partylist->name,
+        ]);
+
         return redirect()->back()->with('success', 'partylist updated successfully');
     }
 
@@ -99,18 +107,12 @@ class PartylistController extends Controller
 
         $partylist->delete();
 
+        AuditLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Deleted',
+            'details' => 'Partylist deleted with name: ' . $partylist->name,
+        ]);
 
         return redirect()->back()->with('success', 'partylist deleted successfully');
-    }
-    public function assignEditor(Request $request, $partylistId)
-    {
-        $validatedData = $request->validate([
-            'editor_id' => 'required|exists:users,id'
-        ]);
-        $partylist = Partylist::findOrFail($partylistId);
-        $editor = User::findOrFail($validatedData['editor_id']);
-
-        $partylist->editor_id = $editor->id;
-        $partylist->save();
     }
 }
