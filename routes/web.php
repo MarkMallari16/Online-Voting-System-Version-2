@@ -106,7 +106,6 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
 
     Route::get('/votes', [VoteController::class, 'index'])->name('votes');
     Route::post('/hasVoted', [CandidateController::class, 'hasVoted'])->name('vote.hasVoted');
-
 });
 
 
@@ -114,6 +113,8 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
 //render
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/moderator-overview', [CandidateController::class, 'moderatorOverview'])->middleware(['auth', 'verified', 'moderator']);
+
+Route::get('/partylist/{partylist}', [PartylistController::class, 'show'])->middleware(['auth', 'verified'])->name('partylist.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/votes', [VoteController::class, 'createVote'])->name('votes.create');

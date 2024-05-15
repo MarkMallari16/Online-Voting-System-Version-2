@@ -18,9 +18,7 @@ class ElectionController extends Controller
 
     public function store(Request $request)
     {
-        // Check if there is an existing election
 
-        // Validate the request data
         $request->validate([
             'title' => 'nullable|string',
             'start_date' => 'required|date',

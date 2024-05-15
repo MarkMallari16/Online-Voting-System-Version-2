@@ -14,4 +14,8 @@ class Partylist extends Model
         'partylist_logo'
     ];
 
+    public function candidates()
+    {
+        return $this->hasMany(Candidate::class);
+    }
 }

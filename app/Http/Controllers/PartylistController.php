@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AuditLog;
+use App\Models\Election;
 use Illuminate\Http\Request;
 use App\Models\Partylist;
 use App\Models\User;
@@ -26,11 +27,23 @@ class PartylistController extends Controller
             'voters' => $voters
         ]);
     }
+    public function show(Partylist $partylist)
+    {
+        $existingElection = Election::latest()->first();
+
+        $partylist->load('candidates.position');
+
+        
+        return Inertia::render('Voter/PartylistShow', [
+            'partylist' => $partylist,
+            'election' => $existingElection
+        ]);
+    }
     public function store(Request $request)
     {
         $validatedData = $request->validate([
             'name' => 'required|max:18',
-            'description' => 'required|max:255',
+            'description' => 'required|max:500',
             'partylist_logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ], [
             'name.required' => 'Partylist name field is required',
@@ -69,8 +82,8 @@ class PartylistController extends Controller
 
         $validatedData = $request->validate([
             'name' => 'required|max:18',
-            'description' => 'max:255',
-            'partylist_logo' => 'nullable|mimes:jpeg,png,jpg,gif|max:2048',
+            'description' => 'max:500',
+            // 'partylist_logo' => 'nullable|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $partylist->name = $validatedData['name'];
