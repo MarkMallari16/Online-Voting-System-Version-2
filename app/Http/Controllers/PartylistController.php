@@ -65,11 +65,11 @@ class PartylistController extends Controller
             'partylist_logo' => $path
         ]);
 
-        AuditLog::create([
-            'user_id' => Auth::id(),
-            'action' => 'User Created',
-            'details' => 'Partylist created with name: ' . $partylist->name,
-        ]);
+        // AuditLog::create([
+        //     'user_id' => Auth::id(),
+        //     'action' => 'User Created',
+        //     'details' => 'Partylist created with name: ' . $partylist->name,
+        // ]);
 
         return redirect()->back()->with('success', 'partylist added successfully');
     }
@@ -105,11 +105,11 @@ class PartylistController extends Controller
 
         $partylist->save();
 
-        AuditLog::create([
-            'user_id' => Auth::id(),
-            'action' => 'Updated',
-            'details' => 'Partylist with name: ' . $oldName . ' updated to: ' . $partylist->name,
-        ]);
+        // AuditLog::create([
+        //     'user_id' => Auth::id(),
+        //     'action' => 'Updated',
+        //     'details' => 'Partylist with name: ' . $oldName . ' updated to: ' . $partylist->name,
+        // ]);
 
         return redirect()->back()->with('success', 'partylist updated successfully');
     }
@@ -120,11 +120,11 @@ class PartylistController extends Controller
 
         $partylist->delete();
 
-        AuditLog::create([
-            'user_id' => Auth::id(),
-            'action' => 'Deleted',
-            'details' => 'Partylist deleted with name: ' . $partylist->name,
-        ]);
+        // AuditLog::create([
+        //     'user_id' => Auth::id(),
+        //     'action' => 'Deleted',
+        //     'details' => 'Partylist deleted with name: ' . $partylist->name,
+        // ]);
 
         return redirect()->back()->with('success', 'partylist deleted successfully');
     }

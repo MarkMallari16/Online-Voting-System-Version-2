@@ -70,7 +70,7 @@ class ElectionController extends Controller
             else {
                 $election = Election::create([
                     // Add default values for the new election here
-                    'title' => 'Default Election',
+                    'title' => 'Default',
                     'start_date' => now(),
                     'end_date' => now()->addDays(1), // Set the end date to 1 day from now
                     'status' => 'Active'

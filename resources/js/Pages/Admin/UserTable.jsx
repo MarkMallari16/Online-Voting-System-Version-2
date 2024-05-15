@@ -104,7 +104,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
         { value: 'admin', label: 'Admin' },
         { value: 'moderator', label: 'Moderator' },
         { value: 'voter', label: 'Voter' },
-        { value: 'partylist_editor', label: 'Partylist Editor' }
+      
     ]
 
     const handleSelectedRole = (filter) => {
