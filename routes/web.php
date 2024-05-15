@@ -95,18 +95,18 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     // Delete a partylist
     Route::delete('/partylist/{id}', [PartylistController::class, 'destroy'])->name('partylist.destroy');
 
-
+    //display position
     Route::get('/positions', [PositionController::class, 'index'])->name('positions');
+    //create position
     Route::post('/position', [PositionController::class, 'store'])->name('positions.store');
+    //update position
     Route::put('/position/{id}', [PositionController::class, 'update'])->name('positions.update');
+    //show position
     Route::delete('/position/{id}', [PositionController::class, 'destroy'])->name('positions.destroy');
 
     Route::get('/votes', [VoteController::class, 'index'])->name('votes');
     Route::post('/hasVoted', [CandidateController::class, 'hasVoted'])->name('vote.hasVoted');
 
-
-    // Route::post('assign-partylist-editor/{partylistId}/assign-editor/{userId}', [PartylistController::class, 'assignEditor']);
-    // Route::put('/users/{userId}/switch-role', [RoleController::class, 'switchRole'])->name('users.switchRole');
 });
 
 

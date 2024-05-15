@@ -13,6 +13,7 @@ import {
 } from "@material-tailwind/react";
 import { useState, useEffect } from 'react';
 import Footer from '@/Components/Footer';
+import Countdown from '@/Components/Countdown';
 
 
 
@@ -142,7 +143,7 @@ export default function Welcome({ auth }) {
 
                     <div className='h-auto mt-24'>
                         <div className='text-center text-4xl font-bold' >Frequently Asked Question</div>
-                        <p className="text-lg font-meidium text-gray-800 text-center mt-2 mb-10">
+                        <p className="text-lg font-meidium text-gray-900 text-center mt-2 mb-10 mx-4 lg:mx-0">
                             Get quick answers to common questions about the STI College Bacoor SHS student council's online voting system.
                         </p>
                         <div className=' flex justify-center'>

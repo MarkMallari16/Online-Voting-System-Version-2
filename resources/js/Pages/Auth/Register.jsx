@@ -42,7 +42,7 @@ export default function Register() {
 
     return (
 
-        <div className=' grid grid-cols-1 sm:grid-cols-5 h-screen'>
+        <div className=' grid grid-cols-1 lg:grid-cols-5 h-screen'>
             <div className='col-span-2 w-full flex justify-center items-center '>
                 <div className='lg:flex-1 lg:mx-16 mx-8 w-full  ring-1 ring-gray-300 p-5  lg:ring-0 rounded-lg  lg:rounded-none lg:p-0'>
                     <div className='flex justify-center items-center lg:hidden mb-2'>
@@ -88,8 +88,8 @@ export default function Register() {
 
                             <InputError message={errors.email} className="mt-2" />
                         </div>
+                        <div className={`mt-4 relative ${errors.password ? 'mb-4' : 'mb-14'}`}>
 
-                        <div className='mt-4 relative'>
 
                             <div className="mb-12">
                                 <InputLabel htmlFor="password" value="Password" />
@@ -113,7 +113,7 @@ export default function Register() {
                             <InputError message={errors.password} className='mt-2' />
                         </div>
 
-                        <div className='mt-4'>
+                        <div className='mt-4 relative'>
                             <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
 
                             <div className="relative mb-14">
@@ -154,7 +154,7 @@ export default function Register() {
 
                 </div>
             </div>
-            <div className=' md:bg-[url("/sti-images/BeSTICoverWithBacoor.png")] md:bg-left md:bg-no-repeatmd: bg-cover md:block md:m-4 md:col-span-3  rounded-l-3xl  rounded-r-lg'>
+            <div className=' lg:bg-[url("/sti-images/BeSTICoverWithBacoor.png")] md:bg-left md:bg-no-repeatmd: bg-cover md:block md:m-4 md:col-span-3  rounded-l-3xl  rounded-r-lg'>
 
 
             </div>
