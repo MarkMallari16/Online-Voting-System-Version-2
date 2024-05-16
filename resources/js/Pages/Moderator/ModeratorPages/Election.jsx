@@ -4,7 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
-import PrimaryButton from '@/Components/PrimaryButton';
+
 import {
   Button,
   Dialog,
@@ -17,6 +17,7 @@ import toast from 'react-hot-toast';
 import CustomToast from '@/Components/CustomToast';
 
 import { LuAlarmClockOff } from "react-icons/lu";
+import DateInput from '@/Components/DateInput';
 
 const Election = ({ auth, existingElection, election }) => {
 
@@ -43,10 +44,10 @@ const Election = ({ auth, existingElection, election }) => {
       status: status ? election.status : false
     });
 
-    // if (election && new Date(election.end_date) < new Date()) {
-    //   setElectionEndedModalOpen(true);
-    //   // setArchivedElectionModal(true); // Show archived election modal when election ends
-    // }
+    if (election && new Date(election.end_date) < new Date()) {
+      setElectionEndedModalOpen(true);
+
+    }
   }, [election]);
 
 
@@ -55,6 +56,10 @@ const Election = ({ auth, existingElection, election }) => {
   const handleElectionEndedModalOpen = () => setElectionEndedModalOpen(!electionEndedModalOpen);
   const handleArchiveElectionModal = () => setArchivedElectionModal(!archivedElectionModal);
 
+
+  let isElectionEnded = new Date(election?.end_date) < new Date();
+
+  console.log(isElectionEnded);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -126,25 +131,34 @@ const Election = ({ auth, existingElection, election }) => {
       {election && election.end_date && election.end_date < new Date() && setElectionEndedModalOpen(true)}
       <div className="flex flex-col md:flex-row min-h-screen">
         <main className="flex-1">
-          <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+          <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-5">
             <div >
               {isSuccessMessage && <CustomToast />}
             </div>
             <div className='flex gap-2 justify-end'>
+
               <div className='text-end'>
-                {/*
-               <Button color='blue' variant='gradient' onClick={handleArchiveElectionModal}>
+
+                {/** <Button color='blue' variant='gradient' onClick={handleArchiveElectionModal}>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
                   </svg>
-                </Button>
-              */}
+                </Button> */}
+
               </div>
-              {/**   {election && new Date(election.end_date) < new Date() && (
+              {election && new Date(election.end_date) < new Date() && (
                 <div className='text-end'>
-                  <Button color='blue' variant='gradient' onClick={handleElectionEndedModalOpen}>Create New Election</Button>
+
+
+                  <Button color='blue' variant='gradient' onClick={handleElectionEndedModalOpen} className='flex items-center gap-2 px-3'>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                      <path fillRule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
+                    </svg>
+                    <span>Create New Election</span>
+                  </Button>
                 </div>
-              )} */}
+              )}
             </div>
             <form onSubmit={handleSubmit} >
               <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg mb-5">
@@ -157,10 +171,11 @@ const Election = ({ auth, existingElection, election }) => {
                       setDeactivateOpen(true);
                     }
                   }} color='blue' checked={status}
-                    onChange={() => setData('status', !data.status)} />
+                    onChange={() => setData('status', !data.status)}
+                    disabled={isElectionEnded} />
                 </div>
               </div>
-              <div className={`p-4 sm:p-8 bg-white shadow sm:rounded-lg  ${status ? '' : 'opacity-60'}`} >
+              <div className={`p-4 sm:p-8 bg-white shadow sm:rounded-lg`} >
 
                 <header className='mb-5'>
                   <h2 className="text-lg font-medium text-gray-900" >Election Title</h2>
@@ -175,7 +190,7 @@ const Election = ({ auth, existingElection, election }) => {
                       type='text'
                       value={data.title}
                       onChange={(e) => setData('title', e.target.value)}
-                      disabled={!status}
+                      disabled={isElectionEnded}
                     />
                     <InputError className="mt-2" message={errors.title} />
                   </div>
@@ -197,7 +212,7 @@ const Election = ({ auth, existingElection, election }) => {
                       type='datetime-local'
                       value={data.start_date}
                       onChange={(e) => setData('start_date', e.target.value)}
-                      disabled={!status}
+                      disabled={isElectionEnded}
                     />
                     <InputError className="mt-2" message={errors.start_date} />
                   </div>
@@ -209,13 +224,13 @@ const Election = ({ auth, existingElection, election }) => {
                       type='datetime-local'
                       value={data.end_date}
                       onChange={(e) => setData('end_date', e.target.value)}
-                      disabled={!status}
+                      disabled={isElectionEnded}
                     />
                     <InputError className="mt-2" message={errors.end_date} />
                   </div>
                 </div>
                 <div className='mt-5'>
-                  <Button color='blue' variant='gradient' type="submit" disabled={!status || processing}>{status ? 'Update' : 'Save'}</Button>
+                  <Button color='blue' variant='gradient' type="submit" disabled={processing || isElectionEnded}>{status ? 'Update' : 'Save'}</Button>
                 </div>
               </div>
             </form>
@@ -258,7 +273,7 @@ const Election = ({ auth, existingElection, election }) => {
             </svg>
 
           </div>
-          <div className='text-gray-900 '>The election has ended. Do you want to archived previous  election?</div>
+          <div className='text-gray-900 text-center'>The election has ended. Do you want to archived previous  election?</div>
         </DialogBody>
         <DialogFooter>
           <Button

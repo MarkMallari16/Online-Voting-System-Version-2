@@ -36,14 +36,14 @@ const PartylistShow = ({ auth, partylist, election }) => {
             </div>
 
             <div className='mt-10 mb-5 text-center text-3xl'>
-              {partylist.name} Partylist Member
+              {partylist.name} Partylist Members
             </div>
 
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-5'>
               {partylist.candidates.map((candidate) => (
                 <div key={candidate.id} className='flex items-center gap-5 ring-1 ring-inset ring-gray-300 bg-gray-50 rounded-md p-5 hover:bg-gray-200 ease-in duration-100'>
                   <div>
-                    <Avatar src={`/storage/${candidate.candidate_profile}`} size='xxl'></Avatar>
+                    <Avatar src={`/storage/${candidate.candidate_profile}`} size='xl'></Avatar>
                   </div>
                   <div>
                     <div className='text-2xl font-medium'>

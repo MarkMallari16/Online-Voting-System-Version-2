@@ -58,14 +58,13 @@ class DashboardController extends Controller
         }
 
         $voters = User::where('role', 'voter')->get();
-
-
-
+        
         $voters->transform(function ($voter) use ($election) {
             $voterId = $voter->id;
             $voter->hasVoted = $election ? $this->getHasVotedStatus($voterId, $election->id) : false;
             return $voter;
         });
+
         $latestVotedUsers = User::join('votes', 'users.id', '=', 'votes.voter_id')
             ->select('users.*', 'votes.vote_timestamp')
             ->whereNotNull('votes.voter_id')
@@ -93,13 +92,14 @@ class DashboardController extends Controller
                 $positionId = $candidate->position->id;
                 $positionName = $candidate->position->name;
                 $candidateName = $candidate->first_name . ' '  . $candidate->last_name;
-
+                $candidateProfile = $candidate->candidate_profile;
                 $voteCount = $candidate->votes()->count();
 
                 $voteCounts[$candidate->id] = [
                     'position_id' => $positionId,
                     'position' => $positionName,
                     'candidate' => $candidateName,
+                    'candidateProfile' => $candidateProfile,
                     'voteCount' => $voteCount,
                 ];
             }

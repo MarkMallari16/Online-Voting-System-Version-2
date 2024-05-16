@@ -29,10 +29,13 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
         }
     }, [election]);
 
-    const endDate = memoizedEndingDate ? new Date(memoizedEndingDate) : new Date(0);
+    const endDate = memoizedEndingDate ? new Date(memoizedEndingDate) : new Date();
 
     const [showConfirmationModal, setShowConfirmationModal] = useState(false);
     const [showCandidateWinnerModal, setShowCandidateWinnerModal] = useState(false);
+
+    const isElectionEnded = election?.status === 'Inactive' || now > endDate;
+    const isElectionStarted = now > new Date(election?.start_date);
 
 
     const [result, setResult] = useState(now > endDate);
@@ -61,7 +64,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
     const electionId = election ? election.id : 0;
 
-    const isElectionStarted = now > new Date(election?.start_date);
+
 
 
     const { data, setData, post, errors, processing } = useForm({
@@ -83,7 +86,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
         );
 
         if (isCandidateSelected) {
-            // Deselect the candidate if already selected
+            // deselect the candidate if already selected
             setSelectedCandidates((prevState) =>
                 prevState.filter(
                     (candidate) =>
@@ -92,7 +95,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                 )
             );
         } else {
-            // Remove any previously selected candidate for the current position
+            // remove any previously selected candidate for the current position
             const updatedCandidates = selectedCandidates.filter(
                 (candidate) =>
                     candidatesAll.find((c) => c.id === candidate)
@@ -118,8 +121,8 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                 election_id: electionId,
                 candidate_ids: selectedCandidates,
             });
-            toast.success("You have successfully voted!");
             setIsSuccessMessage(true);
+            toast.success("You have successfully voted!");
 
 
         } catch (error) {
@@ -130,6 +133,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
         setShowConfirmationModal(false);
     };
 
+    //displaying in casted votes
     const getSelectedCandidatesInfo = () => {
 
         return selectedCandidates.map(candidateId => {
@@ -149,14 +153,15 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
     return (
         <div>
+        <PartylistCarousel partylistCarouselData={partyList} />
             {isSuccessMessage && <CustomToast />}
             {(election && election?.status === "Active") && isElectionStarted ? (
 
                 <div>
-                    <PartylistCarousel partylistCarouselData={partyList} />
+                 
                     <ElectionHeader election={election} />
                     <div>
-                        {result ? (
+                        {isElectionEnded ? (
                             <div ref={resultRef} className="mt-10">
                                 <div className="text-end">
                                     <Button color="blue" variant="gradient" onClick={() => setShowCandidateWinnerModal(true)}>
@@ -173,7 +178,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                                         </div>
                                     </Button>
                                 </div>
-                                <div className="w-full text-xl md:text-2xl lg:text-3xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 justify-center ">
+                                <div className="w-full text-xl md:text-2xl lg:text-3xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 justify-center mt-5">
                                     {positionList.map(position => (
                                         <BarChartContainer key={position.id} positionId={position.id} positionName={position.name} voteCounts={voteCounts} />
                                     ))}

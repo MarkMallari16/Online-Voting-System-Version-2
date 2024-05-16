@@ -6,12 +6,13 @@ const PartylistCarousel = ({ partylistCarouselData }) => {
   console.log(partylistCarouselData)
   return (
     <div className='w-full flex mt-5 gap-2 flex-wrap'>
-      <Carousel className="rounded-xl " autoplay autoplayDelay={5000} loop>
+      <Carousel className="rounded-xl " autoplay autoplayDelay={5000} loop
+      >
 
         {
           partylistCarouselData.map((partylist) => (
             <Link key={partylist.id} href={route('partylist.show', partylist.id)}>
-              <div className="w-full bg-white p-6 shadow-sm rounded-lg text-gray-900 mb-5 cursor-pointer">
+              <div className="w-full  rounded-lg text-gray-900 mb-5 cursor-pointer mx-5">
                 <img src={`storage/${partylist.partylist_logo}`} alt="sandigan" className='rounded-md' />
               </div>
             </Link>

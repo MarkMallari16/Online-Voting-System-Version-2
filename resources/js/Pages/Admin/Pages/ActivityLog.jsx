@@ -116,12 +116,18 @@ const ActivityLog = ({ auth, logs }) => {
                                                     <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                                         Details
                                                     </th>
+                                                    <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                                        <div>
+                                                            Action Button
+                                                        </div>
+                                                        
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             {logs.data.length == 0 || logs.data.filter(log =>
                                                 selectedFilter ? log.action === selectedFilter : true ||
-                                                log.user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                                                log.action.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
+                                                    log.user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                                    log.action.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
                                                 <tbody>
                                                     <tr className="text-center">
                                                         <td
@@ -135,54 +141,57 @@ const ActivityLog = ({ auth, logs }) => {
                                             ) : (
                                                 <tbody>
                                                     {logs.data
-                                                       
+
                                                         .filter(log => (
-                                                            selectedFilter ? log.action === selectedFilter : true || 
-                                                            log.user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                                                            log.action.toLowerCase().includes(searchQuery.toLowerCase())
+                                                            selectedFilter ? log.action === selectedFilter : true ||
+                                                                log.user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                                                log.action.toLowerCase().includes(searchQuery.toLowerCase())
                                                         ))
-                                                    .map(
+                                                        .map(
                                                             (log, index) => (
-                                                    <tr
-                                                        key={index}
-                                                        className="bg-white"
-                                                    >
-                                                        <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                                            {log.user_id}
-                                                        </td>
-                                                        <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                                            <div className="flex items-center gap-2">
-                                                                <AvatarComponent Profile={log.user.profile_picture} />
-                                                                <span>
-                                                                    {
-                                                                        log
-                                                                            .user
-                                                                            .name
-                                                                    }
-                                                                </span>
-                                                            </div>
-                                                        </td>
-                                                        <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-                                                            {new Date(
-                                                                log.created_at
-                                                            ).toLocaleString()}
-                                                        </td>
-                                                        <td
-                                                            className={`font-medium whitespace-no-wrap text-sm sm:text-base leading-5`}
-                                                        >
-                                                            <span
-                                                                className={`${getClassByAction(
-                                                                    log.action
-                                                                )} px-2 py-2 sm:px-3 sm:py-2 inline-block w-[140px] text-center`}
-                                                            >
-                                                                {log.action}
-                                                            </span>
-                                                        </td>
-                                                        <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500 ">
-                                                            {log.details}
-                                                        </td>
-                                                    </tr>
-                                                    )
+                                                                <tr
+                                                                    key={index}
+                                                                    className="bg-white"
+                                                                >
+                                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                                                        {log.user_id}
+                                                                    </td>
+                                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                                                        <div className="flex items-center gap-2">
+                                                                            <AvatarComponent Profile={log.user.profile_picture} />
+                                                                            <span>
+                                                                                {
+                                                                                    log
+                                                                                        .user
+                                                                                        .name
+                                                                                }
+                                                                            </span>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                                                                        {new Date(
+                                                                            log.created_at
+                                                                        ).toLocaleString()}
+                                                                    </td>
+                                                                    <td
+                                                                        className={`font-medium whitespace-no-wrap text-sm sm:text-base leading-5`}
+                                                                    >
+                                                                        <span
+                                                                            className={`${getClassByAction(
+                                                                                log.action
+                                                                            )} px-2 py-2 sm:px-3 sm:py-2 inline-block w-[140px] text-center`}
+                                                                        >
+                                                                            {log.action}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500 ">
+                                                                        {log.details}
+                                                                    </td>
+                                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500 ">
+                                                                        {log.details}
+                                                                    </td>
+                                                                </tr>
+                                                            )
                                                         )}
                                                 </tbody>
                                             )}
