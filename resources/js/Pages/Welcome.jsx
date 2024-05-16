@@ -98,9 +98,8 @@ export default function Welcome({ auth }) {
                     >
                         <div className='flex-1'>
                             <div>
-                                <p className='tracking-wide font-bold text-gray-900 text-center  md:text-left'><span >STAND UP, SPEAK OUT, AND CREATE CHANGE!</span></p>
+                                <p className='tracking-wide font-bold text-black text-center  md:text-left'><span >STAND UP, SPEAK OUT, AND CREATE CHANGE!</span></p>
                                 <h1 className="text-5xl sm:text-6xl md:text-6xl font-extrabold text-center  md:text-left mb-3">MAKE YOUR <span className='text-blue-600'>VOICE HEARD</span></h1>
-
                             </div>
                             <p className='text-lg text-center md:text-left'>Exercise your right to vote and elect your senior high school student leaders.</p>
                             <div className='mt-3 flex  md:flex-row gap-2 items-center justify-center md:justify-start'>

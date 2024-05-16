@@ -60,13 +60,13 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
 
             <div className="overflow-hidden  sm:rounded-lg mb-3 ">
                 <div className=" text-gray-900">
-                    <ModeratorOverview voters={voters} election={election} candidates={candidates} votersVotedCount={votersVotedCount} numberOfPartylists={numberOfPartylists} numberOfPositions={numberOfPositions} abstainCount={abstainCount}/>
+                    <ModeratorOverview voters={voters} election={election} candidates={candidates} votersVotedCount={votersVotedCount} numberOfPartylists={numberOfPartylists} numberOfPositions={numberOfPositions} abstainCount={abstainCount} />
 
                 </div>
             </div>
 
-            <div className='mt-5 flex gap-3 flex-col sm:flex-row'>
-                <div className="flex-1 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div className='mt-5 flex gap-3 flex-col sm:flex-row '>
+                <div className="flex-1 bg-white overflow-hidden shadow-sm sm:rounded-lg ring-1 ring-inset ring-gray-300 rounded-lg">
                     <div className="p-6 text-gray-900">
                         <h1 className='text-xl font-medium'>Current Votes</h1>
 
@@ -111,8 +111,8 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
 
                 </div>
 
-                <div className='flex flex-col gap-5'>
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max">
+                <div className='flex flex-col gap-5 '>
+                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max- ring-1 ring-inset ring-gray-300 rounded-lg">
                         <div className="px-5 py-4 text-gray-900">
                             <h1 className='text-xl font-medium'>Current Students Votes</h1>
                         </div>
@@ -130,7 +130,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                         </div>
 
                     </div>
-                    <div className="bg-white flex-1 rounded-md">
+                    <div className="bg-white flex-1 ring-1 ring-inset ring-gray-300 rounded-lg  p-2 ">
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg h-max px-5 pt-5">
                             <div className="flex justify-between">
                                 <div >
@@ -147,7 +147,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                 </div>
                             </div>
                         </div>
-                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg px-5">
+                        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg px-5 ">
                             <div className="text-gray-900 mt-4">
                                 {latestVotedUsers.length > 0 ? (
                                     latestVotedUsers.map((latestVotedUser, id) => (

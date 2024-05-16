@@ -69,6 +69,7 @@ class VoteController extends Controller
             $vote->save();
             return redirect()->back()->with('success', 'Successfully abstained from voting');
         }
+        
         // Create a new vote for each selected candidate
         foreach ($validatedData['candidate_ids'] as $candidateId) {
             $vote = new Vote();

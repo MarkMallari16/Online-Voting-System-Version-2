@@ -15,7 +15,10 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
 
     const [open, setOpen] = useState(false);
 
-    const handleOpen = () => setOpen(true);
+    const handleOpen = () => {
+        setOpen(true);
+        setIsSelected(!isSelected);
+    };
     const handleClose = () => setOpen(false);
 
     useEffect(() => {
@@ -26,9 +29,15 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
 
     const handleCandidateClick = () => {
         if (!open) {
-            onSelectCandidate(candidate.id, positionId);
+            if (selected) {
+                onSelectCandidate(candidate.id, positionId);
+
+            } else {
+                onSelectCandidate(null, positionId);
+            }
         }
     };
+
 
 
     return (

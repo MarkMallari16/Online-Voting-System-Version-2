@@ -44,7 +44,7 @@ export default function Register() {
 
         <div className=' grid grid-cols-1 lg:grid-cols-5 h-screen'>
             <div className='col-span-2 w-full flex justify-center items-center '>
-                <div className='lg:flex-1 lg:mx-16 mx-8 w-full  ring-1 ring-gray-300 p-5  lg:ring-0 rounded-lg  lg:rounded-none lg:p-0'>
+                <div className='lg:flex-1 lg:mx-12 mx-8 w-full  ring-1 ring-gray-300 p-5  lg:ring-0 rounded-lg  lg:rounded-none lg:p-0'>
                     <div className='flex justify-center items-center lg:hidden mb-2'>
                         <ApplicationLogo className='block lg:hidden' />
                     </div>

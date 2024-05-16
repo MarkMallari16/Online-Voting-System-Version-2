@@ -510,7 +510,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                 size="xl"
                                 open={openUpdateModal}
                                 handler={handleUpdateOpen}
-                                className="overflow-y-auto"
+                                className="overflow-y-auto md:h-[95vh] "
                             >
                                 <form onSubmit={handleUpdateSubmit}>
                                     <DialogHeader>

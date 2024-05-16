@@ -3,7 +3,7 @@ import Modal from './Modal';
 import { Dialog } from '@headlessui/react';
 import PrimaryButton from './PrimaryButton';
 import DangerButton from './DangerButton';
-import { Avatar } from '@material-tailwind/react';
+import { Avatar, Button } from '@material-tailwind/react';
 import { FaVoteYea } from "react-icons/fa";
 
 const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidates, selectedCandidatesInfo, processing }) => {
@@ -66,17 +66,23 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
                         </div>
                     </div>
                     {!selectedCandidatesInfo.length && (
-                        <div className="text-center text-gray-600 mt-4">
-                            You have chosen to abstain from voting.
+                        <div className="flex justify-center items-center flex-col  text-gray-900 mt-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                            </svg>
+
+                            <div>
+                                You have chosen to abstain from voting.
+                            </div>
                         </div>
                     )}
                     <div className="mt-5 flex justify-center gap-1">
-                        <DangerButton type="button" className="mr-2 " onClick={handleClose}>
+                        <Button color='red' variant='gradient' type="button" className="mr-2 " onClick={handleClose}>
                             Cancel
-                        </DangerButton>
-                        <PrimaryButton type="submit" disabled={processing}>
+                        </Button>
+                        <Button color='blue' variant='gradient' type="submit" disabled={processing}>
                             Confirm
-                        </PrimaryButton>
+                        </Button>
 
                     </div>
                 </div>
