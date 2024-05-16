@@ -20,7 +20,7 @@ import { LuAlarmClockOff } from "react-icons/lu";
 import DateInput from '@/Components/DateInput';
 import { ElectionTable } from '@/Components/ElectionTable';
 
-const Election = ({ auth, existingElection, election, electionPerPage,electionWithCandidatesAndVotes }) => {
+const Election = ({ auth, existingElection, election, electionPerPage, electionWithCandidatesAndVotes }) => {
   console.log(electionPerPage);
   const status = election?.status == 'Active' ? true : false;
 
@@ -109,7 +109,7 @@ const Election = ({ auth, existingElection, election, electionPerPage,electionWi
       setIsSuccessMessage(true);
 
       setDeactivateOpen(false);
-        reset({
+      reset({
         title: '',
         start_date: '',
         end_date: '',
@@ -247,10 +247,11 @@ const Election = ({ auth, existingElection, election, electionPerPage,electionWi
               </div>
             </form>
             <div>
-              <div className='text-4xl mb-2'>Election </div>
+              <div className='text-4xl mt-12 mb-2'>Election </div>
               <ElectionTable electionPerPage={electionPerPage} />
             </div>
           </div>
+         
         </main>
       </div>
       {/*Eleciton Ended Modal */}

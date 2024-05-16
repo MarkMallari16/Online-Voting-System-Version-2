@@ -20,8 +20,8 @@ class ElectionController extends Controller
     {
         $election = Election::orderByDesc('created_at')->paginate(10);
         $lastestElection = Election::where('status', 'Active')->latest('start_date')->first();
+        $electionWithCandidatesAndVotes = Election::withTrashed()->with('candidates', 'votes')->paginate(10);
 
-        $electionWithCandidatesAndVotes = Election::onlyTrashed()->with('candidates','votes')->paginate(10);
 
         return Inertia::render(
             'Moderator/ModeratorPages/Election',
