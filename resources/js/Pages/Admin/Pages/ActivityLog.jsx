@@ -131,7 +131,7 @@ const ActivityLog = ({ auth, logs }) => {
                                                 <tbody>
                                                     <tr className="text-center">
                                                         <td
-                                                            colSpan="5"
+                                                            colSpan="6"
                                                             className="py-5 text-center text-gray-600"
                                                         >
                                                             No activity logs found.

@@ -69,7 +69,7 @@ const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
                     <div className='flex  flex-col justify-center items-center mt-10 bg-white h-52 rounded-md shadow-sm'>
 
                         <div>
-                            <FaBox className='h-14 w-14' />
+                            <FaBox className='h-10 w-10' />
                         </div>
                         <div className='text-gray-900 mt-4 mb-2'>No candidate position found</div>
                         <div>

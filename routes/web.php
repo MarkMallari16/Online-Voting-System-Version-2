@@ -59,13 +59,7 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
 //for moderator page
 
 Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
-    Route::get('/election', function () {
-        $election = Election::where('status', 'Active')->latest('start_date')->first();
-
-        return Inertia::render('Moderator/ModeratorPages/Election', [
-            'election' => $election
-        ]);
-    })->name('election');
+   
 
 
     Route::get('/ballot', [BallotController::class, 'displayBallot'])->name('ballot');
@@ -74,7 +68,7 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
         return Inertia::render('Moderator/ModeratorPages/LiveResult');
     })->name('live-result');
 
-
+    Route::get('/election',[ElectionController::class,'index'])->name('election');
     Route::post('/election', [ElectionController::class, 'store']);
     Route::put('/election/activate', [ElectionController::class, 'activate']);
     Route::put('/election/deactivate', [ElectionController::class, 'deactivate']);

@@ -18,9 +18,10 @@ import CustomToast from '@/Components/CustomToast';
 
 import { LuAlarmClockOff } from "react-icons/lu";
 import DateInput from '@/Components/DateInput';
+import { ElectionTable } from '@/Components/ElectionTable';
 
-const Election = ({ auth, existingElection, election }) => {
-
+const Election = ({ auth, existingElection, election, electionPerPage,electionWithCandidatesAndVotes }) => {
+  console.log(electionPerPage);
   const status = election?.status == 'Active' ? true : false;
 
   const { data, setData, post, put, errors, reset, processing } = useForm({
@@ -29,7 +30,7 @@ const Election = ({ auth, existingElection, election }) => {
     end_date: status ? election.end_date : '',
     status: status ? status : false
   });
-
+  console.log(electionWithCandidatesAndVotes);
   const [activateOpen, setActivateOpen] = useState(false);
   const [deactivateOpen, setDeactivateOpen] = useState(false);
   const [electionEndedModalOpen, setElectionEndedModalOpen] = useState(false);
@@ -43,7 +44,6 @@ const Election = ({ auth, existingElection, election }) => {
       end_date: status ? election.end_date : '',
       status: status ? election.status : false
     });
-
     if (election && new Date(election.end_date) < new Date()) {
       setElectionEndedModalOpen(true);
 
@@ -64,11 +64,13 @@ const Election = ({ auth, existingElection, election }) => {
     e.preventDefault();
     try {
       const route = existingElection ? `/election/${existingElection.id}` : '/election';
+
       await post(route);
 
       setIsSuccessMessage(true);
       setElectionEndedModalOpen(false);
       toast.success(status ? 'Election updated successfully.' : 'Election created successfully.');
+
 
       // Reset form data
       reset({
@@ -107,6 +109,13 @@ const Election = ({ auth, existingElection, election }) => {
       setIsSuccessMessage(true);
 
       setDeactivateOpen(false);
+        reset({
+        title: '',
+        start_date: '',
+        end_date: '',
+        status: false
+      });
+
 
     } catch (error) {
       console.error(error);
@@ -121,6 +130,7 @@ const Election = ({ auth, existingElection, election }) => {
       toast.success('Election archived successfully.');
       setIsSuccessMessage(true);
       setArchivedElectionModal(false);
+
     } catch (error) {
       console.error(error);
       // Handle errors
@@ -181,14 +191,16 @@ const Election = ({ auth, existingElection, election }) => {
                   <h2 className="text-lg font-medium text-gray-900" >Election Title</h2>
                   <p className="mt-1 text-sm text-gray-600">Set Election Title</p>
                 </header>
-                <div className=''>
+
+                <div>
                   <div>
                     <InputLabel htmlFor="title" value="Set Election Title" />
                     <TextInput
                       id="title"
-                      className="mt-1 block w-96"
+                      className="mt-1 block w-full  sm:w-96"
                       type='text'
                       value={data.title}
+                      placeholder="Enter Election Title"
                       onChange={(e) => setData('title', e.target.value)}
                       disabled={isElectionEnded}
                     />
@@ -234,6 +246,10 @@ const Election = ({ auth, existingElection, election }) => {
                 </div>
               </div>
             </form>
+            <div>
+              <div className='text-4xl mb-2'>Election </div>
+              <ElectionTable electionPerPage={electionPerPage} />
+            </div>
           </div>
         </main>
       </div>
@@ -263,6 +279,12 @@ const Election = ({ auth, existingElection, election }) => {
 
         </form>
       </Dialog>
+
+
+
+
+
+
       {/*Archived Election Modal */}
       <Dialog open={archivedElectionModal} handler={handleArchiveElectionModal}>
         <DialogHeader>Election Archived</DialogHeader>
@@ -318,6 +340,7 @@ const Election = ({ auth, existingElection, election }) => {
           </Button>
         </DialogFooter>
       </Dialog>
+
       {/*Deactivate Modal */}
       <Dialog open={deactivateOpen} handler={handleDeactivateOpen}>
         <DialogHeader>Confirm Election Deactivation</DialogHeader>

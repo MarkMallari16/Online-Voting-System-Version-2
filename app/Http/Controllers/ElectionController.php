@@ -12,10 +12,26 @@ use App\Notifications\ElectionEnded;
 // use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\ElectionEndingSoon;
+use Inertia\Inertia;
 
 class ElectionController extends Controller
 {
+    public function index()
+    {
+        $election = Election::orderByDesc('created_at')->paginate(10);
+        $lastestElection = Election::where('status', 'Active')->latest('start_date')->first();
 
+        $electionWithCandidatesAndVotes = Election::onlyTrashed()->with('candidates','votes')->paginate(10);
+
+        return Inertia::render(
+            'Moderator/ModeratorPages/Election',
+            [
+                'electionPerPage' => $election,
+                'election' => $lastestElection,
+                'electionWithCandidatesAndVotes' => $electionWithCandidatesAndVotes
+            ]
+        );
+    }
     public function store(Request $request)
     {
         // Validate the request data
@@ -24,10 +40,12 @@ class ElectionController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
         ], [
+            // 'start_date.after_or_equal' => 'The start date must be today or in the future.',
             'end_date.after_or_equal' => 'The end date must be after or equal to the start date.',
         ]);
 
         $previousElection = Election::latest()->first();
+
         try {
 
             $existingElection = Election::latest()->first();
@@ -39,23 +57,16 @@ class ElectionController extends Controller
                     'start_date' => $request->start_date,
                     'end_date' => $request->end_date,
                 ]);
-            } else if ($existingElection && $existingElection->end_date < now()) {
-                // Create a new election
-                Election::create([
-                    'title' => $request->title,
-                    'start_date' => now(),
-                    'end_date' => now()->addDays(1),
-                    'status' => 'Inactive', // Set the status of the new election to 'Active'
-                ]);
-            }
+            } 
 
-            // Check if the existing election has ended
+            //check if exisitng election is ended
             if ($existingElection && $existingElection->end_date < now()) {
-                if ($previousElection && $previousElection->status !== 'Archived') {
-                    // Archive the previous election if it's not already archived
-                    $previousElection->update(['status' => 'Archived']);
+                if ($previousElection && $previousElection->status !== 'Completed') {
+                 
+                    $previousElection->update(['status' => 'Completed']);
+                    $previousElection->delete();
                 }
-                // Create a new election
+             
                 Election::create([
                     'title' => $validatedData['title'],
                     'start_date' => $validatedData['start_date'],
@@ -74,19 +85,15 @@ class ElectionController extends Controller
 
     public function activate()
     {
-        // Retrieve the first (and only) election
+
         $election = Election::latest()->first();
 
         try {
             if ($election) {
                 // Deactivate any currently activated election
                 Election::where('status', 'Active')->update(['status' => 'Inactive']);
-            }
-
-            // If there is no existing election, create a new one
-            else {
+            } else {
                 $election = Election::create([
-                    // Add default values for the new election here
                     'title' => 'Default',
                     'start_date' => now(),
                     'end_date' => now()->addDays(1), // Set the end date to 1 day from now
@@ -115,7 +122,7 @@ class ElectionController extends Controller
     public function deactivate()
     {
         // Retrieve the first (and only) election
-        $election = Election::latest();
+        $election = Election::latest()->first();
 
         if ($election) {
             // Deactivate the election
