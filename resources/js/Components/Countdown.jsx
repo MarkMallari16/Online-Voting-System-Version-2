@@ -124,10 +124,10 @@ function Countdown({ election }) {
                             )}
                         </>
                         <div className="w-full max-w-5xl mx-auto flex items-center justify-around bg-white text-blue-gray-800">
-                            <CountdownItem num={remaining.days} text="Days" />
-                            <CountdownItem num={remaining.hours} text="Hours" />
-                            <CountdownItem num={remaining.minutes} text="Minutes" />
-                            <CountdownItem num={remaining.seconds} text="Seconds" />
+                            <CountdownItem num={remaining.days} text="Day/s" />
+                            <CountdownItem num={remaining.hours} text="Hour/s" />
+                            <CountdownItem num={remaining.minutes} text="Minute/s" />
+                            <CountdownItem num={remaining.seconds} text="Second/s" />
                         </div>
                     </div>
                 </div >
@@ -139,10 +139,10 @@ function Countdown({ election }) {
                             <p className="text-sm text-black">Stay tuned for updates!</p>
                         </div>
                         <div className="w-full max-w-5xl mx-auto flex items-center justify-around bg-white text-blue-gray-800">
-                            <CountdownItem num={remaining.days} text="Days" />
-                            <CountdownItem num={remaining.hours} text="Hours" />
-                            <CountdownItem num={remaining.minutes} text="Minutes" />
-                            <CountdownItem num={remaining.seconds} text="Seconds" />
+                            <CountdownItem num={remaining.days} text="Day(s)" />
+                            <CountdownItem num={remaining.hours} text="Hour(s)" />
+                            <CountdownItem num={remaining.minutes} text="Minute(s)" />
+                            <CountdownItem num={remaining.seconds} text="Second(s)" />
                         </div>
                     </div>
                 </div>

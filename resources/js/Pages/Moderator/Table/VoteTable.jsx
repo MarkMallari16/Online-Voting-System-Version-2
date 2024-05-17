@@ -40,15 +40,12 @@ const TABS = [
         label: "Students Not Voted",
         value: "students_not_voted",
     },
-    {
-        label: "Students Abstain",
-        value: "students_abstain",
-    },
+
 
 ];
 
 const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
-    const TABLE_HEAD = ["#", "Voter ID", "Voter's Name", "Candidate Voted For", "Candidate Position", "Election Name", "Vote Timestamp", "Action"];
+    const TABLE_HEAD = ["#", "Voter ID", "Voter's Name", "Election Name", "Vote Timestamp", "Action"];
     const VOTER_NOT_VOTED_TABLE_HEAD = ["#", "Voter ID", "Voter's Name",];
 
     const VOTER_ABSTAIN_TABLE_HEAD = ["#", "Voter ID", "Voter's Name", "Status", "Timestamp"];
@@ -61,7 +58,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
         setId(id);
 
     }
-    
+
     const classes = "p-4 border-b border-blue-gray-50";
     return (
         <Card className="h-full w-full">
@@ -116,7 +113,8 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                     </div>
                                 </div>
 
-                                <div className='mt-4'>
+                                {/**
+                               *   <div className='mt-4'>
                                     <div className=' text-gray-900 '>
                                         <div className='flex items-center gap-2 text-xl font-medium '>
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -142,6 +140,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                     </div>
 
                                 </div>
+                               */}
                                 <div className='text-xl text-gray-900 font-medium mt-4 flex items-center gap-2'>
                                     <div>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -210,7 +209,6 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
 
                     </div>
                     <TabsBody>
-
                         <TabPanel value="students_voted" className='px-0'>
                             <table className="w-full min-w-max table-auto text-left">
                                 <thead>
@@ -239,8 +237,8 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                     const candidateMatches = `${vote?.candidate?.first_name} ${vote?.candidate?.last_name}`.toLowerCase().includes(searchQuery.toLowerCase());
                                     const position = positions.find(position => position?.id === vote?.candidate?.position_id)?.name?.toLowerCase().includes(searchQuery.toLowerCase());
 
-                                    const isNotAbstained = vote.isAbstained === 0;
-                                    return isNotAbstained && (userMatches || candidateMatches || position);
+                                    // const isNotAbstained = vote.isAbstained === 0;
+                                    return (userMatches || candidateMatches || position);
                                 }).length === 0 ? (
                                     <tbody>
                                         <tr>
@@ -256,9 +254,9 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                 const userMatches = vote?.user?.name.toLowerCase().includes(searchQuery.toLowerCase());
                                                 const candidateMatches = `${vote?.candidate?.first_name} ${vote?.candidate?.last_name}`.toLowerCase().includes(searchQuery.toLowerCase());
                                                 const position = positions?.find(position => position?.id === vote.candidate?.position_id)?.name?.toLowerCase().includes(searchQuery.toLowerCase());
-                                                const isNotAbstained = vote.isAbstained === 0;
+                                                // const isNotAbstained = vote.isAbstained === 0;
 
-                                                return isNotAbstained && (userMatches || candidateMatches || position);
+                                                return (userMatches || candidateMatches || position);
                                             })
                                             .map(({ id, voter_id, user, candidate, election, vote_timestamp }) => {
 
@@ -266,7 +264,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
 
                                                 const formatDate = (dateString) => {
                                                     const date = new Date(dateString);
-                                                    return date.toLocaleString(); 
+                                                    return date.toLocaleString();
                                                 };
 
                                                 return (
@@ -314,29 +312,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                         </td>
 
 
-                                                        <td className={classes}>
-                                                            <div className="flex flex-col">
-                                                                <Typography
-                                                                    variant="small"
-                                                                    color="blue-gray"
-                                                                    className="font-normal"
-                                                                >
-                                                                    {`${candidate?.first_name} ${candidate?.last_name}`}
-                                                                </Typography>
-                                                            </div>
-                                                        </td>
 
-                                                        <td className={classes}>
-                                                            <div className="flex flex-col">
-                                                                <Typography
-                                                                    variant="small"
-                                                                    color="blue-gray"
-                                                                    className="font-normal"
-                                                                >
-                                                                    {positions.find(position => position?.id === candidate.position_id)?.name}
-                                                                </Typography>
-                                                            </div>
-                                                        </td>
                                                         <td className={classes}>
                                                             <div className="flex flex-col">
                                                                 <Typography
@@ -484,130 +460,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                             </div>
                         </TabPanel>
 
-                        <TabPanel value="students_abstain" className='px-0'>
-                            <div >
-                                <table className=" w-full min-w-max table-auto text-left">
-                                    <thead>
-                                        <tr>
-                                            {VOTER_ABSTAIN_TABLE_HEAD.map((head, index) => (
-                                                <th
-                                                    key={head}
-                                                    className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50"
-                                                >
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="flex items-center justify-between gap-2 font-normal leading-none opacity-70"
-                                                    >
-                                                        {head}{" "}
-                                                        {index !== VOTER_ABSTAIN_TABLE_HEAD.length - 1 && (
-                                                            <ChevronUpDownIcon strokeWidth={2} className="h-4 w-4" />
-                                                        )}
-                                                    </Typography>
-                                                </th>
-                                            ))}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
 
-                                        {
-                                            votesPerPage?.data.length === 0 || votesPerPage?.data.filter(vote => {
-                                                const userMatches = vote?.user?.name.toLowerCase().includes(searchQuery.toLowerCase());
-                                                return userMatches && vote.isAbstained === 1;
-                                            }).length === 0 ? (
-                                                <tr>
-                                                    <td colSpan="5" className="text-center py-5 text-gray-900 ">
-                                                        No voters abstain found
-                                                    </td>
-                                                </tr>
-                                            ) : (
-
-                                                votesPerPage?.data
-                                                    .filter(vote => {
-                                                        const userMatches = vote?.user?.name.toLowerCase().includes(searchQuery.toLowerCase());
-                                                        return userMatches && vote.isAbstained === 1;
-                                                    })
-                                                    .map(({ id, voter, voter_id, user, vote_timestamp }) => (
-                                                        <tr key={id}>
-                                                            <td className={classes}>
-                                                                <div className="flex items-center gap-3">
-                                                                    <div className="flex flex-col">
-                                                                        <Typography
-                                                                            variant="small"
-                                                                            color="blue-gray"
-                                                                            className="font-normal"
-                                                                        >
-                                                                            {id}
-                                                                        </Typography>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-
-                                                            <td className={classes}>
-                                                                <div className="flex items-center gap-3">
-                                                                    <div className="flex flex-col">
-                                                                        <Typography
-                                                                            variant="small"
-                                                                            color="blue-gray"
-                                                                            className="font-normal"
-                                                                        >
-                                                                            {voter_id}
-                                                                        </Typography>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-
-                                                            <td className={classes}>
-                                                                <div className="flex items-center gap-3">
-                                                                    <div className="flex flex-col">
-                                                                        <Typography
-                                                                            variant="small"
-                                                                            color="blue-gray"
-                                                                            className="font-normal"
-                                                                        >
-                                                                            {user?.name}
-                                                                        </Typography>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-
-                                                            <td className={classes}>
-                                                                <div className="flex items-center gap-3">
-                                                                    <div className="flex flex-col">
-                                                                        <Typography
-                                                                            variant="small"
-                                                                            color="blue-gray"
-                                                                            className="font-normal"
-                                                                        >
-                                                                            Abstained
-                                                                        </Typography>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-
-                                                            <td className={classes}>
-                                                                <div className="flex items-center gap-3">
-                                                                    <div className="flex flex-col">
-                                                                        <Typography
-                                                                            variant="small"
-                                                                            color="blue-gray"
-                                                                            className="font-normal"
-                                                                        >
-                                                                            {new Date(vote_timestamp).toLocaleString()}
-                                                                        </Typography>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-
-                                                        </tr>
-                                                    ))
-                                            )
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        </TabPanel>
                     </TabsBody>
                 </Tabs>
             </CardBody>
