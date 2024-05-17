@@ -32,8 +32,8 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
             if (selected) {
                 onSelectCandidate(candidate.id, positionId);
 
-            } else {
-                onSelectCandidate(null, positionId);
+            }else{
+                onSelectCandidate(null,positionId);
             }
         }
     };

@@ -17,7 +17,7 @@ import toast from 'react-hot-toast';
 import CustomToast from '@/Components/CustomToast';
 
 import { LuAlarmClockOff } from "react-icons/lu";
-import DateInput from '@/Components/DateInput';
+
 import { ElectionTable } from '@/Components/ElectionTable';
 
 const Election = ({ auth, existingElection, election, electionPerPage, electionWithCandidatesAndVotes }) => {

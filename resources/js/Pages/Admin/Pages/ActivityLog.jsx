@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
-import { Avatar, Spinner } from "@material-tailwind/react";
+import { Avatar, Spinner, Tooltip } from "@material-tailwind/react";
 
 import ExcelExport from "@/Components/ExcelExport";
 import FilterDropdown from "@/Components/FilterDropdown";
@@ -120,7 +120,7 @@ const ActivityLog = ({ auth, logs }) => {
                                                         <div>
                                                             Action Button
                                                         </div>
-                                                        
+
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -187,9 +187,18 @@ const ActivityLog = ({ auth, logs }) => {
                                                                     <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500 ">
                                                                         {log.details}
                                                                     </td>
-                                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500 ">
-                                                                        {log.details}
-                                                                    </td>
+                                                                    <Tooltip content="View Activity Logs">
+                                                                        <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500 text-center">
+                                                                            <button>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                                                                                    <path fillRule="evenodd" d="M4.5 12a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clipRule="evenodd" />
+                                                                                </svg>
+
+                                                                            </button>
+
+                                                                        </td>
+
+                                                                    </Tooltip>
                                                                 </tr>
                                                             )
                                                         )}

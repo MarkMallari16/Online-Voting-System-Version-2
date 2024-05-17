@@ -353,7 +353,7 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
                 partylist.name.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
                 <tbody>
                   <tr>
-                    <td colSpan="4" className="text-center py-4 ">
+                    <td colSpan="5" className="text-center py-4 ">
                       No partylist found
                     </td>
                   </tr>

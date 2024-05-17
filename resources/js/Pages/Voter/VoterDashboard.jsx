@@ -153,12 +153,12 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
     return (
         <div>
-        <PartylistCarousel partylistCarouselData={partyList} />
+            <PartylistCarousel partylistCarouselData={partyList} />
             {isSuccessMessage && <CustomToast />}
             {(election && election?.status === "Active") && isElectionStarted ? (
 
                 <div>
-                 
+
                     <ElectionHeader election={election} />
                     <div>
                         {isElectionEnded ? (
@@ -213,7 +213,17 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                                                 </div>
                                             ) : (
                                                 <div className="text-gray-900 p-5 text-center ">
-                                                    <div>No candidate available for this position</div>
+                                                    <div className="flex justify-center">
+                                                        <div >
+
+                                                            <div>
+                                                                
+                                                                No candidate available for this position</div>
+                                                        </div>
+
+
+
+                                                    </div>
                                                 </div>
                                             )}
                                         </div>
