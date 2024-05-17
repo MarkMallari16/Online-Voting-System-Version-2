@@ -21,7 +21,7 @@ import { LuAlarmClockOff } from "react-icons/lu";
 import { ElectionTable } from '@/Components/ElectionTable';
 
 const Election = ({ auth, existingElection, election, electionPerPage, electionWithCandidatesAndVotes }) => {
-  console.log(electionPerPage);
+
   const status = election?.status == 'Active' ? true : false;
 
   const { data, setData, post, put, errors, reset, processing } = useForm({
@@ -39,10 +39,10 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
 
   useEffect(() => {
     setData({
-      title: status ? election.title : '',
-      start_date: status ? election.start_date : '',
-      end_date: status ? election.end_date : '',
-      status: status ? election.status : false
+      title: election ? election.title : '',
+      start_date: election ? election.start_date : '',
+      end_date: election ? election.end_date : '',
+      status: election ? election.status : false
     });
     if (election && new Date(election.end_date) < new Date()) {
       setElectionEndedModalOpen(true);
@@ -69,10 +69,9 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
 
       setIsSuccessMessage(true);
       setElectionEndedModalOpen(false);
-      toast.success(status ? 'Election updated successfully.' : 'Election created successfully.');
+      toast.success(election ? 'Election updated successfully.' : 'Election created successfully.');
 
-
-      // Reset form data
+      //Reset form data
       reset({
         title: '',
         start_date: '',
@@ -84,6 +83,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
       console.error(error);
     }
   };
+
 
   const handleActivate = () => {
     try {
@@ -105,9 +105,9 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
       put('/election/deactivate');
       setData('status', false);
 
-      toast.success("Election deactivated successfully.");
-      setIsSuccessMessage(true);
 
+      setIsSuccessMessage(true);
+      toast.success("Election deactivated successfully.");
       setDeactivateOpen(false);
       reset({
         title: '',
@@ -137,13 +137,15 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
     }
   };
   return (
+
     <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Election</h2>}>
+      {isSuccessMessage && <CustomToast />}
       {election && election.end_date && election.end_date < new Date() && setElectionEndedModalOpen(true)}
       <div className="flex flex-col md:flex-row min-h-screen">
         <main className="flex-1">
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-5">
             <div >
-              {isSuccessMessage && <CustomToast />}
+
             </div>
             <div className='flex gap-2 justify-end'>
 
@@ -202,7 +204,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                       value={data.title}
                       placeholder="Enter Election Title"
                       onChange={(e) => setData('title', e.target.value)}
-                      disabled={isElectionEnded}
+                      disabled={isElectionEnded || election.status === 'Active'}
                     />
                     <InputError className="mt-2" message={errors.title} />
                   </div>
@@ -224,7 +226,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                       type='datetime-local'
                       value={data.start_date}
                       onChange={(e) => setData('start_date', e.target.value)}
-                      disabled={isElectionEnded}
+                      disabled={isElectionEnded || election.status === 'Active'}
                     />
                     <InputError className="mt-2" message={errors.start_date} />
                   </div>
@@ -236,13 +238,13 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                       type='datetime-local'
                       value={data.end_date}
                       onChange={(e) => setData('end_date', e.target.value)}
-                      disabled={isElectionEnded}
+                      disabled={isElectionEnded || election.status === 'Active'}
                     />
                     <InputError className="mt-2" message={errors.end_date} />
                   </div>
                 </div>
                 <div className='mt-5'>
-                  <Button color='blue' variant='gradient' type="submit" disabled={processing || isElectionEnded}>{status ? 'Update' : 'Save'}</Button>
+                  <Button color='blue' variant='gradient' type="submit" disabled={processing || isElectionEnded || election.status === 'Active'}>{election ? 'Update' : 'Save'}</Button>
                 </div>
               </div>
             </form>
@@ -251,7 +253,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
               <ElectionTable electionPerPage={electionPerPage} />
             </div>
           </div>
-         
+
         </main>
       </div>
       {/*Eleciton Ended Modal */}

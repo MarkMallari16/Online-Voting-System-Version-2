@@ -19,7 +19,7 @@ class ElectionController extends Controller
     public function index()
     {
         $election = Election::orderByDesc('created_at')->paginate(10);
-        $lastestElection = Election::where('status', 'Active')->latest('start_date')->first();
+        $lastestElection = Election::whereIn('status', ['Active', 'Inactive'])->latest('start_date')->first();
         $electionWithCandidatesAndVotes = Election::withTrashed()->with('candidates', 'votes')->paginate(10);
 
 
@@ -44,7 +44,7 @@ class ElectionController extends Controller
             'end_date.after_or_equal' => 'The end date must be after or equal to the start date.',
         ]);
 
-        $previousElection = Election::latest()->first();
+
 
         try {
 
@@ -57,24 +57,28 @@ class ElectionController extends Controller
                     'start_date' => $request->start_date,
                     'end_date' => $request->end_date,
                 ]);
-            } 
+            }
 
             //check if exisitng election is ended
             if ($existingElection && $existingElection->end_date < now()) {
+                $previousElection = Election::orderBy('end_date', 'desc')->skip(1)->first();
+                
                 if ($previousElection && $previousElection->status !== 'Completed') {
-                 
+
                     $previousElection->update(['status' => 'Completed']);
                     $previousElection->delete();
+                    $previousElection->votes()->delete();
+                    $previousElection->candidates()->delete();
                 }
-             
-                Election::create([
-                    'title' => $validatedData['title'],
-                    'start_date' => $validatedData['start_date'],
-                    'end_date' => $validatedData['end_date'], // Set the end date to 1 day from now
-                    'status' => 'Inactive'
-                ]);
-            }
 
+                $newElectionData = [
+                    'title' => $request->title,
+                    'start_date' => now(),
+                    'end_date' => now()->addDays(1),
+                    'status' => 'Inactive'
+                ];
+                Election::create($newElectionData);
+            }
             return redirect()->back()->with('success', 'Election updated/created successfully.');
         } catch (\Exception $e) {
             // Handle any errors
@@ -92,14 +96,7 @@ class ElectionController extends Controller
             if ($election) {
                 // Deactivate any currently activated election
                 Election::where('status', 'Active')->update(['status' => 'Inactive']);
-            } else {
-                $election = Election::create([
-                    'title' => 'Default',
-                    'start_date' => now(),
-                    'end_date' => now()->addDays(1), // Set the end date to 1 day from now
-                    'status' => 'Active'
-                ]);
-            }
+            } 
             // Activate the retrieved or newly created election
             $election->status = 'Active';
             $election->save();
@@ -126,8 +123,7 @@ class ElectionController extends Controller
 
         if ($election) {
             // Deactivate the election
-            $election->status = 'Inactive';
-            $election->save();
+            $election->update(['status' => 'Inactive']);
 
             // Get all users
             $users = User::where('role', 'voter')->get();
@@ -138,7 +134,7 @@ class ElectionController extends Controller
             // }
             return redirect()->back()->with('success', 'Election deactivated successfully.');
         } else {
-            return redirect()->back()->with('success', 'Election deactivated successfully.');
+            return redirect()->back()->with('error', 'Error! Cannot deactivated election!');
         }
     }
     public function archiveElection($id)

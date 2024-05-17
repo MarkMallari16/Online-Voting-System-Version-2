@@ -56,7 +56,9 @@ const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
                                         <div>
                                             <Link href={route('candidate')} >
 
-                                                <Button color='blue' variant='gradient'> Create candidate </Button>
+                                                <Button color='blue' variant='gradient'>
+                                                    
+                                                     Add candidate </Button>
                                             </Link>
                                         </div>
                                     </div>

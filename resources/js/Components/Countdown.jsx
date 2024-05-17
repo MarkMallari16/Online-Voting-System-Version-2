@@ -80,7 +80,7 @@ function Countdown({ election }) {
     const calculateRemaining = (targetDate, currentDate) => {
         const distance = targetDate - currentDate;
 
-
+        console.log(distance);
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));

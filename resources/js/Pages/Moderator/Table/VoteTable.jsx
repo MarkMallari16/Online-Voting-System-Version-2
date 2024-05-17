@@ -45,7 +45,7 @@ const TABS = [
 ];
 
 const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
-    const TABLE_HEAD = ["#", "Voter ID", "Voter's Name", "Election Name", "Vote Timestamp", "Action"];
+    const TABLE_HEAD = ["#", "Voter ID", "Voter's Name", "Election Name", "Status", "Vote Timestamp", "Action"];
     const VOTER_NOT_VOTED_TABLE_HEAD = ["#", "Voter ID", "Voter's Name",];
 
     const VOTER_ABSTAIN_TABLE_HEAD = ["#", "Voter ID", "Voter's Name", "Status", "Timestamp"];
@@ -148,7 +148,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                         </svg>
                                     </div>
                                     <div>Election Title:</div>
-                                    <div>{votes.find(vote => vote?.id === id)?.election.title}</div>
+                                    <div>{votes.find(vote => vote?.id === id)?.election?.title}</div>
 
                                 </div>
 
@@ -258,7 +258,7 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
 
                                                 return (userMatches || candidateMatches || position);
                                             })
-                                            .map(({ id, voter_id, user, candidate, election, vote_timestamp }) => {
+                                            .map(({ id, voter_id, user, vote_timestamp }) => {
 
 
 
@@ -320,11 +320,21 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                                     color="blue-gray"
                                                                     className="font-normal"
                                                                 >
-                                                                    {votes.find(vote => vote.id === id)?.election.title}
+                                                                    {votes.find(vote => vote.id === id)?.election?.title}
                                                                 </Typography>
                                                             </div>
                                                         </td>
-
+                                                        <td className={classes}>
+                                                            <div className="flex flex-col ">
+                                                                <Typography
+                                                                    variant="small"
+                                                                    color="blue-gray"
+                                                                    className="text-center py-2 rounded-md  bg-green-200 text-green-900 text-md font-bold"
+                                                                >
+                                                                    {votes.find(vote => vote.id === id) && 'Voted'}
+                                                                </Typography>
+                                                            </div>
+                                                        </td>
                                                         <td className={classes}>
                                                             <div className="flex flex-col">
                                                                 <Typography
@@ -390,8 +400,6 @@ const VoteTable = ({ votes, votesPerPage, voters, positions }) => {
                                                 voters.data.filter((voter) => !votes.some(vote => vote.voter_id === voter.id)).length === 0 ||
                                                 voters.data.filter((voter) => {
                                                     const voterName = voter.name.toLowerCase().includes(searchQuery.toLowerCase());
-
-
                                                     return voterName;
                                                 }).length === 0 ? (
                                                 <tr>
