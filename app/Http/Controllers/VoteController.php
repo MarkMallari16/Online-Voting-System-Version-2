@@ -8,6 +8,7 @@ use App\Models\Positions;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Vote;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class VoteController extends Controller
@@ -47,7 +48,7 @@ class VoteController extends Controller
         ]);
 
         // Check if the authenticated user is a voter
-        $user = auth()->user();
+        $user = Auth::user();
 
         if (!$user || $user->role !== 'voter') {
             return redirect()->back()->with('error', 'You are not authorized to vote');

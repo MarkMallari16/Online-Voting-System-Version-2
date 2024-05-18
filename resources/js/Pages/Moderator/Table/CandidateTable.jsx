@@ -55,6 +55,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     ];
 
     const { election } = usePage().props;
+    const { errors } = usePage().props;
     const [open, setOpen] = useState(false);
     const [openUpdateModal, setUpdateModal] = useState(false);
     const [openDeleteModal, setDeleteModal] = useState(false);
@@ -75,7 +76,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
-    const { data, setData, post, put, delete: destroy, errors, reset, processing, clearErrors } = useForm();
+    const { data, setData, post, put, delete: destroy, reset, processing, clearErrors } = useForm();
 
     const handleFileUpload = (e) => {
         const file = e.target.files[0];
@@ -190,31 +191,38 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
         } catch (error) {
             console.error("Failed to update candidate:", error);
-            // Display error message or handle error appropriately
-            // Example: setError("Failed to update candidate. Please try again.");
+
         }
     };
 
     const handleDeleteCandidate = (candidateId) => {
-        try {
-            // Send a DELETE request to delete the candidate
-            router.delete(route('candidate.destroy', { id: candidateId }));
 
-            // Update the positions state by filtering out the deleted position
-            setCandidate((prevCandidate) =>
-                prevCandidate.filter(
-                    (candidate) => candidate.id !== candidateId
-                )
-            );
-
-            setIsSuccessMessage(true);
-            toast.success("Candidate successfully deleted");
-            // Close the delete modal
-            setDeleteModal(false);
-
-        } catch (error) {
-            console.error("Failed to delete position:", error);
+        router.delete(route('candidate.destroy', { id: candidateId }), {
+            onSuccess: () => {
+                setIsSuccessMessage(true);
+                toast.success("Candidate successfully deleted");
+                setDeleteModal(false);
+            },
+            onError: () => {
+                setIsSuccessMessage(true);
+                toast.error(errors[0])
+                setDeleteModal(false);
+            }
         }
+
+        );
+        // Send a DELETE request to delete the candidate
+
+        // Update the positions state by filtering out the deleted position
+        setCandidate((prevCandidate) =>
+            prevCandidate.filter(
+                (candidate) => candidate.id !== candidateId
+            )
+        );
+
+      
+
+
     };
 
 

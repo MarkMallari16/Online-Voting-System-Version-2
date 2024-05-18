@@ -6,7 +6,7 @@ use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\Partylist;
 use App\Models\Positions;
-
+use App\Models\Vote;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -151,11 +151,12 @@ class CandidateController extends Controller
 
     public function destroy(Candidate $candidate)
     {
-        $associatedVotes = DB::table('votes')->where('candidate_id', $candidate->id)->exists();
+        $associatedVotes = Vote::where('candidate_id', $candidate->id)->exists();
 
         if ($associatedVotes) {
-            return redirect()->back()->with('error', 'Cannot delete candidate. There are associated votes.');
+            return redirect()->back()->withErrors(['Cannot delete candidate. There are associated votes.']);
         }
+
         $candidate->delete();
 
 

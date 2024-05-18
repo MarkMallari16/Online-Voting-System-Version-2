@@ -15,9 +15,10 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
 
     const [open, setOpen] = useState(false);
 
-    const handleOpen = () => {
+    const handleOpen = (event) => {
+        event.stopPropagation();
         setOpen(true);
-        setIsSelected(!isSelected);
+        // setIsSelected(!isSelected);
     };
     const handleClose = () => setOpen(false);
 
@@ -27,13 +28,14 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
 
     }, [selected]);
 
-    const handleCandidateClick = () => {
+    const handleCandidateClick = (event) => {
+        event.stopPropagation();
         if (!open) {
             if (selected) {
                 onSelectCandidate(candidate.id, positionId);
 
-            }else{
-                onSelectCandidate(null,positionId);
+            } else {
+                onSelectCandidate(null, positionId);
             }
         }
     };
@@ -43,15 +45,15 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
     return (
         <>
             {/**hover:border-blue-500 focus:border-blue-500 */}
-            <Card className={`p-5 w-full ring-1 ring-gray-300  md:w-96 h-auto cursor-pointer   ${isSelected ? 'ring-2 ring-blue-500 ' : 'ring-0'}  transition-all duration-200 ease-in-out `} onClick={handleCandidateClick} >
-                <div className='flex justify-center'>
+
+            <Card className={`p-5 w-full ring-1 ring-gray-300  md:w-96 h-auto cursor-pointer   ${isSelected ? 'ring-2 ring-blue-500 ' : ''}  transition-all duration-200 ease-in-out `} onClick={handleCandidateClick} >
+                <div className='flex justify-center  '>
                     <Avatar src={`storage/${candidate.candidate_profile}`} size="xxl" withBorder={true} className='border-black p-0.5' />
                 </div>
 
                 <input
                     type='radio'
                     name={positionId}
-
                     checked={selected}
                     onChange={handleCandidateClick}
                     className='hidden'
@@ -67,9 +69,11 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
 
                 </CardBody>
                 <CardFooter className="pt-0 text-center">
-                    <button type='button' className='text-center text-black font-medium bg-gray-300 px-3 py-2 rounded-md z-50' onClick={handleOpen}>View Platform</button>
+                    <button type='button' className='text-center text-black font-medium bg-gray-300 hover:bg-gray-400 transition-all ease-in-out text px-3 py-2 rounded-md z-50' onClick={handleOpen}>View Platform</button>
                 </CardFooter>
             </Card>
+
+
 
             <CandidateModal candidate={candidate} isOpen={open} onClose={handleClose} />
 
