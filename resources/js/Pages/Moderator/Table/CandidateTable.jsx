@@ -29,7 +29,7 @@ import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
 
 
-import { useForm, router } from "@inertiajs/react";
+import { useForm, router, usePage } from "@inertiajs/react";
 import DeleteModal from "@/Components/DeleteModal";
 import ExcelExport from "@/Components/ExcelExport";
 import toast from "react-hot-toast";
@@ -53,6 +53,8 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
         "Candidate Platform",
         "Action",
     ];
+
+    const { election } = usePage().props;
     const [open, setOpen] = useState(false);
     const [openUpdateModal, setUpdateModal] = useState(false);
     const [openDeleteModal, setDeleteModal] = useState(false);
@@ -85,8 +87,6 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             file
         );
     };
-
-
     const handleFileUpdateUpload = (e) => {
         const file = e.target.files[0]; // Get the selected file
 
@@ -248,6 +248,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                 className="flex items-center gap-3 bg-blue-500"
                                 size="sm"
                                 onClick={handleOpen}
+                                disabled={election.status === "Active"}
                             >
                                 <UserPlusIcon
                                     strokeWidth={2}
@@ -938,6 +939,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                                             id
                                                                         )
                                                                     }
+                                                                    disabled={election.status === "Active"}
                                                                 >
                                                                     <PencilIcon className="h-5 w-5" />
                                                                 </IconButton>
@@ -951,6 +953,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                                             id
                                                                         )
                                                                     }
+                                                                    disabled={election.status === "Active"}
                                                                 >
                                                                     <svg
                                                                         xmlns="http://www.w3.org/2000/svg"
@@ -982,10 +985,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                 </CardFooter>
 
             </Card>
-            {/** <div className="flex justify-center mt-8">
-           <PaginationComponent dataPerPage={candidatesPerPage} />
 
-       </div> */}
             <DeleteModal
                 open={openDeleteModal}
                 handleDeleteOpen={handleDeleteOpen}

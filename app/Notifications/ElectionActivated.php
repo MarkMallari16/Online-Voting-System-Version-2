@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ElectionActivated extends Notification
+class ElectionActivated extends Notification 
 {
     use Queueable;
 
@@ -37,7 +37,7 @@ class ElectionActivated extends Notification
         return (new MailMessage)
             ->subject('Election Activated')
             ->line('The election has been activated successfully.')
-            ->action('View', url('/dashboard'))
+            ->action('Vote now', url('/dashboard'))
             ->line('Thank you for using our application!');
     }
 

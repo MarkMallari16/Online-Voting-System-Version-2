@@ -11,6 +11,8 @@ import { FaBox } from "react-icons/fa";
 const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
 
     console.log(candidatesPerPosition);
+
+
     return (
         <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Ballot</h2>} >
 
@@ -57,8 +59,8 @@ const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
                                             <Link href={route('candidate')} >
 
                                                 <Button color='blue' variant='gradient'>
-                                                    
-                                                     Add candidate </Button>
+
+                                                    Add candidate </Button>
                                             </Link>
                                         </div>
                                     </div>

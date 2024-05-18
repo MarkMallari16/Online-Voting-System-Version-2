@@ -1,5 +1,6 @@
 import React from 'react'
 import BarChart from './BarChart'
+import { scales } from 'chart.js';
 
 
 const BarChartContainer = ({ positionId, positionName, voteCounts, chartPositionOption }) => {
@@ -17,7 +18,7 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, chartPosition
     datasets: [
       {
      
-        label: "Vote",
+       
         pointBackgroundColor: "#fcd34d",
         data: data,
         backgroundColor: ["#3b82f6", "#fcd34d"],
@@ -26,6 +27,7 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, chartPosition
         responsive: true
         
       },
+      
     ],
   };
 
@@ -35,9 +37,19 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, chartPosition
       display: false
     },
     scales: {
+      x: {
+        beginAtZero: true,
+        ticks: {
+          stepSize: 1,
+          precision: 0
+        }
+      },
       y: {
         beginAtZero: true,
-        precision: 0, 
+        ticks: {
+          stepSize: 1,
+          precision: 0
+        }
       }
     }
   };

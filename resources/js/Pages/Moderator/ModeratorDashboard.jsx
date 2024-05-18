@@ -14,7 +14,7 @@ function PositionSelector({ label, onChange, value, positionList }) {
     return (
         <Select label={label} onChange={onChange} value={value}>
             {positionList.map((position) => (
-                <Option key={position.id} value={position.id}>{position.name}</Option>
+                <Option key={position.id} value={position.id} className='mb-1'>{position.name}</Option>
             ))}
         </Select>
     );
@@ -85,15 +85,16 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                                     {({ blob, url, loading, error }) =>
                                         "Export to PDF"
                                     }
+
                                 </PDFDownloadLink>
                             </div>
-                            <div className="w-100 sm:w-72 md:w-72 lg:w-72">
+                            <div className="w-100 ">
                                 <Select label="Select Chart Position" onChange={handleChartPositionOption} value={chartPositionOption}>
-                                    <Option value="y">Horizontal</Option>
+                                    <Option value="y" className='mb-1'>Horizontal</Option>
                                     <Option value="x">Vertical</Option>
                                 </Select>
                             </div>
-                            <div className="w-100 sm:w-72 md:w-72 lg:w-72">
+                            <div className="w-100">
                                 <PositionSelector label="Select Position" onChange={handlePositionChange} value={selectedPosition} positionList={position_list} />
                             </div>
 
@@ -116,7 +117,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                         <div className="px-5 py-4 text-gray-900">
                             <h1 className='text-xl font-medium'>Current Students Votes</h1>
                         </div>
-                        <div className='px-4 py-0 md:p-8'>
+                        <div className='px-4 py-5  md:p-8'>
 
                             {votedVoters.length > 0 ? <DoughnutContainer voters={voters} votersVotedCount={votersVotedCount} abstainCount={abstainCount} /> :
 

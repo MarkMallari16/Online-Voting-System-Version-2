@@ -3,8 +3,16 @@ import { Card, Typography } from "@material-tailwind/react";
 
 
 export function ElectionTable({ electionPerPage }) {
-  const TABLE_HEAD = ["Election ID", "Election Title", "Election Start Date", "Election End Date", "Status","Action"];
+  const TABLE_HEAD = ["Election ID", "Election Title", "Election Start Date", "Election End Date", "Status"];
+  const colorStatus = {
+    'Completed': 'bg-green-400 text-white text-green-900',
+    'Active': 'bg-blue-400 text-blue-900',
+    'Inactive': 'bg-gray-400 text-gray-900'
+  }
 
+  const getColorStatus = (status) => {
+    return colorStatus[status] || 'bg-gray-500';
+  }
   return (
     <Card className="h-full w-full overflow-scroll">
       <table className="w-full min-w-max table-auto text-left">
@@ -47,15 +55,11 @@ export function ElectionTable({ electionPerPage }) {
                 </Typography>
               </td>
               <td className="p-4">
-                <Typography variant="small" color="blue-gray" className="font-normal">
+                <Typography variant="small" color="blue-gray" className={`text-center font-normal ${getColorStatus(status)} px-2  lg:px-1 py-3 me-5 rounded-md font-bold `}>
                   {status}
                 </Typography>
               </td>
-              <td className="p-4">
-                <Typography as="a" href="#" variant="small" color="blue-gray" className="font-medium">
-                  View
-                </Typography>
-              </td>
+             
             </tr>
           ))}
         </tbody>

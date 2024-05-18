@@ -24,7 +24,8 @@ class PartylistController extends Controller
         return Inertia::render('Moderator/ModeratorPages/Partylist', [
             'partylists' => $partylists,
             'partylistsPerPage' => $partylistsPerPage,
-            'voters' => $voters
+            'voters' => $voters,
+
         ]);
     }
     public function show(Partylist $partylist)
@@ -33,7 +34,7 @@ class PartylistController extends Controller
 
         $partylist->load('candidates.position');
 
-        
+
         return Inertia::render('Voter/PartylistShow', [
             'partylist' => $partylist,
             'election' => $existingElection
@@ -41,6 +42,7 @@ class PartylistController extends Controller
     }
     public function store(Request $request)
     {
+       
         $validatedData = $request->validate([
             'name' => 'required|max:18',
             'description' => 'required|max:500',
@@ -59,11 +61,15 @@ class PartylistController extends Controller
         } else {
             $path = null;
         }
+      
+
         $partylist = Partylist::create([
             'name' => $validatedData['name'],
             'description' => $validatedData['description'],
             'partylist_logo' => $path
         ]);
+      
+
 
         // AuditLog::create([
         //     'user_id' => Auth::id(),
