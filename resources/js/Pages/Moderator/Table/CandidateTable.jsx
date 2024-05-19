@@ -219,13 +219,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                 (candidate) => candidate.id !== candidateId
             )
         );
-
-      
-
-
     };
-
-
     return (
         <div>
             <div >

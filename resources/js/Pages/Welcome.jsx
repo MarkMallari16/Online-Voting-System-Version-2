@@ -57,10 +57,10 @@ export default function Welcome({ auth }) {
     return (
         <>
 
-            <div>
+            <div style={bgStyle}>
                 <div
                     className="h-full w-full"
-                    style={bgStyle}
+
                 >
                     <div className={`z-50 sticky top-0 transition-all duration-300   ${scrolled ? ' bg-blue-500 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 ' : 'bg-none'}`}>
                         <div className={`flex sm:mx-10  md:mx-20 `} >
@@ -98,11 +98,11 @@ export default function Welcome({ auth }) {
                     >
                         <div className='flex-1'>
                             <div>
-                                <p className='tracking-wide font-bold text-black text-center  md:text-left'><span >STAND UP, SPEAK OUT, AND CREATE CHANGE!</span></p>
+                                <p className='tracking-wide font-bold text-grayy-900 text-center  md:text-left'><span >STAND UP, SPEAK OUT, AND CREATE CHANGE!</span></p>
                                 <h1 className="text-5xl sm:text-6xl md:text-6xl font-extrabold text-center  md:text-left mb-3">MAKE YOUR <span className='text-blue-600'>VOICE HEARD</span></h1>
                             </div>
-                            <p className='text-lg text-center md:text-left'>Exercise your right to vote and elect your senior high school student leaders.</p>
-                            <div className='mt-3 flex  md:flex-row gap-2 items-center justify-center md:justify-start'>
+                            <p className='mt-5 text-lg text-center md:text-left text-gray-900'>Exercise your right to vote and elect your STI Bacoor Senior High School student leaders.</p>
+                            <div className='mt-5 flex  md:flex-row gap-2 items-center justify-center md:justify-start'>
                                 <Link
                                     href={route('register')}
                                     className="font-medium  px-6 py-2 text-white rounded-md bg-blue-500 hover:bg-blue-800  bg-gradient-to-b from-blue-400 to-blue-600  duration-75 focus:outline focus:outline-2 transition-all  ease-in-out"
@@ -165,8 +165,8 @@ export default function Welcome({ auth }) {
                         </div>
                     </div>
                     <div>
-                    
-                                    
+
+
                     </div>
                     <Footer />
                 </div>

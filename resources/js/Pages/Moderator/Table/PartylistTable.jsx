@@ -400,7 +400,7 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
                               </div>
                             </td>
 
-                            <td className={classes}>
+                            <td className={`${classes} w-96`}>
                               <Typography
                                 variant="small"
                                 color="blue-gray"
