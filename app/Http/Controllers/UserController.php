@@ -35,7 +35,7 @@ class UserController extends Controller
 
         AuditLog::create([
             'user_id' => $request->user()->id,
-            'action' => 'User Created',
+            'action' => 'Created',
             'details' => 'User created with name: ' . $user->name,
         ]);
 
@@ -67,7 +67,7 @@ class UserController extends Controller
 
         AuditLog::create([
             'user_id' => $request->user()->id,
-            'action' => 'User Updated',
+            'action' => 'Updated',
             'details' => 'User updated with name: ' . $user->name,
         ]);
 
@@ -80,21 +80,14 @@ class UserController extends Controller
 
         AuditLog::create([
             'user_id' => $authenticatedUser->id,
-            'action' => 'User Deleted',
+            'action' => 'Deleted',
             'details' => 'Deleted user with ID and Name: ' . $user->id . " " . $user->name,
         ]);
 
         $user->delete();
         return redirect()->back()->with('success', 'User deleted successfully');
     }
-    //getting the activity logs
-    public function getActivityLogs(Request $request)
-    {
-        $perPage = $request->input('perPage', 10);
-        $logs = AuditLog::with('user')->orderByDesc('created_at')->paginate($perPage);
 
-        return response()->json($logs);
-    }
     public function displayActivityLogs()
     {
         $query = AuditLog::query();

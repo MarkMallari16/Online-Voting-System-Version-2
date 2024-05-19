@@ -52,7 +52,6 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     // Delete user
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     //getting activity logs
-    Route::get('/activity-logs', [UserController::class, 'getActivityLogs'])->name('activity.logs');
 });
 
 

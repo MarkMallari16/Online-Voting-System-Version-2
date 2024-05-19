@@ -128,7 +128,7 @@ export default function Welcome({ auth }) {
                     </div>
                     {/*STI Bacoor Logo and Council Logo */}
                     <div
-                        className='h-auto w-full flex justify-center gap-5 mt-10 overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)] '>
+                        className='h-auto w-full flex justify-center gap-5 my-32 overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)] '>
                         {[...Array(3)].map((_, index) => (
                             <div key={index} className='flex items-center justify-center md:justify-end gap-5 animate-infinite-scroll'>
                                 {[...Array(14)].map((_, index) => (
@@ -139,7 +139,7 @@ export default function Welcome({ auth }) {
                             </div>
                         ))}
                     </div>
-
+                    {/**Frequently Asked Questions */}
                     <div className='h-auto mt-24'>
                         <div className='text-center text-4xl font-bold' >Frequently Asked Question</div>
                         <p className="text-lg font-meidium text-gray-900 text-center mt-2 mb-10 mx-4 lg:mx-0">
@@ -163,6 +163,10 @@ export default function Welcome({ auth }) {
 
                             </div>
                         </div>
+                    </div>
+                    <div>
+                    
+                                    
                     </div>
                     <Footer />
                 </div>
