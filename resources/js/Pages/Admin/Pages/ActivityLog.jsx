@@ -45,6 +45,15 @@ const ActivityLog = ({ auth, logs }) => {
         { value: 'User Deleted', label: 'Deleted' }
     ]
     console.log(logs)
+
+    const exportExcellogs = logs.data.map((log) => {
+        return {
+            "ID": log.user.id,
+            "Name": log.user.name,
+            "Action": log.action,
+            "Details": log.details,
+        }
+    })
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -54,9 +63,9 @@ const ActivityLog = ({ auth, logs }) => {
                 </h2>
             }
         >
-            <main className="flex-1 py-12">
+            <main className=" py-12">
 
-                <div className="max-w-full mx-auto px-4 sm:max-w-3xl md:max-w-4xl lg:max-w-6xl xl:max-w-7xl">
+                <div className=" max-w-full mx-auto px-4 sm:max-w-4xl md:max-w-4xl lg:max-w-6xl xl:max-w-7xl">
                     {isLoading ? (
                         <div className="max-w-full mx-auto flex justify-center items-center h-full">
                             <div className="text-center">
@@ -79,7 +88,7 @@ const ActivityLog = ({ auth, logs }) => {
                                             </div>
                                             <div className="flex justify-end gap-2">
                                                 <div>
-                                                    <ExcelExport data={logs.data} fileName='activity_logs' />
+                                                    <ExcelExport data={exportExcellogs} fileName='activity_logs' />
                                                 </div>
                                                 <div >
                                                     <FilterDropdown onSelectFilter={handleSelectedFilter} options={options} />
@@ -158,7 +167,7 @@ const ActivityLog = ({ auth, logs }) => {
                                                                     </td>
                                                                     <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                                                                         <div className="flex items-center gap-2">
-                                                                            <AvatarComponent Profile={log.user.profile_picture} />
+                                                                            <AvatarComponent Profile={log.user.profile_picture} size="sm"/>
                                                                             <span>
                                                                                 {
                                                                                     log

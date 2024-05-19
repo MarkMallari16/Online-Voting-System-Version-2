@@ -39,7 +39,7 @@ import FilterDropdown from "@/Components/FilterDropdown";
 const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
     console.log(users);
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedRoleFilter, setSelectedRoleFilter] = useState(null);
+    const [selectedRoleFilter, setSelectedRoleFilter] = useState("");
 
     //modal
     const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
@@ -104,7 +104,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
         { value: 'admin', label: 'Admin' },
         { value: 'moderator', label: 'Moderator' },
         { value: 'voter', label: 'Voter' },
-      
+
     ]
 
     const handleSelectedRole = (filter) => {
@@ -255,7 +255,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
 
                                             return (
                                                 <tr key={id}>
-                                                    <td className="p-4">
+                                                    <td className="p-4 ">
                                                         <Typography
                                                             variant="small"
                                                             color="blue-gray"
@@ -264,24 +264,19 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
                                                             {id}
                                                         </Typography>
                                                     </td>
-                                                    <td className="p-4">
-                                                        <Typography
-                                                            variant="small"
-                                                            color="blue-gray"
-                                                            className="font-normal"
-                                                        >
-                                                            {name}
-                                                        </Typography>
+                                                    <td className="p-4 ">
+                                                        <div className="flex items-center gap-2 ">
+                                                            <AvatarComponent Profile={profile_picture}  size="sm"/>
+                                                            <Typography
+                                                                variant="small"
+                                                                color="blue-gray"
+                                                                className="font-normal"
+                                                            >
+                                                                {name}
+                                                            </Typography>
+                                                        </div>
                                                     </td>
-                                                    <td className="p-4">
-                                                        <Typography
-                                                            variant="small"
-                                                            color="blue-gray"
-                                                            className="font-normal"
-                                                        >
-                                                            <AvatarComponent Profile={profile_picture} />
-                                                        </Typography>
-                                                    </td>
+                        
                                                     <td className="p-4">
                                                         <Typography
                                                             variant="small"
@@ -300,7 +295,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
                                                             {role}
                                                         </Typography>
                                                     </td>
-                                                    <td className="p-4 ">
+                                                    <td className="p-4 w-52 ">
                                                         <Typography
                                                             variant="small"
                                                             color="blue-gray"
@@ -311,7 +306,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
                                                             ).toLocaleString()}
                                                         </Typography>
                                                     </td>
-                                                    <td className="p-4">
+                                                    <td className="p-4 w-52 ">
                                                         <Typography
                                                             variant="small"
                                                             color="blue-gray"

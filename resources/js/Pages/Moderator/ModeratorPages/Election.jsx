@@ -78,8 +78,6 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
         preserveScroll: true
       });
 
-
-
       //Reset form data
       reset({
         title: '',
@@ -92,7 +90,6 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
       console.error(error);
     }
   };
-
 
   const handleActivate = () => {
     try {
@@ -132,19 +129,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
     }
   };
 
-  const handleArchive = async () => {
-    try {
-      put(`/election/${existingElection.id}/archive`); // Send a PUT request to archive the election
-      // Update state or display success message upon successful archiving
-      toast.success('Election archived successfully.');
-      setIsSuccessMessage(true);
-      setArchivedElectionModal(false);
 
-    } catch (error) {
-      console.error(error);
-      // Handle errors
-    }
-  };
 
   //handle stop election
   const handleStopElectionSubmit = async () => {

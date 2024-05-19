@@ -1,7 +1,7 @@
 import { Avatar } from '@material-tailwind/react'
 import React from 'react'
 import DefaultProfilePicture from '../../../public/storage/images/default_profile.png'
-const AvatarComponent = ({ Profile }) => {
+const AvatarComponent = ({ Profile, size }) => {
 
 
     return (
@@ -10,6 +10,7 @@ const AvatarComponent = ({ Profile }) => {
                 src={
                     `storage/${Profile}`
                 }
+                size={size}
             />
         </>
     )

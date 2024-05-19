@@ -14,15 +14,16 @@ use Inertia\Inertia;
 class UserController extends Controller
 {
 
-    // public function index(Request $request)
-    // {
-    //     $perPage = $request->input('perPage', 10);
-    //     $users = User::paginate($perPage);
+    public function index()
+    {
 
-    //     return Inertia::render('Dashboard', [
-    //         'users' => $users
-    //     ]);
-    // }
+        $usersPerPage = User::orderByDesc('created_at')->paginate(10);
+
+        return Inertia::render('Admin/Pages/Users', [
+            'usersPerPage' => $usersPerPage
+        ]);
+    }
+
     public function store(CreateUserRequest $request)
     {
 

@@ -15,14 +15,16 @@ class VoteController extends Controller
 {
     public function index()
     {
-        $votes = Vote::with('user', 'candidate','election')
+        $votes = Vote::with('user', 'candidate', 'election')
             ->orderByDesc('vote_timestamp')
             ->get();
 
-        $voters = User::where('role', 'voter')->paginate(10);
+        $voters = User::where('role', 'voter')
+            ->whereNotNull('email_verified_at')
+            ->paginate(10);
 
         $positions = Positions::all();
-        
+
         $votesPerPage = Vote::with('user', 'candidate')
             ->orderByDesc('vote_timestamp')
             ->paginate(10);
@@ -72,7 +74,7 @@ class VoteController extends Controller
             $vote->save();
             return redirect()->back()->with('success', 'Successfully abstained from voting');
         }
-        
+
         // Create a new vote for each selected candidate
         foreach ($validatedData['candidate_ids'] as $candidateId) {
             $vote = new Vote();
@@ -86,7 +88,7 @@ class VoteController extends Controller
             } else {
                 $vote->candidate_id = $candidateId;
             }
-            
+
             $vote->save();
         }
 

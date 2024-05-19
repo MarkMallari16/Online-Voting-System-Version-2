@@ -42,7 +42,7 @@ class ElectionEndingSoon extends Notification
     {
         return (new MailMessage)
             ->subject('Election Ending Soon')
-            ->line('The election is ending soon. Please cast your vote before it closes.')
+            ->line('The election is ending soon. Please cast your vote.')
             ->action('Vote Now', url('/vote'))
             ->line('Thank you for participating in the election.');
     }

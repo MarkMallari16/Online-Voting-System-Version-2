@@ -41,7 +41,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     //get user
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users', [UserController::class, 'index'])->name('users');
     //retrieved data and display in table
     Route::get('/activitylog', [UserController::class, 'displayActivityLogs'])->name('activitylog');
 
@@ -59,9 +59,6 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
 //for moderator page
 
 Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
-
-
-
     Route::get('/ballot', [BallotController::class, 'displayBallot'])->name('ballot');
 
     Route::get('/live-result', function () {

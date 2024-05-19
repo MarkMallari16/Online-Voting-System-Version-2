@@ -13,7 +13,7 @@ const AdminDashboard = ({ usersPerPage }) => {
     const totalModerators = users.filter(user => user.role === 'moderator').length;
     const totalPartylistEditor = users.filter(user => user.role === 'partylist_editor').length;
 
-    const TABLE_HEAD = ["ID", "Name", "Profile", "Email", "Role", "Created At", "Updated At", "Email Status", "Action"];
+    const TABLE_HEAD = ["ID", "Name",  "Email", "Role", "Created At", "Updated At", "Email Status", "Action"];
 
 
     
