@@ -18,7 +18,6 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, chartPosition
     datasets: [
       {
      
-       
         pointBackgroundColor: "#fcd34d",
         data: data,
         backgroundColor: ["#3b82f6", "#fcd34d"],

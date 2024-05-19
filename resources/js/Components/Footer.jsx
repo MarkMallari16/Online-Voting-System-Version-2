@@ -50,9 +50,9 @@ const Footer = () => {
             </Typography>
           </div>
           <div className='flex gap-2'>
-            <div className='border border-1 border-gray-400 p-1 rounded-sm hover:border-blue-500 hover:text-blue-800 transition ease-in duration-100' >
-              <a href='https://www.facebook.com/stibacoorshssc'>    <FaFacebookSquare className=' text-3xl' /></a>
-            </div>
+            <a href='https://www.facebook.com/stibacoorshssc' className='border border-1 border-gray-400 p-1 rounded-sm hover:border-blue-500 hover:text-blue-800 transition ease-in duration-100' >
+              <span >    <FaFacebookSquare className=' text-3xl' /></span>
+            </a>
            
           </div>
         </div>

@@ -2,21 +2,22 @@ import React from 'react';
 
 import UserTable from './UserTable';
 import AdminDashboardOverview from './AdminDashboardOverview';
+import DashboardBarAdminChart from '@/Components/DashboardAdminBarChart';
+import DashboardAdminDoughnutChart from '@/Components/DashboardAdminDoughnutChart';
+
 
 const AdminDashboard = ({ usersPerPage }) => {
-
-
     const users = usersPerPage.data;
 
-    const totalStudents = users.filter(user => user.role == 'voter').length;
+    const totalStudents = users.filter(user => user.role === 'voter').length;
     const totalAdmins = users.filter(user => user.role === 'admin').length;
     const totalModerators = users.filter(user => user.role === 'moderator').length;
-    const totalPartylistEditor = users.filter(user => user.role === 'partylist_editor').length;
+    const usersVerified = users.filter(user => user.email_verified_at).length;
+    const usersNotVerified = users.filter(user => !user.email_verified_at).length;
 
-    const TABLE_HEAD = ["ID", "Name",  "Email", "Role", "Created At", "Updated At", "Email Status", "Action"];
+    const TABLE_HEAD = ["ID", "Name", "Email", "Role", "Created At", "Updated At", "Email Status", "Action"];
 
 
-    
     return (
         <div className="flex flex-col sm:flex-row">
             <div className="flex-1 ">
@@ -25,21 +26,22 @@ const AdminDashboard = ({ usersPerPage }) => {
                         <div>
                             <h1 className="text-xl font-medium">Welcome, Admin!</h1>
                         </div>
-
                     </div>
                 </div>
-
                 <div className='mt-5'>
-                    <AdminDashboardOverview totalStudents={totalStudents} totalAdmins={totalAdmins} totalModerators={totalModerators} totalPartylistEditors={totalPartylistEditor} />
+                    <AdminDashboardOverview totalStudents={totalStudents} totalAdmins={totalAdmins} totalModerators={totalModerators} />
+                </div>
+
+                <div className="mt-5 grid grid-rows-1 grid-cols-1 lg:grid-cols-3 items-center gap-5">
+                    <DashboardBarAdminChart totalStudents={totalStudents} totalAdmins={totalAdmins} totalModerators={totalModerators} className='col-span-2  h-full' />
+                    <DashboardAdminDoughnutChart usersVerified={usersVerified} usersNotVerified={usersNotVerified} className='col-span-1 h-full' />
                 </div>
 
                 <div className="mt-5">
                     <UserTable TABLE_HEAD={TABLE_HEAD} users={users} usersPerPage={usersPerPage} />
                 </div>
             </div>
-
         </div>
-
     );
 };
 

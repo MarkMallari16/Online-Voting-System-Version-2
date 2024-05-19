@@ -266,7 +266,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
                                                     </td>
                                                     <td className="p-4 ">
                                                         <div className="flex items-center gap-2 ">
-                                                            <AvatarComponent Profile={profile_picture}  size="sm"/>
+                                                            <AvatarComponent Profile={profile_picture} size="sm" />
                                                             <Typography
                                                                 variant="small"
                                                                 color="blue-gray"
@@ -276,7 +276,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
                                                             </Typography>
                                                         </div>
                                                     </td>
-                        
+
                                                     <td className="p-4">
                                                         <Typography
                                                             variant="small"

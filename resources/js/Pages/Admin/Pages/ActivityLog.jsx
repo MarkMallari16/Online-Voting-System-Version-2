@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
-import { Avatar, Spinner, Tooltip } from "@material-tailwind/react";
+import { Avatar, IconButton, Spinner, Tooltip } from "@material-tailwind/react";
 
 import ExcelExport from "@/Components/ExcelExport";
 import FilterDropdown from "@/Components/FilterDropdown";
 import PaginationComponent from "@/Components/PaginationComponent";
 import AvatarComponent from "@/Components/AvatarComponent";
 import SearchInput from "@/Components/SearchInput";
+import Modal from "@/Components/Modal";
 const ActivityLog = ({ auth, logs }) => {
 
     const [selectedFilter, setSelectedFilter] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [isLoading, setIsLoading] = useState(true);
+    const [openLogModal, setOpenLogModal] = useState(false);
+    const [logId, setLogId] = useState(null);
+    const [selectedLog, setSelectedLog] = useState();
 
     useEffect(() => {
         setIsLoading(false);
@@ -54,6 +58,26 @@ const ActivityLog = ({ auth, logs }) => {
             "Details": log.details,
         }
     })
+    console.log(selectedLog)
+    const handleOpenModal = (id) => {
+        setOpenLogModal(true);
+
+        const log = logs.data.find((log) => log.id === id);
+        console.log(log);
+        setLogId(id);
+        setSelectedLog(log);
+
+    }
+    const handleCloseModal = () => {
+        setOpenLogModal(false);
+        setLogId(null);
+
+    };
+    const filteredLogs = logs.data.filter(log => {
+        const matchesFilter = selectedFilter ? log.action === selectedFilter : true;
+        const matchesSearch = log.user.name.toLowerCase().includes(searchQuery.toLowerCase()) || log.action.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesFilter && matchesSearch;
+    });
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -133,84 +157,68 @@ const ActivityLog = ({ auth, logs }) => {
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            {logs.data.length == 0 || logs.data.filter(log =>
-                                                selectedFilter ? log.action === selectedFilter : true ||
-                                                    log.user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                                                    log.action.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
+                                            {filteredLogs.length === 0 ? (
                                                 <tbody>
                                                     <tr className="text-center">
-                                                        <td
-                                                            colSpan="6"
-                                                            className="py-5 text-center text-gray-600"
-                                                        >
+                                                        <td colSpan="6" className="py-5 text-center text-gray-600">
                                                             No activity logs found.
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             ) : (
                                                 <tbody>
-                                                    {logs.data
-
-                                                        .filter(log => (
-                                                            selectedFilter ? log.action === selectedFilter : true ||
-                                                                log.user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                                                                log.action.toLowerCase().includes(searchQuery.toLowerCase())
-                                                        ))
-                                                        .map(
-                                                            (log, index) => (
-                                                                <tr
-                                                                    key={index}
-                                                                    className="bg-white"
-                                                                >
-                                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                                                        {log.user_id}
-                                                                    </td>
-                                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                                                        <div className="flex items-center gap-2">
-                                                                            <AvatarComponent Profile={log.user.profile_picture} size="sm"/>
-                                                                            <span>
-                                                                                {
-                                                                                    log
-                                                                                        .user
-                                                                                        .name
-                                                                                }
-                                                                            </span>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-                                                                        {new Date(
-                                                                            log.created_at
-                                                                        ).toLocaleString()}
-                                                                    </td>
-                                                                    <td
-                                                                        className={`font-medium whitespace-no-wrap text-sm sm:text-base leading-5`}
-                                                                    >
-                                                                        <span
-                                                                            className={`${getClassByAction(
-                                                                                log.action
-                                                                            )} px-2 py-2 sm:px-3 sm:py-2 inline-block w-[140px] text-center`}
-                                                                        >
-                                                                            {log.action}
+                                                    {filteredLogs.map(
+                                                        (log, index) => (
+                                                            <tr
+                                                                key={index}
+                                                                className="bg-white"
+                                                            >
+                                                                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                                                    {log.user_id}
+                                                                </td>
+                                                                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                                                    <div className="flex items-center gap-2">
+                                                                        <AvatarComponent Profile={log.user.profile_picture} size="sm" />
+                                                                        <span>
+                                                                            {
+                                                                                log
+                                                                                    .user
+                                                                                    .name
+                                                                            }
                                                                         </span>
-                                                                    </td>
-                                                                    <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500 ">
-                                                                        {log.details}
-                                                                    </td>
-                                                                    <Tooltip content="View Activity Logs">
-                                                                        <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500 text-center">
-                                                                            <button>
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                                                                                    <path fillRule="evenodd" d="M4.5 12a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clipRule="evenodd" />
-                                                                                </svg>
-
-                                                                            </button>
-
-                                                                        </td>
-
+                                                                    </div>
+                                                                </td>
+                                                                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                                                                    {new Date(
+                                                                        log.created_at
+                                                                    ).toLocaleString()}
+                                                                </td>
+                                                                <td
+                                                                    className={`font-medium whitespace-no-wrap text-sm sm:text-base leading-5`}
+                                                                >
+                                                                    <span
+                                                                        className={`${getClassByAction(
+                                                                            log.action
+                                                                        )} px-2 py-2 sm:px-3 sm:py-2 inline-block w-[140px] text-center`}
+                                                                    >
+                                                                        {log.action}
+                                                                    </span>
+                                                                </td>
+                                                                <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500 ">
+                                                                    {log.details}
+                                                                </td>
+                                                                <td className="text-center">
+                                                                    <Tooltip content="View Log">
+                                                                        <div className="cursor-pointer flex justify-center whitespace-no-wrap text-sm leading-5  text-gray-900" onClick={() => handleOpenModal(log.id)}>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7">
+                                                                                <path fillRule="evenodd" d="M4.5 12a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clipRule="evenodd" />
+                                                                            </svg>
+                                                                        </div>
                                                                     </Tooltip>
-                                                                </tr>
-                                                            )
-                                                        )}
+                                                                </td>
+                                                            </tr>
+                                                        )
+                                                    )}
                                                 </tbody>
                                             )}
                                         </table>
@@ -227,6 +235,27 @@ const ActivityLog = ({ auth, logs }) => {
                     )}
                 </div>
             </main>
+            <Modal maxWidth="md" show={openLogModal} onClose={handleCloseModal} >
+                {selectedLog && (
+                    <div className="p-5">
+                        <div className="flex items-center justify-between">
+                            <div className="flex gap-1 text-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                </svg>
+                                Log Details
+                            </div>
+                            <div onClick={handleCloseModal}>Close</div>
+                        </div>
+                        <div className="mt-5">
+                            <div>ID:{selectedLog.user.id}</div>
+                            <div>{selectedLog.user.name}</div>
+                            <div>{selectedLog.action}</div>
+                            <div>{selectedLog.details}</div>
+                        </div>
+                    </div>
+                )}
+            </Modal>
         </AuthenticatedLayout>
     );
 };
