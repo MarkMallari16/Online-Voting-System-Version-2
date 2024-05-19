@@ -121,7 +121,7 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
 
   const handleDeletePartylists = (partylistId) => {
 
-    router.delete(route('partylist.destroy', { id: partylistId }), {
+    destroy(route('partylist.destroy', { id: partylistId }), {
       preserveScroll: true
     });
     setIsSuccessMessage(true);

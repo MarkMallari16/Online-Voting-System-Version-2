@@ -184,11 +184,6 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                 preserveScroll: true
             });
 
-
-
-
-
-
         } catch (error) {
             console.error("Failed to update candidate:", error);
 
@@ -197,7 +192,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
     const handleDeleteCandidate = (candidateId) => {
 
-        router.delete(route('candidate.destroy', { id: candidateId }), {
+        destroy(route('candidate.destroy', { id: candidateId }), {
             onSuccess: () => {
                 setIsSuccessMessage(true);
                 toast.success("Candidate successfully deleted");
@@ -802,7 +797,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                 <tr>
                                     <td
                                         colSpan={TABLE_HEAD.length}
-                                        className="text-center py-4"
+                                        className="text-center py-4 text-gray-900"
                                     >
                                         No candidates found
                                     </td>

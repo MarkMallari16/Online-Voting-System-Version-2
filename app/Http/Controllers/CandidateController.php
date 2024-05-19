@@ -77,7 +77,7 @@ class CandidateController extends Controller
                 Rule::unique('candidates')->where(function ($query) use ($request) {
                     return $query->where('position_id', $request->position_id)
                         ->where('partylist_id', $request->partylist_id);
-                })->ignore($request->candidate_id)
+                })->ignore($request->candidate_id, 'id')
             ],
         ], [
             'partylist_id.required' => 'The partylist field is required',

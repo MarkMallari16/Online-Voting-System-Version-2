@@ -41,10 +41,10 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
 
   useEffect(() => {
     setData({
-      title: election ? election.title : '',
-      start_date: election ? election.start_date : '',
-      end_date: election ? election.end_date : '',
-      status: election ? election.status : false
+      title: election ? election?.title : '',
+      start_date: election ? election?.start_date : '',
+      end_date: election ? election?.end_date : '',
+      status: election ? election?.status : false
     });
     if (election && new Date(election.end_date) < new Date()) {
       setElectionEndedModalOpen(true);
@@ -129,7 +129,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
     }
   };
 
-
+  console.log(election);
 
   //handle stop election
   const handleStopElectionSubmit = async () => {
@@ -211,7 +211,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                       value={data.title}
                       placeholder="Enter Election Title"
                       onChange={(e) => setData('title', e.target.value)}
-                      disabled={isElectionEnded || election.status === 'Active'}
+                      disabled={isElectionEnded || election?.status === 'Active'}
                     />
                     <InputError className="mt-2" message={errors.title} />
                   </div>
@@ -233,7 +233,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                       type='datetime-local'
                       value={data.start_date}
                       onChange={(e) => setData('start_date', e.target.value)}
-                      disabled={isElectionEnded || election.status === 'Active'}
+                      disabled={isElectionEnded || election?.status === 'Active'}
                     />
                     <InputError className="mt-2" message={errors.start_date} />
                   </div>
@@ -245,13 +245,13 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                       type='datetime-local'
                       value={data.end_date}
                       onChange={(e) => setData('end_date', e.target.value)}
-                      disabled={isElectionEnded || election.status === 'Active'}
+                      disabled={isElectionEnded || election?.status === 'Active'}
                     />
                     <InputError className="mt-2" message={errors.end_date} />
                   </div>
                 </div>
                 <div className='mt-5'>
-                  <Button color='blue' variant='gradient' type="submit" disabled={processing || isElectionEnded || election.status === 'Active'}>{election ? 'Update' : 'Save'}</Button>
+                  <Button color='blue' variant='gradient' type="submit" disabled={processing || isElectionEnded || election?.status === 'Active'}>{election ? 'Update' : 'Create'}</Button>
                 </div>
               </div>
             </form>

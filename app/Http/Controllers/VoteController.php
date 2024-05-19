@@ -9,13 +9,16 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Vote;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
 class VoteController extends Controller
 {
     public function index()
     {
-        $votes = Vote::with('user', 'candidate', 'election')
+        $votes = Vote::select('voter_id', 'election_id', 'vote_timestamp')
+            ->with('user:id,name,email,email_verified_at', 'election:id,title')
+            ->groupBy('voter_id', 'election_id', 'vote_timestamp')
             ->orderByDesc('vote_timestamp')
             ->get();
 
@@ -25,7 +28,9 @@ class VoteController extends Controller
 
         $positions = Positions::all();
 
-        $votesPerPage = Vote::with('user', 'candidate')
+        $votesPerPage = Vote::select('voter_id', 'election_id', 'vote_timestamp')
+            ->with('user:id,name,email,email_verified_at', 'election:id,title')
+            ->groupBy('voter_id', 'election_id', 'vote_timestamp')
             ->orderByDesc('vote_timestamp')
             ->paginate(10);
 
@@ -39,24 +44,23 @@ class VoteController extends Controller
             ]
         );
     }
-
     public function createVote(Request $request)
     {
-        // Validate the request
+
         $validatedData = $request->validate([
             'election_id' => 'required|exists:elections,id',
             'candidate_ids' => 'nullable|array',
             'candidate_ids.*' => 'nullable|exists:candidates,id'
         ]);
 
-        // Check if the authenticated user is a voter
+
         $user = Auth::user();
 
         if (!$user || $user->role !== 'voter') {
             return redirect()->back()->with('error', 'You are not authorized to vote');
         }
 
-        // Check if the user has already voted in this election
+
         $existingVote = Vote::where('voter_id', $user->id)
             ->where('election_id', $validatedData['election_id'])
             ->exists();
@@ -72,11 +76,13 @@ class VoteController extends Controller
             $vote->vote_timestamp = now();
             $vote->isAbstained = true;
             $vote->save();
+
             return redirect()->back()->with('success', 'Successfully abstained from voting');
         }
 
         // Create a new vote for each selected candidate
         foreach ($validatedData['candidate_ids'] as $candidateId) {
+
             $vote = new Vote();
             $vote->voter_id = $user->id;
             $vote->election_id = $validatedData['election_id'];
@@ -86,6 +92,7 @@ class VoteController extends Controller
             if (empty($candidateId)) {
                 $vote->isAbstained = true;
             } else {
+              
                 $vote->candidate_id = $candidateId;
             }
 

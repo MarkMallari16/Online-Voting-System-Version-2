@@ -122,7 +122,7 @@ export function PositionsTable(props) {
     const handleDeletePositions = (positionId) => {
         try {
             // Send a DELETE request to delete the position
-            router.delete(`/position/${positionId}`);
+            destroy(`/position/${positionId}`);
 
 
             toast.success("Position deleted successfully")

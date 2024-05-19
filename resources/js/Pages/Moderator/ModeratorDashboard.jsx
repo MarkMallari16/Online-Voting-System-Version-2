@@ -150,7 +150,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                         </div>
                         <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg px-5 ">
                             <div className="text-gray-900 mt-4">
-                                {election.status === "Active" && latestVotedUsers.length > 0 ? (
+                                {election?.status === "Active" && latestVotedUsers.length > 0 ? (
                                     latestVotedUsers.map((latestVotedUser, id) => (
                                         <div key={id} className='flex justify-between  px-2 py-2 items-center mb-4 rounded-md '>
                                             <div className='flex items-center gap-3'>

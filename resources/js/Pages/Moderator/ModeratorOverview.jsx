@@ -17,7 +17,7 @@ const ModeratorOverview = ({ voters, candidates, election, votersVotedCount, num
                 <div>
                     <p className="text-lg mb-8 text-black">Election Status</p>
                     <h2 className={`text-4xl  font-medium ${new Date(election?.end_date) < new Date() ? 'text-red-700' : ''}`}>
-                        {election ? (new Date(election.end_date) < new Date() ? 'Ended' : election.status) : 'Inactive'
+                        {election ? (new Date(election?.end_date) < new Date() ? 'Ended' : election?.status) : 'Inactive'
                         }
                     </h2>
                 </div>

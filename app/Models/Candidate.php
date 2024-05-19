@@ -29,8 +29,6 @@ class Candidate extends Model
     {
         return $this->belongsTo(Positions::class);
     }
-
-
     public function partylist()
     {
         return $this->belongsTo(Partylist::class);
@@ -39,5 +37,4 @@ class Candidate extends Model
     {
         return $this->belongsTo(Election::class);
     }
-   
 }
