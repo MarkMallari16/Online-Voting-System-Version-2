@@ -320,7 +320,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
             <span>Cancel</span>
           </Button>
           <Button variant="gradient" color="blue" onClick={handleDeactivate}>
-            <span>Deactivate Election</span>
+            Deactivate Election
           </Button>
         </DialogFooter>
       </Dialog>
@@ -387,13 +387,17 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
           <div className='flex justify-center mb-5'>
 
 
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-20 h-20 bg-gray-100 text-red-500 rounded-md">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-20 h-20 bg-gray-100 text-red-500 rounded-md" alt="Stop icon">
               <path fillRule="evenodd" d="M4.5 7.5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-9a3 3 0 0 1-3-3v-9Z" clipRule="evenodd" />
             </svg>
 
           </div>
-          <div className='text-gray-900 text-center'>Are you sure you want to stop the election?</div>
-
+          <div className='flex flex-col items-center justify-center'>
+            <div className='text-gray-900'>Are you sure you want to stop the election?</div>
+            <div className='text-red-700 text-md font-medium'>
+              This action cannot be undone.
+            </div>
+          </div>
         </DialogBody>
         <DialogFooter>
           <Button

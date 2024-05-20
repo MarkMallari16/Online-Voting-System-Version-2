@@ -589,7 +589,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                         autoComplete="firstName"
                                                     />
 
-                                                    <InputError className="mt-2" />
+                                                    <InputError className="mt-2" message={errors.first_name}/>
                                                 </div>
 
                                                 <div className="flex-1">
@@ -617,7 +617,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                         autoComplete="middleName"
                                                     />
 
-                                                    <InputError className="mt-2" />
+                                                    <InputError className="mt-2" message={errors.middle_name}/>
                                                 </div>
 
                                                 <div className="flex-1">
@@ -644,7 +644,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                         autoComplete="lastName"
                                                     />
 
-                                                    <InputError className="mt-2" />
+                                                    <InputError className="mt-2"  message={errors.last_name}/>
                                                 </div>
                                             </div>
 

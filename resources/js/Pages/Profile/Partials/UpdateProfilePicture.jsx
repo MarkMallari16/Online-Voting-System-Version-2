@@ -34,8 +34,8 @@ const UpdateProfilePicture = ({ user }) => {
               alt="Profile Picture"
               size='xxl'
               withBorder={true}
-              color='blue'
-              className='bg-white absolute p-0.5 top-80 right-10  '
+             
+              className='border-none bg-white absolute p-0.5 top-80 right-10  '
             />
             <div className='absolute text-white top-96 right-10  bg-gray-800 hover:bg-gray-900 transition-all ease-out p-2 rounded-full cursor-pointer  z-50'>
               <Tooltip content="Change Profile" >

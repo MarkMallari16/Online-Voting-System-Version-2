@@ -61,9 +61,9 @@ class CandidateController extends Controller
         }
 
         $validatedData = $request->validate([
-            'first_name' => 'required|alpha',
-            'middle_name' => 'nullable|string',
-            'last_name' => 'required|alpha',
+            'first_name' => 'required|string|regex:/^[a-zA-Z\s]+$/',
+            'middle_name' => 'nullable|string|regex:/^[a-zA-Z\s]+$/',
+            'last_name' => 'required|string|regex:/^[a-zA-Z\s]+$/',
             'manifesto' => 'required|string',
             'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'partylist_id' => [
@@ -80,9 +80,13 @@ class CandidateController extends Controller
                 })->ignore($request->candidate_id, 'id')
             ],
         ], [
+            'first_name.regex' => "Invalid format: first name must not contain numbers.",
+            'middle_name.regex' => "Invalid format: middle name must not contain numbers.",
+            'last_name.regex' => "Invalid format: last name must not contain numbers.",
             'partylist_id.required' => 'The partylist field is required',
             'position_id.required' =>  'The position field is required',
             'position_id.unique' => 'An existing candidate has already been registered for this position. Consider updating the existing candidate instead.',
+
         ]);
 
 
@@ -114,14 +118,18 @@ class CandidateController extends Controller
         $candidate = Candidate::findOrFail($id);
 
         $validatedData = $request->validate([
-            'first_name' => 'required|string',
-            'middle_name' => 'nullable|string',
-            'last_name' => 'required|alpha',
+            'first_name' => 'required|string|regex:/^[a-zA-z\s]+$/',
+            'middle_name' => 'nullable|string|regex:/^[a-zA-z\s]+$/',
+            'last_name' => 'required|string|regex:/^[a-zA-z\s]+$/',
             'manifesto' => 'required|string',
             // 'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'partylist_id' => 'required|exists:partylists,id',
             'position_id' => 'required|exists:positions,id',
 
+        ], [
+            'first_name.regex' => "Invalid format: first name must not contain numbers.",
+            'middle_name.regex' => "Invalid format: middle name must not contain numbers.",
+            'last_name.regex' => "Invalid format: last name must not contain numbers.",
         ]);
 
         $middleName = $validatedData['middle_name'] ?? null;
