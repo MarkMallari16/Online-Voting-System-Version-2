@@ -27,7 +27,9 @@ const DashboardBarAdminChart = ({ totalStudents, totalAdmins, totalModerators, c
                 }
             }
         },
+       
         responsive: true
+
     };
     return (
         <div className={` bg-white p-5 ring-1 ring-inset ring-gray-300 rounded-lg shadow-sm w-auto ${className} `}  >

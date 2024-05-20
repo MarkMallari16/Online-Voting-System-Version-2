@@ -45,7 +45,7 @@ const TABS = [
 ];
 
 const VoteTable = ({ votes, votesPerPage, voters }) => {
-    const TABLE_HEAD = ["#", "Voter ID", "Voter's Name", "Election Name", "Status", "Vote Timestamp", "Action"];
+    const TABLE_HEAD = ["Voter ID", "Voter's Name", "Election Name", "Status", "Vote Timestamp", "Action"];
     const VOTER_NOT_VOTED_TABLE_HEAD = ["#", "Voter ID", "Voter's Name",];
 
     const [open, setOpen] = useState(false);
@@ -71,6 +71,18 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
         setOpen(false);
     }
     console.log(votes);
+
+    const exportVotesExcel = votes.map((vote) => {
+        return {
+            'Voter ID': vote.voter_id,
+            "Voter's": vote.user.name,
+            'Election Name': vote.election.title,
+            'Status': vote.vote_timestamp && 'Voted',
+            'Date & Time': vote.vote_timestamp,
+        }
+    })
+
+
     const classes = "p-4 border-b border-blue-gray-50";
     return (
         <Card className="h-full w-full">
@@ -179,7 +191,7 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
 
 
                         </div>
-                        <ExcelExport data={votes} fileName='votes' />
+                        <ExcelExport data={exportVotesExcel} fileName='votes' />
                     </div>
                     <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
                 </div>
@@ -247,7 +259,7 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
 
                                                 return (userMatches || election);
                                             })
-                                            .map(({ id, voter_id, user, election, vote_timestamp }) => {
+                                            .map(({ voter_id, user, election, vote_timestamp }) => {
 
 
 
@@ -257,20 +269,7 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
                                                 };
 
                                                 return (
-                                                    <tr key={id}>
-                                                        <td className={classes}>
-                                                            <div className="flex items-center gap-3">
-                                                                <div className="flex flex-col">
-                                                                    <Typography
-                                                                        variant="small"
-                                                                        color="blue-gray"
-                                                                        className="font-normal"
-                                                                    >
-                                                                        {id}
-                                                                    </Typography>
-                                                                </div>
-                                                            </div>
-                                                        </td>
+                                                    <tr key={voter_id}>
 
                                                         <td className={classes}>
                                                             <div className="flex items-center gap-3">
@@ -320,7 +319,7 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
                                                                     color="blue-gray"
                                                                     className="text-center py-2 rounded-md  bg-green-200 text-green-900 text-md font-bold"
                                                                 >
-                                                                    {user?.email_verified_at && 'Voted'}
+                                                                    {vote_timestamp && 'Voted'}
                                                                 </Typography>
                                                             </div>
                                                         </td>
@@ -331,7 +330,7 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
                                                                     color="blue-gray"
                                                                     className="font-normal"
                                                                 >
-                                                                    {new Date(vote_timestamp).toLocaleString()}
+                                                                    {formatDate(vote_timestamp)}
                                                                 </Typography>
                                                             </div>
                                                         </td>

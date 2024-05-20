@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreVoteRequest;
+use App\Mail\VoteConfirmation;
 use App\Models\Candidate;
+use App\Models\Election;
 use App\Models\Positions;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Vote;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class VoteController extends Controller
@@ -60,6 +63,7 @@ class VoteController extends Controller
             return redirect()->back()->with('error', 'You are not authorized to vote');
         }
 
+        $election = Election::find($validatedData['election_id']);
 
         $existingVote = Vote::where('voter_id', $user->id)
             ->where('election_id', $validatedData['election_id'])
@@ -76,6 +80,8 @@ class VoteController extends Controller
             $vote->vote_timestamp = now();
             $vote->isAbstained = true;
             $vote->save();
+            
+            Mail::to($user->email)->send(new VoteConfirmation($user, $election));
 
             return redirect()->back()->with('success', 'Successfully abstained from voting');
         }
@@ -92,12 +98,13 @@ class VoteController extends Controller
             if (empty($candidateId)) {
                 $vote->isAbstained = true;
             } else {
-              
+
                 $vote->candidate_id = $candidateId;
             }
 
             $vote->save();
         }
+        Mail::to($user->email)->send(new VoteConfirmation($user, $election));
 
         return redirect()->back()->with('success', 'Successfully voted');
     }

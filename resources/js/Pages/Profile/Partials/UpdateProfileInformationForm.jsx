@@ -42,6 +42,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         required
                         isFocused
                         autoComplete="name"
+                        disabled={user.role === 'voter'}
                     />
 
                     <InputError className="mt-2" message={errors.name} />

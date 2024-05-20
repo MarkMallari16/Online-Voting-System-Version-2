@@ -9,8 +9,6 @@ use App\Models\Positions;
 use App\Models\Vote;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class CandidateController extends Controller
@@ -21,13 +19,13 @@ class CandidateController extends Controller
         // Retrieve all candidates
         $positions = Positions::all();
         $partylist = Partylist::all();
-        $candidate = Candidate::all();
-        $candidatesPerPage = Candidate::paginate(10);
+        $candidates = Candidate::with('position:id,name', 'partylist:id,name', 'election:id,title')->get();
+        $candidatesPerPage = Candidate::with('position:id,name', 'partylist:id,name', 'election:id,title')->paginate(10);
 
         return Inertia::render('Moderator/ModeratorPages/Candidate', [
             'partylist_list' => $partylist,
             'position_list' => $positions,
-            'candidates' => $candidate,
+            'candidates' => $candidates,
             'candidatesPerPage' => $candidatesPerPage
         ]);
     }

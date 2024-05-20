@@ -44,9 +44,9 @@ const ActivityLog = ({ auth, logs }) => {
 
     const options = [
         { value: '', label: 'All' },
-        { value: 'User Created', label: 'Created' },
-        { value: 'User Updated', label: 'Updated' },
-        { value: 'User Deleted', label: 'Deleted' }
+        { value: 'Created', label: 'Created' },
+        { value: 'Updated', label: 'Updated' },
+        { value: 'Deleted', label: 'Deleted' }
     ]
     console.log(logs)
 

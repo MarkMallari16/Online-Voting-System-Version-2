@@ -129,7 +129,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
     }
   };
 
-  console.log(election);
+
 
   //handle stop election
   const handleStopElectionSubmit = async () => {
@@ -206,7 +206,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                     <InputLabel htmlFor="title" value="Set Election Title" />
                     <TextInput
                       id="title"
-                      className="mt-1 block w-full  sm:w-96"
+                      className="mt-1 block w-full  lg:w-96"
                       type='text'
                       value={data.title}
                       placeholder="Enter Election Title"
@@ -326,7 +326,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
       </Dialog>
 
 
-      {/*Eleciton Ended Modal */}
+     
       <Dialog open={electionEndedModalOpen} handler={handleElectionEndedModalOpen}>
         <DialogHeader>Election Ended</DialogHeader>
         <form onSubmit={handleSubmit}>

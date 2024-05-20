@@ -5,9 +5,9 @@ import { Card, Typography } from "@material-tailwind/react";
 export function ElectionTable({ electionPerPage }) {
   const TABLE_HEAD = ["Election ID", "Election Title", "Election Start Date", "Election End Date", "Status"];
   const colorStatus = {
-    'Completed': 'bg-green-400 text-white text-green-900',
-    'Active': 'bg-blue-400 text-blue-900',
-    'Inactive': 'bg-gray-400 text-gray-900'
+    'Completed': 'bg-green-300 text-white text-green-900',
+    'Active': 'bg-blue-300 text-blue-900',
+    'Inactive': 'bg-gray-300 text-gray-900'
   }
 
   const getColorStatus = (status) => {
