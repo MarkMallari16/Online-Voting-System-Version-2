@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import CustomToast from "@/Components/CustomToast";
 import { Button } from "@material-tailwind/react";
 import VoteCandidateWinnerModal from "@/Components/VoteCandidateWinnerModal";
+import { LiaUserAltSlashSolid } from "react-icons/lia";
 
 
 const VoterDashboard = ({ election, candidatesAll, positionList, partyList, castedVotes, voteCounts, voterHasVoted, candidateWinners }) => {
@@ -214,11 +215,15 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                                             ) : (
                                                 <div className="text-gray-900 p-5 text-center ">
                                                     <div className="flex justify-center">
-                                                        <div >
-
+                                                        <div className="flex flex-col items-center">
                                                             <div>
-                                                                
-                                                                No candidate available for this position</div>
+                                                                <LiaUserAltSlashSolid className='h-16 w-16' />
+
+                                                            </div>
+                                                            <div className="mt-2">
+
+                                                                No candidate available for this position
+                                                            </div>
                                                         </div>
 
 
