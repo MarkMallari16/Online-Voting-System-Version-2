@@ -9,7 +9,7 @@ const DashboardBarAdminChart = ({ totalStudents, totalAdmins, totalModerators, c
         datasets: [
             {
                 label: "Users",
-                backgroundColor: ['#fde047', '#80DEEA', '#60a5fa'],
+                backgroundColor: ['#fef08a', '#80DEEA', '#60a5fa'],
                 borderWidth: 1,
                 borderRadius: 12,
                 data: [totalAdmins, totalModerators, totalStudents],
