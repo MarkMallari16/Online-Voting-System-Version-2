@@ -134,7 +134,6 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
         setShowConfirmationModal(false);
     };
 
-    //displaying in casted votes
     const getSelectedCandidatesInfo = () => {
 
         return selectedCandidates.map(candidateId => {
@@ -154,7 +153,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
     return (
         <div>
-            <PartylistCarousel partylistCarouselData={partyList} />
+          
             {isSuccessMessage && <CustomToast />}
             {(election && election?.status === "Active") && isElectionStarted ? (
 

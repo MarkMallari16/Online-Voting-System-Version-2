@@ -14,7 +14,8 @@ import {
 import { useState, useEffect } from 'react';
 import Footer from '@/Components/Footer';
 import { BsBox2 } from "react-icons/bs";
-import { CiViewList } from 'react-icons/ci';
+import { CiUser } from "react-icons/ci";
+
 
 
 
@@ -222,10 +223,11 @@ export default function Welcome({ auth }) {
                                 <div className="mb-8 lg:mb-0  bg-white p-10 rounded-lg ring-1 ring-inset ring-gray-300">
                                     <div className='flex items-center gap-4' >
                                         <span className='bg-yellow-200 p-2 rounded-lg'>
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                                            </svg>
+                                           
+                                            <CiUser className='w-8 h-8'/>
                                         </span>
+
+
                                         <div className="font-medium text-xl text-gray-900">Accessibility</div>
                                     </div>
                                     <div className="text-lg font-normal mt-4">

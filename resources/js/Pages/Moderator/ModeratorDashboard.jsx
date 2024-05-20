@@ -10,6 +10,7 @@ import { Link } from '@inertiajs/react';
 import { FaBox } from "react-icons/fa";
 import DoughnutContainer from './DoughnutContainer';
 import moment from 'moment';
+import BarChartAllCanidadtes from '@/Components/BarChartAllCandidates';
 function PositionSelector({ label, onChange, value, positionList }) {
     return (
         <Select label={label} onChange={onChange} value={value}>
@@ -193,6 +194,10 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                     </div>
 
                 </div>
+            </div>
+
+            <div>
+                <BarChartAllCanidadtes positionId={positionId} positionName={positionName} voteCounts={voteCounts} />
             </div>
         </div>
     )

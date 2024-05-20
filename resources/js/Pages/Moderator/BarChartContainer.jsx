@@ -1,11 +1,10 @@
 import React from 'react'
 import BarChart from './BarChart'
-import { scales } from 'chart.js';
-
 
 const BarChartContainer = ({ positionId, positionName, voteCounts, chartPositionOption }) => {
 
   const positionVotes = Object.values(voteCounts).filter(vote => vote.position_id === positionId);
+
 
   const labels = positionVotes.map(vote => (
     vote.candidate
@@ -13,7 +12,7 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, chartPosition
   ));
   const data = positionVotes.map(vote => vote.voteCount);
 
-  console.log(positionVotes);
+
   const barChartData = {
     labels: labels,
     datasets: [
