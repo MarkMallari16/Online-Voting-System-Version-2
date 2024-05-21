@@ -212,13 +212,9 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
     })
     return (
         <div>
-
-
-            <div >
-                {isSuccessMessage && (
-                    <CustomToast />
-                )}
-            </div>
+            {isSuccessMessage && (
+                <CustomToast />
+            )}
 
             {/**Add Canidate*/}
 

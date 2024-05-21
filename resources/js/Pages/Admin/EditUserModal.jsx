@@ -78,7 +78,7 @@ const EditUserModal = ({ open, handleClose, user }) => {
     });
 
   };
-  console.log(errors);
+
   return (
     <Dialog open={open} handler={handleClose}>
       <DialogHeader>Update User</DialogHeader>

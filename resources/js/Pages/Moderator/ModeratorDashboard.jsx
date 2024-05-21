@@ -20,9 +20,8 @@ function PositionSelector({ label, onChange, value, positionList }) {
         </Select>
     );
 }
-const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount, numberOfPartylists, numberOfPositions, latestVotedUsers, totalVotesPerPosition, abstainCount }) => {
+const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount,votersNotVoted, numberOfPartylists, numberOfPositions, latestVotedUsers, totalVotesPerPosition, abstainCount }) => {
     console.log(position_list)
-
 
     const electionTitle = election ? election.title : '';
 
@@ -32,6 +31,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
     const [chartPositionOption, setChartPositionOption] = useState(() => {
         return localStorage.getItem('chartPositionOption') || 'y';
     });
+    
     const selectedPositionData = position_list.find(position => position.id === selectedPosition);
 
     console.log(selectedPositionData);
@@ -42,11 +42,13 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
     const handlePositionChange = (value) => {
         setSelectedPosition(value);
     };
+
     const handleChartPositionOption = (value) => {
         setChartPositionOption(value);
 
         localStorage.setItem('chartPositionOption', value);
     }
+
     const votedVoters = voters.filter(voter => voter.hasVoted);
 
     console.log(latestVotedUsers)
@@ -120,7 +122,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                         </div>
                         <div className='px-4 py-5  md:p-8'>
 
-                            {votedVoters.length > 0 ? <DoughnutContainer voters={voters} votersVotedCount={votersVotedCount} abstainCount={abstainCount} /> :
+                            {election && votedVoters.length > 0  ? <DoughnutContainer voters={voters} votersVotedCount={votersVotedCount} abstainCount={abstainCount} votersNotVoted={votersNotVoted}/> :
 
                                 <div className='flex justify-center flex-col items-center h-96'>
 

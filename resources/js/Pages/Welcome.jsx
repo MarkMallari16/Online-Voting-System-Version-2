@@ -1,28 +1,15 @@
-import { Link } from '@inertiajs/react';
-import ApplicationLogo from '@/Components/ApplicationLogo';
+
 
 import BacoorLogo from '../assets/bacoor-logo.png';
 import CouncilLogo from '../assets/councilLogo.png'
 
-import {
-    Accordion,
-    AccordionHeader,
-    AccordionBody,
-    Typography,
-    Button,
-} from "@material-tailwind/react";
-import { useState, useEffect } from 'react';
 import Footer from '@/Components/Footer';
-import { BsBox2 } from "react-icons/bs";
-import { CiUser } from "react-icons/ci";
+
 import FAQSComponent from '@/Components/FAQSComponent';
 import BenefitsAndFeatures from '@/Components/BenefitsAndFeatures';
 import VoterGuideComponent from '@/Components/VoterGuideComponent';
 import HeroComponent from '@/Components/HeroComponent';
 import NavigationBarComponent from '@/Components/NavigationBarComponent';
-
-
-
 
 
 export default function Welcome() {

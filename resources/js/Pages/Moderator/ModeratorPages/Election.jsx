@@ -20,6 +20,146 @@ import { LuAlarmClockOff } from "react-icons/lu";
 
 import { ElectionTable } from '@/Components/ElectionTable';
 
+
+
+function ActivateElectionModal({ activateOpen, handleActivateOpen, handleActivate, processing }) {
+  {/*Activate Modal */ }
+  return (
+    <Dialog open={activateOpen} handler={handleActivateOpen}>
+      <DialogHeader>Confirm Election Activation</DialogHeader>
+      <DialogBody>
+        <div className='flex justify-center mb-5'>
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-32 h-32 text-blue-500">
+              <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+            </svg>
+
+          </div>
+        </div>
+
+        <div className='text-gray-900 text-center'>Are you sure you want to activate the election? Once election activated, students will be able to participate in the election.</div>
+      </DialogBody>
+      <DialogFooter>
+        <Button
+          variant="text"
+          color="red"
+          onClick={handleActivateOpen}
+          className="mr-1"
+        >
+          Cancel
+        </Button>
+        <Button variant="gradient" color="blue" onClick={handleActivate}>
+          Activate Election
+        </Button>
+      </DialogFooter>
+    </Dialog>
+  )
+}
+
+function DeactivateElectionModal({ deactivateOpen, handleDeactivateOpen, handleDeactivate, processing }) {
+  {/*Deactivate Modal */ }
+  return (
+    <Dialog open={deactivateOpen} handler={handleDeactivateOpen}>
+      <DialogHeader>Confirm Election Deactivation</DialogHeader>
+      <DialogBody>
+        <div className='flex justify-center mb-5'>
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-32 h-32 text-blue-500">
+              <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+            </svg>
+
+          </div>
+        </div>
+        <div className='text-gray-900 text-center'>
+          Are you sure you want to deactivate the election? Once deactivated, users will no longer be able to participate in the election.
+        </div>
+      </DialogBody>
+      <DialogFooter>
+        <Button
+          variant="text"
+          color="red"
+          onClick={handleDeactivateOpen}
+          className="mr-1"
+        >
+          <span>Cancel</span>
+        </Button>
+        <Button variant="gradient" color="blue" onClick={handleDeactivate} disabled={processing}>
+          Deactivate Election
+        </Button>
+      </DialogFooter>
+    </Dialog>
+  )
+
+}
+function ElectionEndedModal({ electionEndedModalOpen, handleElectionEndedModalOpen, handleSubmit, processing }) {
+
+  return (
+    <Dialog open={electionEndedModalOpen} handler={handleElectionEndedModalOpen}>
+      <DialogHeader>Election Ended</DialogHeader>
+      <form onSubmit={handleSubmit}>
+        <DialogBody>
+          <div className='flex justify-center mb-5'>
+            <LuAlarmClockOff className='w-32 h-32 text-red-500' />
+          </div>
+          <div className='text-gray-900 text-center'>The election has ended. Do you want to create a new election?</div>
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            onClick={handleElectionEndedModalOpen}
+            className="mr-1"
+          >
+            Cancel
+          </Button>
+          <Button variant="gradient" color="blue" type='submit' disabled={processing}>
+            Create New Election
+          </Button>
+        </DialogFooter>
+
+      </form>
+    </Dialog>
+  )
+}
+function StopElectionModal({ stopElectionModal, handleStopElectionModalOpen, handleStopElectionSubmit, processing }) {
+  {/*Election stop Modal */ }
+  return (
+    <Dialog open={stopElectionModal} handler={handleStopElectionModalOpen}>
+      <DialogHeader>Election Stop</DialogHeader>
+      <DialogBody>
+        <div className='flex justify-center mb-5'>
+
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-20 h-20 bg-gray-100 text-red-500 rounded-md" alt="Stop icon">
+            <path fillRule="evenodd" d="M4.5 7.5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-9a3 3 0 0 1-3-3v-9Z" clipRule="evenodd" />
+          </svg>
+
+        </div>
+        <div className='flex flex-col items-center justify-center'>
+          <div className='text-gray-900'>Are you sure you want to stop the election?</div>
+          <div className='text-red-700 text-md font-medium'>
+            This action cannot be undone.
+          </div>
+        </div>
+      </DialogBody>
+      <DialogFooter>
+        <Button
+          variant="text"
+          color="black"
+          onClick={handleStopElectionModalOpen}
+          className="mr-1"
+        >
+          Cancel
+        </Button>
+        <Button variant="gradient" color="red" onClick={handleStopElectionSubmit} disabled={processing}>
+          Stop the Election
+        </Button>
+      </DialogFooter>
+    </Dialog>
+  )
+
+}
+
 const Election = ({ auth, existingElection, election, electionPerPage, electionWithCandidatesAndVotes }) => {
 
   const status = election?.status == 'Active' ? true : false;
@@ -30,7 +170,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
     end_date: status ? election.end_date : '',
     status: status ? status : false
   });
-  console.log(electionWithCandidatesAndVotes);
+
   const [activateOpen, setActivateOpen] = useState(false);
   const [deactivateOpen, setDeactivateOpen] = useState(false);
   const [electionEndedModalOpen, setElectionEndedModalOpen] = useState(false);
@@ -63,7 +203,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
 
   let isElectionEnded = new Date(election?.end_date) < new Date();
 
-  console.log(isElectionEnded);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -264,155 +404,13 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
         </main>
       </div>
 
-      {/*Activate Modal */}
-      <Dialog open={activateOpen} handler={handleActivateOpen}>
-        <DialogHeader>Confirm Election Activation</DialogHeader>
-        <DialogBody>
-          <div className='flex justify-center mb-5'>
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-32 h-32 text-blue-500">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-              </svg>
-
-            </div>
-          </div>
-
-          <div className='text-gray-900 text-center'>Are you sure you want to activate the election? Once election activated, students will be able to participate in the election.</div>
-        </DialogBody>
-        <DialogFooter>
-          <Button
-            variant="text"
-            color="red"
-            onClick={handleActivateOpen}
-            className="mr-1"
-          >
-            Cancel
-          </Button>
-          <Button variant="gradient" color="blue" onClick={handleActivate}>
-            Activate Election
-          </Button>
-        </DialogFooter>
-      </Dialog>
-
-      {/*Deactivate Modal */}
-      <Dialog open={deactivateOpen} handler={handleDeactivateOpen}>
-        <DialogHeader>Confirm Election Deactivation</DialogHeader>
-        <DialogBody>
-          <div className='flex justify-center mb-5'>
-            <div>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-32 h-32 text-blue-500">
-                <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-              </svg>
-
-            </div>
-          </div>
-          <div className='text-gray-900 text-center'>
-            Are you sure you want to deactivate the election? Once deactivated, users will no longer be able to participate in the election.
-          </div>
-        </DialogBody>
-        <DialogFooter>
-          <Button
-            variant="text"
-            color="red"
-            onClick={handleDeactivateOpen}
-            className="mr-1"
-          >
-            <span>Cancel</span>
-          </Button>
-          <Button variant="gradient" color="blue" onClick={handleDeactivate}>
-            Deactivate Election
-          </Button>
-        </DialogFooter>
-      </Dialog>
 
 
-     
-      <Dialog open={electionEndedModalOpen} handler={handleElectionEndedModalOpen}>
-        <DialogHeader>Election Ended</DialogHeader>
-        <form onSubmit={handleSubmit}>
-          <DialogBody>
-            <div className='flex justify-center mb-5'>
-              <LuAlarmClockOff className='w-32 h-32 text-red-500' />
-            </div>
-            <div className='text-gray-900 text-center'>The election has ended. Do you want to create a new election?</div>
-          </DialogBody>
-          <DialogFooter>
-            <Button
-              variant="text"
-              color="red"
-              onClick={handleElectionEndedModalOpen}
-              className="mr-1"
-            >
-              Cancel
-            </Button>
-            <Button variant="gradient" color="blue" type='submit' disabled={processing}>
-              Create New Election
-            </Button>
-          </DialogFooter>
 
-        </form>
-      </Dialog>
-
-      {/*Archived Election Modal */}
-      <Dialog open={archivedElectionModal} handler={handleArchiveElectionModal}>
-        <DialogHeader>Election Archived</DialogHeader>
-        <DialogBody>
-          <div className='flex justify-center mb-5'>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-32 h-32 text-blue-gray-900">
-              <path strokeLinecap="round" strokeLinejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
-            </svg>
-
-          </div>
-          <div className='text-gray-900 text-center'>The election has ended. Do you want to archived previous  election?</div>
-        </DialogBody>
-        <DialogFooter>
-          <Button
-            variant="text"
-            color="red"
-            onClick={handleArchiveElectionModal}
-            className="mr-1"
-          >
-            Cancel
-          </Button>
-          <Button variant="gradient" color="blue" >
-            Archived
-          </Button>
-        </DialogFooter>
-      </Dialog>
-
-      {/*Election stop Modal */}
-      <Dialog open={stopElectionModal} handler={handleStopElectionModalOpen}>
-        <DialogHeader>Election Stop</DialogHeader>
-        <DialogBody>
-          <div className='flex justify-center mb-5'>
-
-
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-20 h-20 bg-gray-100 text-red-500 rounded-md" alt="Stop icon">
-              <path fillRule="evenodd" d="M4.5 7.5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-9a3 3 0 0 1-3-3v-9Z" clipRule="evenodd" />
-            </svg>
-
-          </div>
-          <div className='flex flex-col items-center justify-center'>
-            <div className='text-gray-900'>Are you sure you want to stop the election?</div>
-            <div className='text-red-700 text-md font-medium'>
-              This action cannot be undone.
-            </div>
-          </div>
-        </DialogBody>
-        <DialogFooter>
-          <Button
-            variant="text"
-            color="black"
-            onClick={handleStopElectionModalOpen}
-            className="mr-1"
-          >
-            Cancel
-          </Button>
-          <Button variant="gradient" color="red" onClick={handleStopElectionSubmit} >
-            Stop the Election
-          </Button>
-        </DialogFooter>
-      </Dialog>
+      <ActivateElectionModal activateOpen={activateOpen} handleActivateOpen={handleActivateOpen} handleActivate={handleActivate} processing={processing} />
+      <DeactivateElectionModal deactivateOpen={deactivateOpen} handleDeactivateOpen={handleDeactivateOpen} handleDeactivate={handleDeactivate} processing={processing} />
+      <ElectionEndedModal electionEndedModalOpen={electionEndedModalOpen} handleElectionEndedModalOpen={handleElectionEndedModalOpen} handleSubmit={handleSubmit} processing={processing} />
+      <StopElectionModal stopElectionModal={stopElectionModal} handleStopElectionModalOpen={handleStopElectionModalOpen} handleStopElectionSubmit={handleStopElectionSubmit} processing={processing} />
 
     </AuthenticatedLayout>
   );

@@ -17,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
 
-        $usersPerPage = User::orderByDesc('created_at')->paginate(10);
+        $usersPerPage = User::orderByDesc('created_at')->paginate(20);
 
         return Inertia::render('Admin/Pages/Users', [
             'usersPerPage' => $usersPerPage

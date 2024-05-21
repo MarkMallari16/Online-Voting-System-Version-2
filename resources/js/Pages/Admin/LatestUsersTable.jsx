@@ -29,30 +29,30 @@ import DeleteUserModal from "./DeleteUserModal";
 import toast from 'react-hot-toast';
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ExcelExport from "@/Components/ExcelExport";
-import { router } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import CustomToast from "@/Components/CustomToast";
 import PaginationInTable from "@/Components/PaginationInTable";
 import SearchInput from "@/Components/SearchInput";
 import AvatarComponent from "@/Components/AvatarComponent";
 import FilterDropdown from "@/Components/FilterDropdown";
 
-const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
+const LatestUsersTable = ({ TABLE_HEAD, users }) => {
     console.log(users);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedRoleFilter, setSelectedRoleFilter] = useState("");
 
-    //modal
-    const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
+
+  
 
     const [isEditUserModalOpen, setIsEditUserModalOpen] = useState(false);
     const [isDeleteUserModalOpen, setIsDeleteUserModalOpen] = useState(false);
-    //getting id
+
     const [selectedUser, setSelectedUser] = useState(null);
     const [selectedUserId, setSelectedUserId] = useState(null);
 
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
-    //filtered users
+
     const filteredUsers = users.filter((user) => {
         if (searchQuery) {
             return Object.values(user).some(
@@ -66,15 +66,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
         }
     });
 
-    //handle add in add user modal
-    const handleAddUser = () => {
-
-        setIsSuccessMessage(true);
-        setIsAddUserModalOpen(false);
-        toast.success("User successfully added");
-    };
-
-    //handle the user in edit user modal
+ 
     const handleEditUser = () => {
 
         setIsSuccessMessage(true);
@@ -84,7 +76,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
 
     };
 
-    //handle the user in delete user modal
+
     const handleDeleteUser = (userId) => {
         router.delete(`/users/${userId}`);
 
@@ -96,7 +88,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
     };
 
 
-    console.log(usersPerPage);
+
     const roleOptions = [
         { value: '', label: 'All' },
         { value: 'admin', label: 'Admin' },
@@ -109,7 +101,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
         setSelectedRoleFilter(filter);
 
     };
-
+    console.log(users);
     return (
         <div>
             <div className="mb-5">
@@ -132,22 +124,27 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
                                 color="gray"
                                 className="mt-1 font-normal"
                             >
-                                See information about all users
+                                See information about latest users
                             </Typography>
 
                         </div>
                         <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-                            <Button
-                                className="flex items-center gap-3 bg-blue-500 py-2"
-                                size="sm"
-                                onClick={() => setIsAddUserModalOpen(true)}
-                            >
-                                <UserPlusIcon
-                                    strokeWidth={2}
-                                    className="h-4 w-4"
-                                />{" "}
-                                Add user
-                            </Button>
+                            <Link href='users' as='Button'>
+                                <Button
+                                    color="black"
+                                    variant="gradient"
+                                    className="flex items-center gap-2   py-2"
+                                    size="sm"
+
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                    </svg>
+
+                                    View all
+                                </Button>
+                            </Link>
                         </div>
                     </div>
 
@@ -397,17 +394,9 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
                         )}
                     </table>
                 </CardBody>
-                <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                    <PaginationInTable dataPerPage={usersPerPage} />
-                </CardFooter>
-            </Card>
-            <AddUserModal
-                open={isAddUserModalOpen}
-                handleClose={() => setIsAddUserModalOpen(false)}
-                handleAddUser={handleAddUser}
-                setIsSuccessMessage={setIsSuccessMessage}
 
-            />
+            </Card>
+          
 
             <EditUserModal
                 open={isEditUserModalOpen}
@@ -427,4 +416,4 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
     );
 };
 
-export default UserTable;
+export default LatestUsersTable;

@@ -22,11 +22,13 @@ class DashboardController extends Controller
             ->where('election_id', $electionId)
             ->exists();
     }
+
     function dashboard()
     {
         //admin
 
         $usersPerPage = $this->getUsersPerPage();
+        $latestUsers = $this->getLatestUsers();
 
         //moderator
         $positions = Positions::all();
@@ -44,8 +46,6 @@ class DashboardController extends Controller
         $user = Auth::user();
         //get the user id 
         $voterId = $user->id;
-        //get the user id 
-        // $userId = Auth::id();
 
         $voterHasVoted = false;
         $voterVoted = false;
@@ -58,7 +58,11 @@ class DashboardController extends Controller
         }
 
         $voters = User::where('role', 'voter')->get();
-        
+
+        $votersNotVoted = $voters->filter(function ($voter) use ($election) {
+            return !$this->getHasVotedStatus($voter->id, $election->id);
+        })->count();
+
         $voters->transform(function ($voter) use ($election) {
             $voterId = $voter->id;
             $voter->hasVoted = $election ? $this->getHasVotedStatus($voterId, $election->id) : false;
@@ -83,7 +87,11 @@ class DashboardController extends Controller
 
             $castedVotes = Vote::where('election_id', $election->id)
                 ->where('voter_id', $voterId)
-                ->with('candidate')
+                ->with([
+                    'candidate:id,candidate_profile,first_name,middle_name,last_name,position_id,partylist_id',
+                    'candidate.position:id,name',
+                    'candidate.partylist:id,name'
+                ])
                 ->get();
         }
 
@@ -126,20 +134,18 @@ class DashboardController extends Controller
                 ->count();
 
             foreach ($positions as $position) {
-                //getting the position id 
+
                 $candidatesPerPosition = $candidates->where('position_id', $position->id);
 
-                //set winner for position by default to null
                 $winnerForPosition = null;
 
                 $maxVotesPerPosition = 0;
                 $totalVotesForPosition = 0;
 
-                //getting the candidate
+
                 foreach ($candidatesPerPosition as $candidate) {
                     $voteCountsPerCandidates = $candidate->votes()->count();
 
-                    //get the total votes per position
                     if ($voteCountsPerCandidates > $maxVotesPerPosition) {
                         $maxVotesPerPosition = $voteCountsPerCandidates;
                         $winnerForPosition = $candidate;
@@ -165,6 +171,7 @@ class DashboardController extends Controller
 
         return Inertia::render('Dashboard', [
             'usersPerPage' => $usersPerPage,
+            'latestUsers' => $latestUsers,
             'partylist_list' => $partylist,
             'position_list' => $positions,
             'candidates' => $candidates,
@@ -173,8 +180,8 @@ class DashboardController extends Controller
             'voters' => $voters,
             'votersVotedCount' => $votersVotedCount,
             'abstainCount' => $abstainCount,
-
             'voteCounts' => $voteCounts,
+            'votersNotVoted' => $votersNotVoted,
             'numberOfPartylists' => $numberOfPartylists,
             'numberOfPositions' => $numberOfPositions,
             'castedVotes' => $castedVotes,
@@ -187,24 +194,24 @@ class DashboardController extends Controller
 
         ]);
     }
-
+    private function getLatestUsers()
+    {
+        return User::orderByDesc('created_at')->take(5)->get();
+    }
     private function getUsersPerPage()
     {
         return User::paginate(10);
     }
     private function countPartylists()
     {
-        return Partylist::all()->count();
+        return Partylist::count();
     }
     private function countPositions()
     {
-        return Positions::all()->count();
+        return Positions::count();
     }
     private function getLatestElection()
     {
-        return Election::where('status', 'Active')
-            ->orWhere('status', 'Inactive')
-            ->latest('start_date')
-            ->first();
+        return Election::latest('start_date')->first();
     }
 }
