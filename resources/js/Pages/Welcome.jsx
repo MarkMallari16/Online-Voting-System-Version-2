@@ -159,7 +159,7 @@ export default function Welcome({ auth }) {
                                     </svg>
 
                                 </div>
-                                <div className="text-xl font-medium mt-5">Step 1: Register</div>
+                                <div className="text-xl font-medium mt-3">Step 1: Register</div>
                                 <div className="text-center text-gray-800 mt-2">
                                     Sign up by providing your student email and verifying your identity through email.
                                 </div>

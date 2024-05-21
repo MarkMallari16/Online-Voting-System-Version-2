@@ -9,6 +9,7 @@ import PaginationComponent from "@/Components/PaginationComponent";
 import AvatarComponent from "@/Components/AvatarComponent";
 import SearchInput from "@/Components/SearchInput";
 import Modal from "@/Components/Modal";
+
 const ActivityLog = ({ auth, logs }) => {
 
     const [selectedFilter, setSelectedFilter] = useState(null);
@@ -50,20 +51,20 @@ const ActivityLog = ({ auth, logs }) => {
     ]
     console.log(logs)
 
-    const exportExcellogs = logs.data.map((log) => {
+    const exportExcellogs = logs?.data.map((log) => {
         return {
             "Date": log.created_at,
-            "ID": log.user.id,
-            "Name": log.user.name,
-            "Action": log.action,
-            "Details": log.details,
+            "ID": log?.user?.id,
+            "Name": log?.user?.name,
+            "Action": log?.action,
+            "Details": log?.details,
         }
     })
     console.log(selectedLog)
     const handleOpenModal = (id) => {
         setOpenLogModal(true);
 
-        const log = logs.data.find((log) => log.id === id);
+        const log = logs.data.find((log) => log?.id === id);
         console.log(log);
         setLogId(id);
         setSelectedLog(log);
@@ -76,7 +77,7 @@ const ActivityLog = ({ auth, logs }) => {
     };
     const filteredLogs = logs.data.filter(log => {
         const matchesFilter = selectedFilter ? log.action === selectedFilter : true;
-        const matchesSearch = log.user.name.toLowerCase().includes(searchQuery.toLowerCase()) || log.action.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesSearch = log?.user?.name.toLowerCase().includes(searchQuery.toLowerCase()) || log.action.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesFilter && matchesSearch;
     });
 
@@ -179,16 +180,16 @@ const ActivityLog = ({ auth, logs }) => {
                                                                 className="bg-white"
                                                             >
                                                                 <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
-                                                                    {log.user_id}
+                                                                    {log?.user_id}
                                                                 </td>
                                                                 <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                                                                     <div className="flex items-center gap-2">
-                                                                        <AvatarComponent Profile={log.user.profile_picture} size="sm" />
+                                                                        <AvatarComponent Profile={log?.user?.profile_picture} size="sm" />
                                                                         <span>
                                                                             {
                                                                                 log
-                                                                                    .user
-                                                                                    .name
+                                                                                    ?.user
+                                                                                    ?.name
                                                                             }
                                                                         </span>
                                                                     </div>
@@ -212,7 +213,7 @@ const ActivityLog = ({ auth, logs }) => {
                                                                 </td>
                                                                 <td className="text-center">
                                                                     <Tooltip content="View Log">
-                                                                        <div className="cursor-pointer flex justify-center whitespace-no-wrap text-sm leading-5  text-gray-900" onClick={() => handleOpenModal(log.id)}>
+                                                                        <div className="cursor-pointer flex justify-center whitespace-no-wrap text-sm leading-5  text-gray-900" onClick={() => handleOpenModal(log?.id)}>
                                                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7">
                                                                                 <path fillRule="evenodd" d="M4.5 12a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm6 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" clipRule="evenodd" />
                                                                             </svg>
@@ -262,18 +263,18 @@ const ActivityLog = ({ auth, logs }) => {
                                 </div>
                                 <div className="flex items-center gap-2 mb-2 text-gray-600">
                                     <span>User ID</span>
-                                    <span className="text-gray-900">{selectedLog.user.id}</span>
+                                    <span className="text-gray-900">{selectedLog?.user?.id}</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-gray-600">
                                     <span>Name</span>
-                                    <span className="text-gray-900">{selectedLog.user.name}</span>
+                                    <span className="text-gray-900">{selectedLog?.user?.name}</span>
                                 </div>
                                 <div className="flex items-center gap-2 mt-2 mb-2 text-gray-600">
                                     <span>Action</span>
-                                    <span className={`${getClassByAction(selectedLog.action)} px-2 py-1`}>{selectedLog.action}</span>
+                                    <span className={`${getClassByAction(selectedLog?.action)} px-2 py-1`}>{selectedLog?.action}</span>
                                 </div>
-                                <div className="text-gray-600">Detail
-                                    <span className="text-gray-900">  {selectedLog.details}</span>
+                                <div className="text-gray-600">Detail   
+                                    <span className="text-gray-900">  {selectedLog?.details}</span>
                                 </div>
                             </div>
                         </div>
