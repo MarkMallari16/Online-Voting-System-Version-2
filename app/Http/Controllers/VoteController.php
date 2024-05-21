@@ -81,7 +81,7 @@ class VoteController extends Controller
             $vote->isAbstained = true;
             $vote->save();
             
-            Mail::to($user->email)->send(new VoteConfirmation($user, $election));
+            // Mail::to($user->email)->send(new VoteConfirmation($user, $election));
 
             return redirect()->back()->with('success', 'Successfully abstained from voting');
         }
@@ -104,7 +104,7 @@ class VoteController extends Controller
 
             $vote->save();
         }
-        Mail::to($user->email)->send(new VoteConfirmation($user, $election));
+        // Mail::to($user->email)->send(new VoteConfirmation($user, $election));
 
         return redirect()->back()->with('success', 'Successfully voted');
     }

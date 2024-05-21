@@ -65,7 +65,7 @@ export default function Register() {
                                 onChange={(e) => setData('name', e.target.value)}
 
                                 place
-                                placeholder="John Doe"
+                                placeholder="ex: John Doe"
                             />
 
                             <InputError message={errors.name} className="mt-2" />
@@ -83,7 +83,7 @@ export default function Register() {
                                 autoComplete="username"
                                 onChange={(e) => setData('email', e.target.value)}
                                 required
-                                placeholder="doe.131415@bacoor.sti.edu.ph"
+                                placeholder="ex: doe.131415@bacoor.sti.edu.ph"
                             />
 
                             <InputError message={errors.email} className="mt-2" />

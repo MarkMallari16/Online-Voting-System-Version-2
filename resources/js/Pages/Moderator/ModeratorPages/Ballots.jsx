@@ -25,7 +25,7 @@ const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
                             <div className="mt-11 font-medium text-2xl text-center">
                                 Vote for {position.name}
                             </div>
-                            <div className="text-center text-gray-600">
+                            <div className="text-center text-gray-800">
                                 Select your preferred candidate(s) for the position of {position.name}
                             </div>
                             <div className={`p-6 text-gray-900`}>

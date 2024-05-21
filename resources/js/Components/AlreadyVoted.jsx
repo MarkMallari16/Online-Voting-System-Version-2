@@ -49,8 +49,8 @@ const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
         </div>
       </div>
 
-      <Modal show={showModal} onClose={handleClose} maxWidth='xl' >
-        <div className='p-8'>
+      <Modal show={showModal} onClose={handleClose} maxWidth='xl'  >
+        <div className='p-8' >
           <div className='flex justify-between items-center mb-4'>
             <div className='flex items-center gap-2'>
               <FaVoteYea className='text-5xl bg-gray-200 p-2 rounded-md ' />

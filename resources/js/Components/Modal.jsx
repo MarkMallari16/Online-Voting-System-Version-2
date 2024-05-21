@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 
-export default function Modal({ children, show = false, maxWidth = '2xl', closeable = true, onClose = () => { } }) {
+export default function Modal({ children, className, show = false, maxWidth = '2xl', closeable = true, onClose = () => { } }) {
     const close = () => {
         if (closeable) {
             onClose();
@@ -23,7 +23,7 @@ export default function Modal({ children, show = false, maxWidth = '2xl', closea
             <Dialog
                 as="div"
                 id="modal"
-                className="fixed inset-0 flex overflow-y-auto px-4 py-6 sm:px-0 items-center z-50 transform transition-all"
+                className={`fixed inset-0 flex overflow-y-auto px-4 py-6 sm:px-0 items-center z-50 transform transition-all ${className}`}
                 onClose={close}
             >
                 <Transition.Child
