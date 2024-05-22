@@ -20,8 +20,8 @@ function PositionSelector({ label, onChange, value, positionList }) {
         </Select>
     );
 }
-const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount,votersNotVoted, numberOfPartylists, numberOfPositions, latestVotedUsers, totalVotesPerPosition, abstainCount }) => {
-    console.log(position_list)
+const ModeratorDashboard = ({ voters, candidates, election, position_list, voteCounts, votersVotedCount, votersNotVoted, numberOfPartylists, numberOfPositions, latestVotedUsers, totalVotesPerPosition, abstainCount }) => {
+
 
     const electionTitle = election ? election.title : '';
 
@@ -31,10 +31,10 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
     const [chartPositionOption, setChartPositionOption] = useState(() => {
         return localStorage.getItem('chartPositionOption') || 'y';
     });
-    
+
     const selectedPositionData = position_list.find(position => position.id === selectedPosition);
 
-    console.log(selectedPositionData);
+
 
     const positionId = selectedPositionData ? selectedPositionData.id : null;
     const positionName = selectedPositionData ? selectedPositionData.name : ""
@@ -51,7 +51,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
 
     const votedVoters = voters.filter(voter => voter.hasVoted);
 
-    console.log(latestVotedUsers)
+
     return (
         <div>
 
@@ -122,7 +122,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                         </div>
                         <div className='px-4 py-5  md:p-8'>
 
-                            {election && votedVoters.length > 0  ? <DoughnutContainer voters={voters} votersVotedCount={votersVotedCount} abstainCount={abstainCount} votersNotVoted={votersNotVoted}/> :
+                            {election && votedVoters.length > 0 ? <DoughnutContainer voters={voters} votersVotedCount={votersVotedCount} abstainCount={abstainCount} votersNotVoted={votersNotVoted} /> :
 
                                 <div className='flex justify-center flex-col items-center h-96'>
 
@@ -199,7 +199,20 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
             </div>
 
             <div>
-                <BarChartAllCanidadtes positionId={positionId} positionName={positionName} voteCounts={voteCounts} />
+                {
+                    election && votedVoters.length > 0 ? (
+                        <BarChartAllCanidadtes positionId={positionId} positionName={positionName} voteCounts={voteCounts} />
+
+                    ) : (
+                        <div className='flex justify-center flex-col items-center h-96'>
+
+                            <div className='text-gray-900  mb-3'>No voters have cast their votes yet</div>
+                            <div>
+                                <FaBox className='text-2xl' />
+                            </div>
+                        </div>
+                    )
+                }
             </div>
         </div>
     )

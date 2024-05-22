@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\Candidate;
 use Illuminate\Http\Request;
 use App\Models\Election;
 use App\Models\User;
@@ -34,7 +34,7 @@ class ElectionController extends Controller
     }
     public function store(Request $request)
     {
-        // Validate the request data
+
         $validatedData = $request->validate([
             'title' => 'required|string',
             'start_date' => 'required|date|after_or_equal:today',
@@ -48,7 +48,7 @@ class ElectionController extends Controller
             $existingElection = Election::latest()->first();
 
             $newElectionData = [
-                'title' => 'Election',
+                'title' => 'New Election',
                 'start_date' => now(),
                 'end_date' => now()->addDays(1),
                 'status' => 'Inactive'
@@ -65,8 +65,8 @@ class ElectionController extends Controller
 
                 Election::create($newElectionData);
                 $existingElection->delete();
-                $existingElection->candidates()->delete();
-                $existingElection->votes()->delete();
+                // $existingElection->candidates()->delete();
+                // $existingElection->votes()->delete();
             } else {
                 // Election::create([
                 //     'title' => $request->title,
@@ -77,7 +77,7 @@ class ElectionController extends Controller
             }
             return redirect()->back()->with('success', 'Election updated/created successfully.');
         } catch (\Exception $e) {
-            // Handle any errors
+           
             return redirect()->back()->with('error', 'Failed to update/create election. Please try again.');
         }
     }
@@ -85,32 +85,24 @@ class ElectionController extends Controller
 
     public function activate()
     {
-        // Retrieve the latest election
+       
         $election = Election::latest()->first();
 
         try {
             if ($election) {
-                // Deactivate any currently activated election
+           
                 Election::where('status', 'Active')->update(['status' => 'Inactive']);
 
-                // Activate the retrieved or newly created election
                 $election->status = 'Active';
                 $election->save();
 
-                // Get all users
-                // $users = User::where('role', 'voter')->get();
-
-                // //Send email notification for election activation to all users
-                // foreach ($users as $user) {
-                //     $user->notify(new ElectionActivated());
-                // }
-
+   
+           
                 return redirect()->back()->with('success', 'Election activated successfully.');
             } else {
                 return redirect()->back()->with('error', 'No election found to activate.');
             }
         } catch (\Exception $e) {
-            // Handle any errors that occur during the activation process
             return redirect()->back()->with('error', 'Failed to activate election. Please try again.');
         }
     }
@@ -118,20 +110,13 @@ class ElectionController extends Controller
 
     public function deactivate()
     {
-        // Retrieve the first (and only) election
+    
         $election = Election::latest()->first();
 
         if ($election) {
-            // Deactivate the election
+        
             $election->update(['status' => 'Inactive']);
 
-            // // Get all users
-            // $users = User::where('role', 'voter')->get();
-
-            // // Send email notification for election deactivation to all users
-            // foreach ($users as $user) {
-            //     $user->notify(new ElectionDeactivated());
-            // }
             return redirect()->back()->with('success', 'Election deactivated successfully.');
         } else {
             return redirect()->back()->with('error', 'Error! Cannot deactivate election!');
@@ -153,4 +138,5 @@ class ElectionController extends Controller
             return redirect()->back()->with('error', 'Error! Cannot stop election!');
         }
     }
+  
 }

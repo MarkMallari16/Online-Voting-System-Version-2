@@ -19,6 +19,7 @@ import CustomToast from '@/Components/CustomToast';
 import { LuAlarmClockOff } from "react-icons/lu";
 
 import { ElectionTable } from '@/Components/ElectionTable';
+import ElectionEndedModal from '@/Components/ElectionEndedModal';
 
 
 
@@ -91,36 +92,6 @@ function DeactivateElectionModal({ deactivateOpen, handleDeactivateOpen, handleD
   )
 
 }
-function ElectionEndedModal({ electionEndedModalOpen, handleElectionEndedModalOpen, handleSubmit, processing }) {
-
-  return (
-    <Dialog open={electionEndedModalOpen} handler={handleElectionEndedModalOpen}>
-      <DialogHeader>Election Ended</DialogHeader>
-      <form onSubmit={handleSubmit}>
-        <DialogBody>
-          <div className='flex justify-center mb-5'>
-            <LuAlarmClockOff className='w-32 h-32 text-red-500' />
-          </div>
-          <div className='text-gray-900 text-center'>The election has ended. Do you want to create a new election?</div>
-        </DialogBody>
-        <DialogFooter>
-          <Button
-            variant="text"
-            color="red"
-            onClick={handleElectionEndedModalOpen}
-            className="mr-1"
-          >
-            Cancel
-          </Button>
-          <Button variant="gradient" color="blue" type='submit' disabled={processing}>
-            Create New Election
-          </Button>
-        </DialogFooter>
-
-      </form>
-    </Dialog>
-  )
-}
 function StopElectionModal({ stopElectionModal, handleStopElectionModalOpen, handleStopElectionSubmit, processing }) {
   {/*Election stop Modal */ }
   return (
@@ -174,7 +145,6 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
   const [activateOpen, setActivateOpen] = useState(false);
   const [deactivateOpen, setDeactivateOpen] = useState(false);
   const [electionEndedModalOpen, setElectionEndedModalOpen] = useState(false);
-  const [archivedElectionModal, setArchivedElectionModal] = useState(false);
   const [stopElectionModal, setStopElectionModal] = useState(false);
 
   const [isSuccessMessage, setIsSuccessMessage] = useState(false);
@@ -198,7 +168,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
   const handleElectionEndedModalOpen = () => setElectionEndedModalOpen(!electionEndedModalOpen);
   const handleStopElectionModalOpen = () => setStopElectionModal(!stopElectionModal);
 
-  const handleArchiveElectionModal = () => setArchivedElectionModal(!archivedElectionModal);
+
 
 
   let isElectionEnded = new Date(election?.end_date) < new Date();
@@ -218,7 +188,6 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
         preserveScroll: true
       });
 
-      //Reset form data
       reset({
         title: '',
         start_date: '',
@@ -235,9 +204,10 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
     try {
       put('/election/activate');
       setData('status', true);
-      toast.success("Election activated successfully.");
+     
       setIsSuccessMessage(true);
       setActivateOpen(false);
+      toast.success("Election activated successfully.");
 
 
     } catch (error) {
@@ -253,8 +223,8 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
 
 
       setIsSuccessMessage(true);
-      toast.success("Election deactivated successfully.");
       setDeactivateOpen(false);
+      toast.success("Election deactivated successfully.");
       reset({
         title: '',
         start_date: '',
@@ -275,13 +245,23 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
   const handleStopElectionSubmit = async () => {
     try {
       put(`/election/stop`);
-      toast.success('Election stopped successfully.');
+
       setIsSuccessMessage(true);
       setStopElectionModal(false);
-
+      toast.success('Election stopped successfully.');
     } catch (error) {
       console.error(error);
     }
+  }
+
+  const colorStatus = {
+    'Completed': ' text-green text-green-800',
+    'Active': ' text-blue-800',
+    'Inactive': ' text-gray-800'
+  }
+
+  const getColorStatus = (status) => {
+    return colorStatus[status] || 'bg-gray-500';
   }
   return (
 
@@ -291,11 +271,9 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
       <div className="flex flex-col md:flex-row min-h-screen">
         <main className="flex-1">
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-5">
-            <div >
 
-            </div>
-            <div className='flex gap-2 justify-end'>
-
+            <div className='mt-10 flex gap-2 justify-between items-center'>
+              <div className='text-2xl'>Election Status: <span className={`font-bold px-3 py-1 rounded-md ${getColorStatus(election.status)}`}> {election.status}</span></div>
               <div className='text-end'>
                 <Button color='red' variant='gradient' onClick={handleStopElectionModalOpen} disabled={isElectionEnded} className='flex items-center gap-2'>
 
@@ -395,10 +373,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                 </div>
               </div>
             </form>
-            <div>
-              <div className='text-4xl mt-12 mb-2'>Election </div>
-              <ElectionTable electionPerPage={electionPerPage} />
-            </div>
+
           </div>
 
         </main>
@@ -409,7 +384,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
 
       <ActivateElectionModal activateOpen={activateOpen} handleActivateOpen={handleActivateOpen} handleActivate={handleActivate} processing={processing} />
       <DeactivateElectionModal deactivateOpen={deactivateOpen} handleDeactivateOpen={handleDeactivateOpen} handleDeactivate={handleDeactivate} processing={processing} />
-      <ElectionEndedModal electionEndedModalOpen={electionEndedModalOpen} handleElectionEndedModalOpen={handleElectionEndedModalOpen} handleSubmit={handleSubmit} processing={processing} />
+      <ElectionEndedModal electionEndedModalOpen={electionEndedModalOpen} handleElectionEndedModalOpen={handleElectionEndedModalOpen} handleSubmit={handleSubmit} confirmText="The election has ended. Do you want to create a new election?" confirmButtonText="Create New Election" processing={processing} />
       <StopElectionModal stopElectionModal={stopElectionModal} handleStopElectionModalOpen={handleStopElectionModalOpen} handleStopElectionSubmit={handleStopElectionSubmit} processing={processing} />
 
     </AuthenticatedLayout>

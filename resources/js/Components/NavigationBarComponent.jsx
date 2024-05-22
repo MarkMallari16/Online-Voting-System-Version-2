@@ -31,7 +31,7 @@ function NavigationBarComponent() {
                         <div className='mx-3 sm:mx-0' >
                             <Link
                                 href={route('login')}
-                                className="font-medium text-black  focus:text-white transition-all ease-in-out"
+                                className="font-medium text-black  focus:text-black transition-all ease-in-out"
                             >
                                 Log in
                             </Link>

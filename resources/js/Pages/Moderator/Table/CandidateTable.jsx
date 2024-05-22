@@ -202,7 +202,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
     const exportCandidatesExcel = candidatesPerPage.data.map((candidate) => {
         return {
-            'Election Name': candidate.election.title,
+            'Election Name': candidate?.election?.title,
             'Candidate ID': candidate.id,
             'Candidate Name': `${candidate.first_name} ${candidate.middle_name ? candidate.middle_name : ''} ${candidate.last_name}`,
             'Candidate Partylist': candidate.partylist.name,

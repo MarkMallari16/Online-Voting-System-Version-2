@@ -17,7 +17,6 @@ const AdminDashboard = ({ usersPerPage, latestUsers }) => {
     const usersNotVerified = users.filter(user => !user.email_verified_at).length;
 
     const TABLE_HEAD = ["ID", "Name", "Email", "Role", "Created At", "Updated At", "Email Status", "Action"];
-    console.log(latestUsers);
 
     return (
         <div className="flex flex-col sm:flex-row">

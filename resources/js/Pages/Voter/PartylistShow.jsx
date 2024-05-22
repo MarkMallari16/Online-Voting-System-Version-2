@@ -3,7 +3,9 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { Link } from '@inertiajs/react';
 import { Avatar, Button } from '@material-tailwind/react';
 import React from 'react'
-import { FaUserCircle } from 'react-icons/fa';
+
+import { MdGroups } from "react-icons/md";
+
 const PartylistShow = ({ auth, partylist, election }) => {
 
   console.log(partylist);
@@ -26,23 +28,26 @@ const PartylistShow = ({ auth, partylist, election }) => {
 
 
                   <div className='font-medium'>
+
                     Partylist Description
                   </div>
 
                 </div>
                 <div className='text-justify'>
                   {partylist.description}
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Error provident nihil eos, tenetur debitis deserunt odio perferendis consequatur alias veritatis repellat vero voluptatum quisquam necessitatibus ullam accusamus molestias harum placeat enim similique, inventore nemo! Sequi ipsam culpa, dicta quis ad, mollitia nam explicabo illum dolor alias accusamus, possimus facere libero.
+
                 </div>
               </div>
 
-              <div className='mt-20 mb-5 text-3xl'>
-                {partylist.name} Partylist Members
+              <div className='mt-20 mb-5 text-3xl flex gap-2 items-center'>
+                <MdGroups className='h-12 w-12'/>
+
+                <div> {partylist.name} Partylist Members</div>
               </div>
 
               <div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
                 {partylist.candidates.map((candidate) => (
-                  <div key={candidate.id} className='flex flex-col items-center ring-1 ring-inset ring-gray-300 bg-white rounded-md p-6 shadow-sm ease-in duration-100'>
+                  <div key={candidate.id} className='flex flex-col items-center ring-1 ring-inset ring-gray-400 bg-gray-100 rounded-md p-6 shadow-sm ease-in duration-100 '>
                     <div>
                       <Avatar src={`/storage/${candidate.candidate_profile}`} variant='rounded' size='xxl'></Avatar>
                     </div>

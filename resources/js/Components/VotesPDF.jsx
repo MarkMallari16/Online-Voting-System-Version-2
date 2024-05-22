@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
 const VotesPDF = ({ voteCounts, positionList, electionTitle, totalVotesPerPosition }) => {
   const sortedVoteCounts = Object.values(voteCounts).sort((a, b) => a.position_id - b.position_id);
 
-  console.log(totalVotesPerPosition)
+  
   return (
 
     <Document>

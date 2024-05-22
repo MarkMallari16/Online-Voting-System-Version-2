@@ -153,7 +153,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
     return (
         <div>
-          
+            <PartylistCarousel partylistCarouselData={partyList}/>
             {isSuccessMessage && <CustomToast />}
             {(election && election?.status === "Active") && isElectionStarted ? (
 

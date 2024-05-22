@@ -49,8 +49,7 @@ const ActivityLog = ({ auth, logs }) => {
         { value: 'Updated', label: 'Updated' },
         { value: 'Deleted', label: 'Deleted' }
     ]
-    console.log(logs)
-
+ 
     const exportExcellogs = logs?.data.map((log) => {
         return {
             "Date": log.created_at,
@@ -60,7 +59,7 @@ const ActivityLog = ({ auth, logs }) => {
             "Details": log?.details,
         }
     })
-    console.log(selectedLog)
+
     const handleOpenModal = (id) => {
         setOpenLogModal(true);
 

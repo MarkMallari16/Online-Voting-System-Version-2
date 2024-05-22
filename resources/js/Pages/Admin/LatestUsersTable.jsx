@@ -37,7 +37,7 @@ import AvatarComponent from "@/Components/AvatarComponent";
 import FilterDropdown from "@/Components/FilterDropdown";
 
 const LatestUsersTable = ({ TABLE_HEAD, users }) => {
-    console.log(users);
+
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedRoleFilter, setSelectedRoleFilter] = useState("");
 
@@ -101,7 +101,7 @@ const LatestUsersTable = ({ TABLE_HEAD, users }) => {
         setSelectedRoleFilter(filter);
 
     };
-    console.log(users);
+
     return (
         <div>
             <div className="mb-5">

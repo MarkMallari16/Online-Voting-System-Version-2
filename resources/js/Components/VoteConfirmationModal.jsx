@@ -1,8 +1,5 @@
 import React from 'react'
 import Modal from './Modal';
-import { Dialog } from '@headlessui/react';
-import PrimaryButton from './PrimaryButton';
-import DangerButton from './DangerButton';
 import { Avatar, Button } from '@material-tailwind/react';
 import { FaVoteYea } from "react-icons/fa";
 
@@ -18,8 +15,7 @@ const VoteConfirmationModal = ({ isOpen, onClose, onSubmitVote, selectedCandidat
         onClose(selectedCandidates);
     };
     const sortSelectedCandidatesInfo = selectedCandidatesInfo.sort((a, b) => a.position.id - b.position.id);
-    // console.log(selectedCandidatesInfo)
-    // const candidateProfiles = sortSelectedCandidatesInfo.map(candidate => candidate.candidateProfile);
+
 
     return (
         <Modal show={isOpen} onClose={onClose} className='overflow-y-auto'>

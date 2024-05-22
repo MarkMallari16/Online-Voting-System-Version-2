@@ -54,7 +54,7 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
     const [searchQuery, setSearchQuery] = useState("");
 
     const handleOpen = (id) => {
-        setOpen(true);
+        setOpen(!open);
 
         const vote = votes.find((vote) => vote.voter_id === id);
         setId(id);
@@ -76,7 +76,7 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
         return {
             'Voter ID': vote.voter_id,
             "Voter's": vote.user.name,
-            'Election Name': vote.election.title,
+            'Election Name': vote?.election?.title,
             'Status': vote.vote_timestamp && 'Voted',
             'Date & Time': vote.vote_timestamp,
         }
@@ -97,7 +97,6 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
                         </Typography>
                     </div>
                     <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-
 
                     </div>
                     {/*Modal* */}

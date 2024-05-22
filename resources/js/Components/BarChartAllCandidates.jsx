@@ -4,7 +4,7 @@ import React from 'react'
 const BarChartAllCandidates = ({ voteCounts }) => {
   const positionVotes = Object.values(voteCounts).filter(vote => vote.position_id);
 
-  console.log(positionVotes)
+
   const labels = positionVotes.map(vote => (
 
     vote.candidate
@@ -13,7 +13,7 @@ const BarChartAllCandidates = ({ voteCounts }) => {
 
   const data = positionVotes.map(vote => vote.voteCount);
 
-  console.log(data);
+
   const barChartData = {
 
     labels: labels,
