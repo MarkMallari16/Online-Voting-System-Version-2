@@ -47,12 +47,7 @@ class ElectionController extends Controller
 
             $existingElection = Election::latest()->first();
 
-            $newElectionData = [
-                'title' => 'New Election',
-                'start_date' => now(),
-                'end_date' => now()->addDays(1),
-                'status' => 'Inactive'
-            ];
+
 
             if ($existingElection) {
                 $existingElection->update($validatedData);
@@ -60,24 +55,28 @@ class ElectionController extends Controller
 
             Election::where('end_date', '<', now())->where('status', '!=', 'Completed')->update(['status' => 'Completed']);
 
+            $newElectionData = [
+                'title' => 'New Election',
+                'start_date' => now(),
+                'end_date' => now()->addDays(1),
+                'status' => 'Inactive'
+            ];
+
             if ($existingElection && $existingElection->end_date < now()) {
 
-
                 Election::create($newElectionData);
-                $existingElection->delete();
+               
                 $existingElection->candidates()->delete();
+
+                
                 $existingElection->votes()->delete();
-            } else {
-                // Election::create([
-                //     'title' => $request->title,
-                //     'start_date' => $request->start_date,
-                //     'end_date' => $request->end_date,
-                // ]);
-                Election::created($validatedData);
+
+                
+                $existingElection->delete();
             }
             return redirect()->back()->with('success', 'Election updated/created successfully.');
         } catch (\Exception $e) {
-           
+
             return redirect()->back()->with('error', 'Failed to update/create election. Please try again.');
         }
     }
@@ -85,19 +84,19 @@ class ElectionController extends Controller
 
     public function activate()
     {
-       
+
         $election = Election::latest()->first();
 
         try {
             if ($election) {
-           
+
                 Election::where('status', 'Active')->update(['status' => 'Inactive']);
 
                 $election->status = 'Active';
                 $election->save();
 
-   
-           
+
+
                 return redirect()->back()->with('success', 'Election activated successfully.');
             } else {
                 return redirect()->back()->with('error', 'No election found to activate.');
@@ -110,11 +109,11 @@ class ElectionController extends Controller
 
     public function deactivate()
     {
-    
+
         $election = Election::latest()->first();
 
         if ($election) {
-        
+
             $election->update(['status' => 'Inactive']);
 
             return redirect()->back()->with('success', 'Election deactivated successfully.');
@@ -131,6 +130,7 @@ class ElectionController extends Controller
             $election->update([
 
                 'end_date' => now()
+
             ]);
 
             return redirect()->back()->with('success', 'Election stopped successfully.');
@@ -138,5 +138,4 @@ class ElectionController extends Controller
             return redirect()->back()->with('error', 'Error! Cannot stop election!');
         }
     }
-  
 }

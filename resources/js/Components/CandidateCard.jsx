@@ -18,7 +18,7 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
     const handleOpen = (event) => {
         event.stopPropagation();
         setOpen(true);
-        // setIsSelected(!isSelected);
+      
     };
     const handleClose = () => setOpen(false);
 

@@ -46,15 +46,14 @@ class RegisteredUserController extends Controller
 
         // event(new Registered($user));
 
-
+        $userId = Auth::id();
         AuditLog::create([
-            'user_id' => $request->id,
+            'user_id' => $request->$userId,
             'action' => 'Created',
             'details' => 'New User Created'
         ]);
 
-      
-
+        Auth::login($user);
         return redirect(RouteServiceProvider::LOGIN);
     }
 }

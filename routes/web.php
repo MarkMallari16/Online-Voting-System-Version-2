@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminVerifyUserController;
 use App\Http\Controllers\BallotController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\DashboardController;
@@ -37,6 +38,11 @@ Route::get('/', function () {
 //for admin page 
 
 Route::middleware(['auth', 'verified', 'admin'])->group(function () {
+    //verify user page
+    Route::get('/users-verify', [AdminVerifyUserController::class, 'index'])->name('verifyUsers');
+    Route::put('/users-verify/{id}', [AdminVerifyUserController::class, 'verifyAccount'])->name('verify.user');
+    Route::delete('/users-verify/{id}', [AdminVerifyUserController::class, 'rejectAccount'])->name('reject.user');
+
     //get user
     Route::get('/users', [UserController::class, 'index'])->name('users');
     //retrieved data and display in table

@@ -17,7 +17,7 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, chartPosition
     labels: labels,
     datasets: [
       {
-
+        
         pointBackgroundColor: "#fcd34d",
         data: data,
         backgroundColor: ["#3b82f6", "#fcd34d"],
@@ -53,8 +53,8 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, chartPosition
     plugins: {
       legend: {
         labels: {
-          backgroundColor: 'transparent',
-          color: 'transparent', // Set color of labels to transparent
+          backgroundColor: 'red',
+          color: 'transparent',
         },
       },
     },

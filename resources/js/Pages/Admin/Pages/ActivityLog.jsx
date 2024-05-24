@@ -24,13 +24,14 @@ const ActivityLog = ({ auth, logs }) => {
 
     }, [logs]);
 
-
     const getClassByAction = (action) => {
         switch (action) {
             case "Created":
+            case "Verified":
                 return " bg-green-100 text-green-800 rounded";
             case "Updated":
                 return " bg-blue-100 text-blue-800 rounded";
+            case "Rejected":
             case "Deleted":
                 return " bg-red-100 text-red-800 rounded";
             default:
@@ -49,7 +50,7 @@ const ActivityLog = ({ auth, logs }) => {
         { value: 'Updated', label: 'Updated' },
         { value: 'Deleted', label: 'Deleted' }
     ]
- 
+
     const exportExcellogs = logs?.data.map((log) => {
         return {
             "Date": log.created_at,
@@ -272,7 +273,7 @@ const ActivityLog = ({ auth, logs }) => {
                                     <span>Action</span>
                                     <span className={`${getClassByAction(selectedLog?.action)} px-2 py-1`}>{selectedLog?.action}</span>
                                 </div>
-                                <div className="text-gray-600">Detail   
+                                <div className="text-gray-600">Detail
                                     <span className="text-gray-900">  {selectedLog?.details}</span>
                                 </div>
                             </div>

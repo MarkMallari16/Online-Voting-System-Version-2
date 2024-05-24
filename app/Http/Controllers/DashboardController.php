@@ -196,7 +196,7 @@ class DashboardController extends Controller
     }
     private function getLatestUsers()
     {
-        return User::orderByDesc('created_at')->take(5)->get();
+        return User::whereNotNull('email_verified_at')->orderByDesc('created_at')->take(5)->get();
     }
     private function getUsersPerPage()
     {

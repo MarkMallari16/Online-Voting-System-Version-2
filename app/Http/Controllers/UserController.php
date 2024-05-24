@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 
 use App\Models\User;
@@ -17,7 +18,7 @@ class UserController extends Controller
     public function index()
     {
 
-        $usersPerPage = User::orderByDesc('created_at')->paginate(20);
+        $usersPerPage = User::whereNotNull('email_verified_At')->orderByDesc('created_at')->paginate(20);
 
         return Inertia::render('Admin/Pages/Users', [
             'usersPerPage' => $usersPerPage
@@ -88,6 +89,7 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'User deleted successfully');
     }
 
+    
     public function displayActivityLogs()
     {
         $query = AuditLog::query();

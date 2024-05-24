@@ -1,4 +1,4 @@
-import { Doughnut } from "react-chartjs-2";
+import { Pie } from "react-chartjs-2";
 
 function DashboardAdminDoughnutChart({ usersVerified, usersNotVerified, className }) {
     const data = {
@@ -31,14 +31,14 @@ function DashboardAdminDoughnutChart({ usersVerified, usersNotVerified, classNam
             },
             centerText: {}
         },
-        cutout: '50%',
+        cutout: '20%',
         responsive: true
     };
 
     return (
         <div className={`bg-white p-5 ring-1 ring-inset ring-gray-300 rounded-lg shadow-sm w-auto ${className}`}>
             <div className='font-medium pb-5'>User Verification status</div>
-            <Doughnut data={data} options={options} />
+            <Pie data={data} options={options} />
         </div>
     );
 }

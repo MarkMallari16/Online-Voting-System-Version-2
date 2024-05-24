@@ -79,18 +79,6 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             file
         );
     };
-
-    console.log(candidates);
-    // const handleFileUpdateUpload = (e) => {
-    //     const file = e.target.files[0]; // Get the selected file
-
-    //     // Update the 'data' state with the selected file
-    //     setData((prevData) => ({
-    //         ...prevData,
-    //         candidate_profile: file,
-    //     }));
-    // };
-
     //for add modal
     const handleOpen = () => {
         setOpen(!open)
@@ -140,9 +128,9 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             onSuccess: () => {
                 setOpen(false);
                 setIsSuccessMessage(true);
-                toast.success("Candidate successfully created");
                 reset()
                 clearErrors();
+                toast.success("Candidate successfully created");
             },
             onError: () => {
                 setOpen(true);
@@ -243,8 +231,8 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                 alt="Candidate Avatar"
                                                 size="xxl"
                                                 withBorder={true}
-                                                color="blue"
-                                                className="p-0.5"
+                                                className="border-none"
+                                               
                                             />
                                         ) : (
                                             <Avatar
@@ -252,8 +240,8 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                 alt="Default Candidate Avatar"
                                                 size="xxl"
                                                 withBorder={true}
-                                                color="blue"
-                                                className="p-0.5"
+                                         
+                                                className="border-none"
                                             />
                                         )}
                                     </div>
@@ -494,9 +482,9 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                             }
                                             alt="Candidate Avatar"
                                             size="xxl"
-                                            color="blue"
+                                       
                                             withBorder={true}
-                                            className="p-0.5"
+                                            className="border-none"
                                         />
 
                                     </div>

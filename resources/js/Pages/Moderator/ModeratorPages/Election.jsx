@@ -5,6 +5,7 @@ import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
 import InputError from '@/Components/InputError';
 
+
 import {
   Button,
   Dialog,
@@ -15,121 +16,10 @@ import {
 } from "@material-tailwind/react";
 import toast from 'react-hot-toast';
 import CustomToast from '@/Components/CustomToast';
-
-import { LuAlarmClockOff } from "react-icons/lu";
-
-import { ElectionTable } from '@/Components/ElectionTable';
 import ElectionEndedModal from '@/Components/ElectionEndedModal';
-
-
-
-function ActivateElectionModal({ activateOpen, handleActivateOpen, handleActivate, processing }) {
-  {/*Activate Modal */ }
-  return (
-    <Dialog open={activateOpen} handler={handleActivateOpen}>
-      <DialogHeader>Confirm</DialogHeader>
-      <DialogBody>
-        <div className='flex justify-center mb-5'>
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-32 h-32 text-blue-500">
-              <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-            </svg>
-
-          </div>
-        </div>
-
-        <div className='text-gray-900 text-center'>Are you sure you want to activate the election? Once election activated, students will be able to participate in the election.</div>
-      </DialogBody>
-      <DialogFooter>
-        <Button
-          variant="text"
-          color="red"
-          onClick={handleActivateOpen}
-          className="mr-1"
-        >
-          Cancel
-        </Button>
-        <Button variant="gradient" color="blue" onClick={handleActivate}>
-          Activate Election
-        </Button>
-      </DialogFooter>
-    </Dialog>
-  )
-}
-
-function DeactivateElectionModal({ deactivateOpen, handleDeactivateOpen, handleDeactivate, processing }) {
-  {/*Deactivate Modal */ }
-  return (
-    <Dialog open={deactivateOpen} handler={handleDeactivateOpen}>
-      <DialogHeader>Confirm</DialogHeader>
-      <DialogBody>
-        <div className='flex justify-center mb-5'>
-          <div>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-32 h-32 text-blue-500">
-              <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-            </svg>
-
-          </div>
-        </div>
-        <div className='text-gray-900 text-center'>
-          Are you sure you want to deactivate the election? Once deactivated, users will no longer be able to participate in the election.
-        </div>
-      </DialogBody>
-      <DialogFooter>
-        <Button
-          variant="text"
-          color="red"
-          onClick={handleDeactivateOpen}
-          className="mr-1"
-        >
-          <span>Cancel</span>
-        </Button>
-        <Button variant="gradient" color="blue" onClick={handleDeactivate} disabled={processing}>
-          Deactivate Election
-        </Button>
-      </DialogFooter>
-    </Dialog>
-  )
-
-}
-function StopElectionModal({ stopElectionModal, handleStopElectionModalOpen, handleStopElectionSubmit, processing }) {
-  {/*Election stop Modal */ }
-  return (
-    <Dialog open={stopElectionModal} handler={handleStopElectionModalOpen}>
-      <DialogHeader>Election Stop</DialogHeader>
-      <DialogBody>
-        <div className='flex justify-center mb-5'>
-
-
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-20 h-20 bg-gray-100 text-red-500 rounded-md" alt="Stop icon">
-            <path fillRule="evenodd" d="M4.5 7.5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-9a3 3 0 0 1-3-3v-9Z" clipRule="evenodd" />
-          </svg>
-
-        </div>
-        <div className='flex flex-col items-center justify-center'>
-          <div className='text-gray-900'>Are you sure you want to stop the election?</div>
-          <div className='text-red-700 text-md font-medium'>
-            This action cannot be undone.
-          </div>
-        </div>
-      </DialogBody>
-      <DialogFooter>
-        <Button
-          variant="text"
-          color="black"
-          onClick={handleStopElectionModalOpen}
-          className="mr-1"
-        >
-          Cancel
-        </Button>
-        <Button variant="gradient" color="red" onClick={handleStopElectionSubmit} disabled={processing}>
-          Stop the Election
-        </Button>
-      </DialogFooter>
-    </Dialog>
-  )
-
-}
+import StopElectionModal from '@/Components/StopElectionModal';
+import DeactivateElectionModal from '@/Components/DeactivateElectionModal';
+import ActivateElectionModal from '@/Components/ActivateElectionModal';
 
 const Election = ({ auth, existingElection, election, electionPerPage, electionWithCandidatesAndVotes }) => {
 
@@ -168,10 +58,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
   const handleElectionEndedModalOpen = () => setElectionEndedModalOpen(!electionEndedModalOpen);
   const handleStopElectionModalOpen = () => setStopElectionModal(!stopElectionModal);
 
-
-
-
-  let isElectionEnded = new Date(election?.end_date) < new Date();
+  let isElectionEnded = election?.status === 'Ended' || new Date(election?.end_date) < new Date();
 
 
   const handleSubmit = async (e) => {
@@ -215,7 +102,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
 
     }
   };
-
+  console.log(election);
   const handleDeactivate = () => {
     try {
       put('/election/deactivate');
@@ -225,6 +112,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
       setIsSuccessMessage(true);
       setDeactivateOpen(false);
       toast.success("Election deactivated successfully.");
+
       reset({
         title: '',
         start_date: '',
@@ -257,12 +145,13 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
   const colorStatus = {
     'Completed': ' text-green text-green-800',
     'Active': ' text-blue-800',
-    'Inactive': ' text-gray-800'
+    'Inactive': ' text-gray-800',
+    'Ended': 'text-red-800'
   }
-
   const getColorStatus = (status) => {
     return colorStatus[status] || 'bg-gray-500';
   }
+
   return (
 
     <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Election</h2>}>
@@ -273,8 +162,9 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-5">
 
             <div className='mt-10 flex gap-2 justify-between items-center'>
-              <div className='text-2xl'>Election Status: <span className={`font-bold px-3 py-1 rounded-md ${getColorStatus(election.status)}`}> {election.status}</span></div>
-              <div className='flex gap-2'>
+              <div className='text-2xl'>Election Status: <span className={`font-medium px-3 py-1 rounded-md ${getColorStatus(isElectionEnded ? 'Ended' : election?.status)}`}>{isElectionEnded ? 'Ended' : election?.status}</span>
+              </div>
+              <div className='flex gap-3'>
                 <div className='text-end'>
                   <Button color='red' variant='gradient' onClick={handleStopElectionModalOpen} disabled={isElectionEnded} className='flex items-center gap-2'>
 
@@ -282,7 +172,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                       <path fillRule="evenodd" d="M4.5 7.5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-9a3 3 0 0 1-3-3v-9Z" clipRule="evenodd" />
                     </svg>
 
-                   END ELECTION</Button>
+                    Force Stop Election</Button>
                 </div>
                 {election && new Date(election.end_date) < new Date() && (
                   <div className='text-end'>
@@ -297,8 +187,8 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                     </Button>
                   </div>
                 )}
-
               </div>
+
             </div>
             <form onSubmit={handleSubmit} >
               <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg mb-5">
@@ -354,7 +244,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                       type='datetime-local'
                       value={data.start_date}
                       onChange={(e) => setData('start_date', e.target.value)}
-                      disabled={isElectionEnded || election?.status === 'Active'}
+                      disabled={election?.status === 'Ended' || isElectionEnded || election?.status === 'Active'}
                     />
                     <InputError className="mt-2" message={errors.start_date} />
                   </div>
@@ -366,7 +256,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                       type='datetime-local'
                       value={data.end_date}
                       onChange={(e) => setData('end_date', e.target.value)}
-                      disabled={isElectionEnded || election?.status === 'Active'}
+                      disabled={election?.status === 'Ended' || isElectionEnded || election?.status === 'Active'}
                     />
                     <InputError className="mt-2" message={errors.end_date} />
                   </div>
@@ -379,9 +269,10 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
 
           </div>
 
+
+
         </main>
       </div>
-
 
 
 
@@ -389,6 +280,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
       <DeactivateElectionModal deactivateOpen={deactivateOpen} handleDeactivateOpen={handleDeactivateOpen} handleDeactivate={handleDeactivate} processing={processing} />
       <ElectionEndedModal electionEndedModalOpen={electionEndedModalOpen} handleElectionEndedModalOpen={handleElectionEndedModalOpen} handleSubmit={handleSubmit} confirmText="The election has ended. Do you want to create a new election?" confirmButtonText="Create New Election" processing={processing} />
       <StopElectionModal stopElectionModal={stopElectionModal} handleStopElectionModalOpen={handleStopElectionModalOpen} handleStopElectionSubmit={handleStopElectionSubmit} processing={processing} />
+
 
     </AuthenticatedLayout>
   );

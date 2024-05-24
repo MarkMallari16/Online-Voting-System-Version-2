@@ -10,9 +10,7 @@ export default function VerifyEmail({ status }) {
 
         post(route('verification.send'));
     };
-
-    return (
-        <GuestLayout>
+    {/** <GuestLayout>
             <Head title="Email Verification" />
 
             <div className="mb-4 text-sm text-gray-600">
@@ -40,6 +38,37 @@ export default function VerifyEmail({ status }) {
                     </Link>
                 </div>
             </form>
+        </GuestLayout> */}
+
+    return (
+
+        <GuestLayout>
+            <Head title="Email Verification" />
+
+            <div className="mb-4 text-sm text-gray-900">
+                Thanks for signing up! Before getting started, please wait for the admin to verify your account.
+            </div>
+
+            {status === 'verification-link-sent' && (
+                <div className="mb-4 font-medium text-sm text-green-600">
+                    A new verification link has been sent to the email address you provided during registration.
+                </div>
+            )}
+
+            <div className="mt-4 flex items-center justify-between">
+                <Link
+                    href={route('logout')}
+                    method="post"
+                    as="button"
+                    className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
+                    Log Out
+                </Link>
+            </div>
         </GuestLayout>
+
+
+
+
     );
 }

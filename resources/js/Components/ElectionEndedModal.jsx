@@ -1,7 +1,7 @@
 import { Button, Dialog, DialogBody, DialogFooter, DialogHeader } from '@material-tailwind/react'
 import React from 'react'
-import { LuAlarmClockOff } from 'react-icons/lu'
 
+import { LuCalendarCheck } from "react-icons/lu";
 function ElectionEndedModal({ electionEndedModalOpen, handleElectionEndedModalOpen, handleSubmit, processing,confirmText,confirmButtonText}) {
 
     return (
@@ -10,7 +10,7 @@ function ElectionEndedModal({ electionEndedModalOpen, handleElectionEndedModalOp
             <form onSubmit={handleSubmit}>
                 <DialogBody>
                     <div className='flex justify-center mb-5'>
-                        <LuAlarmClockOff className='w-32 h-32 text-red-500' />
+                        <LuCalendarCheck className='w-32 h-32 text-red-500' />
                     </div>
                     <div className='text-gray-900 text-center'>{confirmText}</div>
                 </DialogBody>
