@@ -27,6 +27,7 @@ const ActivityLog = ({ auth, logs }) => {
     const getClassByAction = (action) => {
         switch (action) {
             case "Created":
+            case "Successful":
             case "Verified":
                 return " bg-green-100 text-green-800 rounded";
             case "Updated":

@@ -9,6 +9,7 @@ use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\Positions;
 use App\Models\User;
+use Carbon\Traits\Timestamp;
 use Illuminate\Http\Request;
 use App\Models\Vote;
 use Illuminate\Support\Facades\Auth;
@@ -108,11 +109,8 @@ class VoteController extends Controller
 
         AuditLog::create([
             'user_id' => $user->id,
-            'action' => 'vote_successful',
-            'details' => json_encode([
-                'election_id' => $validatedData['election_id'],
-                'timestamp' => now()->toDateTimeString(),
-            ]),
+            'action' => 'Successful',
+            'details' => 'Successfully voted with election id: ' . $validatedData['election_id'] 
         ]);
         // Mail::to($user->email)->send(new VoteConfirmation($user, $election));
 

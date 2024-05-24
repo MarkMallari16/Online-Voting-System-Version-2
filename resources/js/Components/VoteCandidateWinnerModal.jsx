@@ -24,7 +24,7 @@ const VoteCandidateWinnerModal = ({ isOpen, onClose, candidateWinners, electionT
                     </div>
                 </div>
                 <div>
-                    <div className='mt-5 mb-6 sm:mb-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-2 text-sm md:text-base'>
+                    <div className='mt-5 mb-6 sm:mb-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 text-sm md:text-base'>
                         {
 
                             Object.keys(candidateWinners).map((position, id) => (

@@ -47,7 +47,7 @@ const PartylistShow = ({ auth, partylist, election }) => {
 
               <div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
                 {partylist.candidates.map((candidate) => (
-                  <div key={candidate.id} className='flex flex-col items-center ring-1 ring-inset ring-gray-400 bg-gray-100 rounded-md p-6 shadow-sm ease-in duration-100 '>
+                  <div key={candidate.id} className='flex flex-col items-center ring-1 ring-inset ring-gray-300 bg-gray-50 rounded-md p-6 shadow-sm ease-in duration-100 '>
                     <div>
                       <Avatar src={`/storage/${candidate.candidate_profile}`} variant='rounded' size='xxl'></Avatar>
                     </div>
