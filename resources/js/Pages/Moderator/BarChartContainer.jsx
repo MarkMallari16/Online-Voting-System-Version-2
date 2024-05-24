@@ -31,7 +31,7 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, chartPosition
   };
 
   const chartOptions = {
-    indexAxis: chartPositionOption ? chartPositionOption : 'x',
+    indexAxis: chartPositionOption ? chartPositionOption : 'y',
 
     scales: {
       x: {

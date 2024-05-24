@@ -114,12 +114,12 @@ class DashboardController extends Controller
         }
         $candidateWinners = [];
         $totalVotesPerPosition = [];
-        $candidatesVotes = [];
+      
         $candidatesPerPosition = [];
         $totalCandidatesPerPositions =  [];
         $votersVotedCount = 0;
         $abstainCount = 0;
-        $votersWhoVotedForWinners = 0;
+
         //display winner when election ends
         if ($election && $election->status === 'Active') {
 

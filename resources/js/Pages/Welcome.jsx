@@ -17,7 +17,7 @@ export default function Welcome() {
    
     const bgStyle = {
         backgroundColor: 'hsla(0, 0%, 100%, 1)',
-        backgroundImage: 'radial-gradient(at 40% 20%, hsla(32,100%,88%,1) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(212, 100%, 76%, 1) 0px, transparent 50%)',
+        backgroundImage: 'radial-gradient(at 40% 20%, hsla(40,100%,88%,1) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(212, 100%, 76%, 1) 0px, transparent 50%)',
     };
     return (
         <>

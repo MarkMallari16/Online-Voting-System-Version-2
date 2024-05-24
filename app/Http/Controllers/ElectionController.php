@@ -65,8 +65,8 @@ class ElectionController extends Controller
 
                 Election::create($newElectionData);
                 $existingElection->delete();
-                // $existingElection->candidates()->delete();
-                // $existingElection->votes()->delete();
+                $existingElection->candidates()->delete();
+                $existingElection->votes()->delete();
             } else {
                 // Election::create([
                 //     'title' => $request->title,

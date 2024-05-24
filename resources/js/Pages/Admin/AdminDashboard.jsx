@@ -40,10 +40,6 @@ const AdminDashboard = ({ usersPerPage, latestUsers }) => {
                 <div className="mt-5 ring-1 ring-gray-300 rounded-lg">
                     <LatestUsersTable TABLE_HEAD={TABLE_HEAD} users={latestUsers}  />
                 </div>
-                <div>
-
-
-                </div>
             </div>
         </div>
     );

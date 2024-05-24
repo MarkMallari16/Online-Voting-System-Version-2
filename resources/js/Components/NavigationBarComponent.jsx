@@ -38,7 +38,7 @@ function NavigationBarComponent() {
 
                             <Link
                                 href={route('register')}
-                                className="ms-4 font-medium  px-6 py-2 border-0 text-white rounded-md  bg-gradient-to-b from-blue-400 to-blue-600 focus:outline focus:outline-2   duration-75 dark:text-gray-400 dark:hover:text-white  focus:blue-red-500 ease-in-out"
+                                className="ms-4 font-medium  px-6 py-2 border-0 text-white rounded-md  bg-gradient-to-b from-blue-400 to-blue-600 focus:outline focus:outline-2 duration-75 "
                             >
                                 Register
                             </Link>

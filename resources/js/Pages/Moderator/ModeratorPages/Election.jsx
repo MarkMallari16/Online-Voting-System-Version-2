@@ -27,7 +27,7 @@ function ActivateElectionModal({ activateOpen, handleActivateOpen, handleActivat
   {/*Activate Modal */ }
   return (
     <Dialog open={activateOpen} handler={handleActivateOpen}>
-      <DialogHeader>Confirm Election Activation</DialogHeader>
+      <DialogHeader>Confirm</DialogHeader>
       <DialogBody>
         <div className='flex justify-center mb-5'>
           <div>
@@ -61,7 +61,7 @@ function DeactivateElectionModal({ deactivateOpen, handleDeactivateOpen, handleD
   {/*Deactivate Modal */ }
   return (
     <Dialog open={deactivateOpen} handler={handleDeactivateOpen}>
-      <DialogHeader>Confirm Election Deactivation</DialogHeader>
+      <DialogHeader>Confirm</DialogHeader>
       <DialogBody>
         <div className='flex justify-center mb-5'>
           <div>
@@ -204,7 +204,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
     try {
       put('/election/activate');
       setData('status', true);
-     
+
       setIsSuccessMessage(true);
       setActivateOpen(false);
       toast.success("Election activated successfully.");
@@ -274,33 +274,36 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
 
             <div className='mt-10 flex gap-2 justify-between items-center'>
               <div className='text-2xl'>Election Status: <span className={`font-bold px-3 py-1 rounded-md ${getColorStatus(election.status)}`}> {election.status}</span></div>
-              <div className='text-end'>
-                <Button color='red' variant='gradient' onClick={handleStopElectionModalOpen} disabled={isElectionEnded} className='flex items-center gap-2'>
-
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
-                    <path fillRule="evenodd" d="M4.5 7.5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-9a3 3 0 0 1-3-3v-9Z" clipRule="evenodd" />
-                  </svg>
-
-                  Force Stop Election</Button>
-              </div>
-              {election && new Date(election.end_date) < new Date() && (
+              <div className='flex gap-2'>
                 <div className='text-end'>
-
-
-                  <Button color='blue' variant='gradient' onClick={handleElectionEndedModalOpen} className='flex items-center gap-2 px-3'>
+                  <Button color='red' variant='gradient' onClick={handleStopElectionModalOpen} disabled={isElectionEnded} className='flex items-center gap-2'>
 
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
-                      <path fillRule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
+                      <path fillRule="evenodd" d="M4.5 7.5a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3h-9a3 3 0 0 1-3-3v-9Z" clipRule="evenodd" />
                     </svg>
-                    Create New Election
-                  </Button>
+
+                   END ELECTION</Button>
                 </div>
-              )}
+                {election && new Date(election.end_date) < new Date() && (
+                  <div className='text-end'>
+
+
+                    <Button color='blue' variant='gradient' onClick={handleElectionEndedModalOpen} className='flex items-center gap-2 px-3'>
+
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                        <path fillRule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
+                      </svg>
+                      Create New Election
+                    </Button>
+                  </div>
+                )}
+
+              </div>
             </div>
             <form onSubmit={handleSubmit} >
               <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg mb-5">
                 <div className='flex gap-3'>
-                  <div className='text-lg font-medium'>Activate Election</div>
+                  <div className='text-lg font-medium'>Pause/Resume Election</div>
                   <Switch onClick={() => {
                     if (!status) {
                       setActivateOpen(true);

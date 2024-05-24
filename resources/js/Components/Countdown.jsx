@@ -123,10 +123,10 @@ function Countdown({ election }) {
                             )}
                         </>
                         <div className="w-full max-w-5xl mx-auto flex items-center justify-around bg-white text-blue-gray-800">
-                            <CountdownItem num={remaining.days} text="Day/s" />
-                            <CountdownItem num={remaining.hours} text="Hour/s" />
-                            <CountdownItem num={remaining.minutes} text="Minute/s" />
-                            <CountdownItem num={remaining.seconds} text="Second/s" />
+                            <CountdownItem num={remaining.days} text="Day(s)" />
+                            <CountdownItem num={remaining.hours} text="Hour(s)" />
+                            <CountdownItem num={remaining.minutes} text="Minute(s)" />
+                            <CountdownItem num={remaining.seconds} text="Second(s)" />
                         </div>
                     </div>
                 </div >

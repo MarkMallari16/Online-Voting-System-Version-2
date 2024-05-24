@@ -204,7 +204,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
                         <BarChartAllCanidadtes positionId={positionId} positionName={positionName} voteCounts={voteCounts} />
 
                     ) : (
-                        <div className='flex justify-center flex-col items-center h-96'>
+                        <div className='mt-4 rounded-lg ring-1 ring-inset ring-gray-300 bg-white flex justify-center flex-col items-center h-96'>
 
                             <div className='text-gray-900  mb-3'>No voters have cast their votes yet</div>
                             <div>

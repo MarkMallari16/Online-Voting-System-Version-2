@@ -10,7 +10,7 @@ import { FaBox } from "react-icons/fa";
 
 const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
 
-    console.log(candidatesPerPosition);
+  
 
 
     return (

@@ -9,7 +9,7 @@ const HeroComponent = () => {
             <div className='flex-1'>
                 <div>
                     <p className='tracking-wide font-bold text-grayy-900 text-center  md:text-left'><span >STAND UP, SPEAK OUT, AND CREATE CHANGE!</span></p>
-                    <h1 className="text-5xl sm:text-6xl md:text-6xl font-extrabold text-center  md:text-left mb-3">MAKE YOUR <span className='text-blue-600'>VOICE HEARD</span></h1>
+                    <h1 className="text-5xl sm:text-6xl md:text-6xl font-extrabold text-center  md:text-left mb-3">ONLINE VOTING <span className='text-blue-600'>SYSTEM</span></h1>
                 </div>
                 <p className='mt-5 text-lg text-center md:text-left text-gray-900'>Exercise your right to vote and elect your STI Bacoor Senior High School student leaders.</p>
                 <div className='mt-5 flex  md:flex-row gap-2 items-center justify-center md:justify-start'>

@@ -17,6 +17,7 @@ import { LiaUserAltSlashSolid } from "react-icons/lia";
 
 
 const VoterDashboard = ({ election, candidatesAll, positionList, partyList, castedVotes, voteCounts, voterHasVoted, candidateWinners }) => {
+    
     const [selectedCandidates, setSelectedCandidates] = useState([]);
     const [now, setNow] = useState(new Date());
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);

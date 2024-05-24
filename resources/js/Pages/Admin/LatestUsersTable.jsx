@@ -87,16 +87,6 @@ const LatestUsersTable = ({ TABLE_HEAD, users }) => {
 
     };
 
-
-
-    const roleOptions = [
-        { value: '', label: 'All' },
-        { value: 'admin', label: 'Admin' },
-        { value: 'moderator', label: 'Moderator' },
-        { value: 'voter', label: 'Voter' },
-
-    ]
-
     const handleSelectedRole = (filter) => {
         setSelectedRoleFilter(filter);
 
@@ -104,9 +94,7 @@ const LatestUsersTable = ({ TABLE_HEAD, users }) => {
 
     return (
         <div>
-            <div className="mb-5">
-                {isSuccessMessage && <CustomToast />}
-            </div>
+          
 
             <Card className="h-full w-full">
 
@@ -118,7 +106,7 @@ const LatestUsersTable = ({ TABLE_HEAD, users }) => {
                     <div className="mb-8 flex items-center justify-between gap-8">
                         <div>
                             <Typography variant="h5" color="blue-gray">
-                                Users list
+                                Latest Users
                             </Typography>
                             <Typography
                                 color="gray"
@@ -167,10 +155,7 @@ const LatestUsersTable = ({ TABLE_HEAD, users }) => {
                         <div className="w-full md:w-40 lg:w-40 ">
                             <ExcelExport data={users} fileName="user" />
                         </div>
-                        <Tooltip content="Filter by"
-                            className="bg-gray-300">
-                            <FilterDropdown onSelectFilter={handleSelectedRole} options={roleOptions} />
-                        </Tooltip>
+                       
 
                         <div>
                             <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />

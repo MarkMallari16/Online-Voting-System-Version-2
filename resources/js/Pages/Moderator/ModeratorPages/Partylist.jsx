@@ -6,7 +6,7 @@ import { usePage } from '@inertiajs/react';
 const Partylist = ({ auth, partylists, partylistsPerPage, voters }) => {
   const {election} = usePage().props;
 
-  console.log(election);
+
   return (
     <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Manage Partylist</h2>} >
       <div className="flex flex-col md:flex-row min-h-screen">

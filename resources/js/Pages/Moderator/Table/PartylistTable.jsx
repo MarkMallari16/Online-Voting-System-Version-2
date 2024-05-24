@@ -30,8 +30,6 @@ import InputError from "@/Components/InputError";
 import DeleteModal from "@/Components/DeleteModal";
 
 import ExcelExport from "@/Components/ExcelExport";
-import Dropdown from "../../../Components/Dropdown";
-import Modal from "@/Components/Modal";
 import toast from 'react-hot-toast';
 import CustomToast from "@/Components/CustomToast";
 import PaginationInTable from "@/Components/PaginationInTable";
@@ -45,7 +43,7 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
 
   const { errors } = usePage().props
 
-  console.log(errors)
+
   const { data, setData, post, delete: destroy, progress, processing, reset } = useForm();
 
   const [openAddModal, setOpenAddModal] = useState(false);
