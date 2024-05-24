@@ -17,7 +17,7 @@ import { LiaUserAltSlashSolid } from "react-icons/lia";
 
 
 const VoterDashboard = ({ election, candidatesAll, positionList, partyList, castedVotes, voteCounts, voterHasVoted, candidateWinners }) => {
-    
+
     const [selectedCandidates, setSelectedCandidates] = useState([]);
     const [now, setNow] = useState(new Date());
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
@@ -66,9 +66,6 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
     const electionId = election ? election.id : 0;
 
-
-
-
     const { data, setData, post, errors, processing } = useForm({
         election_id: electionId,
         candidate_ids: [],
@@ -80,7 +77,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
     }, [selectedCandidates]);
 
     const onSelectCandidate = (candidateId, positionId) => {
-        // Check if the candidate is already selected for the current position
+
         const isCandidateSelected = selectedCandidates.some(
             (candidate) =>
                 candidatesAll.find((c) => c.id === candidate).position_id ===
@@ -88,7 +85,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
         );
 
         if (isCandidateSelected) {
-            // deselect the candidate if already selected
+
             setSelectedCandidates((prevState) =>
                 prevState.filter(
                     (candidate) =>
@@ -97,7 +94,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                 )
             );
         } else {
-            // remove any previously selected candidate for the current position
+
             const updatedCandidates = selectedCandidates.filter(
                 (candidate) =>
                     candidatesAll.find((c) => c.id === candidate)
@@ -114,18 +111,17 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
         setShowConfirmationModal(true);
     };
 
-    const confirmVote = async () => {
+    const confirmVote = () => {
         try {
 
             setData("candidate_ids", selectedCandidates);
 
-            await post("/votes", {
+            post("/votes", {
                 election_id: electionId,
                 candidate_ids: selectedCandidates,
-            });
+            })
             setIsSuccessMessage(true);
             toast.success("You have successfully voted!");
-
 
         } catch (error) {
 
@@ -154,7 +150,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
     return (
         <div>
-            <PartylistCarousel partylistCarouselData={partyList}/>
+            <PartylistCarousel partylistCarouselData={partyList} />
             {isSuccessMessage && <CustomToast />}
             {(election && election?.status === "Active") && isElectionStarted ? (
 

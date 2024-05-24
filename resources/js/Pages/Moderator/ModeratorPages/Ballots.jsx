@@ -7,11 +7,12 @@ import { Link } from '@inertiajs/react';
 
 import { LiaUserAltSlashSolid } from "react-icons/lia";
 import { FaBox } from "react-icons/fa";
+import BallotCandidateCard from '@/Components/BallotCandidateCard';
 
 const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
 
   
-
+    
 
     return (
         <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Ballot</h2>} >
@@ -34,7 +35,7 @@ const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
                                         {candidatesPerPosition
                                             .filter(candidate => candidate.position_id === position.id)
                                             .map(candidate => (
-                                                <CandidateCard
+                                                <BallotCandidateCard
                                                     key={candidate.id}
                                                     candidate={candidate}
 
