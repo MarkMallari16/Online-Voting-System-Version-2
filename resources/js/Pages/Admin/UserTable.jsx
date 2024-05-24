@@ -132,7 +132,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
                                 color="gray"
                                 className="mt-1 font-normal"
                             >
-                                See information about all users
+                                See information about all verified users
                             </Typography>
 
                         </div>

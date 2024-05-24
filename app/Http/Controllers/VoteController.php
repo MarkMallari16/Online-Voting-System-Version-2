@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreVoteRequest;
 use App\Mail\VoteConfirmation;
+use App\Models\AuditLog;
 use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\Positions;
@@ -80,7 +81,7 @@ class VoteController extends Controller
             $vote->vote_timestamp = now();
             $vote->isAbstained = true;
             $vote->save();
-            
+
             // Mail::to($user->email)->send(new VoteConfirmation($user, $election));
 
             return redirect()->back()->with('success', 'Successfully abstained from voting');
@@ -104,6 +105,15 @@ class VoteController extends Controller
 
             $vote->save();
         }
+
+        AuditLog::create([
+            'user_id' => $user->id,
+            'action' => 'vote_successful',
+            'details' => json_encode([
+                'election_id' => $validatedData['election_id'],
+                'timestamp' => now()->toDateTimeString(),
+            ]),
+        ]);
         // Mail::to($user->email)->send(new VoteConfirmation($user, $election));
 
         return redirect()->back()->with('success', 'Successfully voted');

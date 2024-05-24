@@ -55,7 +55,7 @@ export default function VerifyEmail({ status }) {
                 </div>
             )}
 
-            <div className="mt-4 flex items-center justify-between">
+            <div className="mt-4 flex items-center justify-end">
                 <Link
                     href={route('logout')}
                     method="post"
