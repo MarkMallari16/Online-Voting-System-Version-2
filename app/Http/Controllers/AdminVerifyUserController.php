@@ -38,17 +38,13 @@ class AdminVerifyUserController extends Controller
     }
     public function rejectAccount(Request $request, $id)
     {
-        try {
-            $user = User::findOrFail($id);
-            $user->delete();
+        $user = User::findOrFail($id);
+        $user->delete();
 
-            AuditLog::create([
-                'user_id' => $request->user()->id,
-                'action' => 'Rejected',
-                'details' => 'User account rejected: ' . $user->name,
-            ]);
-        } catch (Exception $e) {
-            Log::error('Error creating user: ' . $e->getMessage());
-        }
+        AuditLog::create([
+            'user_id' => $request->user()->id,
+            'action' => 'Rejected',
+            'details' => 'User account rejected: ' . $user->name,
+        ]);
     }
 }

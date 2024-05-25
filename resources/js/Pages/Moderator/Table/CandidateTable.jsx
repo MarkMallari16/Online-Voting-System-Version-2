@@ -895,7 +895,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                             {positionName}
                                                         </Typography>
                                                     </td>
-                                                    <td className={classes}>
+                                                    <td className={`${classes} w-64`}>
                                                         <Typography
                                                             variant="small"
                                                             color="blue-gray"
