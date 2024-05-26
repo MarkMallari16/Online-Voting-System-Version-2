@@ -3,7 +3,7 @@ import { Carousel, Tooltip } from "@material-tailwind/react";
 import STISHSBacoorLogo from '../../../public/sti-images/STIBacoorSHSCouncilLogo.png';
 import { Link } from '@inertiajs/react';
 const PartylistCarousel = ({ partylistCarouselData }) => {
-  console.log(partylistCarouselData)
+
   return (
     <div className='w-full flex mt-5 gap-2 flex-wrap'>
 

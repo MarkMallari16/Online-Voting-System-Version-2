@@ -210,7 +210,7 @@ const ModeratorDashboard = ({ voters, candidates, election, position_list, voteC
             <div>
                 {
                     election && votedVoters.length > 0 ? (
-                        <BarChartAllCanidadtes positionId={positionId} positionName={positionName} voteCounts={voteCounts} />
+                        <BarChartAllCanidadtes positionLists={position_list} voteCounts={voteCounts} />
 
                     ) : (
                         <div className='mt-4 rounded-lg ring-1 ring-inset ring-gray-300 bg-white flex justify-center flex-col items-center h-96'>

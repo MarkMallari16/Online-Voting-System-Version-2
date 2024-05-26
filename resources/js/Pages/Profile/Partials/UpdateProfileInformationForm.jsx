@@ -7,7 +7,7 @@ import { Transition } from '@headlessui/react';
 
 export default function UpdateProfileInformation({ mustVerifyEmail, status, className = '' }) {
     const user = usePage().props.auth.user;
- 
+
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         name: user.name,
         email: user.email,
@@ -59,7 +59,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         onChange={(e) => setData('email', e.target.value)}
                         required
                         autoComplete="username"
-                        disabled
+                        disabled={user.role === 'voter' || user.role === 'moderator'}
                     />
 
                     <InputError className="mt-2" message={errors.email} />
@@ -76,7 +76,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                                 className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
                                 Click here to re-send the verification email.
-                            </Link> 
+                            </Link>
                         </p>
 
                         {status === 'verification-link-sent' && (
@@ -88,7 +88,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                 )}
 
                 <div className="flex items-center gap-4">
-                   {user.role !== 'voter' &&  <PrimaryButton disabled={processing}>Save</PrimaryButton>}
+                    {user.role !== 'voter' && <PrimaryButton disabled={processing}>Save</PrimaryButton>}
 
                     <Transition
                         show={recentlySuccessful}

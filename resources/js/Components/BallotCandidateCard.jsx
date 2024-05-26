@@ -11,7 +11,7 @@ import {
 } from "@material-tailwind/react";
 import CandidateModal from '@/Components/CandidateModal';
 const BallotCandidateCard = ({ candidate, positionId, }) => {
-    const [open,setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -19,14 +19,14 @@ const BallotCandidateCard = ({ candidate, positionId, }) => {
 
     return (
         <>
-            {/**hover:border-blue-500 focus:border-blue-500 */}
+       
 
-            <Card className={`px-5 py-8 w-full ring-1 ring-gray-300  md:w-96 h-auto cursor-pointer`}>
+            <Card className={`px-5 py-8 w-full ring-1 ring-gray-300  md:w-96 h-auto `}>
                 <div className='flex justify-center  '>
-                    <Avatar src={`storage/${candidate.candidate_profile}`} size="xxl" withBorder={true} className='border-black p-0.5' />
+                    <Avatar src={`storage/${candidate.candidate_profile}`} size="xxl" withBorder={true} className='border-none' />
                 </div>
 
-           
+
                 <CardBody className='text-center'>
                     <Typography variant="h5" color="blue-gray" className="mb-2">
                         {`${candidate.first_name} ${candidate.middle_name === null ? '' : ''} ${candidate.last_name}`}

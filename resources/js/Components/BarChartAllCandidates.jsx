@@ -1,19 +1,23 @@
 import BarChart from '@/Pages/Moderator/BarChart';
 import React from 'react'
 
-const BarChartAllCandidates = ({ voteCounts }) => {
+const BarChartAllCandidates = ({ voteCounts, positionLists }) => {
   const positionVotes = Object.values(voteCounts).filter(vote => vote.position_id);
 
+  console.log(positionVotes);
 
   const labels = positionVotes.map(vote => (
 
-    vote.candidate
+    <>
+      vote.candidate
+      vote.position
+    </>
   ));
 
 
   const data = positionVotes.map(vote => vote.voteCount);
 
-
+  console.log(labels);
   const barChartData = {
 
     labels: labels,
