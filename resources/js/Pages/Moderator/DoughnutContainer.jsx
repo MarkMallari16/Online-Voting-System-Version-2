@@ -1,8 +1,7 @@
 import React from 'react'
 import DoughnutChart from './DoughnutChart';
 
-const DoughnutContainer = ({ voters, votersVotedCount, abstainCount,votersNotVoted }) => {
-    const notYetVoted = voters.length - votersVotedCount - abstainCount;
+const DoughnutContainer = ({ votersVotedCount, abstainCount, votersNotVoted }) => {
 
     const pieChartData = {
         labels: ['Students Voted', 'Students Not Voted', 'Students Abstain'],
@@ -18,7 +17,7 @@ const DoughnutContainer = ({ voters, votersVotedCount, abstainCount,votersNotVot
     };
 
     return (
-        <div className='flex justify-center mt-8 '>
+        <div className='flex justify-center'>
             <DoughnutChart data={pieChartData} />
         </div>
     )

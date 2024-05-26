@@ -18,9 +18,9 @@ function NavigationBarComponent() {
         };
     })
 
-    
+
     return (
-        <div className={`z-50 sticky top-0 transition-all duration-300   ${scrolled ? ' bg-blue-500 rounded-md bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 ' : 'bg-none'}`}>
+        <div className={`z-50 sticky top-0 transition-all duration-300   ${scrolled ? ' bg-blue-500 rounded-md  backdrop-filter backdrop-blur-md bg-opacity-10 ' : 'bg-none'}`}>
             <div className={`flex sm:mx-10  md:mx-20 `} >
                 <div className="mx-3 sm:mx-0">
                     <Link href='/' > <ApplicationLogo /></Link>
@@ -31,14 +31,14 @@ function NavigationBarComponent() {
                         <div className='mx-3 sm:mx-0' >
                             <Link
                                 href={route('login')}
-                                className="font-medium text-black  focus:text-black transition-all ease-in-out"
+                                className="font-medium focus:text-white text-black   transition-all ease-in-out"
                             >
                                 Log in
                             </Link>
 
                             <Link
                                 href={route('register')}
-                                className="ms-4 font-medium  px-6 py-2 border-0 text-white rounded-md  bg-gradient-to-b from-blue-400 to-blue-600 focus:outline focus:outline-2 duration-75 "
+                                className="ms-4 font-medium  px-6 py-2 border-0 text-white rounded-md  bg-gradient-to-b from-blue-400 to-blue-600 transition-all duration-300 ease-in-out  hover:to-blue-700"
                             >
                                 Register
                             </Link>

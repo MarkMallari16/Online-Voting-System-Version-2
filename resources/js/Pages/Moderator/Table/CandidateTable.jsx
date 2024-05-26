@@ -318,7 +318,6 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                 e.target.value
                                             )
                                         }
-
                                         autoFocus
                                         autoComplete="middleName"
                                         placeholder="Enter Candidate Middle Name"
