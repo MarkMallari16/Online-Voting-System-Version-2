@@ -15,7 +15,7 @@ const HeroComponent = () => {
                 <div className='mt-5 flex  md:flex-row gap-2 items-center justify-center md:justify-start'>
                     <Link
                         href={route('register')}
-                        className="font-medium  px-6 py-2 text-white rounded-md bg-blue-500 hover:bg-blue-800  bg-gradient-to-b from-blue-400 to-blue-600  duration-75 focus:outline focus:outline-2 transition-all  ease-in-out"
+                        className="font-medium  px-6 py-2 text-white rounded-md  hover:to-blue-700  bg-gradient-to-b from-blue-400 to-blue-600  duration-300 transition-all  ease-in"
                     >
                         Create Account
                     </Link>
@@ -29,7 +29,7 @@ const HeroComponent = () => {
 
 
             </div>
-            <img src={Cover} alt="hero-section" className=" w-full h-full md:w-auto sm:w-[90%] xl:w-[100%]  hidden sm:hiddent md:block drop-shadow-xl" />
+            <img src={Cover} alt="hero-section" className=" w-full h-full md:w-auto sm:w-[90%] xl:w-[90%]  hidden sm:hiddent md:block drop-shadow-xl" />
         </div>
     )
 }

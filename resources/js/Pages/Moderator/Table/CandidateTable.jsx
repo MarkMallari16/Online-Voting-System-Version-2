@@ -38,6 +38,7 @@ import PaginationInTable from "@/Components/PaginationInTable";
 import SearchInput from "@/Components/SearchInput";
 import DefaultCandidatePicture from '../../../../../public/storage/images/default_profile.png';
 import AvatarComponent from "@/Components/AvatarComponent";
+import AddCandidateModal from "../Actions/AddCandidateModal";
 
 
 
@@ -205,13 +206,13 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             )}
 
             {/**Add Canidate*/}
-
             <Dialog
                 size="xl"
                 open={open}
                 handler={handleOpen}
                 className="overflow-y-auto md:h-[95vh] "
             >
+
                 <form onSubmit={handleSubmit}>
                     <DialogHeader>Add Candidate</DialogHeader>
                     <hr />
@@ -232,7 +233,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                 size="xxl"
                                                 withBorder={true}
                                                 className="border-none"
-                                               
+
                                             />
                                         ) : (
                                             <Avatar
@@ -240,7 +241,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                 alt="Default Candidate Avatar"
                                                 size="xxl"
                                                 withBorder={true}
-                                         
+
                                                 className="border-none"
                                             />
                                         )}
@@ -452,6 +453,8 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                 </form>
             </Dialog>
 
+
+
             {/*Update Candidate */}
 
             <Dialog
@@ -482,7 +485,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                             }
                                             alt="Candidate Avatar"
                                             size="xxl"
-                                       
+
                                             withBorder={true}
                                             className="border-none"
                                         />
@@ -696,6 +699,8 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                     </DialogFooter>
                 </form>
             </Dialog>
+
+
 
             <Card className="h-full w-full">
                 <CardHeader
@@ -970,6 +975,8 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                 dataName="Candidate"
                 processing={processing}
             />
+
+
         </div>
     );
 }

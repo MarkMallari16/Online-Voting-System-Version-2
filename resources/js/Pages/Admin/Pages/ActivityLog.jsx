@@ -54,7 +54,7 @@ const ActivityLog = ({ auth, logs }) => {
 
     const exportExcellogs = logs?.data.map((log) => {
         return {
-            "Date": log.created_at,
+            "Date": log?.created_at,
             "ID": log?.user?.id,
             "Name": log?.user?.name,
             "Action": log?.action,
