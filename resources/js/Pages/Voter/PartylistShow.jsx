@@ -12,11 +12,11 @@ const PartylistShow = ({ auth, partylist, election }) => {
   return (
     <AuthenticatedLayout
       user={auth.user}
-      header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Candidate Partylists Members</h2>}
+      header={<h2 className="font-medium text-xl text-gray-800 leading-tight dark:text-gray-50">Candidate Partylists Members</h2>}
     >
       <div className="flex flex-col md:flex-row min-h-screen">
         <main className="flex-1 py-12">
-          <div className="max-w-full  mx-auto sm:max-w-3xl md:max-w-4xl lg:max-w-6xl xl:max-w-7xl bg-white rounded-lg p-5 lg:p-10">
+          <div className="max-w-full  mx-auto sm:max-w-3xl md:max-w-4xl lg:max-w-6xl xl:max-w-7xl bg-white dark:bg-[#252525] dark:ring-1 dark:ring-inset dark:ring-gray-800 rounded-lg p-5 lg:p-10">
             <div>
 
               <div>
@@ -27,19 +27,19 @@ const PartylistShow = ({ auth, partylist, election }) => {
                 <div className='flex items-center gap-2 text-lg mb-1'>
 
 
-                  <div className='font-medium'>
+                  <div className='font-medium  dark:text-gray-50'>
 
                     Partylist Description
                   </div>
 
                 </div>
-                <div className='text-justify'>
+                <div className='text-justify dark:text-gray-400'>
                   {partylist.description}
 
                 </div>
               </div>
 
-              <div className='mt-20 mb-5 text-3xl flex gap-2 items-center'>
+              <div className='mt-20 mb-5 text-3xl flex gap-2 items-center dark:text-gray-50'>
                 <MdGroups className='h-12 w-12'/>
 
                 <div> {partylist.name} Partylist Members</div>
@@ -47,18 +47,16 @@ const PartylistShow = ({ auth, partylist, election }) => {
 
               <div className='grid grid-cols-1 lg:grid-cols-3 gap-5'>
                 {partylist.candidates.map((candidate) => (
-                  <div key={candidate.id} className='flex flex-col items-center ring-1 ring-inset ring-gray-300 bg-gray-50 rounded-md p-6 shadow-sm ease-in duration-100 '>
+                  <div key={candidate.id} className='flex flex-col items-center ring-1 ring-inset ring-gray-300 bg-gray-100 dark:bg-[#1f1f1f] dark:ring-gray-800 rounded-md p-6 shadow-sm ease-in duration-100 '>
                     <div>
                       <Avatar src={`/storage/${candidate.candidate_profile}`} variant='rounded' size='xxl'></Avatar>
                     </div>
-                    <div className='mt-4 text-2xl font-medium'>
+                    <div className='mt-4 text-2xl font-medium dark:text-gray-50'>
                       {`${candidate.first_name} ${candidate.last_name}`}
 
                     </div>
 
-                    <div className='text-lg font-normal flex items-center gap-1'>
-
-
+                    <div className='text-lg font-normal flex items-center gap-1 dark:text-gray-400'>
                       {candidate.position.name}
                     </div>
 

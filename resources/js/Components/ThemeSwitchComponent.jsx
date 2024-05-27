@@ -1,13 +1,11 @@
 import { Switch } from '@material-tailwind/react';
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 
 const ThemeSwitchComponent = () => {
     const [isEnable, setIsEnable] = useState(() => {
         const userTheme = localStorage.getItem('theme');
-
-        return userTheme ? userTheme === 'dark' : false
+        return userTheme ? userTheme === 'dark' : false;
     });
-
 
     useEffect(() => {
         if (isEnable) {
@@ -19,13 +17,18 @@ const ThemeSwitchComponent = () => {
         }
     }, [isEnable]);
 
-
     const handleToggle = () => {
-        setIsEnable(!isEnable);
-    }
-    return (
-        <Switch label={isEnable ? 'Dark Mode' : 'Light Mode'} checked={isEnable} onChange={handleToggle} />
-    )
-}
+        setIsEnable(prevState => !prevState);
+    };
 
-export default ThemeSwitchComponent
+    return (
+        <Switch 
+            label={isEnable ? 'Dark Mode' : 'Light Mode'} 
+            checked={isEnable} 
+            onChange={handleToggle} 
+            color="blue"
+        />
+    );
+};
+
+export default ThemeSwitchComponent;
