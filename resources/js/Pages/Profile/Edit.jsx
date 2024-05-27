@@ -11,7 +11,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
         <AuthenticatedLayout
             user={auth.user}
             header={<div className='flex justify-between items-center'>
-                <h2 className="font-medium text-xl text-gray-800 leading-tight">Profile
+                <h2 className="font-medium text-xl text-gray-800 leading-tight dark:text-gray-50">Profile
 
                 </h2>
                 <ThemeSwitchComponent />

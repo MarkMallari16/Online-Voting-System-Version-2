@@ -1,8 +1,6 @@
 import { Switch } from '@material-tailwind/react';
 import React, { useState, useEffect } from 'react'
 
-
-
 const ThemeSwitchComponent = () => {
     const [isEnable, setIsEnable] = useState(() => {
         const userTheme = localStorage.getItem('theme');
@@ -26,7 +24,7 @@ const ThemeSwitchComponent = () => {
         setIsEnable(!isEnable);
     }
     return (
-        <Switch label="Dark Mode" checked={isEnable} onChange={handleToggle} />
+        <Switch label={isEnable ? 'Dark Mode' : 'Light Mode'} checked={isEnable} onChange={handleToggle} />
     )
 }
 

@@ -96,7 +96,7 @@ const LatestUsersTable = ({ TABLE_HEAD, users }) => {
         <div>
           
 
-            <Card className="h-full w-full">
+            <Card className="h-full w-full ">
 
                 <CardHeader
                     floated={false}

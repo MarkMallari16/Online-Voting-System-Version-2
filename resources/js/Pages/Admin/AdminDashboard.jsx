@@ -21,8 +21,8 @@ const AdminDashboard = ({ usersPerPage, latestUsers }) => {
     return (
         <div className="flex flex-col sm:flex-row">
             <div className="flex-1 ">
-                <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div className="p-6 text-gray-900 flex justify-between items-center">
+                <div className="bg-white dark:bg-[#252525] dark:text-gray-50 ring-1 ring-gray-300 ring-inset dark:ring-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                    <div className="p-6 flex justify-between items-center">
                         <div>
                             <h1 className="text-xl font-medium">Welcome, Admin!</h1>
                         </div>

@@ -13,7 +13,7 @@ const CountdownItem = ({ num, text }) => {
                         animate={{ y: "0%" }}
                         exit={{ y: "-100%" }}
                         transition={{ ease: "backIn", duration: 0.75 }}
-                        className="block text-2xl md:text-4xl lg:text-6xl xl:text-7xl text-black font-medium dark:text-white"
+                        className="block text-2xl md:text-4xl lg:text-6xl xl:text-7xl text-black font-medium dark:text-gray-300"
                     >
                         {num}
                     </motion.span>
@@ -103,7 +103,7 @@ function Countdown({ election }) {
                         <>
                             {isVotingStarts ? (
                                 <div className='text-center mb-4'>
-                                    <h2 className="text-2xl font-semibold text-black dark:text-white">Voting Starts In:</h2>
+                                    <h2 className="text-2xl font-semibold text-black dark:text-gray-300">Voting Starts In:</h2>
                                     <p className="text-sm text-blue-gray-600">Get ready to cast your vote!</p>
                                 </div>
                             ) : isVotingEnded ? (
@@ -116,12 +116,12 @@ function Countdown({ election }) {
                                 )
                             ) : (
                                 <div className="text-center mb-4 ">
-                                    <h2 className="text-2xl font-semibold text-black dark:text-white">Voting Ends In:</h2>
+                                    <h2 className="text-2xl font-semibold text-black dark:text-gray-300">Voting Ends In:</h2>
                                     <p className="text-sm text-gray-600 dark:text-gray-100">Make sure to vote before the deadline to make your choice count!</p>
                                 </div>
                             )}
                         </>
-                        <div className="w-full max-w-5xl mx-auto flex items-center justify-around bg-white text-gray-800 dark:bg-gray-900 ">
+                        <div className="w-full max-w-5xl mx-auto flex items-center justify-around bg-white text-gray-800 dark:bg-gray-900 dark:text-gray-300">
                             <CountdownItem num={remaining.days} text="Day(s)" />
                             <CountdownItem num={remaining.hours} text="Hour(s)" />
                             <CountdownItem num={remaining.minutes} text="Minute(s)" />

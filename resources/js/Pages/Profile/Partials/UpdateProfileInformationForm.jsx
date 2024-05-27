@@ -36,7 +36,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
 
                     <TextInput
                         id="name"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full dark:bg-[#1f1f1f] dark:border-gray-800 dark:text-gray-50"
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
                         required
@@ -49,12 +49,12 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="email" value="Email" className='dark:text-gray-100'/>
+                    <InputLabel htmlFor="email" value="Email" className='dark:text-gray-100 '/>
 
                     <TextInput
                         id="email"
                         type="email"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full dark:bg-[#1f1f1f] dark:border-gray-800 dark:text-gray-50"
                         value={data.email}
                         onChange={(e) => setData('email', e.target.value)}
                         required

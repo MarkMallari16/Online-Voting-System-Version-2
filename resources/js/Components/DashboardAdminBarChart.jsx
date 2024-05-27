@@ -32,7 +32,7 @@ const DashboardBarAdminChart = ({ totalStudents, totalAdmins, totalModerators, c
 
     };
     return (
-        <div className={` bg-white p-5 ring-1 ring-inset ring-gray-300 rounded-lg shadow-sm w-auto ${className} `}  >
+        <div className={` bg-white dark:bg-[#252525] dark:ring-gray-800 dark:text-gray-50 p-5 ring-1 ring-inset ring-gray-300 rounded-lg shadow-sm w-auto ${className} `}  >
             <div className='font-medium'>Number of Users</div>
             <Bar data={data} options={options} />
         </div>
