@@ -154,7 +154,7 @@ export default function Register() {
 
                 </div>
             </div>
-            <div className=' lg:bg-[url("/sti-images/BeSTICoverWithBacoor.png")] md:bg-left md:bg-no-repeatmd: bg-cover md:block md:m-4 md:col-span-3  rounded-l-3xl  rounded-r-lg'>
+            <div className=' lg:bg-[url("/sti-images/BeSTICoverWithBacoor.png")] md:bg-left md:bg-no-repeat md:bg-cover md:block md:col-span-3  rounded-l-3xl  '>
 
 
             </div>

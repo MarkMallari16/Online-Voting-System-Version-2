@@ -36,9 +36,9 @@ export default function Login({ status, canResetPassword }) {
         setShowPassword(!showPassword);
     }
     return (
-        <div className=' grid grid-cols-1  lg:grid-cols-5 h-screen '>
-            <div className='lg:bg-[url("/sti-images/SHSStudents.png")] lg:bg-center  lg:bg-no-repeat lg:bg-cover lg:flex  lg:items-center lg:justify-center m-0 lg:m-4 lg:col-span-3 bg-none sm:rounded-r-3xl  sm:rounded-l-lg'>
-               
+        <div className='grid grid-cols-1  lg:grid-cols-5 h-screen '>
+            <div className='lg:bg-[url("/sti-images/SHSStudents.png")] lg:bg-center  lg:bg-no-repeat lg:bg-cover lg:flex  lg:items-center lg:justify-center m-0  lg:col-span-3 bg-none lg:rounded-r-3xl'>
+
             </div>
 
             <div className='flex flex-col items-center lg:justify-center col-span-2 '>
@@ -65,7 +65,7 @@ export default function Login({ status, canResetPassword }) {
                                 autoComplete="username"
                                 isFocused={true}
                                 onChange={(e) => setData('email', e.target.value)}
-                               
+
                             />
 
                             <InputError message={errors.email} className="mt-2" />
