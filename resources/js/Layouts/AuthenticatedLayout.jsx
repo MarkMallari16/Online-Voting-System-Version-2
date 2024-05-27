@@ -13,8 +13,8 @@ export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100   dark:bg-[#121212]">
-            <nav className="bg-white border-b dark:border-none border-gray-100 p-5 dark:bg-[#252525] dark:text-white">
+        <div className="min-h-screen bg-gray-100 dark:bg-[#121212]">
+            <nav className="bg-white border-b dark:border-none border-gray-100 p-5 dark:bg-[#252525] ">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex">
@@ -30,7 +30,7 @@ export default function Authenticated({ user, header, children }) {
                                 <NavLink
                                     href={route('dashboard')}
                                     active={route().current('dashboard')}
-                                    className={` ${route().current('dashboard')} dark:text-gray-400`}
+                                    className={` ${route().current('dashboard')} dark:text-gray-100`}
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="me-1 w-5 h-5">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
@@ -46,7 +46,7 @@ export default function Authenticated({ user, header, children }) {
                                         <NavLink
                                             href={route('users')}
                                             active={route().current('users')}
-                                            className={` ${route().current('users')} dark:text-gray-300`}
+                                            className={` ${route().current('users')} dark:text-gray-100`}
                                         >
 
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 me-2">
@@ -58,7 +58,7 @@ export default function Authenticated({ user, header, children }) {
                                         <NavLink
                                             href={route('verifyUsers')}
                                             active={route().current('verifyUsers')}
-                                            className={` ${route().current('verifyUsers')} dark:text-gray-300`}
+                                            className={` ${route().current('verifyUsers')} dark:text-gray-100`}
                                         >
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5 me-2">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -72,7 +72,7 @@ export default function Authenticated({ user, header, children }) {
                                         <NavLink
                                             href={route('activitylog')}
                                             active={route().current('activitylog')}
-                                            className={` ${route().current('activitylog')} dark:text-gray-300`}
+                                            className={` ${route().current('activitylog')} dark:text-gray-100`}
                                         >
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 me-2">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />

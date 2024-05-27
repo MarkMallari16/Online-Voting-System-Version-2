@@ -39,7 +39,7 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
         if (!open) {
             if (selected) {
                 onSelectCandidate(candidate.id, positionId);
-               
+
             } else {
                 onSelectCandidate(null, positionId);
             }
@@ -51,9 +51,9 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
         <>
             {/**hover:border-blue-500 focus:border-blue-500 */}
 
-            <Card className={`px-5 py-8 w-full ring-1 ring-gray-300  md:w-96 h-auto cursor-pointer select-none   ${isSelected ? 'ring-2 ring-blue-500 ' : ''}  transition-all duration-200 ease-in-out `} onClick={handleCandidateClick} >
-                <div className='flex justify-center  '>
-                    <Avatar src={`storage/${candidate.candidate_profile}`} size="xxl" withBorder={true} className='border-none'/>
+            <Card className={`dark:bg-[#1f1f1f] px-5 py-8 w-full ring-1 ring-gray-300 dark:ring-gray-800 md:w-96 h-auto cursor-pointer select-none   ${isSelected ? 'ring-4 ring-blue-500 dark:ring-blue-600 ' : ''}  transition-all duration-200 ease-in-out `} onClick={handleCandidateClick} >
+                <div className='flex justify-center'>
+                    <Avatar src={`storage/${candidate.candidate_profile}`} size="xxl" withBorder={true} className='border-none' />
                 </div>
 
                 <input
@@ -64,10 +64,10 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
                     className='hidden'
                 />
                 <CardBody className='text-center'>
-                    <Typography variant="h5" color="blue-gray" className="mb-2 ">
+                    <Typography variant="h5" className="mb-2 text-gray-900 dark:text-gray-100">
                         {`${candidate.first_name} ${candidate.middle_name === null ? '' : ''} ${candidate.last_name}`}
                     </Typography>
-                    <div className='flex items-center justify-center gap-1 text-gray-900 '>
+                    <div className='flex items-center justify-center gap-1 text-gray-900 dark:text-gray-400'>
                         <span><FaUsers className='text-lg' /></span>
                         <span>{candidate.partylist.name}</span>
                     </div>
@@ -79,7 +79,7 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
                     <button type='button' className='text-center text-black font-medium bg-gray-300 hover:bg-gray-400 transition-all ease-in-out text px-3 py-2 rounded-md z-50' onClick={handleOpen}>View Platform</button>
 
                 </CardFooter>
-                <div className={`relative flex justify-end  transition-opacity duration-150 ${showCheck ? 'opacity-100 bg-gray-200' : 'opacity-0 bg-transparent'}`}>
+                <div className={`relative flex justify-end  transition-opacity duration-100 ${showCheck ? 'opacity-100 bg-gray-200' : 'opacity-0 bg-transparent'}`}>
                     <div className='absolute bottom-0   text-blue-500 p-2 rounded-lg'>
 
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-8">

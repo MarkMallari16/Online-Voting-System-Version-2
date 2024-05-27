@@ -25,7 +25,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
     const memoizedEndingDate = useMemo(() => {
 
         if (!election || election.status === 'Inactive') {
-            return '';
+            return null;
         } else {
             return election.end_date;
         }
@@ -156,41 +156,46 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
                 <div>
 
-                    <ElectionHeader election={election} />
+
                     <div>
                         {isElectionEnded ? (
-                            <div ref={resultRef} className="mt-10">
-                                <div className="text-end">
-                                    <Button color="blue" variant="gradient" onClick={() => setShowCandidateWinnerModal(true)}>
-                                        <div className="flex items-center gap-1">
-                                            <div>
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0" />
-                                                </svg>
-                                            </div>
-                                            <div>
 
-                                                View Election Winners
+                            <>
+                                <VoteCandidateWinnerModal isOpen={showCandidateWinnerModal} onClose={() => setShowCandidateWinnerModal(false)} candidateWinners={candidateWinners} electionTitle={election?.title} />
+
+                                <div ref={resultRef} className="mt-10">
+                                    <div className="text-end">
+                                        <Button color="blue" variant="gradient" onClick={() => setShowCandidateWinnerModal(true)}>
+                                            <div className="flex items-center gap-1">
+                                                <div>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 0 1 3 3h-15a3 3 0 0 1 3-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 0 1-.982-3.172M9.497 14.25a7.454 7.454 0 0 0 .981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 0 0 7.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 0 0 2.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 0 1 2.916.52 6.003 6.003 0 0 1-5.395 4.972m0 0a6.726 6.726 0 0 1-2.749 1.35m0 0a6.772 6.772 0 0 1-3.044 0" />
+                                                    </svg>
+                                                </div>
+                                                <div>
+
+                                                    View Election Winners
+                                                </div>
                                             </div>
-                                        </div>
-                                    </Button>
+                                        </Button>
+                                    </div>
+                                    <div className="w-full text-xl md:text-2xl lg:text-3xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 justify-center mt-5">
+                                        {positionList.map(position => (
+                                            <BarChartContainer key={position.id} positionId={position.id} positionName={position.name} voteCounts={voteCounts} />
+                                        ))}
+                                    </div>
                                 </div>
-                                <div className="w-full text-xl md:text-2xl lg:text-3xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 justify-center mt-5">
-                                    {positionList.map(position => (
-                                        <BarChartContainer key={position.id} positionId={position.id} positionName={position.name} voteCounts={voteCounts} />
-                                    ))}
-                                </div>
-                            </div>
+                            </>
                         ) : voterHasVoted ? (
                             <AlreadyVoted castedVotes={castedVotes} positionList={positionList} partyList={partyList} />
                         ) : (
                             <form onSubmit={onVoteSubmit}>
                                 {positionList.map((position) => (
-                                    <div key={position.id} className="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-7">
+                                    <div key={position.id} className="bg-white dark:bg-[#252525] dark:text-gray-50 dark:ring-gray-800 ring-1 ring-inset ring-gray-300  overflow-hidden shadow-sm sm:rounded-lg mt-7">
                                         <div className="mt-11 font-medium text-2xl text-center">
                                             Vote for {position.name}
                                         </div>
-                                        <div className="text-center text-gray-600">
+                                        <div className="text-center text-gray-600 dark:text-gray-500">
                                             Select your preferred candidate(s) for the position of {position.name}
                                         </div>
                                         <div className={`p-6 text-gray-900`}>
@@ -270,7 +275,6 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                 selectedCandidatesInfo={getSelectedCandidatesInfo()}
             />
 
-            <VoteCandidateWinnerModal isOpen={showCandidateWinnerModal} onClose={() => setShowCandidateWinnerModal(false)} candidateWinners={candidateWinners} electionTitle={election?.title} />
         </div >
 
     )
