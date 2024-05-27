@@ -11,7 +11,7 @@ const BenefitsAndFeatures = () => {
 
                 </div>
 
-                <div className='w-[90%] md:w-auto  px-3 grid grid-cols-1 lg:grid-cols-2  justify-center mx-auto  lg:gap-4'>
+                <div className='w-[90%]  px-3 grid grid-cols-1 lg:grid-cols-2  justify-center mx-auto  lg:gap-4'>
 
                     <div className="mb-8 lg:mb-0 bg-white p-10 rounded-lg ring-1 ring-inset ring-gray-300   transition-all ease-in-out duration-300">
 

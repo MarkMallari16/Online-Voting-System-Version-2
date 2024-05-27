@@ -85,7 +85,7 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
 
     const classes = "p-4 border-b border-blue-gray-50";
     return (
-        <Card className="h-full w-full">
+        <Card className="h-full w-full ">
             <CardHeader floated={false} shadow={false} className="rounded-none">
                 <div className="mb-8 flex items-center justify-between gap-8">
                     <div>

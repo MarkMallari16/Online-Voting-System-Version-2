@@ -6,7 +6,7 @@ const ElectionHeader = ({election}) => {
     return (
         <>
 
-            <div className="bg-white border shadow-sm border-3 rounded-md  p-10 ">
+            <div className="bg-white dark:bg-[#252525] dark:text-gray-50 ring-1 ring-gray-300 dark:ring-gray-800 shadow-sm border-3 rounded-md  p-10 ">
                 <div className="flex items-center justify-between">
                     <div><img src={STIBacoorLogo} alt="STI Bacoor Logo" className="w-32 sm:w-32" /></div>
                     <div className="text-3xl md:text-5xl text-center font-medium">{election?.title ? election.title : 'Inactive'}</div>

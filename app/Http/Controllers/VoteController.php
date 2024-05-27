@@ -65,7 +65,7 @@ class VoteController extends Controller
             return redirect()->back()->with('error', 'You are not authorized to vote');
         }
 
-        $election = Election::find($validatedData['election_id']);
+        $election  = Election::latest()->first();
 
         $existingVote = Vote::where('voter_id', $user->id)
             ->where('election_id', $validatedData['election_id'])
@@ -97,12 +97,7 @@ class VoteController extends Controller
 
             $vote->vote_timestamp = now();
 
-            if (empty($candidateId)) {
-                $vote->isAbstained = true;
-            } else {
-
-                $vote->candidate_id = $candidateId;
-            }
+            $vote->candidate_id = $candidateId;
 
             $vote->save();
         }
@@ -110,7 +105,7 @@ class VoteController extends Controller
         AuditLog::create([
             'user_id' => $user->id,
             'action' => 'Successful',
-            'details' => 'Successfully voted with election id: ' . $validatedData['election_id'] 
+            'details' => 'Successfully voted with election name: ' . $election->title
         ]);
         // Mail::to($user->email)->send(new VoteConfirmation($user, $election));
 

@@ -102,7 +102,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
 
     }
   };
-  console.log(election);
+
   const handleDeactivate = () => {
     try {
       put('/election/deactivate');
@@ -143,8 +143,8 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
   }
 
   const colorStatus = {
-    'Completed': ' text-green text-green-800',
-    'Active': ' text-blue-800',
+    'Completed': ' text-green-800',
+    'Active': ' text-blue-800 dark:text-blue-500',
     'Inactive': ' text-gray-800',
     'Ended': 'text-red-800'
   }
@@ -154,7 +154,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
 
   return (
 
-    <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Election</h2>}>
+    <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl  leading-tight">Election</h2>}>
       {isSuccessMessage && <CustomToast />}
       {election && election.end_date && election.end_date < new Date() && setElectionEndedModalOpen(true)}
       <div className="flex flex-col md:flex-row min-h-screen">
@@ -162,7 +162,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-5">
 
             <div className='mt-10 flex gap-2 justify-between items-center'>
-              <div className='text-2xl'>Election Status: <span className={`font-medium px-3 py-1 rounded-md ${getColorStatus(isElectionEnded ? 'Ended' : election?.status)}`}>{isElectionEnded ? 'Ended' : election?.status}</span>
+              <div className='text-2xl dark:text-white'>Election Status: <span className={`font-medium px-3 py-1 rounded-md ${getColorStatus(isElectionEnded ? 'Ended' : election?.status)}`}>{isElectionEnded ? 'Ended' : election?.status}</span>
               </div>
               <div className='flex gap-3'>
                 <div className='text-end'>
@@ -191,7 +191,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
 
             </div>
             <form onSubmit={handleSubmit} >
-              <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg mb-5">
+              <div className="p-4 sm:p-8 bg-white dark:dark:bg-[#252525] dark:text-white shadow sm:rounded-lg mb-5">
                 <div className='flex gap-3'>
                   <div className='text-lg font-medium'>Pause/Resume Election</div>
                   <Switch onClick={() => {
@@ -205,19 +205,19 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                     disabled={isElectionEnded} />
                 </div>
               </div>
-              <div className={`p-4 sm:p-8 bg-white shadow sm:rounded-lg`} >
+              <div className={`p-4 sm:p-8 bg-white shadow-sm sm:rounded-lg dark:dark:bg-[#252525] `} >
 
-                <header className='mb-5'>
-                  <h2 className="text-lg font-medium text-gray-900" >Election Title</h2>
-                  <p className="mt-1 text-sm text-gray-600">Set Election Title</p>
+                <header className='mb-5 '>
+                  <h2 className="text-lg font-medium text-gray-900 dark:text-gray-200" >Election Title</h2>
+                  <p className="mt-1 text-sm text-gray-600 dark:text-gray-500">Set Election Title</p>
                 </header>
 
                 <div>
                   <div>
-                    <InputLabel htmlFor="title" value="Set Election Title" />
+                    <InputLabel htmlFor="title" value="Election Title" className='dark:text-gray-200' />
                     <TextInput
                       id="title"
-                      className="mt-1 block w-full  lg:w-96"
+                      className="mt-1 block w-full  lg:w-96 "
                       type='text'
                       value={data.title}
                       placeholder="Enter Election Title"
@@ -230,14 +230,14 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                 <div className="mt-5">
                 </div>
 
-                <header className='mb-5'>
-                  <h2 className="text-lg font-medium text-gray-900">Election Date</h2>
-                  <p className="mt-1 text-sm text-gray-600">Set Election Date</p>
+                <header className='mb-5 '>
+                  <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Election Date</h2>
+                  <p className="mt-1 text-sm text-gray-600 dark:text-gray-500">Set Election Date</p>
                 </header>
 
                 <div className='flex flex-col md:flex-row lg:flex-row gap-4'>
                   <div>
-                    <InputLabel htmlFor="start_date" value="Start Date" />
+                    <InputLabel htmlFor="start_date" value="Start Date" className='dark:text-gray-200' />
                     <TextInput
                       id="start_date"
                       className="mt-1 block w-full"
@@ -249,7 +249,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                     <InputError className="mt-2" message={errors.start_date} />
                   </div>
                   <div>
-                    <InputLabel htmlFor="end_date" value="End Date" />
+                    <InputLabel htmlFor="end_date" value="End Date" className='dark:text-gray-200'/>
                     <TextInput
                       id="end_date"
                       className="mt-1 block w-full"

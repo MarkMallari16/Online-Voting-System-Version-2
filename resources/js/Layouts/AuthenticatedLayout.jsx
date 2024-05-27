@@ -7,29 +7,30 @@ import { Link } from '@inertiajs/react';
 import ModeratorNavigation from '@/Pages/Moderator/ModeratorNavigation';
 import { Avatar } from '@material-tailwind/react';
 import DefaultProfile from '../../../public/storage/images/default_profile.png'
+import ThemeSwitchComponent from '@/Components/ThemeSwitchComponent';
 export default function Authenticated({ user, header, children }) {
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="bg-white border-b border-gray-100 p-5">
+        <div className="min-h-screen bg-gray-100   dark:bg-[#121212]">
+            <nav className="bg-white border-b dark:border-none border-gray-100 p-5 dark:bg-[#252525] dark:text-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex">
                             <div className="shrink-0 flex items-center">
                                 <Link href="/dashboard">
-                                    <ApplicationLogo className="block " />
+                                    <ApplicationLogo className="block" />
                                 </Link>
 
                             </div>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ">
 
                                 <NavLink
                                     href={route('dashboard')}
                                     active={route().current('dashboard')}
-                                    className={` ${route().current('dashboard')}`}
+                                    className={` ${route().current('dashboard')} dark:text-gray-100`}
                                 >
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="me-1 w-5 h-5">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
@@ -45,7 +46,7 @@ export default function Authenticated({ user, header, children }) {
                                         <NavLink
                                             href={route('users')}
                                             active={route().current('users')}
-                                            className={` ${route().current('users')}`}
+                                            className={` ${route().current('users')} dark:text-gray-100`}
                                         >
 
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 me-2">
@@ -57,7 +58,7 @@ export default function Authenticated({ user, header, children }) {
                                         <NavLink
                                             href={route('verifyUsers')}
                                             active={route().current('verifyUsers')}
-                                            className={` ${route().current('verifyUsers')}`}
+                                            className={` ${route().current('verifyUsers')} dark:text-gray-100`}
                                         >
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5 me-2">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -71,7 +72,7 @@ export default function Authenticated({ user, header, children }) {
                                         <NavLink
                                             href={route('activitylog')}
                                             active={route().current('activitylog')}
-                                            className={` ${route().current('activitylog')}`}
+                                            className={` ${route().current('activitylog')} dark:text-gray-100`}
                                         >
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 me-2">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
@@ -100,17 +101,17 @@ export default function Authenticated({ user, header, children }) {
                                         <span className="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white dark:bg-[#252525] hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                             >
-                                                {/*user.name */}
+
                                                 <div className='flex items-center'>
                                                     <div>
                                                         <Avatar src={`/storage/${user.profile_picture}` ?
                                                             `/storage/${user.profile_picture}` : DefaultProfile} />
                                                     </div>
-                                                    {/**<div>{user.name}</div> */}
+
                                                 </div>
-                                                {/*console.log(user.profile_picture)*/}
+
 
                                                 <div>
                                                     <svg
@@ -148,9 +149,14 @@ export default function Authenticated({ user, header, children }) {
 
                                                 <p> Log Out</p>
                                             </div>
+
                                         </Dropdown.Link>
+
+
                                     </Dropdown.Content>
+
                                 </Dropdown>
+                               
                             </div>
                         </div>
 
@@ -263,8 +269,8 @@ export default function Authenticated({ user, header, children }) {
             </div>
             {
                 header && (
-                    <header className="bg-white shadow">
-                        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
+                    <header className="bg-white shadow dark:bg-gray-900 ">
+                        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 dark:text-white">{header}</div>
                     </header>
                 )
             }

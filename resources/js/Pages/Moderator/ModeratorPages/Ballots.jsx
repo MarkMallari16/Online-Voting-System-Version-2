@@ -15,18 +15,18 @@ const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
     
 
     return (
-        <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Ballot</h2>} >
+        <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl leading-tight">Ballot</h2>} >
 
             <div className='mt-10 md:mx-44'>
                 <ElectionHeader election={election} />
 
                 {positionList.length > 0 || candidatesPerPosition.length > 0 ? (
                     positionList.map((position) => (
-                        <div key={position.id} className="bg-white overflow-hidden shadow-sm sm:rounded-md mt-7">
+                        <div key={position.id} className="bg-white dark:bg-[#252525] dark:text-gray-50 ring-1 ring-gray-300 dark:ring-gray-800 overflow-hidden shadow-sm sm:rounded-md mt-7">
                             <div className="mt-11 font-medium text-2xl text-center">
                                 Vote for {position.name}
                             </div>
-                            <div className="text-center text-gray-800">
+                            <div className="text-center text-gray-800 dark:text-gray-500">
                                 Select your preferred candidate(s) for the position of {position.name}
                             </div>
                             <div className={`p-6 text-gray-900`}>

@@ -23,7 +23,7 @@ const UpdateProfilePicture = ({ user }) => {
   return (
     <div>
       <div className='mb-5'>
-        <div className='text-lg font-medium text-gray-900'>Upload Profile Picture</div>
+        <div className='text-lg font-medium text-gray-900 dark:text-gray-50'>Upload Profile Picture</div>
         <p className='mt-1 text-sm text-gray-600'>Update your profile picture.</p>
       </div>
       <div className='flex gap-4 mb-10'>
