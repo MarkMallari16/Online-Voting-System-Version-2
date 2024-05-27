@@ -4,7 +4,7 @@ import DeleteUserForm from './Partials/DeleteUserForm';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
 import { Head } from '@inertiajs/react';
-import ThemeSwitchComponent from '@/Components/ThemeSwitchComponent';
+
 
 export default function Edit({ auth, mustVerifyEmail, status }) {
     return (
@@ -14,7 +14,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                 <h2 className="font-medium text-xl text-gray-800 leading-tight dark:text-gray-50">Profile
 
                 </h2>
-                <ThemeSwitchComponent />
+              
             </div>}
         >
             <Head title="Profile" />

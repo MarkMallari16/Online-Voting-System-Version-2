@@ -7,6 +7,7 @@ import { Link } from '@inertiajs/react';
 import ModeratorNavigation from '@/Pages/Moderator/ModeratorNavigation';
 import { Avatar, Tooltip } from '@material-tailwind/react';
 import DefaultProfile from '../../../public/storage/images/default_profile.png'
+import ThemeSwitchComponent from '@/Components/ThemeSwitchComponent';
 
 export default function Authenticated({ user, header, children }) {
 
@@ -96,10 +97,9 @@ export default function Authenticated({ user, header, children }) {
                             </div>
                         </div>
 
-                        <div className="hidden sm:flex sm:items-center sm:ms-6">
+                        <div className="hidden sm:flex sm:items-center  sm:ms-6">
 
                             <div className="ms-3 relative">
-
                                 <Dropdown>
                                     <Dropdown.Trigger>
                                         <span className="inline-flex rounded-md">
@@ -115,7 +115,7 @@ export default function Authenticated({ user, header, children }) {
                                                     </div>
 
                                                 </div>
-
+                                               
 
                                                 <div>
                                                     <svg
@@ -131,11 +131,13 @@ export default function Authenticated({ user, header, children }) {
                                                         />
                                                     </svg>
                                                 </div>
-
+                                               
                                             </button>
+                                           
                                         </span>
+                                       
                                     </Dropdown.Trigger>
-
+                                  
                                     <Dropdown.Content>
                                         <Dropdown.Link href={route('profile.edit')}>
                                             <div className='flex gap-2 items-center'>
@@ -162,9 +164,10 @@ export default function Authenticated({ user, header, children }) {
                                 </Dropdown>
 
                             </div>
+                            <ThemeSwitchComponent/>
                         </div>
 
-                        <div className="-me-2 flex items-center sm:hidden">
+                        <div className="-me-2 flex items-center sm:hidden ">
                             <button
                                 onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
                                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
