@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminVerifyUserController;
 use App\Http\Controllers\BallotController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\DashboardController;
@@ -8,13 +9,10 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
-
-use App\Models\Election;
 use App\Http\Controllers\ProfilePictureController;
 use App\Http\Controllers\ElectionController;
 use App\Http\Controllers\PartylistController;
 use App\Http\Controllers\PositionController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\VoteController;
 
 /*
@@ -40,8 +38,13 @@ Route::get('/', function () {
 //for admin page 
 
 Route::middleware(['auth', 'verified', 'admin'])->group(function () {
+    //verify user page
+    Route::get('/users-verify', [AdminVerifyUserController::class, 'index'])->name('verifyUsers');
+    Route::put('/users-verify/{id}', [AdminVerifyUserController::class, 'verifyAccount'])->name('verify.user');
+    Route::delete('/users-verify/{id}', [AdminVerifyUserController::class, 'rejectAccount'])->name('reject.user');
+
     //get user
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users', [UserController::class, 'index'])->name('users');
     //retrieved data and display in table
     Route::get('/activitylog', [UserController::class, 'displayActivityLogs'])->name('activitylog');
 
@@ -52,31 +55,24 @@ Route::middleware(['auth', 'verified', 'admin'])->group(function () {
     // Delete user
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     //getting activity logs
-    Route::get('/activity-logs', [UserController::class, 'getActivityLogs'])->name('activity.logs');
 });
 
 
 //for moderator page
 
 Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
-    Route::get('/election', function () {
-        $election = Election::where('status', 'Active')->latest('start_date')->first();
-
-        return Inertia::render('Moderator/ModeratorPages/Election', [
-            'election' => $election
-        ]);
-    })->name('election');
-
     Route::get('/ballot', [BallotController::class, 'displayBallot'])->name('ballot');
 
     Route::get('/live-result', function () {
         return Inertia::render('Moderator/ModeratorPages/LiveResult');
     })->name('live-result');
 
-
+    Route::get('/election', [ElectionController::class, 'index'])->name('election');
     Route::post('/election', [ElectionController::class, 'store']);
     Route::put('/election/activate', [ElectionController::class, 'activate']);
     Route::put('/election/deactivate', [ElectionController::class, 'deactivate']);
+    Route::put('/election/stop', [ElectionController::class, 'stop']);
+
 
     Route::get('/candidate', [CandidateController::class, 'index'])->name('candidate');
     Route::post('/candidate', [CandidateController::class, 'store'])->name('candidate.store');
@@ -95,18 +91,17 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     // Delete a partylist
     Route::delete('/partylist/{id}', [PartylistController::class, 'destroy'])->name('partylist.destroy');
 
-
+    //display position
     Route::get('/positions', [PositionController::class, 'index'])->name('positions');
+    //create position
     Route::post('/position', [PositionController::class, 'store'])->name('positions.store');
+    //update position
     Route::put('/position/{id}', [PositionController::class, 'update'])->name('positions.update');
+    //show position
     Route::delete('/position/{id}', [PositionController::class, 'destroy'])->name('positions.destroy');
 
     Route::get('/votes', [VoteController::class, 'index'])->name('votes');
     Route::post('/hasVoted', [CandidateController::class, 'hasVoted'])->name('vote.hasVoted');
-
-
-    Route::post('assign-partylist-editor/{partylistId}/assign-editor/{userId}', [PartylistController::class, 'assignEditor']);
-    Route::put('/users/{userId}/switch-role', [RoleController::class, 'switchRole'])->name('users.switchRole');
 });
 
 
@@ -114,6 +109,8 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
 //render
 Route::get('/dashboard', [DashboardController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/moderator-overview', [CandidateController::class, 'moderatorOverview'])->middleware(['auth', 'verified', 'moderator']);
+
+Route::get('/partylist/{partylist}', [PartylistController::class, 'show'])->middleware(['auth', 'verified'])->name('partylist.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/votes', [VoteController::class, 'createVote'])->name('votes.create');

@@ -81,12 +81,12 @@ const AddUserModal = ({ open, handleClose,setIsSuccessMessage }) => {
                 <DialogBody>
                     <div className="mb-3">
                         <InputLabel htmlFor="name" value="Name" />
-                        <TextInput type="text" label="Name" name="name" value={data.name} autoComplete='name' onChange={handleOnChange} className='w-full' placeholder="John Doe" />
+                        <TextInput type="text" label="Name" name="name" value={data.name} autoComplete='name' onChange={handleOnChange} className='w-full' placeholder="ex: John Doe" />
                         <InputError className='mt-2' message={errors.name} />
                     </div>
                     <div className="mb-3">
                         <InputLabel htmlFor="email" value="Email" />
-                        <TextInput type="email" label="Email" name="email" value={data.email} autoComplete='email' onChange={handleOnChange} className='w-full' placeholder="doe.121314@bacoor.sti.edu.ph" />
+                        <TextInput type="email" label="Email" name="email" value={data.email} autoComplete='email' onChange={handleOnChange} className='w-full' placeholder="ex: doe.121314@bacoor.sti.edu.ph" />
                         <InputError className='mt-2' message={errors.email} />
                     </div>
                     <div className="mb-3 ">
@@ -94,7 +94,6 @@ const AddUserModal = ({ open, handleClose,setIsSuccessMessage }) => {
                         <Select label="Select Role" name="role" onChange={(value) => setData('role', value)} value={data.role} >
                             <Option value='admin'>Admin</Option>
                             <Option value='moderator'>Moderator</Option>
-                            <Option value='partylist_editor'>Partylist Editor</Option>
                             <Option value='voter'>Voter</Option>
                         </Select>
                         <InputError className='mt-2' message={errors.role} />

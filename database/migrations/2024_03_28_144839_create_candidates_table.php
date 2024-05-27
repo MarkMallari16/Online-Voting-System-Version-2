@@ -22,11 +22,12 @@ return new class extends Migration
             $table->unsignedBigInteger('partylist_id')->nullable();
             $table->unsignedBigInteger('election_id')->nullable();
             $table->timestamps();
-
+         
+           
             // Define foreign key constraints
             $table->foreign('position_id')->references('id')->on('positions')->onDelete('set null');
             $table->foreign('partylist_id')->references('id')->on('partylists')->onDelete('set null');
-            $table->foreign('election_id')->references('id')->on('elections')->onDelete('set null');
+            $table->foreign('election_id')->references('id')->on('elections')->onDelete('cascade');
         });
     }
 /**

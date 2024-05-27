@@ -37,7 +37,7 @@ class ElectionEnded extends Notification
         return (new MailMessage)
             ->subject('Election Ended')
             ->line('The election has ended. Winners have been determined.')
-            ->action('See Winners', url('/path/to/winners'))
+            ->action('See Winners', url('Dashboard'))
             ->line('Thank you for participating.');
     }
 

@@ -3,6 +3,7 @@ const withMT = require('@material-tailwind/react/utils/withMT');
 const forms = require('@tailwindcss/forms');
 
 module.exports = withMT({
+    darkMode: 'class',
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',

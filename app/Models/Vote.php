@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Vote extends Model
 {
@@ -25,5 +26,4 @@ class Vote extends Model
     {
         return $this->belongsTo(Election::class, 'election_id');
     }
-    
 }

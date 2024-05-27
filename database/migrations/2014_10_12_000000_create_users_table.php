@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->enum('role', ['admin', 'moderator', 'voter', 'partylist_editor'])->default('voter');
+            $table->enum('role', ['admin', 'moderator', 'voter'])->default('voter');
             $table->string('profile_picture')->default('images/default_profile.png');
             $table->timestamps();
         });

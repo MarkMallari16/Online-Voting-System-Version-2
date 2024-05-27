@@ -6,11 +6,9 @@ use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\Partylist;
 use App\Models\Positions;
-
+use App\Models\Vote;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class CandidateController extends Controller
@@ -21,13 +19,13 @@ class CandidateController extends Controller
         // Retrieve all candidates
         $positions = Positions::all();
         $partylist = Partylist::all();
-        $candidate = Candidate::all();
-        $candidatesPerPage = Candidate::paginate(10);
+        $candidates = Candidate::with('position:id,name', 'partylist:id,name', 'election:id,title')->get();
+        $candidatesPerPage = Candidate::with('position:id,name', 'partylist:id,name', 'election:id,title')->paginate(10);
 
         return Inertia::render('Moderator/ModeratorPages/Candidate', [
             'partylist_list' => $partylist,
             'position_list' => $positions,
-            'candidates' => $candidate,
+            'candidates' => $candidates,
             'candidatesPerPage' => $candidatesPerPage
         ]);
     }
@@ -61,9 +59,9 @@ class CandidateController extends Controller
         }
 
         $validatedData = $request->validate([
-            'first_name' => 'required|alpha',
-            'middle_name' => 'nullable|string',
-            'last_name' => 'required|alpha',
+            'first_name' => 'required|string|regex:/^[a-zA-Z\s]+$/',
+            'middle_name' => 'nullable|string|regex:/^[a-zA-Z\s]+$/',
+            'last_name' => 'required|string|regex:/^[a-zA-Z\s]+$/',
             'manifesto' => 'required|string',
             'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'partylist_id' => [
@@ -77,12 +75,16 @@ class CandidateController extends Controller
                 Rule::unique('candidates')->where(function ($query) use ($request) {
                     return $query->where('position_id', $request->position_id)
                         ->where('partylist_id', $request->partylist_id);
-                })->ignore($request->candidate_id)
+                })->ignore($request->candidate_id, 'id')
             ],
         ], [
+            'first_name.regex' => "Invalid format: first name must not contain numbers.",
+            'middle_name.regex' => "Invalid format: middle name must not contain numbers.",
+            'last_name.regex' => "Invalid format: last name must not contain numbers.",
             'partylist_id.required' => 'The partylist field is required',
             'position_id.required' =>  'The position field is required',
             'position_id.unique' => 'An existing candidate has already been registered for this position. Consider updating the existing candidate instead.',
+
         ]);
 
 
@@ -114,14 +116,18 @@ class CandidateController extends Controller
         $candidate = Candidate::findOrFail($id);
 
         $validatedData = $request->validate([
-            'first_name' => 'required|string',
-            'middle_name' => 'nullable|string',
-            'last_name' => 'required|alpha',
+            'first_name' => 'required|string|regex:/^[a-zA-z\s]+$/',
+            'middle_name' => 'nullable|string|regex:/^[a-zA-z\s]+$/',
+            'last_name' => 'required|string|regex:/^[a-zA-z\s]+$/',
             'manifesto' => 'required|string',
-            'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // 'candidate_profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'partylist_id' => 'required|exists:partylists,id',
             'position_id' => 'required|exists:positions,id',
 
+        ], [
+            'first_name.regex' => "Invalid format: first name must not contain numbers.",
+            'middle_name.regex' => "Invalid format: middle name must not contain numbers.",
+            'last_name.regex' => "Invalid format: last name must not contain numbers.",
         ]);
 
         $middleName = $validatedData['middle_name'] ?? null;
@@ -151,11 +157,12 @@ class CandidateController extends Controller
 
     public function destroy(Candidate $candidate)
     {
-        $associatedVotes = DB::table('votes')->where('candidate_id', $candidate->id)->exists();
+        $associatedVotes = Vote::where('candidate_id', $candidate->id)->exists();
 
         if ($associatedVotes) {
-            return redirect()->back()->with('error', 'Cannot delete candidate. There are associated votes.');
+            return redirect()->back()->withErrors(['Cannot delete candidate. There are associated votes.']);
         }
+
         $candidate->delete();
 
 

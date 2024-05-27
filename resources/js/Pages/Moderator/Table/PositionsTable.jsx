@@ -23,7 +23,7 @@ import {
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
-import { useForm, router } from "@inertiajs/react";
+import { useForm, router, usePage } from "@inertiajs/react";
 
 
 import ExcelExport from "@/Components/ExcelExport";
@@ -39,6 +39,9 @@ const TABLE_HEAD = ["Position ID", "Position", "Action"];
 
 export function PositionsTable(props) {
     const { data, setData, post, put, delete: destroy, errors, progress, processing, reset } = useForm();
+
+    const { election } = usePage().props;
+
     const [positions, setPositions] = useState(props.positions);
 
     const [openAddModal, setOpenAddModal] = useState(false);
@@ -54,18 +57,6 @@ export function PositionsTable(props) {
 
     const positionsPerPage = props.positionsPerPage;
 
-    const [currentPage, setCurrentPage] = useState(positionsPerPage.current_page);
-
-    const indexOfLastPositions = currentPage * positionsPerPage.per_page;
-    const indexOfFirstPositions = indexOfLastPositions - positionsPerPage.per_page;
-    const currentPositions = positions.slice(indexOfFirstPositions, indexOfLastPositions);
-
-    useEffect(() => {
-        setPositions(props.positions)
-    }, [props.positions])
-
-    const totalPages = positionsPerPage.last_page;
-
     //modal add
     const handleAddOpen = () => {
         setOpenAddModal(!openAddModal)
@@ -78,8 +69,9 @@ export function PositionsTable(props) {
         post(route('positions.store', data), {
             onSuccess: () => {
                 setOpenAddModal(false);
-                toast.success("Position created successfully")
                 setIsSuccessMessage(true);
+                toast.success("Position created successfully")
+
 
             },
             onError: () => {
@@ -130,7 +122,7 @@ export function PositionsTable(props) {
     const handleDeletePositions = (positionId) => {
         try {
             // Send a DELETE request to delete the position
-            router.delete(`/position/${positionId}`);
+            destroy(`/position/${positionId}`);
 
 
             toast.success("Position deleted successfully")
@@ -143,14 +135,9 @@ export function PositionsTable(props) {
         }
     };
 
-    const handleSearch = (event) => {
-        setSearchQuery(event.target.value);
-    };
     return (
         <div>
-            <div className="mb-3">
-                {isSuccessMessage && <CustomToast />}
-            </div>
+            {isSuccessMessage && <CustomToast />}
             <Card className="h-full w-full">
                 <CardHeader floated={false} shadow={false} className="rounded-none">
                     <div className="mb-8 flex items-center justify-between gap-8">
@@ -164,7 +151,7 @@ export function PositionsTable(props) {
                         </div>
                         <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
 
-                            <Button className="flex items-center gap-3 bg-blue-500" size="sm" onClick={handleAddOpen}>
+                            <Button className="flex items-center gap-3 bg-blue-500" size="sm" onClick={handleAddOpen} disabled={processing || election.status === "Active"}>
 
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className=" w-4 h-4">
                                     <path fillRule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
@@ -273,7 +260,7 @@ export function PositionsTable(props) {
                                 ))}
                             </tr>
                         </thead>
-                        {currentPositions.length === 0 || currentPositions.filter(position =>
+                        {positionsPerPage.data.length === 0 || positionsPerPage.data.filter(position =>
                             position.name.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
                             <tbody>
                                 <tr>
@@ -284,7 +271,7 @@ export function PositionsTable(props) {
                             </tbody>
                         ) : (
                             <tbody>
-                                {currentPositions
+                                {positionsPerPage.data
                                     .filter(position => position.name.toLowerCase().includes(searchQuery.toLowerCase()))
                                     .map(({ id, name }) => {
 
@@ -322,7 +309,8 @@ export function PositionsTable(props) {
                                                     <div className="flex gap-2">
                                                         <Tooltip content="Edit Position">
                                                             <IconButton variant="text" className="bg-amber-700 text-white"
-                                                                onClick={() => handleUpdateOpen(id)}>
+                                                                onClick={() => handleUpdateOpen(id)}
+                                                                disabled={election.status === "Active"}>
                                                                 <PencilIcon className="h-5 w-5" />
                                                             </IconButton>
                                                         </Tooltip>
@@ -331,6 +319,7 @@ export function PositionsTable(props) {
                                                                 variant="text"
                                                                 className="bg-red-700 text-white"
                                                                 onClick={() => handleDeleteOpen(id)}
+                                                                disabled={election.status === "Active"}
                                                             >
 
                                                                 <svg

@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('title');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->enum('status', ['Active', 'Inactive'])->default('Inactive');
+            $table->enum('status', ['Active', 'Inactive', 'Archived','Completed'])->default('Inactive');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

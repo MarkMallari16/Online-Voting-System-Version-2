@@ -71,6 +71,7 @@ export default function ResetPassword({ token, email }) {
                         type="password"
                         name="password_confirmation"
                         value={data.password_confirmation}
+                        placeholder="Enter new password"
                         className="mt-1 block w-full"
                         autoComplete="new-password"
                         onChange={(e) => setData('password_confirmation', e.target.value)}

@@ -50,7 +50,7 @@ const UserTable = ({
 }) => {
 >>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
     const [searchQuery, setSearchQuery] = useState("");
-    const [selectedRoleFilter, setSelectedRoleFilter] = useState(null);
+    const [selectedRoleFilter, setSelectedRoleFilter] = useState("");
 
     //modal
     const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
@@ -62,8 +62,6 @@ const UserTable = ({
     const [selectedUserId, setSelectedUserId] = useState(null);
 
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
-
-
 
     //filtered users
     const filteredUsers = users.filter((user) => {
@@ -128,14 +126,14 @@ const UserTable = ({
         { value: 'admin', label: 'Admin' },
         { value: 'moderator', label: 'Moderator' },
         { value: 'voter', label: 'Voter' },
-        { value: 'partylist_editor', label: 'Partylist Editor' }
+
     ]
 
     const handleSelectedRole = (filter) => {
         setSelectedRoleFilter(filter);
 
     };
-    console.log(users);
+
     return (
         <div>
             <div className="mb-5">
@@ -158,7 +156,7 @@ const UserTable = ({
                                 color="gray"
                                 className="mt-1 font-normal"
                             >
-                                See information about all users
+                                See information about all verified users
                             </Typography>
 
                         </div>
@@ -280,7 +278,7 @@ const UserTable = ({
 <<<<<<< HEAD
                                             return (
                                                 <tr key={id}>
-                                                    <td className="p-4">
+                                                    <td className="p-4 ">
                                                         <Typography
                                                             variant="small"
                                                             color="blue-gray"
@@ -383,24 +381,19 @@ const UserTable = ({
                                                             {id}
                                                         </Typography>
                                                     </td>
-                                                    <td className="p-4">
-                                                        <Typography
-                                                            variant="small"
-                                                            color="blue-gray"
-                                                            className="font-normal"
-                                                        >
-                                                            {name}
-                                                        </Typography>
+                                                    <td className="p-4 ">
+                                                        <div className="flex items-center gap-2 ">
+                                                            <AvatarComponent Profile={profile_picture} size="sm" />
+                                                            <Typography
+                                                                variant="small"
+                                                                color="blue-gray"
+                                                                className="font-normal"
+                                                            >
+                                                                {name}
+                                                            </Typography>
+                                                        </div>
                                                     </td>
-                                                    <td className="p-4">
-                                                        <Typography
-                                                            variant="small"
-                                                            color="blue-gray"
-                                                            className="font-normal"
-                                                        >
-                                                            <AvatarComponent Profile={profile_picture} />
-                                                        </Typography>
-                                                    </td>
+
                                                     <td className="p-4">
                                                         <Typography
                                                             variant="small"
@@ -419,7 +412,7 @@ const UserTable = ({
                                                             {role}
                                                         </Typography>
                                                     </td>
-                                                    <td className="p-4 ">
+                                                    <td className="p-4 w-52 ">
                                                         <Typography
                                                             variant="small"
                                                             color="blue-gray"
@@ -430,7 +423,7 @@ const UserTable = ({
                                                             ).toLocaleString()}
                                                         </Typography>
                                                     </td>
-                                                    <td className="p-4">
+                                                    <td className="p-4 w-52 ">
                                                         <Typography
                                                             variant="small"
                                                             color="blue-gray"

@@ -7,18 +7,17 @@ import PartylistEditorDashboard from './Partylist_Editor/PartylistEditorDashboar
 
 import Countdown from '@/Components/Countdown';
 
-export default function Dashboard({ auth, usersPerPage, candidates, candidatesAll, voterVoted, position_list, partylist_list, election, voters, votersVotedCount, voteCounts, castedVotes, voterHasVoted, totalCandidatesPerPositions, candidateWinners, totalVotesPerPosition, abstainCount }) {
+export default function Dashboard({ auth, usersPerPage, latestUsers, candidates, candidatesAll, voterVoted, position_list, partylist_list, election, voters, votersVotedCount, voteCounts, numberOfPartylists, numberOfPositions, votersNotVoted, castedVotes, voterHasVoted, latestVotedUsers, totalCandidatesPerPositions, candidateWinners, totalVotesPerPosition, abstainCount }) {
 
-    console.log(abstainCount);
+
     const { role } = auth.user;
     let dashboardContent;
-
     switch (role) {
         case 'admin':
-            dashboardContent = <AdminDashboard usersPerPage={usersPerPage} />;
+            dashboardContent = <AdminDashboard usersPerPage={usersPerPage} latestUsers={latestUsers}/>;
             break;
         case 'moderator':
-            dashboardContent = <ModeratorDashboard voters={voters} election={election} candidates={candidates} voteCounts={voteCounts} votersVotedCount={votersVotedCount} position_list={position_list} totalVotesPerPosition={totalVotesPerPosition} abstainCount={abstainCount} />;
+            dashboardContent = <ModeratorDashboard voters={voters} election={election} candidates={candidates} voteCounts={voteCounts} votersVotedCount={votersVotedCount} numberOfPartylists={numberOfPartylists} votersNotVoted={votersNotVoted} numberOfPositions={numberOfPositions} latestVotedUsers={latestVotedUsers} position_list={position_list} totalVotesPerPosition={totalVotesPerPosition} abstainCount={abstainCount} />;
             break;
         case 'partylist_editor':
             dashboardContent = <PartylistEditorDashboard partylists={partylist_list} />;
@@ -29,7 +28,7 @@ export default function Dashboard({ auth, usersPerPage, candidates, candidatesAl
     }
     return (
 
-        <AuthenticatedLayout user={auth.user} header={election ? <Countdown election={election} /> : ''} >
+        <AuthenticatedLayout user={auth.user} header={election && <Countdown election={election} />} >
             <div className="flex flex-col md:flex-row min-h-screen">
 
                 <main className="flex-1 py-12">

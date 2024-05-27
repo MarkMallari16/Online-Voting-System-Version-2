@@ -39,7 +39,7 @@ export default function UpdatePasswordForm({ className = '' }) {
     return (
         <section className={className}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900">Update Password</h2>
+                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-50">Update Password</h2>
 
                 <p className="mt-1 text-sm text-gray-600">
                     Ensure your account is using a long, random password to stay secure.
@@ -48,7 +48,7 @@ export default function UpdatePasswordForm({ className = '' }) {
 
             <form onSubmit={updatePassword} className="mt-6 space-y-6">
                 <div>
-                    <InputLabel htmlFor="current_password" value="Current Password" />
+                    <InputLabel htmlFor="current_password" value="Current Password" className='dark:text-gray-100'/>
 
                     <TextInput
                         id="current_password"
@@ -56,7 +56,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                         value={data.current_password}
                         onChange={(e) => setData('current_password', e.target.value)}
                         type="password"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full dark:bg-[#1f1f1f] dark:border-gray-800 dark:text-gray-50"
                         autoComplete="current-password"
                     />
 
@@ -64,7 +64,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="password" value="New Password" />
+                    <InputLabel htmlFor="password" value="New Password" className='dark:text-gray-100'/>
 
                     <TextInput
                         id="password"
@@ -72,7 +72,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                         value={data.password}
                         onChange={(e) => setData('password', e.target.value)}
                         type="password"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full dark:bg-[#1f1f1f] dark:border-gray-800 dark:text-gray-50"
                         autoComplete="new-password"
                     />
 
@@ -80,14 +80,14 @@ export default function UpdatePasswordForm({ className = '' }) {
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
+                    <InputLabel htmlFor="password_confirmation" value="Confirm Password" className='dark:text-gray-100'/>
 
                     <TextInput
                         id="password_confirmation"
                         value={data.password_confirmation}
                         onChange={(e) => setData('password_confirmation', e.target.value)}
                         type="password"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full dark:bg-[#1f1f1f] dark:border-gray-800 dark:text-gray-50"
                         autoComplete="new-password"
                     />
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Election;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -29,11 +30,19 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        return [
+        $sharedData =  [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
             ],
         ];
+
+        $user = $request->user();
+
+        if ($user && $user->role === 'moderator') {
+
+            $sharedData['election'] = Election::latest()->first();
+        }
+        return array_merge(parent::share($request), $sharedData);
     }
 }

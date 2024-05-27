@@ -6,57 +6,89 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 import ModeratorNavigation from '@/Pages/Moderator/ModeratorNavigation';
 import { Avatar } from '@material-tailwind/react';
-import { GrDocumentTime } from "react-icons/gr";
 import DefaultProfile from '../../../public/storage/images/default_profile.png'
+import ThemeSwitchComponent from '@/Components/ThemeSwitchComponent';
 export default function Authenticated({ user, header, children }) {
+
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="bg-white border-b border-gray-100 p-5">
+        <div className="min-h-screen bg-gray-100 dark:bg-[#121212]">
+            <nav className="bg-white border-b dark:border-none border-gray-100 p-5 dark:bg-[#252525] ">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex">
                             <div className="shrink-0 flex items-center">
                                 <Link href="/dashboard">
-                                    <ApplicationLogo className="block " />
+                                    <ApplicationLogo className="block" />
                                 </Link>
 
                             </div>
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex ">
 
                                 <NavLink
                                     href={route('dashboard')}
                                     active={route().current('dashboard')}
-                                    className={` ${route().current('dashboard')}`}
-                                ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="me-1 w-5 h-5">
-                                        <path d="M6 3a3 3 0 0 0-3 3v2.25a3 3 0 0 0 3 3h2.25a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3H6ZM15.75 3a3 3 0 0 0-3 3v2.25a3 3 0 0 0 3 3H18a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3h-2.25ZM6 12.75a3 3 0 0 0-3 3V18a3 3 0 0 0 3 3h2.25a3 3 0 0 0 3-3v-2.25a3 3 0 0 0-3-3H6ZM17.625 13.5a.75.75 0 0 0-1.5 0v2.625H13.5a.75.75 0 0 0 0 1.5h2.625v2.625a.75.75 0 0 0 1.5 0v-2.625h2.625a.75.75 0 0 0 0-1.5h-2.625V13.5Z" />
-                                    </svg >Dashboard</NavLink>
+                                    className={` ${route().current('dashboard')} dark:text-gray-100`}
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="me-1 w-5 h-5">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                                    </svg>
+
+
+                                    Dashboard</NavLink>
 
 
                                 {user.role === 'admin' &&
-                                    <NavLink
-                                        href={route('activitylog')}
-                                        active={route().current('activitylog')}
-                                        className={` ${route().current('activitylog')}`}
-                                    >
-                                        <GrDocumentTime className='w-5 h-5  me-2' />
+                                    <>
+
+                                        <NavLink
+                                            href={route('users')}
+                                            active={route().current('users')}
+                                            className={` ${route().current('users')} dark:text-gray-100`}
+                                        >
+
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 me-2">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+                                            </svg>
+
+                                            Users
+                                        </NavLink>
+                                        <NavLink
+                                            href={route('verifyUsers')}
+                                            active={route().current('verifyUsers')}
+                                            className={` ${route().current('verifyUsers')} dark:text-gray-100`}
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5 me-2">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
 
 
-                                        Activity Log
-                                    </NavLink>
+
+                                            Verify Users
+                                        </NavLink>
+
+                                        <NavLink
+                                            href={route('activitylog')}
+                                            active={route().current('activitylog')}
+                                            className={` ${route().current('activitylog')} dark:text-gray-100`}
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 me-2">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
+
+                                            Activity Log
+                                        </NavLink>
+
+
+                                    </>
 
                                 }
                                 {user.role === 'moderator' &&
                                     <ModeratorNavigation />
                                 }
-                                {/**  {user.role === 'partylist_editor' &&
-                                    <NavLink href={route('partylists')} active={route().current('partylists')} className={`${route().current('partylists')}`}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 me-1">
-                                        <path fillRule="evenodd" d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z" clipRule="evenodd" />
-                                        <path d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
-                                    </svg>Partylist</NavLink>
-                                } */}
+
                             </div>
                         </div>
 
@@ -69,9 +101,9 @@ export default function Authenticated({ user, header, children }) {
                                         <span className="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white dark:bg-[#252525] hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                             >
-                                                {/*user.name */}
+
                                                 <div className='flex items-center'>
                                                     <div>
 <<<<<<< HEAD
@@ -81,9 +113,9 @@ export default function Authenticated({ user, header, children }) {
                                                         <Avatar src={`/storage/${user.profile_picture}` } />
 >>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
                                                     </div>
-                                                    {/**<div>{user.name}</div> */}
+
                                                 </div>
-                                                {/*console.log(user.profile_picture)*/}
+
 
                                                 <div>
                                                     <svg
@@ -99,12 +131,20 @@ export default function Authenticated({ user, header, children }) {
                                                         />
                                                     </svg>
                                                 </div>
+
                                             </button>
                                         </span>
                                     </Dropdown.Trigger>
 
                                     <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
+                                        <Dropdown.Link href={route('profile.edit')}>
+                                            <div className='flex gap-2 items-center'>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                </svg>
+                                                <p>Profile</p>
+                                            </div>
+                                        </Dropdown.Link>
                                         <Dropdown.Link href={route('logout')} method="post" as="button">
                                             <div className='flex gap-2 items-center'>
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -113,9 +153,14 @@ export default function Authenticated({ user, header, children }) {
 
                                                 <p> Log Out</p>
                                             </div>
+
                                         </Dropdown.Link>
+
+
                                     </Dropdown.Content>
+
                                 </Dropdown>
+
                             </div>
                         </div>
 
@@ -152,11 +197,23 @@ export default function Authenticated({ user, header, children }) {
                         </ResponsiveNavLink>
                         {user.role === 'admin' &&
 
-                            <ResponsiveNavLink
-                                href={route('dashboard')}
-                                active={route().current('dashboard')}
-                                className={` ${route().current('dashboard')}`}
-                            >Activity Log</ResponsiveNavLink>
+                            <>
+                                <ResponsiveNavLink
+                                    href={route('users')}
+                                    active={route().current('users')}
+                                    className={` ${route().current('users')}`}
+                                >Users</ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    href={route('users')}
+                                    active={route().current('users')}
+                                    className={` ${route().current('users')}`}
+                                >Verify Users</ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    href={route('activitylog')}
+                                    active={route().current('activitylog')}
+                                    className={` ${route().current('activitylog')}`}
+                                >Activity Log</ResponsiveNavLink>
+                            </>
                         }
                         {user.role === 'moderator' &&
                             <>
@@ -193,15 +250,7 @@ export default function Authenticated({ user, header, children }) {
                             </>
 
                         }
-                        {/**{user.role === 'partylist_editor' &&
-                        <ResponsiveNavLink
-                            href={route('partylists')}
-                            active={route().current('partylists')}
-                            className={`${route().current('partylists') ? 'active' : ''}`}
-                        >
-                            Partylist
-                        </ResponsiveNavLink>
-                    } */}
+
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200">
@@ -224,8 +273,8 @@ export default function Authenticated({ user, header, children }) {
             </div>
             {
                 header && (
-                    <header className="bg-white shadow">
-                        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
+                    <header className="bg-white shadow dark:bg-gray-900 ">
+                        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 dark:text-white">{header}</div>
                     </header>
                 )
             }

@@ -23,7 +23,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     return (
         <section className={className}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900">Profile Information</h2>
+                <h2 className="text-lg font-medium text-gray-900 dark:text-gray-50">Profile Information</h2>
 
                 <p className="mt-1 text-sm text-gray-600">
                     Update your account's profile information.
@@ -32,33 +32,34 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
 
             <form onSubmit={submit} className="mt-6 space-y-6">
                 <div>
-                    <InputLabel htmlFor="name" value="Name" />
+                    <InputLabel htmlFor="name" value="Name" className='dark:text-gray-100'/>
 
                     <TextInput
                         id="name"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full dark:bg-[#1f1f1f] dark:border-gray-800 dark:text-gray-50"
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
                         required
                         isFocused
                         autoComplete="name"
+                        disabled={user.role === 'voter'}
                     />
 
                     <InputError className="mt-2" message={errors.name} />
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="email" value="Email" className='dark:text-gray-100 '/>
 
                     <TextInput
                         id="email"
                         type="email"
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full dark:bg-[#1f1f1f] dark:border-gray-800 dark:text-gray-50"
                         value={data.email}
                         onChange={(e) => setData('email', e.target.value)}
                         required
                         autoComplete="username"
-                        disabled
+                        disabled={user.role === 'voter' || user.role === 'moderator'}
                     />
 
                     <InputError className="mt-2" message={errors.email} />
@@ -75,7 +76,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                                 className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
                                 Click here to re-send the verification email.
-                            </Link> 
+                            </Link>
                         </p>
 
                         {status === 'verification-link-sent' && (
@@ -87,7 +88,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                 )}
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    {user.role !== 'voter' && <PrimaryButton disabled={processing}>Save</PrimaryButton>}
 
                     <Transition
                         show={recentlySuccessful}

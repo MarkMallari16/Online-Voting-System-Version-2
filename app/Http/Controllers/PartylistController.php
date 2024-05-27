@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AuditLog;
+use App\Models\Election;
 use Illuminate\Http\Request;
 use App\Models\Partylist;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -21,14 +24,28 @@ class PartylistController extends Controller
         return Inertia::render('Moderator/ModeratorPages/Partylist', [
             'partylists' => $partylists,
             'partylistsPerPage' => $partylistsPerPage,
-            'voters' => $voters
+            'voters' => $voters,
+
+        ]);
+    }
+    public function show(Partylist $partylist)
+    {
+        $existingElection = Election::latest()->first();
+
+        $partylist->load('candidates.position');
+
+
+        return Inertia::render('Voter/PartylistShow', [
+            'partylist' => $partylist,
+            'election' => $existingElection
         ]);
     }
     public function store(Request $request)
     {
+       
         $validatedData = $request->validate([
             'name' => 'required|max:18',
-            'description' => 'required|max:255',
+            'description' => 'required|max:500',
             'partylist_logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ], [
             'name.required' => 'Partylist name field is required',
@@ -44,11 +61,21 @@ class PartylistController extends Controller
         } else {
             $path = null;
         }
+      
+
         $partylist = Partylist::create([
             'name' => $validatedData['name'],
             'description' => $validatedData['description'],
             'partylist_logo' => $path
         ]);
+      
+
+
+        // AuditLog::create([
+        //     'user_id' => Auth::id(),
+        //     'action' => 'User Created',
+        //     'details' => 'Partylist created with name: ' . $partylist->name,
+        // ]);
 
         return redirect()->back()->with('success', 'partylist added successfully');
     }
@@ -57,10 +84,12 @@ class PartylistController extends Controller
     {
         $partylist = Partylist::findOrFail($id);
 
+        $oldName = $partylist->name;
+
         $validatedData = $request->validate([
             'name' => 'required|max:18',
-            'description' => 'max:255',
-            'partylist_logo' => 'nullable|mimes:jpeg,png,jpg,gif|max:2048',
+            'description' => 'max:500',
+            // 'partylist_logo' => 'nullable|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $partylist->name = $validatedData['name'];
@@ -71,7 +100,6 @@ class PartylistController extends Controller
             // Delete old logo if exists
             if ($partylist->partylist_logo) {
                 Storage::delete($partylist->partylist_logo);
-                
             }
             // Upload new logo
             $partylist_logo = $request->file('partylist_logo');
@@ -83,6 +111,12 @@ class PartylistController extends Controller
 
         $partylist->save();
 
+        // AuditLog::create([
+        //     'user_id' => Auth::id(),
+        //     'action' => 'Updated',
+        //     'details' => 'Partylist with name: ' . $oldName . ' updated to: ' . $partylist->name,
+        // ]);
+
         return redirect()->back()->with('success', 'partylist updated successfully');
     }
 
@@ -92,18 +126,12 @@ class PartylistController extends Controller
 
         $partylist->delete();
 
+        // AuditLog::create([
+        //     'user_id' => Auth::id(),
+        //     'action' => 'Deleted',
+        //     'details' => 'Partylist deleted with name: ' . $partylist->name,
+        // ]);
 
         return redirect()->back()->with('success', 'partylist deleted successfully');
-    }
-    public function assignEditor(Request $request, $partylistId)
-    {
-        $validatedData = $request->validate([
-            'editor_id' => 'required|exists:users,id'
-        ]);
-        $partylist = Partylist::findOrFail($partylistId);
-        $editor = User::findOrFail($validatedData['editor_id']);
-
-        $partylist->editor_id = $editor->id;
-        $partylist->save();
     }
 }

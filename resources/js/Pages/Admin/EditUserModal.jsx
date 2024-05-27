@@ -78,7 +78,7 @@ const EditUserModal = ({ open, handleClose, user }) => {
     });
 
   };
-  console.log(errors);
+
   return (
     <Dialog open={open} handler={handleClose}>
       <DialogHeader>Update User</DialogHeader>
@@ -104,7 +104,6 @@ const EditUserModal = ({ open, handleClose, user }) => {
             >
               <Option value='admin'>Admin</Option>
               <Option value='moderator'>Moderator</Option>
-              <Option value='partylist_editor'>Partylist Editor</Option>
               <Option value='voter'>Voter</Option>
             </Select>
             {errors.role && <Text color="red">{errors.role}</Text>}

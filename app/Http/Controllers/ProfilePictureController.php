@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AuditLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -31,7 +32,11 @@ class ProfilePictureController extends Controller
         $user->profile_picture = 'profile_photos/' . $imageName;
         $user->save();
 
-        // Redirect back with a success message
+        AuditLog::create([
+            'user_id' => $request->user()->id,
+            'action' => 'Updated',
+            'details' => 'User with ID: ' . $user->id . ' uploaded a new profile picture.',
+        ]); 
         return Redirect::route('profile.edit');
     }
 }

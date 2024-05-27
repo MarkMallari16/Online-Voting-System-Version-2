@@ -12,9 +12,7 @@ import {
 ChartJS.register(BarElement, ArcElement, CategoryScale, LinearScale, Tooltip, Legend);
 const DoughnutChart = ({ data }) => {
     return (
-        <div >
-            <Doughnut data={data} />
-        </div>
+        <Doughnut data={data} />
     )
 }
 
