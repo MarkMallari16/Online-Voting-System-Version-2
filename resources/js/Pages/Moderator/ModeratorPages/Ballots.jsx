@@ -19,7 +19,6 @@ const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
 
             <div className='mt-10 md:mx-44'>
                 <ElectionHeader election={election} />
-
                 {positionList.length > 0 || candidatesPerPosition.length > 0 ? (
                     positionList.map((position) => (
                         <div key={position.id} className="bg-white dark:bg-[#252525] dark:text-gray-50 ring-1 ring-gray-300 dark:ring-gray-800 overflow-hidden shadow-sm sm:rounded-md mt-7">

@@ -11,7 +11,7 @@ const ElectionHeader = ({election}) => {
                     <div><img src={STIBacoorLogo} alt="STI Bacoor Logo" className="w-32 sm:w-32" /></div>
                     <div className="text-3xl md:text-5xl text-center font-medium">{election?.title ? election.title : 'Inactive'}</div>
 
-                    <div><img src={CouncilLogo} alt="Council Logo" className="w-32 sm:w-32" /></div>
+                    <div><img src={CouncilLogo} alt="Council Logo" className="w-32 sm:w-32 dark:bg-white dark:rounded-xl" /></div>
                 </div>
 
                 <div className="text-center flex justify-center text-wrap gap-4">
