@@ -256,8 +256,8 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                 </div>
             ) : (
 
-                <div className=" w-full flex justify-center items-center bg-white py-10 rounded-md ring-1 inset-1 ring-gray-300">
-                    <div className="text-gray-900 p-5 text-center flex justify-center items-center flex-col">
+                <div className=" w-full flex justify-center items-center bg-white dark:bg-[#252525] dark:ring-gray-800 py-10 rounded-md ring-1 inset-1 ring-gray-300">
+                    <div className="text-gray-900 dark:text-gray-50 p-5 text-center flex justify-center items-center flex-col">
                         <img src={Time} alt="waiting" className="w-44" />
                         <div className="mt-3 text-xl">Please wait for the Moderator</div>
                         <div className="text-xl mb-2">Election for this position will be available soon.</div>

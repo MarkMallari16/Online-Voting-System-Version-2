@@ -30,7 +30,7 @@ const ThemeSwitchComponent = ({ auth }) => {
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                         fill="currentColor"
-                        className="w-6 h-6 dark:text-white transition-transform duration-500 transform rotate-0 opacity-100 hover:rotate-45 ease"
+                        className="w-6 h-6 dark:text-white transition-transform duration-300 transform rotate-0 opacity-100 hover:rotate-45 ease"
                     >
                         <path
                             fillRule="evenodd"
