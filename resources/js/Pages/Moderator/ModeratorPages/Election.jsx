@@ -217,7 +217,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                     <InputLabel htmlFor="title" value="Election Title" className='dark:text-gray-200' />
                     <TextInput
                       id="title"
-                      className="mt-1 block w-full  lg:w-96 "
+                      className="mt-1 block w-full  lg:w-96 dark:bg-[#1f1f1f] dark:border-gray-800 dark:text-gray-50"
                       type='text'
                       value={data.title}
                       placeholder="Enter Election Title"
@@ -240,7 +240,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                     <InputLabel htmlFor="start_date" value="Start Date" className='dark:text-gray-200' />
                     <TextInput
                       id="start_date"
-                      className="mt-1 block w-full"
+                      className="mt-1 block w-full dark:bg-[#1f1f1f] dark:border-gray-800 dark:text-gray-50"
                       type='datetime-local'
                       value={data.start_date}
                       onChange={(e) => setData('start_date', e.target.value)}
@@ -252,7 +252,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                     <InputLabel htmlFor="end_date" value="End Date" className='dark:text-gray-200'/>
                     <TextInput
                       id="end_date"
-                      className="mt-1 block w-full"
+                      className="mt-1 block w-full dark:bg-[#1f1f1f] dark:border-gray-800 dark:text-gray-50"
                       type='datetime-local'
                       value={data.end_date}
                       onChange={(e) => setData('end_date', e.target.value)}

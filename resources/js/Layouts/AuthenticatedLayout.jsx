@@ -97,9 +97,9 @@ export default function Authenticated({ user, header, children }) {
                             </div>
                         </div>
 
-                        <div className="hidden sm:flex sm:items-center  sm:ms-6">
+                        <div className="hidden sm:flex sm:items-center  sm:ms-6 ">
 
-                            <div className="ms-3 relative">
+                            <div className="ms-3 relative bg-none">
                                 <Dropdown>
                                     <Dropdown.Trigger>
                                         <span className="inline-flex rounded-md">
