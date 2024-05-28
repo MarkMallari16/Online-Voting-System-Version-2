@@ -99,7 +99,7 @@ export default function Authenticated({ user, header, children }) {
 
                         <div className="hidden sm:flex sm:items-center  sm:ms-6 ">
 
-                            <div className="ms-3 relative bg-none">
+                            <div className="ms-3 relative ">
                                 <Dropdown>
                                     <Dropdown.Trigger>
                                         <span className="inline-flex rounded-md">
@@ -164,7 +164,7 @@ export default function Authenticated({ user, header, children }) {
                                 </Dropdown>
 
                             </div>
-                            <ThemeSwitchComponent/>
+                            <ThemeSwitchComponent auth={user}/>
                         </div>
 
                         <div className="-me-2 flex items-center sm:hidden ">

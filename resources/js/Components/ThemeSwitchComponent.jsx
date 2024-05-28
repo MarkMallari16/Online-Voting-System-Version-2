@@ -1,14 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
 
-const ThemeSwitchComponent = () => {
+const ThemeSwitchComponent = ({ auth }) => {
     const [isEnable, setIsEnable] = useState(() => {
         const userTheme = localStorage.getItem('theme');
         return userTheme ? userTheme === 'dark' : false;
     });
 
     useEffect(() => {
-        if (isEnable) {
+        if (auth.email_verified_at && isEnable) {
             document.documentElement.classList.add('dark');
             localStorage.setItem('theme', 'dark');
         } else {
@@ -16,11 +16,11 @@ const ThemeSwitchComponent = () => {
             localStorage.setItem('theme', 'light');
         }
     }, [isEnable]);
-
+   
     const handleToggle = () => {
         setIsEnable(prevState => !prevState);
     };
-   
+
     return (
 
         <>
