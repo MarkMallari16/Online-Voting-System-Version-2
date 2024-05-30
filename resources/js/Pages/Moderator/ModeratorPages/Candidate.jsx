@@ -2,6 +2,7 @@ import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { CandidateTable } from '../Table/CandidateTable'
 import { usePage } from '@inertiajs/react'
+
 const Candidate = ({ auth, partylist_list, position_list, candidates, candidatesPerPage }) => {
   const { election } = usePage().props;
   return (

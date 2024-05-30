@@ -82,9 +82,7 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
         toast.success("Partylist successfully added");
         setIsSuccessMessage(true);
 
-
         reset();
-
       },
       onError: () => {
 

@@ -64,7 +64,7 @@ const CandidateCard = ({ candidate, onSelectCandidate, positionId, selected }) =
                     className='hidden'
                 />
                 <CardBody className='text-center'>
-                    <Typography variant="h5" className="mb-2 text-gray-900 dark:text-gray-100">
+                    <Typography variant="h5" className="mb-1 text-gray-900 dark:text-gray-100">
                         {`${candidate.first_name} ${candidate.middle_name === null ? '' : ''} ${candidate.last_name}`}
                     </Typography>
                     <div className='flex items-center justify-center gap-1 text-gray-900 dark:text-gray-400'>

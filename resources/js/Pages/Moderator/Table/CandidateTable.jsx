@@ -38,7 +38,7 @@ import PaginationInTable from "@/Components/PaginationInTable";
 import SearchInput from "@/Components/SearchInput";
 import DefaultCandidatePicture from '../../../../../public/storage/images/default_profile.png';
 import AvatarComponent from "@/Components/AvatarComponent";
-import AddCandidateModal from "../Actions/AddCandidateModal";
+
 
 
 

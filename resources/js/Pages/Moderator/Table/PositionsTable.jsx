@@ -40,22 +40,19 @@ const TABLE_HEAD = ["Position ID", "Position", "Action"];
 export function PositionsTable(props) {
     const { data, setData, post, put, delete: destroy, errors, progress, processing, reset } = useForm();
 
+    const [id, setId] = useState(null);
     const { election } = usePage().props;
 
-    const [positions, setPositions] = useState(props.positions);
-
+    //modals
     const [openAddModal, setOpenAddModal] = useState(false);
     const [openUpdateModal, setUpdateModal] = useState(false);
     const [openDeleteModal, setDeleteModal] = useState(false);
 
     const [searchQuery, setSearchQuery] = useState('');
 
-    const [id, setId] = useState(null);
-
-
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
-    const positionsPerPage = props.positionsPerPage;
+    const positionsPerPage = props.positionsPerPage.data;
 
     //modal add
     const handleAddOpen = () => {
@@ -64,15 +61,13 @@ export function PositionsTable(props) {
     };
 
     const handleAddSubmit = (e) => {
-        e.preventDefault(); // Prevent the default form submission behavior
+        e.preventDefault();
 
         post(route('positions.store', data), {
             onSuccess: () => {
                 setOpenAddModal(false);
                 setIsSuccessMessage(true);
                 toast.success("Position created successfully")
-
-
             },
             onError: () => {
                 setOpenAddModal(true);
@@ -86,26 +81,36 @@ export function PositionsTable(props) {
         setUpdateModal(!openUpdateModal);
         setId(id);
         // Set the initial value of the input field to the current position name
-        const positionToUpdate = positions.find(position => position.id === id);
+        const positionToUpdate = positionsPerPage.find(position => position.id === id);
         // console.log("positionToUpdate:", positionToUpdate); // Add this line for debugging
-        setData('name', positionToUpdate.name);
+        if (positionToUpdate) {
+            setData({ 'name': positionToUpdate.name });
 
+        } else {
+            setData({ name: '' })
+        }
     };
 
-    const handleUpdateSubmit = async (e) => {
+    const handleUpdateSubmit = (e) => {
         e.preventDefault();
 
         // Send a PUT request to '/positions/{id}'
-        await put(`/position/${id}`, data);
+        put(route('positions.update', { id: id }, data), {
+            onSuccess: () => {
+                setIsSuccessMessage(true);
+                toast.success("Position updated successfully")
+                setUpdateModal(false);
 
-        // Close the update modal
-        setUpdateModal(false);
 
-        toast.success("Position updated successfully")
-        setIsSuccessMessage(true);
+            },
+            preserveScroll: true
+        });
 
-        // Reset the positionName field to empty
-        reset();
+
+
+
+
+
 
     };
 
@@ -121,13 +126,13 @@ export function PositionsTable(props) {
 
     const handleDeletePositions = (positionId) => {
         try {
-            // Send a DELETE request to delete the position
+
             destroy(`/position/${positionId}`);
 
 
             toast.success("Position deleted successfully")
             setIsSuccessMessage(true);
-            // Close the delete modal
+
             setDeleteModal(false);
 
         } catch (error) {
@@ -231,7 +236,7 @@ export function PositionsTable(props) {
                     </div>
                     <div className="flex flex-col items-center justify-end gap-2 md:flex-row me-3 mb-1">
                         <div className='flex justify-start gap-2'>
-                            <ExcelExport data={positions} fileName="positions" />
+                            <ExcelExport data={positionsPerPage} fileName="positions" />
 
                         </div>
                         <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
@@ -260,7 +265,7 @@ export function PositionsTable(props) {
                                 ))}
                             </tr>
                         </thead>
-                        {positionsPerPage.data.length === 0 || positionsPerPage.data.filter(position =>
+                        {positionsPerPage.length === 0 || positionsPerPage.filter(position =>
                             position.name.toLowerCase().includes(searchQuery.toLowerCase())).length === 0 ? (
                             <tbody>
                                 <tr>
@@ -271,7 +276,7 @@ export function PositionsTable(props) {
                             </tbody>
                         ) : (
                             <tbody>
-                                {positionsPerPage.data
+                                {positionsPerPage
                                     .filter(position => position.name.toLowerCase().includes(searchQuery.toLowerCase()))
                                     .map(({ id, name }) => {
 

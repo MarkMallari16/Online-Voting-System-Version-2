@@ -4,10 +4,11 @@ import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
-import ModeratorNavigation from '@/Pages/Moderator/ModeratorNavigation';
+
 import { Avatar, Tooltip } from '@material-tailwind/react';
 import DefaultProfile from '../../../public/storage/images/default_profile.png'
 import ThemeSwitchComponent from '@/Components/ThemeSwitchComponent';
+import ModeratorNavigation from '@/Components/ModeratorNavigation';
 
 export default function Authenticated({ user, header, children }) {
 
@@ -209,9 +210,9 @@ export default function Authenticated({ user, header, children }) {
                                     className={` ${route().current('users')}`}
                                 >Users</ResponsiveNavLink>
                                 <ResponsiveNavLink
-                                    href={route('users')}
-                                    active={route().current('users')}
-                                    className={` ${route().current('users')}`}
+                                    href={route('verifyUsers')}
+                                    active={route().current('verifyUsers')}
+                                    className={` ${route().current('verifyUsers')}`}
                                 >Verify Users</ResponsiveNavLink>
                                 <ResponsiveNavLink
                                     href={route('activitylog')}
