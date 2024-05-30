@@ -46,11 +46,11 @@ const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
                                     <div className="flex flex-col justify-center items-center text-gray-900 py-5">
 
                                         <div>
-                                            <LiaUserAltSlashSolid className='h-16 w-16' />
+                                            <LiaUserAltSlashSolid className='h-16 w-16 dark:text-gray-50' />
 
                                         </div>
 
-                                        <div className='mt-4 mb-1'>
+                                        <div className='mt-2 mb-4 dark:text-gray-400'>
                                             No candidates found for this position.
                                         </div>
 

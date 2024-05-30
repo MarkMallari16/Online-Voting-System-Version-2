@@ -218,10 +218,10 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                                                     <div className="flex justify-center">
                                                         <div className="flex flex-col items-center">
                                                             <div>
-                                                                <LiaUserAltSlashSolid className='h-16 w-16' />
+                                                                <LiaUserAltSlashSolid className='h-16 w-16 dark:text-gray-50' />
 
                                                             </div>
-                                                            <div className="mt-2">
+                                                            <div className="mt-2 dark:text-gray-400">
 
                                                                 No candidate available for this position
                                                             </div>

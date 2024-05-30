@@ -37,10 +37,10 @@ class ElectionController extends Controller
 
         $validatedData = $request->validate([
             'title' => 'required|string',
-            'start_date' => 'required|date|after_or_equal:today',
+            'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
         ], [
-            'start_date.after_or_equal' => 'The start date must be today or in the future.',
+            // 'start_date.after_or_equal' => 'The start date must be today or in the future.',
             'end_date.after_or_equal' => 'The end date must be after or equal to the start date.',
         ]);
         try {
