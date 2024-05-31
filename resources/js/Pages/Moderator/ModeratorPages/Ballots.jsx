@@ -19,7 +19,6 @@ const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
 
             <div className='mt-10 md:mx-44'>
                 <ElectionHeader election={election} />
-
                 {positionList.length > 0 || candidatesPerPosition.length > 0 ? (
                     positionList.map((position) => (
                         <div key={position.id} className="bg-white dark:bg-[#252525] dark:text-gray-50 ring-1 ring-gray-300 dark:ring-gray-800 overflow-hidden shadow-sm sm:rounded-md mt-7">
@@ -47,11 +46,11 @@ const Ballots = ({ auth, candidatesPerPosition, positionList, election }) => {
                                     <div className="flex flex-col justify-center items-center text-gray-900 py-5">
 
                                         <div>
-                                            <LiaUserAltSlashSolid className='h-16 w-16' />
+                                            <LiaUserAltSlashSolid className='h-16 w-16 dark:text-gray-50' />
 
                                         </div>
 
-                                        <div className='mt-4 mb-1'>
+                                        <div className='mt-2 mb-4 dark:text-gray-400'>
                                             No candidates found for this position.
                                         </div>
 

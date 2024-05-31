@@ -19,7 +19,7 @@ import { LiaUserAltSlashSolid } from "react-icons/lia";
 =======
 >>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
 
-const VoterDashboard = ({ election, candidatesAll, positionList, partyList, castedVotes, voteCounts, voterHasVoted, candidateWinners }) => {
+const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionList, partyList, castedVotes, voteCounts, voterHasVoted, candidateWinners }) => {
 
     const [selectedCandidates, setSelectedCandidates] = useState([]);
     const [now, setNow] = useState(new Date());
@@ -158,6 +158,7 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
         });
     };
 
+<<<<<<< HEAD
 
 <<<<<<< HEAD
     // console.log(election)
@@ -169,10 +170,21 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
 
 =======
 >>>>>>> a5d97759504b06652679829a51d708a4355848c1
+=======
+>>>>>>> ab8d40ed6a82537ca877ea80790e5934dae45d6e
     return (
         <div>
+            <div className="bg-white text-gray-900 dark:bg-[#252525] dark:ring-gray-800 dark:text-gray-100 ring-1 ring-gray-300 overflow-hidden shadow-sm sm:rounded-lg mb-5 ">
+                <div className="p-6 ">
+                    <h1 className="text-xl font-medium">Welcome back, {authenticatedName}!</h1>
+                </div>
+            </div>
+
             <PartylistCarousel partylistCarouselData={partyList} />
             {isSuccessMessage && <CustomToast />}
+
+
+
             {(election && election?.status === "Active") && isElectionStarted ? (
 
                 <div>
@@ -224,51 +236,55 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                             <AlreadyVoted castedVotes={castedVotes} positionList={positionList} partyList={partyList} />
                         ) : (
                             <form onSubmit={onVoteSubmit}>
-                                {positionList.map((position) => (
-                                    <div key={position.id} className="bg-white dark:bg-[#252525] dark:text-gray-50 dark:ring-gray-800 ring-1 ring-inset ring-gray-300  overflow-hidden shadow-sm sm:rounded-lg mt-7">
-                                        <div className="mt-11 font-medium text-2xl text-center">
-                                            Vote for {position.name}
-                                        </div>
-                                        <div className="text-center text-gray-600 dark:text-gray-500">
-                                            Select your preferred candidate(s) for the position of {position.name}
-                                        </div>
-                                        <div className={`p-6 text-gray-900`}>
-                                            {candidatesAll.filter(candidate => candidate.position_id === position.id).length > 0 ? (
-                                                <div className="mb-10 justify-center flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row sm:justify-center gap-8 p-5 lg:p-10">
-                                                    {candidatesAll
-                                                        .filter(candidate => candidate.position_id === position.id)
-                                                        .map(candidate => (
-                                                            <CandidateCard
-                                                                key={candidate.id}
-                                                                candidate={candidate}
-                                                                onSelectCandidate={() => onSelectCandidate(candidate.id, position.id)}
-                                                                selected={selectedCandidates.includes(candidate.id)}
-                                                                positionId={position.id}
-                                                            />
-                                                        ))}
-                                                </div>
-                                            ) : (
-                                                <div className="text-gray-900 p-5 text-center ">
-                                                    <div className="flex justify-center">
-                                                        <div className="flex flex-col items-center">
-                                                            <div>
-                                                                <LiaUserAltSlashSolid className='h-16 w-16' />
+                                {positionList.map((position) => {
+                                    const filteredCandidates = candidatesAll.filter(candidate => candidate.position_id === position.id);
 
-                                                            </div>
-                                                            <div className="mt-2">
-
-                                                                No candidate available for this position
-                                                            </div>
-                                                        </div>
-
-
-
+                                    return (
+                                        <div key={position.id} className="bg-white dark:bg-[#252525] dark:text-gray-50 dark:ring-gray-800 ring-1 ring-inset ring-gray-300  overflow-hidden shadow-sm sm:rounded-lg mt-7">
+                                            <div className="mt-11 font-medium text-2xl text-center">
+                                                Vote for {position.name}
+                                            </div>
+                                            <div className="text-center text-gray-600 dark:text-gray-500">
+                                                Select your preferred candidate(s) for the position of {position.name}
+                                            </div>
+                                            <div className={`p-6 text-gray-900`}>
+                                                {filteredCandidates.length > 0 ? (
+                                                    <div className="mb-10 justify-center flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row sm:justify-center gap-8 p-5 lg:p-10">
+                                                        {candidatesAll
+                                                            .filter(candidate => candidate.position_id === position.id)
+                                                            .map(candidate => (
+                                                                <CandidateCard
+                                                                    key={candidate.id}
+                                                                    candidate={candidate}
+                                                                    onSelectCandidate={() => onSelectCandidate(candidate.id, position.id)}
+                                                                    selected={selectedCandidates.includes(candidate.id)}
+                                                                    positionId={position.id}
+                                                                />
+                                                            ))}
                                                     </div>
-                                                </div>
-                                            )}
+                                                ) : (
+                                                    <div className="text-gray-900 p-5 text-center ">
+                                                        <div className="flex justify-center">
+                                                            <div className="flex flex-col items-center">
+                                                                <div>
+                                                                    <LiaUserAltSlashSolid className='h-16 w-16 dark:text-gray-50' />
+
+                                                                </div>
+                                                                <div className="mt-2 dark:text-gray-400">
+
+                                                                    No candidate available for this position
+                                                                </div>
+                                                            </div>
+
+
+
+                                                        </div>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    )
+                                })}
 
 
                                 <div className="text-center mt-7">
@@ -290,8 +306,8 @@ const VoterDashboard = ({ election, candidatesAll, positionList, partyList, cast
                 </div>
             ) : (
 
-                <div className=" w-full flex justify-center items-center bg-white py-10 rounded-md ring-1 inset-1 ring-gray-300">
-                    <div className="text-gray-900 p-5 text-center flex justify-center items-center flex-col">
+                <div className=" w-full flex justify-center items-center bg-white dark:bg-[#252525] dark:ring-gray-800 py-10 rounded-md ring-1 inset-1 ring-gray-300">
+                    <div className="text-gray-900 dark:text-gray-50 p-5 text-center flex justify-center items-center flex-col">
                         <img src={Time} alt="waiting" className="w-44" />
                         <div className="mt-3 text-xl">Please wait for the Moderator</div>
                         <div className="text-xl mb-2">Election for this position will be available soon.</div>

@@ -104,10 +104,12 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
         toast.success("Partylist successfully added");
         setIsSuccessMessage(true);
 
-
         reset();
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> ab8d40ed6a82537ca877ea80790e5934dae45d6e
       },
 <<<<<<< HEAD
       preserveScroll: true,

@@ -16,7 +16,7 @@ const DeleteModal = ({ open, handleDeleteOpen, handleDeleteData, id, dataName, p
                 </svg>
             </div>
             <div className="text-center">
-                <p>Are you sure you want to delete this {dataName}?</p>
+                <p className='text-gray-900'>Are you sure you want to delete this {dataName}?</p>
             </div>
             <DialogFooter>
                 <Button

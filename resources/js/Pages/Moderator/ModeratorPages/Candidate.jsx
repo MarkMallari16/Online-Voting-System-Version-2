@@ -2,11 +2,12 @@ import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 import { CandidateTable } from '../Table/CandidateTable'
 import { usePage } from '@inertiajs/react'
+
 const Candidate = ({ auth, partylist_list, position_list, candidates, candidatesPerPage }) => {
   const { election } = usePage().props;
   return (
 
-    <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 leading-tight">Manage Candidate</h2>} >
+    <AuthenticatedLayout user={auth.user} header={<h2 className="font-medium text-xl text-gray-800 dark:text-gray-50 leading-tight ">Manage Candidate</h2>} >
       <div className="flex flex-col md:flex-row min-h-screen">
 
         <main className="flex-1 py-12">

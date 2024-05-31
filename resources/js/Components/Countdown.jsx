@@ -110,8 +110,8 @@ function Countdown({ election }) {
                             ) : isVotingEnded ? (
                                 (
                                     <div className='text-center mb-4'>
-                                        <h2 className="text-2xl font-bold text-red-700">Election Ended</h2>
-                                        <p className="text-sm text-blue-gray-600">Thank you for participating!</p>
+                                        <h2 className="text-2xl font-bold text-red-700 dark:text-red-600">Election Ended</h2>
+                                        <p className="text-sm text-gray-600">Thank you for participating!</p>
                                     </div>
 
                                 )
@@ -131,13 +131,13 @@ function Countdown({ election }) {
                     </div>
                 </div >
             ) : (
-                <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div className="bg-white dark:bg-gray-900 overflow-hidden shadow-sm sm:rounded-lg">
                     <div className="p-4">
                         <div className="text-center mb-4">
-                            <h2 className="text-2xl font-semibold text-black">Election is currently inactive.</h2>
-                            <p className="text-sm text-black">Stay tuned for updates!</p>
+                            <h2 className="text-2xl font-semibold text-gray-900 dark:text-gray-50">Election is currently inactive.</h2>
+                            <p className="text-sm text-gray-900 dark:text-gray-400">Stay tuned for updates!</p>
                         </div>
-                        <div className="w-full max-w-5xl mx-auto flex items-center justify-around bg-white text-gray-900">
+                        <div className="w-full max-w-5xl mx-auto flex items-center justify-around bg-white dark:bg-gray-900 text-gray-900">
                             <CountdownItem num={remaining.days} text="Day(s)" />
                             <CountdownItem num={remaining.hours} text="Hour(s)" />
                             <CountdownItem num={remaining.minutes} text="Minute(s)" />

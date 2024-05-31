@@ -56,8 +56,8 @@ const BarChartContainer = ({ positionId, positionName, voteCounts, chartPosition
   };
 
   return (
-    <div className="mt-4 lg:mt-0 p-0 sm:p-3 md:p-5 lg:p-5 xl:p-8  rounded-lg">
-      <div className="text-2xl font-medium text-center mb-5 dark:text-gray-50">{positionName}</div>
+    <div className="mt-4 lg:mt-0 p-0 sm:p-3 md:p-5 lg:p-5 xl:p-8  rounded-lg bg-white dark:bg-[#252525]">
+      <div className="text-2xl font-medium text-center mb-5  dark:text-gray-50">{positionName}</div>
       <BarChart data={barChartData} options={chartOptions} />
     </div>
   )

@@ -43,7 +43,7 @@ import PaginationInTable from "@/Components/PaginationInTable";
 import SearchInput from "@/Components/SearchInput";
 import DefaultCandidatePicture from '../../../../../public/storage/images/default_profile.png';
 import AvatarComponent from "@/Components/AvatarComponent";
-import AddCandidateModal from "../Actions/AddCandidateModal";
+
 
 =======
 import InfoIcon from "@/Components/InfoIcon";
@@ -216,7 +216,8 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                 setIsSuccessMessage(true);
                 toast.error(errors[0])
                 setDeleteModal(false);
-            }
+            },
+            preserveScroll: true,
         }
         );
 

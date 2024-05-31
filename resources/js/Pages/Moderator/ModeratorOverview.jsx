@@ -140,10 +140,7 @@ const ModeratorOverview = ({ voters, candidates, election, votersVotedCount, num
 
                     <div >
                         <HiOutlineCheckCircle className=" w-10 h-10  rounded-lg p-2 bg-light-blue-200 dark:bg-light-blue-600" />
-
-
                     </div>
-
                 </div>
             </div>
             <div className="w-full sm:w-full md:w-auto  flex justify-between   rounded-lg  bg-white  px-6 py-5  ring-1 ring-inset ring-gray-300 dark:ring-gray-800  sm:col-span-4 dark:bg-[#252525] ">
