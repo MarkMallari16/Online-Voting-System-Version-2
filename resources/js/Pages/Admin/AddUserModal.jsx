@@ -16,7 +16,7 @@ import PasswordToggle from '@/Components/PasswordToggle';
 import { useForm } from '@inertiajs/react';
 import InputError from '@/Components/InputError';
 import toast from 'react-hot-toast';
-const AddUserModal = ({ open, handleClose,setIsSuccessMessage }) => {
+const AddUserModal = ({ open, handleClose, setIsSuccessMessage }) => {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: null,
         email: null,
@@ -66,7 +66,7 @@ const AddUserModal = ({ open, handleClose,setIsSuccessMessage }) => {
             preserveScroll: true
         });
     };
-    
+
     useEffect(() => {
         return () => {
             reset("password", "password_confirmation");

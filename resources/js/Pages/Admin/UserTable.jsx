@@ -3,23 +3,20 @@ import UsersPDF from "./UsersPDF";
 import { FaRegFilePdf } from "react-icons/fa6";
 
 import {
-    MagnifyingGlassIcon,
     ChevronUpDownIcon,
-
     UserPlusIcon,
 } from "@heroicons/react/24/outline";
 import { PencilIcon } from "@heroicons/react/24/solid"
 import {
     Card,
     CardHeader,
-    Input,
+
     Typography,
     Button,
     CardBody,
     CardFooter,
     IconButton,
     Tooltip,
-    Avatar,
 
 } from "@material-tailwind/react";
 
@@ -35,24 +32,24 @@ import PaginationInTable from "@/Components/PaginationInTable";
 import SearchInput from "@/Components/SearchInput";
 import AvatarComponent from "@/Components/AvatarComponent";
 import FilterDropdown from "@/Components/FilterDropdown";
+import { useForm } from "@inertiajs/react";
 
 const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
-    console.log(users);
+
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedRoleFilter, setSelectedRoleFilter] = useState("");
 
-    //modal
+
     const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
 
     const [isEditUserModalOpen, setIsEditUserModalOpen] = useState(false);
     const [isDeleteUserModalOpen, setIsDeleteUserModalOpen] = useState(false);
-    //getting id
+
     const [selectedUser, setSelectedUser] = useState(null);
     const [selectedUserId, setSelectedUserId] = useState(null);
 
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
-    //filtered users
     const filteredUsers = users.filter((user) => {
         if (searchQuery) {
             return Object.values(user).some(
@@ -83,20 +80,19 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
 
 
     };
+    const { delete: destroy, processing } = useForm();
 
     //handle the user in delete user modal
     const handleDeleteUser = (userId) => {
-        router.delete(`/users/${userId}`);
+        destroy(route('users.destroy', { id: userId }), {
+            preserveScroll: true
+        });
 
-        setIsSuccessMessage(true);
         toast.success("User successfully deleted");
+        setIsSuccessMessage(true);
         setIsDeleteUserModalOpen(false);
-
-
     };
 
-
-    console.log(usersPerPage);
     const roleOptions = [
         { value: '', label: 'All' },
         { value: 'admin', label: 'Admin' },
@@ -420,7 +416,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
                 handleClose={() => setIsDeleteUserModalOpen(false)}
                 handleDeleteUser={handleDeleteUser}
                 userId={selectedUserId}
-
+                processing={processing}
             />
 
         </div>

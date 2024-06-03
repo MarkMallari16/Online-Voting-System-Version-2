@@ -6,7 +6,6 @@ const CustomToast = () => {
         <Toaster position="top-right">
             {(t) => (
                 <ToastBar toast={t} style={{
-                    
                     padding: 10
                 }}>
 

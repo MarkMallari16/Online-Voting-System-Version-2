@@ -2,19 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreVoteRequest;
-use App\Mail\VoteConfirmation;
 use App\Models\AuditLog;
-use App\Models\Candidate;
 use App\Models\Election;
 use App\Models\Positions;
 use App\Models\User;
-use Carbon\Traits\Timestamp;
 use Illuminate\Http\Request;
 use App\Models\Vote;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class VoteController extends Controller
@@ -71,10 +65,7 @@ class VoteController extends Controller
             ->where('election_id', $validatedData['election_id'])
             ->exists();
 
-        if ($existingVote) {
-            return redirect()->back()->with('error', 'You have already voted in this election');
-        }
-
+    
         if (empty($validatedData['candidate_ids'])) {
             $vote = new Vote();
             $vote->voter_id = $user->id;

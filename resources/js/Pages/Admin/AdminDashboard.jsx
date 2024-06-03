@@ -1,6 +1,5 @@
 import React from 'react';
 
-import UserTable from './UserTable';
 import AdminDashboardOverview from './AdminDashboardOverview';
 import DashboardBarAdminChart from '@/Components/DashboardAdminBarChart';
 import DashboardAdminDoughnutChart from '@/Components/DashboardAdminDoughnutChart';
