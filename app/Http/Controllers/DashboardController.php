@@ -11,20 +11,15 @@ use App\Models\User;
 use App\Models\Vote;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
-    public function getHasVotedStatus($userId, $electionId)
-    {
-        // Check if the user has voted in the specified election
-        return Vote::where('voter_id', $userId)
-            ->where('election_id', $electionId)
-            ->exists();
-    }
 
     function dashboard()
     {
+        // get the authenticated user
+        $user = Auth::user();
+
         //admin
         $totalAdmins = $this->countTotalAdmins();
         $totalModerators = $this->countTotalModerators();
@@ -43,14 +38,12 @@ class DashboardController extends Controller
         $numberOfPartylists = $this->countPartylists();
         $numberOfPositions = $this->countPositions();
 
-        // Retrieve the latest election, whether active or inactive
+
         $election = $this->getLatestElection();
 
-        // get the authenticated user
-        $user = Auth::user();
+
         //get the user id 
         $voterId = $user->id;
-
         $voterHasVoted = false;
         $voterVoted = false;
 
@@ -80,8 +73,6 @@ class DashboardController extends Controller
             ->distinct()
             ->limit(2)
             ->get();
-
-
 
         $voteCounts = [];
 
@@ -202,6 +193,14 @@ class DashboardController extends Controller
             'totalVotesPerPosition' => $totalVotesPerPosition,
 
         ]);
+    }
+
+    public function getHasVotedStatus($userId, $electionId)
+    {
+        // Check if the user has voted in the specified election
+        return Vote::where('voter_id', $userId)
+            ->where('election_id', $electionId)
+            ->exists();
     }
     private function getLatestUsers()
     {
