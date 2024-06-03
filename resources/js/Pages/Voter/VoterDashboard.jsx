@@ -22,6 +22,10 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
     const [now, setNow] = useState(new Date());
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
+
+    const electionId = election ? election.id : 0;
+
+
     const memoizedEndingDate = useMemo(() => {
 
         if (!election || election.status === 'Inactive') {
@@ -64,17 +68,14 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
         setResult(now > endDate);
     }, [endDate, now]);
 
-    const electionId = election ? election.id : 0;
+    useEffect(() => {
+        setData("candidate_ids", selectedCandidates);
+    }, [selectedCandidates]);
 
     const { data, setData, post, errors, processing } = useForm({
         election_id: electionId,
         candidate_ids: [],
     });
-
-
-    useEffect(() => {
-        setData("candidate_ids", selectedCandidates);
-    }, [selectedCandidates]);
 
     const onSelectCandidate = (candidateId, positionId) => {
 
@@ -116,13 +117,7 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
 
             setData("candidate_ids", selectedCandidates);
 
-            post("/votes", {
-                election_id: electionId,
-                candidate_ids: selectedCandidates,
-            })
-            setIsSuccessMessage(true);
-            toast.success("You have successfully voted!");
-
+            post(route('votes.store', data));
         } catch (error) {
 
             console.error("Error submitting vote:", error);
@@ -158,16 +153,10 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
             <PartylistCarousel partylistCarouselData={partyList} />
             {isSuccessMessage && <CustomToast />}
 
-
-
             {(election && election?.status === "Active") && isElectionStarted ? (
-
                 <div>
-
-
                     <div>
                         {isElectionEnded ? (
-
                             <>
                                 <VoteCandidateWinnerModal isOpen={showCandidateWinnerModal} onClose={() => setShowCandidateWinnerModal(false)} candidateWinners={candidateWinners} electionTitle={election?.title} />
 

@@ -101,7 +101,7 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::delete('/position/{id}', [PositionController::class, 'destroy'])->name('positions.destroy');
 
     Route::get('/votes', [VoteController::class, 'index'])->name('votes');
-    Route::post('/hasVoted', [CandidateController::class, 'hasVoted'])->name('vote.hasVoted');
+    // Route::post('/hasVoted', [CandidateController::class, 'hasVoted'])->name('vote.hasVoted');
 });
 
 
@@ -113,7 +113,7 @@ Route::get('/moderator-overview', [CandidateController::class, 'moderatorOvervie
 Route::get('/partylist/{partylist}', [PartylistController::class, 'show'])->middleware(['auth', 'verified'])->name('partylist.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::post('/votes', [VoteController::class, 'createVote'])->name('votes.create');
+    Route::post('/votes', [VoteController::class, 'createVote'])->name('votes.store');
     Route::get('/casted-votes', [VoteController::class, 'castedVotes'])->name('casted.votes');
 
     //upload Profile picture
