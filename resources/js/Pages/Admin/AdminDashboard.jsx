@@ -7,14 +7,7 @@ import DashboardAdminDoughnutChart from '@/Components/DashboardAdminDoughnutChar
 import LatestUsersTable from './LatestUsersTable';
 
 
-const AdminDashboard = ({ usersPerPage, latestUsers }) => {
-    const users = usersPerPage.data;
-
-    const totalStudents = users.filter(user => user.role === 'voter').length;
-    const totalAdmins = users.filter(user => user.role === 'admin').length;
-    const totalModerators = users.filter(user => user.role === 'moderator').length;
-    const usersVerified = users.filter(user => user.email_verified_at).length;
-    const usersNotVerified = users.filter(user => !user.email_verified_at).length;
+const AdminDashboard = ({ latestUsers, totalAdmins, totalModerators, totalStudents, totalVerifiedUsers, totalUnverifiedUsers }) => {
 
     const TABLE_HEAD = ["ID", "Name", "Email", "Role", "Created At", "Updated At", "Email Status", "Action"];
 
@@ -34,11 +27,11 @@ const AdminDashboard = ({ usersPerPage, latestUsers }) => {
 
                 <div className="mt-5 grid grid-rows-1 grid-cols-1 lg:grid-cols-3 items-center gap-5">
                     <DashboardBarAdminChart totalStudents={totalStudents} totalAdmins={totalAdmins} totalModerators={totalModerators} className='col-span-2  h-full' />
-                    <DashboardAdminDoughnutChart usersVerified={usersVerified} usersNotVerified={usersNotVerified} className='col-span-1 h-full' />
+                    <DashboardAdminDoughnutChart className='col-span-1 h-full' totalVerifiedUsers={totalVerifiedUsers} totalUnverifiedUsers={totalUnverifiedUsers} />
                 </div>
 
                 <div className="mt-5 ring-1 ring-gray-300 rounded-lg">
-                    <LatestUsersTable TABLE_HEAD={TABLE_HEAD} users={latestUsers}  />
+                    <LatestUsersTable TABLE_HEAD={TABLE_HEAD} users={latestUsers} />
                 </div>
             </div>
         </div>

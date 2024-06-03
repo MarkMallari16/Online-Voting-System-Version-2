@@ -1,5 +1,5 @@
 import { Accordion, AccordionBody, AccordionHeader } from '@material-tailwind/react';
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 
 const FAQSComponent = () => {
     const [open, setOpen] = useState(1);

@@ -27,6 +27,7 @@ class DashboardController extends Controller
 <<<<<<< HEAD
     {
         //admin
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 =======
@@ -42,6 +43,13 @@ class DashboardController extends Controller
 >>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
         $usersPerPage = User::paginate(10);
 =======
+=======
+        $totalAdmins = $this->countTotalAdmins();
+        $totalModerators = $this->countTotalModerators();
+        $totalStudents = $this->countTotalStudents();
+        $totalVerifiedUsers = $this->countTotalVerifiedUsers();
+        $totalUnverifiedUsers = $this->countTotalUnverifiedUsers();
+>>>>>>> fee66585f2217ae06aa7f4b59b7e4a878df49d16
         $usersPerPage = $this->getUsersPerPage();
         $latestUsers = $this->getLatestUsers();
 >>>>>>> a5d97759504b06652679829a51d708a4355848c1
@@ -147,7 +155,7 @@ class DashboardController extends Controller
 >>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
         $candidateWinners = [];
         $totalVotesPerPosition = [];
-      
+
         $candidatesPerPosition = [];
         $totalCandidatesPerPositions =  [];
 <<<<<<< HEAD
@@ -230,6 +238,11 @@ class DashboardController extends Controller
 
         return Inertia::render('Dashboard', [
             'usersPerPage' => $usersPerPage,
+            'totalAdmins' => $totalAdmins,
+            'totalModerators' => $totalModerators,
+            'totalStudents' => $totalStudents,
+            'totalVerifiedUsers' => $totalVerifiedUsers,
+            'totalUnverifiedUsers' => $totalUnverifiedUsers,
             'latestUsers' => $latestUsers,
             'partylist_list' => $partylist,
             'position_list' => $positions,
@@ -256,6 +269,30 @@ class DashboardController extends Controller
     private function getLatestUsers()
     {
         return User::whereNotNull('email_verified_at')->orderByDesc('created_at')->take(5)->get();
+    }
+    private function countTotalUsersByRole($role)
+    {
+        return User::where('role', $role)->count();
+    }
+    private function countTotalAdmins()
+    {
+        return $this->countTotalUsersByRole('admin');
+    }
+    private function countTotalModerators()
+    {
+        return $this->countTotalUsersByRole('moderator');
+    }
+    private function countTotalStudents()
+    {
+        return $this->countTotalUsersByRole('voter');
+    }
+    private function countTotalVerifiedUsers()
+    {
+        return User::whereNotNull('email_verified_at')->count();
+    }
+    private function countTotalUnverifiedUsers()
+    {
+        return User::whereNull('email_verified_at')->count();
     }
     private function getUsersPerPage()
     {

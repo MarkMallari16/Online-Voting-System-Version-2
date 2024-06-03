@@ -7,7 +7,7 @@ const AdminDashboardOverview = ({
     totalStudents,
     totalAdmins,
     totalModerators,
-    totalPartylistEditors,
+
 }) => {
     return (
         <>

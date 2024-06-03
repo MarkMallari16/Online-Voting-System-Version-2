@@ -21,7 +21,7 @@ const HeroComponent = () => {
                     </Link>
                     <Link
                         href={route('login')}
-                        className=" text-black px-4  rounded-md transition-all ease-in-out"
+                        className=" text-black px-4  rounded-md transition-all ease-in-out "
                     >
                         Already have an account?
                     </Link>

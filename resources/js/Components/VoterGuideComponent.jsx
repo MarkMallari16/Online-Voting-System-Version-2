@@ -7,7 +7,7 @@ const VoterGuideComponent = () => {
             <div>
                 <div className='text-center text-4xl font-bold' >How it works?</div>
                 <div className="text-lg font-normal text-gray-900 text-center mt-2 mb-10 mx-4 lg:mx-0">
-                    Explore simple steps for secure voting in the SHS student council elections.
+                    Explore simple steps for secure voting in the STI Bacoor  SHS student council elections.
                 </div>
             </div>
 
