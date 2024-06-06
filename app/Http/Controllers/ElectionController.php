@@ -65,13 +65,13 @@ class ElectionController extends Controller
             if ($existingElection && $existingElection->end_date < now()) {
 
                 Election::create($newElectionData);
-               
+
                 $existingElection->candidates()->delete();
 
-                
+
                 $existingElection->votes()->delete();
 
-                
+
                 $existingElection->delete();
             }
             return redirect()->back()->with('success', 'Election updated/created successfully.');
@@ -88,19 +88,20 @@ class ElectionController extends Controller
         $election = Election::latest()->first();
 
         try {
-            if ($election) {
 
-                Election::where('status', 'Active')->update(['status' => 'Inactive']);
-
-                $election->status = 'Active';
-                $election->save();
-
-
-
-                return redirect()->back()->with('success', 'Election activated successfully.');
-            } else {
+            if (!$election) {
                 return redirect()->back()->with('error', 'No election found to activate.');
             }
+
+            Election::where('status', 'Active')->update(['status' => 'Inactive']);
+
+
+            if ($election->candidates()->count() === 0) {
+                return redirect()->back()->withErrors(['error' => 'You must create candidates first!']);
+            }
+
+            $election->status = 'Active';
+            $election->save();
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to activate election. Please try again.');
         }

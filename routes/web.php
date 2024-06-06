@@ -69,7 +69,7 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
 
     Route::get('/election', [ElectionController::class, 'index'])->name('election');
     Route::post('/election', [ElectionController::class, 'store']);
-    Route::put('/election/activate', [ElectionController::class, 'activate']);
+    Route::put('/election/activate', [ElectionController::class, 'activate'])->name('election.activate');
     Route::put('/election/deactivate', [ElectionController::class, 'deactivate']);
     Route::put('/election/stop', [ElectionController::class, 'stop']);
 
