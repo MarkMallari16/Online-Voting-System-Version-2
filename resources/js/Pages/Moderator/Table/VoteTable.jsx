@@ -52,6 +52,7 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
     const [id, setId] = useState();
     const [selectedVote, setSelectedVote] = useState();
     const [searchQuery, setSearchQuery] = useState("");
+    const [voteCategory, setVoteCategory] = useState('students_voted');
 
     const handleOpen = (id) => {
         setOpen(!open);
@@ -70,7 +71,7 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
     const handleClose = () => {
         setOpen(false);
     }
-    console.log(votes);
+
 
     const exportVotesExcel = votes.map((vote) => {
         return {
@@ -82,8 +83,11 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
         }
     })
 
-
     const classes = "p-4 border-b border-blue-gray-50";
+
+    const handleTableVotesCategory = (category) => {
+        setVoteCategory(category);
+    }
     return (
         <Card className="h-full w-full ">
             <CardHeader floated={false} shadow={false} className="rounded-none">
@@ -196,11 +200,15 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
                 </div>
             </CardHeader>
             <CardBody className="overflow-scroll px-0">
-                <Tabs value="students_voted">
+                <Tabs value={voteCategory} checked={TABS.value === voteCategory}>
                     <div className="w-full px-5 ">
                         <TabsHeader >
                             {TABS.map(({ label, value }) => (
-                                <Tab key={value} value={value}>
+                                <Tab
+                                    key={value}
+                                    value={value}
+                                    onClick={() => handleTableVotesCategory(value)}
+                                >
                                     &nbsp;&nbsp;{label}&nbsp;&nbsp;
                                 </Tab>
                             ))}
@@ -208,7 +216,7 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
 
                     </div>
                     <TabsBody>
-                        <TabPanel value="students_voted" className='px-0'>
+                        <TabPanel onClick={() => handleTableVotesCategory('students_voted')} value="students_voted" className='px-0'>
                             <table className="w-full min-w-max table-auto text-left">
                                 <thead>
                                     <tr>
@@ -235,9 +243,7 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
                                 {votesPerPage?.data.length === 0 || votesPerPage?.data.filter(vote => {
                                     const userMatches = vote?.user?.name.toLowerCase().includes(searchQuery.toLowerCase());
                                     const election = vote?.election?.title.toLowerCase().includes(searchQuery.toLowerCase());
-                                    // const position = positions.find(position => position?.id === vote?.candidate?.position_id)?.name?.toLowerCase().includes(searchQuery.toLowerCase());
-
-                                    // const isNotAbstained = vote.isAbstained === 0;
+                                    
                                     return (userMatches || election);
                                 }).length === 0 ? (
                                     <tbody>
@@ -356,7 +362,7 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
                         </TabPanel>
 
 
-                        <TabPanel value="students_not_voted" className='px-0'>
+                        <TabPanel onClick={() => handleTableVotesCategory('students_not_voted')} value="students_not_voted" className='px-0'>
                             <div >
                                 <table className=" w-full min-w-max table-auto text-left">
                                     <thead>
@@ -460,9 +466,8 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
                 </Tabs>
             </CardBody>
             <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                <PaginationInTable dataPerPage={votesPerPage} />
+                <PaginationInTable dataPerPage={voteCategory === 'students_voted' ? votesPerPage : voters} />
             </CardFooter>
-
         </Card >
 
     )

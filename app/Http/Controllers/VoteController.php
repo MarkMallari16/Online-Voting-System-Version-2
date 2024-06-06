@@ -23,7 +23,7 @@ class VoteController extends Controller
 
         $voters = User::where('role', 'voter')
             ->whereNotNull('email_verified_at')
-            ->paginate(10);
+            ->paginate(15);
 
         $positions = Positions::all();
 
@@ -31,7 +31,7 @@ class VoteController extends Controller
             ->with('user:id,name,email,email_verified_at', 'election:id,title')
             ->groupBy('voter_id', 'election_id', 'vote_timestamp')
             ->orderByDesc('vote_timestamp')
-            ->paginate(10);
+            ->paginate(15);
 
         return Inertia::render(
             'Moderator/ModeratorPages/Votes',
