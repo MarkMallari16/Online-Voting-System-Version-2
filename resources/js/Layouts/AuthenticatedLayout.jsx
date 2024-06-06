@@ -166,7 +166,7 @@ export default function Authenticated({ user, header, children }) {
                                 </Dropdown>
 
                             </div>
-                            <ThemeSwitchComponent auth={user} />
+                            {/**<ThemeSwitchComponent auth={user} /> */}
                         </div>
 
                         <div className="-me-2 flex items-center sm:hidden ">
