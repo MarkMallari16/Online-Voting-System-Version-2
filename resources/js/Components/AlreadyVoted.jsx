@@ -82,7 +82,7 @@ const AlreadyVoted = ({ castedVotes, positionList, partyList }) => {
 
 
   return (
-    <div className='mt-10 w-full flex justify-center items-center'>
+    <div className='mt-8 w-full flex justify-center items-center'>
       <div className='bg-white dark:bg-[#252525] dark:text-gray-50 dark:ring-gray-800 ring-1 ring-inset ring-gray-300  shadow-sm w-full rounded-md py-10'>
         <div className='flex justify-center text-blue-500'>
           <img src={Thankyou} alt="Thank you image" className='w-1/4' />

@@ -39,8 +39,8 @@ const PartylistShow = ({ auth, partylist, election }) => {
                 </div>
               </div>
 
-              <div className='mt-20 mb-5 text-3xl flex gap-2 items-center dark:text-gray-50'>
-                <MdGroups className='h-12 w-12'/>
+              <div className='mt-5 mb-3 text-2xl flex gap-2 items-center dark:text-gray-50'>
+                <MdGroups className='h-10 w-10'/>
 
                 <div> {partylist.name} Partylist Members</div>
               </div>
@@ -53,7 +53,6 @@ const PartylistShow = ({ auth, partylist, election }) => {
                     </div>
                     <div className='mt-4 text-2xl font-medium dark:text-gray-50'>
                       {`${candidate.first_name} ${candidate.last_name}`}
-
                     </div>
 
                     <div className='text-lg font-normal flex items-center gap-1 dark:text-gray-400'>
