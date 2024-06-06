@@ -7,17 +7,11 @@ import {
 import {
     Card,
     CardHeader,
-    Input,
     Typography,
-    Button,
     CardBody,
     CardFooter,
     IconButton,
     Tooltip,
-    Dialog,
-    DialogHeader,
-    DialogBody,
-    DialogFooter,
     Tabs,
     TabsHeader,
     TabsBody,
@@ -30,8 +24,6 @@ import ExcelExport from '@/Components/ExcelExport';
 import PaginationInTable from '@/Components/PaginationInTable';
 import SearchInput from '@/Components/SearchInput';
 import ShowVoteDetailsModal from '@/Components/ShowVoteDetailsModal';
-
-
 
 
 const VoteTable = ({ votes, votesPerPage, voters }) => {
@@ -120,8 +112,8 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
                         <SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
                     </div>
                 </CardHeader>
-                <CardBody className="overflow-scroll px-0">
-                    <Tabs value={voteCategory} checked={TABS.value === voteCategory}>
+                <CardBody className="overflow-scroll px-0 ">
+                    <Tabs value={voteCategory} checked={TABS.value === voteCategory} >
                         <div className="w-full px-5 ">
                             <TabsHeader >
                                 {TABS.map(({ label, value }) => (
@@ -138,151 +130,153 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
                         </div>
                         <TabsBody>
                             <TabPanel onClick={() => handleTableVotesCategory('students_voted')} value="students_voted" className='px-0'>
-                                <table className="w-full min-w-max table-auto text-left">
-                                    <thead>
-                                        <tr>
-                                            {TABLE_HEAD.map((head, index) => (
-                                                <th
-                                                    key={head}
-                                                    className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50"
-                                                >
-                                                    <Typography
-                                                        variant="small"
-                                                        color="blue-gray"
-                                                        className="flex items-center justify-between gap-2 font-normal leading-none opacity-70"
-                                                    >
-                                                        {head}{" "}
-                                                        {index !== TABLE_HEAD.length - 1 && (
-                                                            <ChevronUpDownIcon strokeWidth={2} className="h-4 w-4" />
-                                                        )}
-                                                    </Typography>
-                                                </th>
-                                            ))}
-                                        </tr>
-                                    </thead>
-
-                                    {votesPerPage?.data.length === 0 || votesPerPage?.data.filter(vote => {
-                                        const userMatches = vote?.user?.name.toLowerCase().includes(searchQuery.toLowerCase());
-                                        const election = vote?.election?.title.toLowerCase().includes(searchQuery.toLowerCase());
-
-                                        return (userMatches || election);
-                                    }).length === 0 ? (
-                                        <tbody>
+                                <div className="overflow-x-auto">
+                                    <table className="w-full min-w-max table-auto text-left">
+                                        <thead>
                                             <tr>
-                                                <td colSpan="8" className="text-center py-5 text-gray-900 ">
-                                                    No votes found
-                                                </td>
+                                                {TABLE_HEAD.map((head, index) => (
+                                                    <th
+                                                        key={head}
+                                                        className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50"
+                                                    >
+                                                        <Typography
+                                                            variant="small"
+                                                            color="blue-gray"
+                                                            className="flex items-center justify-between gap-2 font-normal leading-none opacity-70"
+                                                        >
+                                                            {head}{" "}
+                                                            {index !== TABLE_HEAD.length - 1 && (
+                                                                <ChevronUpDownIcon strokeWidth={2} className="h-4 w-4" />
+                                                            )}
+                                                        </Typography>
+                                                    </th>
+                                                ))}
                                             </tr>
-                                        </tbody>
-                                    ) : (
-                                        <tbody>
-                                            {votesPerPage?.data
-                                                .filter(vote => {
-                                                    const userMatches = vote?.user?.name.toLowerCase().includes(searchQuery.toLowerCase());
-                                                    const election = vote?.election?.title.toLowerCase().includes(searchQuery.toLowerCase());
+                                        </thead>
 
-                                                    return userMatches || election;
-                                                })
-                                                .map(({ voter_id, user, election, vote_timestamp }) => {
+                                        {votesPerPage?.data.length === 0 || votesPerPage?.data.filter(vote => {
+                                            const userMatches = vote?.user?.name.toLowerCase().includes(searchQuery.toLowerCase());
+                                            const election = vote?.election?.title.toLowerCase().includes(searchQuery.toLowerCase());
+
+                                            return (userMatches || election);
+                                        }).length === 0 ? (
+                                            <tbody>
+                                                <tr>
+                                                    <td colSpan="8" className="text-center py-5 text-gray-900 ">
+                                                        No votes found
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        ) : (
+                                            <tbody>
+                                                {votesPerPage?.data
+                                                    .filter(vote => {
+                                                        const userMatches = vote?.user?.name.toLowerCase().includes(searchQuery.toLowerCase());
+                                                        const election = vote?.election?.title.toLowerCase().includes(searchQuery.toLowerCase());
+
+                                                        return userMatches || election;
+                                                    })
+                                                    .map(({ voter_id, user, election, vote_timestamp }) => {
 
 
 
-                                                    const formatDate = (dateString) => {
-                                                        const date = new Date(dateString);
-                                                        return date.toLocaleString();
-                                                    };
+                                                        const formatDate = (dateString) => {
+                                                            const date = new Date(dateString);
+                                                            return date.toLocaleString();
+                                                        };
 
-                                                    return (
-                                                        <tr key={voter_id}>
+                                                        return (
+                                                            <tr key={voter_id}>
 
-                                                            <td className={classes}>
-                                                                <div className="flex items-center gap-3">
+                                                                <td className={classes}>
+                                                                    <div className="flex items-center gap-3">
+                                                                        <div className="flex flex-col">
+                                                                            <Typography
+                                                                                variant="small"
+                                                                                color="blue-gray"
+                                                                                className="font-normal"
+                                                                            >
+                                                                                {voter_id}
+                                                                            </Typography>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+
+                                                                <td className={classes}>
+                                                                    <div className="flex items-center gap-3">
+                                                                        <div className="flex flex-col">
+                                                                            <Typography
+                                                                                variant="small"
+                                                                                color="blue-gray"
+                                                                                className="font-normal"
+                                                                            >
+                                                                                {user?.name}
+                                                                            </Typography>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+
+
+
+                                                                <td className={classes}>
                                                                     <div className="flex flex-col">
                                                                         <Typography
                                                                             variant="small"
                                                                             color="blue-gray"
                                                                             className="font-normal"
                                                                         >
-                                                                            {voter_id}
+                                                                            {election?.title}
                                                                         </Typography>
                                                                     </div>
-                                                                </div>
-                                                            </td>
-
-                                                            <td className={classes}>
-                                                                <div className="flex items-center gap-3">
+                                                                </td>
+                                                                <td className={classes}>
+                                                                    <div className="flex flex-col ">
+                                                                        <Typography
+                                                                            variant="small"
+                                                                            color="blue-gray"
+                                                                            className="text-center py-2 rounded-md  bg-green-200 text-green-900 text-md font-bold"
+                                                                        >
+                                                                            {vote_timestamp && 'Voted'}
+                                                                        </Typography>
+                                                                    </div>
+                                                                </td>
+                                                                <td className={classes}>
                                                                     <div className="flex flex-col">
                                                                         <Typography
                                                                             variant="small"
                                                                             color="blue-gray"
                                                                             className="font-normal"
                                                                         >
-                                                                            {user?.name}
+                                                                            {formatDate(vote_timestamp)}
                                                                         </Typography>
                                                                     </div>
-                                                                </div>
-                                                            </td>
+                                                                </td>
 
+                                                                <td className={classes}>
+                                                                    <div className="flex gap-2">
+                                                                        <Tooltip content="View Vote">
+                                                                            <IconButton variant="text" className="bg-blue-700 text-white" onClick={() => handleOpen(voter_id)}>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                                                </svg>
+                                                                            </IconButton>
+                                                                        </Tooltip>
 
-
-                                                            <td className={classes}>
-                                                                <div className="flex flex-col">
-                                                                    <Typography
-                                                                        variant="small"
-                                                                        color="blue-gray"
-                                                                        className="font-normal"
-                                                                    >
-                                                                        {election?.title}
-                                                                    </Typography>
-                                                                </div>
-                                                            </td>
-                                                            <td className={classes}>
-                                                                <div className="flex flex-col ">
-                                                                    <Typography
-                                                                        variant="small"
-                                                                        color="blue-gray"
-                                                                        className="text-center py-2 rounded-md  bg-green-200 text-green-900 text-md font-bold"
-                                                                    >
-                                                                        {vote_timestamp && 'Voted'}
-                                                                    </Typography>
-                                                                </div>
-                                                            </td>
-                                                            <td className={classes}>
-                                                                <div className="flex flex-col">
-                                                                    <Typography
-                                                                        variant="small"
-                                                                        color="blue-gray"
-                                                                        className="font-normal"
-                                                                    >
-                                                                        {formatDate(vote_timestamp)}
-                                                                    </Typography>
-                                                                </div>
-                                                            </td>
-
-                                                            <td className={classes}>
-                                                                <div className="flex gap-2">
-                                                                    <Tooltip content="View Vote">
-                                                                        <IconButton variant="text" className="bg-blue-700 text-white" onClick={() => handleOpen(voter_id)}>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                                            </svg>
-                                                                        </IconButton>
-                                                                    </Tooltip>
-
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    );
-                                                })}
-                                        </tbody>
-                                    )}
-                                </table>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        );
+                                                    })}
+                                            </tbody>
+                                        )}
+                                    </table>
+                                </div>
                             </TabPanel>
 
 
                             <TabPanel onClick={() => handleTableVotesCategory('students_not_voted')} value="students_not_voted" className='px-0'>
-                                <div >
+                                <div className='overflow-x-auto'>
                                     <table className=" w-full min-w-max table-auto text-left">
                                         <thead>
                                             <tr>
@@ -381,7 +375,7 @@ const VoteTable = ({ votes, votesPerPage, voters }) => {
                             </TabPanel>
 
 
-                          
+
                         </TabsBody>
                     </Tabs>
                 </CardBody>
