@@ -35,6 +35,7 @@ export default function Login({ status, canResetPassword }) {
     const handlePassword = () => {
         setShowPassword(!showPassword);
     }
+    
     return (
         <div className='grid grid-cols-1  lg:grid-cols-5 h-screen '>
             <div className='lg:bg-[url("/sti-images/SHSStudents.png")] lg:bg-center  lg:bg-no-repeat lg:bg-cover lg:flex  lg:items-center lg:justify-center m-0  lg:col-span-3 bg-none lg:rounded-r-3xl'>
