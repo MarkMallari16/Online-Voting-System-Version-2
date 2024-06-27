@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\DashboardService;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,7 +14,9 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
-
+        $this->app->singleton(DashboardService::class, function ($app) {
+            return new DashboardService();
+        });
     }
 
     /**
@@ -21,8 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-
-
         Validator::extend('school_email', function ($attribute, $value, $parameters, $validator) {
             // Simplified and improved regular expression for school email domain
             return preg_match('/^[a-zA-Z0-9._%+-]+@bacoor\.sti\.edu\.ph$/', $value);
