@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-    MagnifyingGlassIcon,
+
     ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
 import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
@@ -8,22 +8,14 @@ import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 import {
     Card,
     CardHeader,
-    Input,
     Typography,
     Button,
     CardBody,
     CardFooter,
-    Avatar,
     IconButton,
     Tooltip,
-    Dialog,
-    DialogHeader,
-    DialogBody,
-    DialogFooter,
-    Select,
-    Option,
-    Alert,
 } from "@material-tailwind/react";
+<<<<<<< HEAD
 import TextInput from "@/Components/TextInput";
 import InputLabel from "@/Components/InputLabel";
 import InputError from "@/Components/InputError";
@@ -34,6 +26,10 @@ import DefaultCandidatePicture from "../../../../../public/profile_photos/defaul
 >>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
 
 import { useForm, router, usePage } from "@inertiajs/react";
+=======
+
+import { useForm, usePage } from "@inertiajs/react";
+>>>>>>> c3a0e03082ee157ebe23e0553389d8dac406e292
 import DeleteModal from "@/Components/DeleteModal";
 import ExcelExport from "@/Components/ExcelExport";
 <<<<<<< HEAD
@@ -43,12 +39,17 @@ import PaginationInTable from "@/Components/PaginationInTable";
 import SearchInput from "@/Components/SearchInput";
 import DefaultCandidatePicture from '../../../../../public/storage/images/default_profile.png';
 import AvatarComponent from "@/Components/AvatarComponent";
+<<<<<<< HEAD
 
 
 =======
 import InfoIcon from "@/Components/InfoIcon";
 >>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
 
+=======
+import AddCandidateModal from "@/Components/AddCandidateModal";
+import UpdateCandidateModal from "@/Components/UpdateCandidateModal";
+>>>>>>> c3a0e03082ee157ebe23e0553389d8dac406e292
 
 export function CandidateTable({ partylist_list, position_list, candidates, candidatesPerPage }) {
     const TABLE_HEAD = [
@@ -76,7 +77,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
-    const { data, setData, post, put, delete: destroy, reset, processing, clearErrors } = useForm();
+    const { data, setData, post, delete: destroy, reset, processing, clearErrors } = useForm();
 
     const handleFileUpload = (e) => {
         const file = e.target.files[0];
@@ -88,6 +89,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             file
         );
     };
+
     //for add modal
     const handleOpen = () => {
         setOpen(!open)
@@ -255,500 +257,6 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             {isSuccessMessage && (
                 <CustomToast />
             )}
-
-            {/**Add Canidate*/}
-            <Dialog
-                size="xl"
-                open={open}
-                handler={handleOpen}
-                className="overflow-y-auto md:h-[95vh] "
-            >
-
-                <form onSubmit={handleSubmit}>
-                    <DialogHeader>Add Candidate</DialogHeader>
-                    <hr />
-                    <DialogBody>
-                        <div>
-                            <div className="mb-2">
-                                <InputLabel
-                                    htmlFor="candidateProfile"
-                                    value="Candidate Profile"
-                                    className="mb-4"
-                                />
-                                <div className="flex items-center gap-3">
-                                    <div className="mb-2">
-                                        {candidateProfile ? (
-                                            <Avatar
-                                                src={URL.createObjectURL(candidateProfile)}
-                                                alt="Candidate Avatar"
-                                                size="xxl"
-                                                withBorder={true}
-                                                className="border-none"
-
-                                            />
-                                        ) : (
-                                            <Avatar
-                                                src={DefaultCandidatePicture}
-                                                alt="Default Candidate Avatar"
-                                                size="xxl"
-                                                withBorder={true}
-
-                                                className="border-none"
-                                            />
-                                        )}
-                                    </div>
-
-                                    <div>
-                                        <label
-                                            htmlFor="candidateImage"
-                                            className="relative cursor-pointer bg-gray-300 rounded-md font-medium py-2 px-4 mb-2 inline-flex items-center"
-                                        >
-                                            <span className="mr-2">
-                                                Choose a file
-                                            </span>
-                                            <input
-                                                type="file"
-                                                id="candidateImage"
-                                                name="candidate_profile"
-                                                className="hidden"
-                                                onChange={handleFileUpload}
-                                            />
-                                        </label>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="md:flex md:flex-wrap md:gap-2">
-                                <div className="flex-1">
-                                    <InputLabel
-                                        htmlFor="firstName"
-                                        value="Candidate First Name"
-                                    />
-
-                                    <TextInput
-                                        id="firstName"
-                                        className="mt-1 block w-full"
-                                        name="first_name"
-                                        value={
-                                            data.first_name ||
-                                            ""
-                                        }
-                                        onChange={(e) =>
-                                            setData(
-                                                "first_name",
-                                                e.target.value
-                                            )
-                                        }
-
-                                        autoFocus
-                                        autoComplete="firstName"
-                                        placeholder="Enter Candidate First Name"
-                                    />
-
-                                    <InputError className="mt-2" message={errors.first_name} />
-                                </div>
-
-                                <div className="flex-1">
-                                    <InputLabel
-                                        htmlFor="middle_name"
-                                        value=" Candidate Middle Name (optional)"
-                                    />
-
-                                    <TextInput
-                                        id="middleName"
-                                        className="mt-1 block w-full"
-                                        value={
-                                            data.middle_name ||
-                                            ""
-                                        }
-                                        name="middle_name"
-                                        onChange={(e) =>
-                                            setData(
-                                                "middle_name",
-                                                e.target.value
-                                            )
-                                        }
-                                        autoFocus
-                                        autoComplete="middleName"
-                                        placeholder="Enter Candidate Middle Name"
-                                    />
-
-                                    <InputError className="mt-2" message={errors.middle_name} />
-                                </div>
-
-                                <div className="flex-1">
-                                    <InputLabel
-                                        htmlFor="lastName"
-                                        value="Candidate Last Name"
-                                    />
-
-                                    <TextInput
-                                        id="lastName"
-                                        className="mt-1 block w-full"
-                                        name="last_name"
-                                        value={
-                                            data.last_name || ""
-                                        }
-                                        onChange={(e) =>
-                                            setData(
-                                                "last_name",
-                                                e.target.value
-                                            )
-                                        }
-
-                                        autoFocus
-                                        autoComplete="lastName"
-                                        placeholder="Enter Candidate last Name"
-                                    />
-
-                                    <InputError className="mt-2" message={errors.last_name} />
-                                </div>
-                            </div>
-
-                            <div className="mt-4">
-                                <Select
-                                    label="Select Partylist"
-                                    value={data.partylist_id}
-                                    onChange={(e) =>
-                                        setData(
-                                            "partylist_id",
-                                            e
-                                        )
-                                    }
-                                    name="partylist"
-                                >
-                                    {partylist_list?.map(
-                                        (list) => (
-                                            <Option
-                                                key={list.id}
-                                                value={list.id}
-                                            >
-                                                {list?.name}
-                                            </Option>
-                                        )
-                                    )}
-                                </Select>
-
-                                <InputError className="mt-2" message={errors.partylist_id} />
-                            </div>
-
-                            <div className="mt-4">
-                                <Select
-                                    label="Select Position"
-                                    value={data.position_id}
-                                    onChange={(e) =>
-                                        setData(
-                                            "position_id",
-                                            e
-                                        )
-                                    }
-                                    name="position"
-                                >
-                                    {position_list?.map(
-                                        (list) => (
-                                            <Option
-                                                key={list.id}
-                                                value={list.id}
-                                            >
-                                                {list.name}
-                                            </Option>
-                                        )
-                                    )}
-                                </Select>
-
-                                <InputError className="mt-2" message={errors.position_id} />
-                            </div>
-                            <div className="mt-2">
-                                <InputLabel
-                                    htmlFor="lastName"
-                                    value="Candidate Platform"
-                                />
-                                <textarea
-                                    className="w-full rounded-md resize-none h-40 mt-1"
-
-                                    size="lg"
-                                    label="Enter Candidate Platform"
-                                    value={data.manifesto}
-                                    onChange={(e) =>
-                                        setData(
-                                            "manifesto",
-                                            e.target.value
-                                        )
-                                    }
-                                    name="manifesto"
-                                    placeholder="Enter candidate platform"
-                                />
-                                <InputError message={errors.manifesto} />
-                            </div>
-                        </div>
-                    </DialogBody>
-                    <DialogFooter>
-                        <Button
-                            variant="text"
-                            color="red"
-                            onClick={handleOpen}
-                            className="mr-1"
-                        >
-                            <span>Cancel</span>
-                        </Button>
-                        <Button
-                            variant="gradient"
-                            color="blue"
-                            type="submit"
-                            disabled={processing}>
-                            <span>Confirm</span>
-                        </Button>
-                    </DialogFooter>
-                </form>
-            </Dialog>
-
-
-
-            {/*Update Candidate */}
-
-            <Dialog
-                size="xl"
-                open={openUpdateModal}
-                handler={handleUpdateOpen}
-                className="overflow-y-auto md:h-[95vh] "
-            >
-                <form onSubmit={handleUpdateSubmit}>
-                    <DialogHeader>
-                        Update Candidate
-                    </DialogHeader>
-                    <DialogBody>
-                        <div>
-                            <div className="mb-2">
-                                <InputLabel
-                                    htmlFor="candidateUpdateProfile"
-                                    value="Update Candidate Profile"
-                                    className="mb-4"
-                                />
-                                <div className="flex items-center gap-3">
-                                    <div className="mb-2">
-                                        <Avatar
-                                            src={
-                                                data.candidate_profile instanceof File
-                                                    ? URL.createObjectURL(data.candidate_profile)
-                                                    : (data.candidate_profile ? data.candidate_profile : DefaultCandidatePicture)
-                                            }
-                                            alt="Candidate Avatar"
-                                            size="xxl"
-
-                                            withBorder={true}
-                                            className="border-none"
-                                        />
-
-                                    </div>
-
-                                    <div>
-                                        <label
-                                            htmlFor="candidateImage"
-                                            className="relative cursor-pointer bg-gray-300 rounded-md font-medium py-2 px-4 mb-2 inline-flex items-center"
-                                        >
-                                            <span className="mr-2">
-                                                Choose a file
-                                            </span>
-                                            <input
-                                                type="file"
-                                                id="candidateImage"
-                                                name="candidate_profile"
-                                                className="hidden"
-                                                onChange={(e) => setData({ ...data, candidate_profile: e.target.files[0] })}
-                                            />
-                                        </label>
-
-
-                                    </div>
-
-                                </div>
-                                <InputError className="mt-1" message={errors.candidate_profile} />
-                            </div>
-
-                            <div className="md:flex md:flex-wrap md:gap-2">
-                                <div className="flex-1">
-                                    <InputLabel
-                                        htmlFor="firstName"
-                                        value="Enter Candidate First Name"
-                                    />
-
-                                    <TextInput
-                                        id="firstName"
-                                        className="mt-1 block w-full"
-                                        name="first_name"
-                                        value={
-                                            data.first_name ||
-                                            ""
-                                        }
-                                        onChange={(e) =>
-                                            setData(
-                                                "first_name",
-                                                e.target.value
-                                            )
-                                        }
-
-                                        autoFocus
-                                        autoComplete="firstName"
-                                    />
-
-                                    <InputError className="mt-2" message={errors.first_name} />
-                                </div>
-
-                                <div className="flex-1">
-                                    <InputLabel
-                                        htmlFor="middleName"
-                                        value="Enter Candidate Middle Name (optional)"
-                                    />
-
-                                    <TextInput
-                                        id="middleName"
-                                        className="mt-1 block w-full"
-                                        value={
-                                            data.middle_name ||
-                                            ""
-                                        }
-                                        name="middle_name"
-                                        onChange={(e) =>
-                                            setData(
-                                                "middle_name",
-                                                e.target.value
-                                            )
-                                        }
-
-                                        autoFocus
-                                        autoComplete="middleName"
-                                    />
-
-                                    <InputError className="mt-2" message={errors.middle_name} />
-                                </div>
-
-                                <div className="flex-1">
-                                    <InputLabel
-                                        htmlFor="lastName"
-                                        value="Enter Candidate Last Name"
-                                    />
-
-                                    <TextInput
-                                        id="lastName"
-                                        className="mt-1 block w-full"
-                                        name="last_name"
-                                        value={
-                                            data.last_name || ""
-                                        }
-                                        onChange={(e) =>
-                                            setData(
-                                                "last_name",
-                                                e.target.value
-                                            )
-                                        }
-                                        required
-                                        autoFocus
-                                        autoComplete="lastName"
-                                    />
-
-                                    <InputError className="mt-2" message={errors.last_name} />
-                                </div>
-                            </div>
-
-                            <div className="mt-4">
-                                <Select
-                                    label="Select Partylist"
-                                    value={data.partylist_id}
-                                    onChange={(e) =>
-                                        setData(
-                                            "partylist_id",
-                                            e
-                                        )
-                                    }
-                                    name="partylist"
-                                >
-                                    {partylist_list?.map(
-                                        (list) => (
-                                            <Option
-                                                key={list.id}
-                                                value={list.id}
-                                            >
-                                                {list?.name}
-                                            </Option>
-                                        )
-                                    )}
-                                </Select>
-
-                                <InputError className="mt-2" />
-                            </div>
-
-                            <div className="mt-4">
-
-                                <Select
-                                    label="Select Position"
-                                    value={data.position_id}
-                                    onChange={(e) =>
-                                        setData(
-                                            "position_id",
-                                            e
-                                        )
-                                    }
-                                    name="position"
-                                >
-                                    {position_list?.map(
-                                        (list) => (
-                                            <Option
-                                                key={list.id}
-                                                value={list.id}
-                                            >
-                                                {list.name}
-                                            </Option>
-                                        )
-                                    )}
-
-                                </Select>
-
-                                <InputError className="mt-2" />
-                            </div>
-                            <div className="mt-4">
-                                <InputLabel
-                                    htmlFor="lastName"
-                                    value="Enter Candidate Platform"
-                                />
-                                <textarea
-                                    className="w-full rounded-md resize-none h-40 mt-1"
-
-                                    size="lg"
-                                    label="Enter Candidate Platform"
-                                    value={data.manifesto}
-                                    onChange={(e) =>
-                                        setData(
-                                            "manifesto",
-                                            e.target.value
-                                        )
-                                    }
-                                    name="manifesto"
-                                />
-                                <InputError className="mt-1" />
-                            </div>
-                        </div>
-                    </DialogBody>
-                    <DialogFooter>
-                        <Button
-                            variant="text"
-                            color="red"
-                            onClick={handleUpdateOpen}
-                            className="mr-1"
-                        >
-                            <span>Cancel</span>
-                        </Button>
-                        <Button
-                            variant="gradient"
-                            color="blue"
-                            type="submit"
-                            disabled={processing}
-                        >
-                            <span>Confirm</span>
-                        </Button>
-                    </DialogFooter>
-                </form>
-            </Dialog>
 
 
 
@@ -1621,6 +1129,17 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
             </Card>
 
+
+            {/**Add Canidate*/}
+
+            <AddCandidateModal open={open} handleOpen={handleOpen} handleSubmit={handleSubmit} candidateProfile={candidateProfile} handleFileUpload={handleFileUpload} DefaultCandidatePicture={DefaultCandidatePicture} data={data} setData={setData} partylist_list={partylist_list} position_list={position_list} errors={errors} processing={processing} />
+
+
+            {/*Update Candidate */}
+
+            <UpdateCandidateModal openUpdateModal={openUpdateModal} handleUpdateOpen={handleUpdateOpen} handleUpdateSubmit={handleUpdateSubmit} data={data} setData={setData} DefaultCandidatePicture={DefaultCandidatePicture} partylist_list={partylist_list} position_list={position_list} errors={errors} processing={processing} />
+
+            {/*Delete Candidate Modal */}
             <DeleteModal
                 open={openDeleteModal}
                 handleDeleteOpen={handleDeleteOpen}
@@ -1629,8 +1148,6 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                 dataName="Candidate"
                 processing={processing}
             />
-
-
         </div>
     );
 }

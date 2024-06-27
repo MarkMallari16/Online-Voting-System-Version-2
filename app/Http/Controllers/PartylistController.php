@@ -44,11 +44,12 @@ class PartylistController extends Controller
     {
        
         $validatedData = $request->validate([
-            'name' => 'required|max:18',
+            'name' => 'required|max:18|unique:partylists,name',
             'description' => 'required|max:500',
             'partylist_logo' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ], [
             'name.required' => 'Partylist name field is required',
+            'name.unique' => 'Partylist already exists. Please choose a different partylist name',
             'description.required' => 'Partylist description field is required'
         ]);
 

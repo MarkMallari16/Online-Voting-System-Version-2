@@ -1,21 +1,10 @@
-import { Avatar, Dialog, DialogBody, DialogFooter, DialogHeader, Select } from '@material-tailwind/react'
+import { Avatar, Dialog, DialogBody, DialogFooter, DialogHeader, Select, Button } from '@material-tailwind/react'
 import React from 'react'
 import InputLabel from './InputLabel'
 import TextInput from './TextInput'
 import InputError from './InputError'
 
-function AddCandidateModal({ open,
-    handleOpen,
-    handleSubmit,
-    handleFileUpload,
-    data,
-    setData,
-    candidateProfile,
-    errors,
-    partylist_list,
-    position_list,
-    processing,
-}) {
+function AddCandidateModal({ open, handleOpen, handleSubmit, candidateProfile, handleFileUpload, DefaultCandidatePicture, data, setData, partylist_list, position_list, errors, processing }) {
 
     return (
         <Dialog
@@ -130,7 +119,6 @@ function AddCandidateModal({ open,
                                             e.target.value
                                         )
                                     }
-
                                     autoFocus
                                     autoComplete="middleName"
                                     placeholder="Enter Candidate Middle Name"

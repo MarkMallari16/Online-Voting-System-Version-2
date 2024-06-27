@@ -48,7 +48,6 @@ const ActivityLog = ({ auth }) => {
     useEffect(() => {
 <<<<<<< HEAD
         setIsLoading(false);
-
     }, [logs]);
 =======
         fetchActivityLog();

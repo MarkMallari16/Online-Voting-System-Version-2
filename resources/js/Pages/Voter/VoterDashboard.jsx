@@ -25,6 +25,10 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
     const [now, setNow] = useState(new Date());
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
+
+    const electionId = election ? election.id : 0;
+
+
     const memoizedEndingDate = useMemo(() => {
 
         if (!election || election.status === 'Inactive') {
@@ -67,7 +71,9 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
         setResult(now > endDate);
     }, [endDate, now]);
 
-    const electionId = election ? election.id : 0;
+    useEffect(() => {
+        setData("candidate_ids", selectedCandidates);
+    }, [selectedCandidates]);
 
     const { data, setData, post, errors, processing } = useForm({
         election_id: electionId,
@@ -75,6 +81,7 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
     });
 <<<<<<< HEAD
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     
 =======
@@ -87,6 +94,8 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
         setData("candidate_ids", selectedCandidates);
     }, [selectedCandidates]);
 
+=======
+>>>>>>> c3a0e03082ee157ebe23e0553389d8dac406e292
     const onSelectCandidate = (candidateId, positionId) => {
 
         const isCandidateSelected = selectedCandidates.some(
@@ -127,13 +136,7 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
 
             setData("candidate_ids", selectedCandidates);
 
-            post("/votes", {
-                election_id: electionId,
-                candidate_ids: selectedCandidates,
-            })
-            setIsSuccessMessage(true);
-            toast.success("You have successfully voted!");
-
+            post(route('votes.store', data));
         } catch (error) {
 
             console.error("Error submitting vote:", error);
@@ -174,7 +177,7 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
 >>>>>>> ab8d40ed6a82537ca877ea80790e5934dae45d6e
     return (
         <div>
-            <div className="bg-white text-gray-900 dark:bg-[#252525] dark:ring-gray-800 dark:text-gray-100 ring-1 ring-gray-300 overflow-hidden shadow-sm sm:rounded-lg mb-5 ">
+            <div className="bg-white text-gray-900 dark:bg-[#252525] dark:ring-gray-800 dark:text-gray-100 ring-1 ring-gray-300 overflow-hidden shadow-sm rounded-lg mb-8 ">
                 <div className="p-6 ">
                     <h1 className="text-xl font-medium">Welcome back, {authenticatedName}!</h1>
                 </div>
@@ -183,11 +186,9 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
             <PartylistCarousel partylistCarouselData={partyList} />
             {isSuccessMessage && <CustomToast />}
 
-
-
             {(election && election?.status === "Active") && isElectionStarted ? (
-
                 <div>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
                     <PartylistCarousel partylistCarouselData={partyList}/>
@@ -203,9 +204,10 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
 
 
 >>>>>>> a5d97759504b06652679829a51d708a4355848c1
+=======
+>>>>>>> c3a0e03082ee157ebe23e0553389d8dac406e292
                     <div>
                         {isElectionEnded ? (
-
                             <>
                                 <VoteCandidateWinnerModal isOpen={showCandidateWinnerModal} onClose={() => setShowCandidateWinnerModal(false)} candidateWinners={candidateWinners} electionTitle={election?.title} />
 
@@ -240,7 +242,7 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
                                     const filteredCandidates = candidatesAll.filter(candidate => candidate.position_id === position.id);
 
                                     return (
-                                        <div key={position.id} className="bg-white dark:bg-[#252525] dark:text-gray-50 dark:ring-gray-800 ring-1 ring-inset ring-gray-300  overflow-hidden shadow-sm sm:rounded-lg mt-7">
+                                        <div key={position.id} className="bg-white dark:bg-[#252525] dark:text-gray-50 dark:ring-gray-800 ring-1 ring-inset ring-gray-300  overflow-hidden shadow-sm rounded-lg mt-7">
                                             <div className="mt-11 font-medium text-2xl text-center">
                                                 Vote for {position.name}
                                             </div>

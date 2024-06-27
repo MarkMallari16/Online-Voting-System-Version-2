@@ -40,10 +40,7 @@ const LatestUsersTable = ({ TABLE_HEAD, users }) => {
 
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedRoleFilter, setSelectedRoleFilter] = useState("");
-
-
-  
-
+    
     const [isEditUserModalOpen, setIsEditUserModalOpen] = useState(false);
     const [isDeleteUserModalOpen, setIsDeleteUserModalOpen] = useState(false);
 

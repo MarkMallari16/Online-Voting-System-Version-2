@@ -27,7 +27,7 @@ function ActivateElectionModal({ activateOpen, handleActivateOpen, handleActivat
           >
             Cancel
           </Button>
-          <Button variant="gradient" color="blue" onClick={handleActivate}>
+          <Button variant="gradient" color="blue" onClick={handleActivate} disabled={processing}>
             Activate Election
           </Button>
         </DialogFooter>

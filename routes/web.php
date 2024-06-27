@@ -69,7 +69,7 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
 
     Route::get('/election', [ElectionController::class, 'index'])->name('election');
     Route::post('/election', [ElectionController::class, 'store']);
-    Route::put('/election/activate', [ElectionController::class, 'activate']);
+    Route::put('/election/activate', [ElectionController::class, 'activate'])->name('election.activate');
     Route::put('/election/deactivate', [ElectionController::class, 'deactivate']);
     Route::put('/election/stop', [ElectionController::class, 'stop']);
 
@@ -101,7 +101,7 @@ Route::middleware(['auth', 'verified', 'moderator'])->group(function () {
     Route::delete('/position/{id}', [PositionController::class, 'destroy'])->name('positions.destroy');
 
     Route::get('/votes', [VoteController::class, 'index'])->name('votes');
-    Route::post('/hasVoted', [CandidateController::class, 'hasVoted'])->name('vote.hasVoted');
+
 });
 
 
@@ -112,13 +112,11 @@ Route::get('/moderator-overview', [CandidateController::class, 'moderatorOvervie
 
 Route::get('/partylist/{partylist}', [PartylistController::class, 'show'])->middleware(['auth', 'verified'])->name('partylist.show');
 
+//for voters
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::post('/votes', [VoteController::class, 'createVote'])->name('votes.create');
+    Route::post('/votes', [VoteController::class, 'createVote'])->name('votes.store');
     Route::get('/casted-votes', [VoteController::class, 'castedVotes'])->name('casted.votes');
-
-    //upload Profile picture
     Route::post('/upload-profile-picture', [ProfilePictureController::class, 'uploadProfile'])->name('profile.uploadProfile');
-
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

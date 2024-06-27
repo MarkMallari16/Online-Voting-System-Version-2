@@ -87,25 +87,34 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
     }
   };
 
-  const handleActivate = () => {
+  const handleActivate = async () => {
     try {
-      put('/election/activate');
-      setData('status', true);
+      await put(route('election.activate', election), {
+        onSuccess: () => {
+          toast.success("Election activated successfully.");
 
-      setIsSuccessMessage(true);
-      setActivateOpen(false);
-      toast.success("Election activated successfully.");
-
-
+          setData('status', true);
+          setActivateOpen(false);
+          setIsSuccessMessage(true);
+        },
+        onError: (errors) => {
+          toast.error(errors && errors.error);
+     
+          setActivateOpen(false);
+          setIsSuccessMessage(true);
+        
+        },
+        preserveScroll: true
+      });
     } catch (error) {
       console.error(error);
 
     }
   };
 
-  const handleDeactivate = () => {
+  const handleDeactivate = async () => {
     try {
-      put('/election/deactivate');
+      await put('/election/deactivate');
       setData('status', false);
 
 
@@ -126,8 +135,6 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
 
     }
   };
-
-
 
   //handle stop election
   const handleStopElectionSubmit = async () => {
@@ -249,7 +256,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
                     <InputError className="mt-2" message={errors.start_date} />
                   </div>
                   <div>
-                    <InputLabel htmlFor="end_date" value="End Date" className='dark:text-gray-200'/>
+                    <InputLabel htmlFor="end_date" value="End Date" className='dark:text-gray-200' />
                     <TextInput
                       id="end_date"
                       className="mt-1 block w-full dark:bg-[#1f1f1f] dark:border-gray-800 dark:text-gray-50"

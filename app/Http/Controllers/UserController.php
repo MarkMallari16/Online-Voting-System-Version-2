@@ -93,7 +93,7 @@ class UserController extends Controller
     public function displayActivityLogs()
     {
         $query = AuditLog::query();
-        $logs = $query->with('user')->orderByDesc('created_at')->paginate(15);
+        $logs = $query->with('user')->orderByDesc('created_at')->paginate(15)->onEachSide(2);
 
         return Inertia::render('Admin/Pages/ActivityLog', [
             'logs' => $logs

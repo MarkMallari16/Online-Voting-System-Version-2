@@ -14,7 +14,7 @@ module.exports = withMT({
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Montserrat', ...defaultTheme.fontFamily.sans],
+                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             animation: {
                 'infinite-scroll': 'infinite-scroll 50s linear infinite',
