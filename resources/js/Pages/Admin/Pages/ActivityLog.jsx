@@ -21,7 +21,6 @@ const ActivityLog = ({ auth, logs }) => {
 
     useEffect(() => {
         setIsLoading(false);
-
     }, [logs]);
 
     const getClassByAction = (action) => {

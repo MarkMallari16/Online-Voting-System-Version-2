@@ -10,7 +10,7 @@ const ExcelExport = ({ data, fileName, ...className }) => {
                     <SiMicrosoftexcel className="dark:text-gray-50 text-xl text-gray-900" />
                 </div>
 
-                <CSVLink data={data} filename={`${fileName}_data.csv`}>Export to Excel</CSVLink>
+                <CSVLink data={data} filename={`${fileName}_data.csv`}><span className='hidden lg:block '>Export to Excel</span></CSVLink>
             </div>
         </Tooltip>
     );
