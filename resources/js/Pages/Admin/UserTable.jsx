@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import UsersPDF from "./UsersPDF";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import { FaRegFilePdf } from "react-icons/fa6";
 
 import {
@@ -10,7 +11,6 @@ import { PencilIcon } from "@heroicons/react/24/solid"
 import {
     Card,
     CardHeader,
-
     Typography,
     Button,
     CardBody,
@@ -24,9 +24,7 @@ import AddUserModal from "./AddUserModal";
 import EditUserModal from "./EditUserModal";
 import DeleteUserModal from "./DeleteUserModal";
 import toast from 'react-hot-toast';
-import { PDFDownloadLink } from "@react-pdf/renderer";
 import ExcelExport from "@/Components/ExcelExport";
-import { router } from "@inertiajs/react";
 import CustomToast from "@/Components/CustomToast";
 import PaginationInTable from "@/Components/PaginationInTable";
 import SearchInput from "@/Components/SearchInput";
@@ -152,17 +150,19 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
                 </CardHeader>
                 <div className=" ">
                     <div className="flex gap-2 justify-end items-center me-3 flex-wrap mb-1">
-                        <div className="flex justify-start md:justify-end lg:justify-end xl:justify-end items-center gap-2 cursor-pointer ring-1 ring-inset ring-gray-300 text-gray-900 px-3 py-2 rounded-lg w-full md:w-40 lg:w-40  ">
-                            <div>
-                                <FaRegFilePdf className="text-xl text-gray-900" />
+                        <Tooltip content='Export to PDF'>
+                            <div className="flex justify-start md:justify-end lg:justify-end xl:justify-end items-center gap-2 cursor-pointer ring-1 ring-inset ring-gray-300 text-gray-900 px-3 py-2 rounded-lg w-full md:w-40 lg:w-40  ">
+                                <div>
+                                    <FaRegFilePdf className="text-xl text-gray-900" />
+                                </div>
+                                <PDFDownloadLink
+                                    document={<UsersPDF users={users} />}
+                                    fileName="users.pdf"
+                                >
+                                    {({ blob, url, loading, error }) => "Export to PDF"}
+                                </PDFDownloadLink>
                             </div>
-                            <PDFDownloadLink
-                                document={<UsersPDF users={users} />}
-                                fileName="users.pdf"
-                            >
-                                {({ blob, url, loading, error }) => "Export to PDF"}
-                            </PDFDownloadLink>
-                        </div>
+                        </Tooltip>
                         <div className="w-full md:w-40 lg:w-40 ">
                             <ExcelExport data={users} fileName="user" />
                         </div>

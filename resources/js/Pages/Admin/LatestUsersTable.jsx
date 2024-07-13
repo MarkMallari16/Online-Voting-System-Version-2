@@ -23,18 +23,16 @@ import {
 
 } from "@material-tailwind/react";
 
-import AddUserModal from "./AddUserModal";
+
 import EditUserModal from "./EditUserModal";
 import DeleteUserModal from "./DeleteUserModal";
 import toast from 'react-hot-toast';
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import ExcelExport from "@/Components/ExcelExport";
 import { Link, router } from "@inertiajs/react";
-import CustomToast from "@/Components/CustomToast";
-import PaginationInTable from "@/Components/PaginationInTable";
 import SearchInput from "@/Components/SearchInput";
 import AvatarComponent from "@/Components/AvatarComponent";
-import FilterDropdown from "@/Components/FilterDropdown";
+
 
 const LatestUsersTable = ({ TABLE_HEAD, users }) => {
 

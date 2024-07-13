@@ -155,6 +155,7 @@ const Election = ({ auth, existingElection, election, electionPerPage, electionW
     'Inactive': ' text-gray-800',
     'Ended': 'text-red-800'
   }
+  
   const getColorStatus = (status) => {
     return colorStatus[status] || 'bg-gray-500';
   }
