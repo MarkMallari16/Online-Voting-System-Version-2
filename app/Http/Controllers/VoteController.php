@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AuditLog;
-use App\Models\Election;
 use App\Models\Positions;
 use App\Models\User;
-use Illuminate\Http\Request;
 use App\Models\Vote;
+use App\Services\VoteService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class VoteController extends Controller
 {
+    protected $voteService;
+
+    public function __construct(VoteService $voteService)
+    {
+        $this->voteService = $voteService;
+    }
+
     public function index()
     {
         $votes = Vote::select('voter_id', 'election_id', 'vote_timestamp')
@@ -43,63 +49,22 @@ class VoteController extends Controller
             ]
         );
     }
+
     public function createVote(Request $request)
     {
-
         $validatedData = $request->validate([
             'election_id' => 'required|exists:elections,id',
             'candidate_ids' => 'nullable|array',
             'candidate_ids.*' => 'nullable|exists:candidates,id'
         ]);
 
+        $result = $this->voteService->createVote($validatedData);
 
-        $user = Auth::user();
-
-        if (!$user || $user->role !== 'voter') {
-            return redirect()->back()->with('error', 'You are not authorized to vote');
+        if (isset($result['error'])) {
+            return redirect()->back()->with('error', $result['error']);
         }
 
-        $election  = Election::latest()->first();
-
-        $existingVote = Vote::where('voter_id', $user->id)
-            ->where('election_id', $validatedData['election_id'])
-            ->exists();
-
-    
-        if (empty($validatedData['candidate_ids'])) {
-            $vote = new Vote();
-            $vote->voter_id = $user->id;
-            $vote->election_id = $validatedData['election_id'];
-            $vote->vote_timestamp = now();
-            $vote->isAbstained = true;
-            $vote->save();
-
-            // Mail::to($user->email)->send(new VoteConfirmation($user, $election));
-
-            return redirect()->back()->with('success', 'Successfully abstained from voting');
-        }
-
-        // Create a new vote for each selected candidate
-        foreach ($validatedData['candidate_ids'] as $candidateId) {
-
-            $vote = new Vote();
-            $vote->voter_id = $user->id;
-            $vote->election_id = $validatedData['election_id'];
-
-            $vote->vote_timestamp = now();
-
-            $vote->candidate_id = $candidateId;
-
-            $vote->save();
-        }
-
-        AuditLog::create([
-            'user_id' => $user->id,
-            'action' => 'Successful',
-            'details' => 'Successfully voted with election name: ' . $election->title
-        ]);
-        // Mail::to($user->email)->send(new VoteConfirmation($user, $election));
-
-        return redirect()->back()->with('success', 'Successfully voted');
+        return redirect()->back()->with('success', $result['success']);
     }
 }
+?>

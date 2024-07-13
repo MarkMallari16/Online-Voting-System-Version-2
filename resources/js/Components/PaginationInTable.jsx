@@ -39,9 +39,7 @@ const PaginationInTable = ({ dataPerPage }) => {
                         className={`rounded-md`}
                         preserveScroll
                     >
-
                         Next
-
                     </Link>
                 </Button>
             </div>

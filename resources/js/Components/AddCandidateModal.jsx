@@ -1,4 +1,4 @@
-import { Avatar, Dialog, DialogBody, DialogFooter, DialogHeader, Select, Button } from '@material-tailwind/react'
+import { Avatar, Dialog, DialogBody, DialogFooter, DialogHeader, Select, Button, Option } from '@material-tailwind/react'
 import React from 'react'
 import InputLabel from './InputLabel'
 import TextInput from './TextInput'

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
@@ -34,11 +34,13 @@ import PaginationInTable from "@/Components/PaginationInTable";
 import SearchInput from "@/Components/SearchInput";
 
 
+
 const TABLE_HEAD = ["Position ID", "Position", "Action"];
 
 
 export function PositionsTable(props) {
-    const { data, setData, post, put, delete: destroy, errors, progress, processing, reset } = useForm();
+
+    const { data, setData, post, put, delete: destroy, errors, processing, reset } = useForm();
 
     const [id, setId] = useState(null);
     const { election } = usePage().props;
@@ -59,7 +61,7 @@ export function PositionsTable(props) {
         setOpenAddModal(!openAddModal)
         setData('name', '');
     };
-
+    console.log(positionsPerPage)
     const handleAddSubmit = (e) => {
         e.preventDefault();
 
@@ -100,18 +102,9 @@ export function PositionsTable(props) {
                 setIsSuccessMessage(true);
                 toast.success("Position updated successfully")
                 setUpdateModal(false);
-
-
             },
             preserveScroll: true
         });
-
-
-
-
-
-
-
     };
 
     //modal for delete
@@ -156,7 +149,7 @@ export function PositionsTable(props) {
                         </div>
                         <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
 
-                            <Button className="flex items-center gap-3 bg-blue-500" size="sm" onClick={handleAddOpen} disabled={processing || election.status === "Active"}>
+                            <Button className="flex items-center gap-3 bg-blue-500" size="sm" onClick={handleAddOpen} disabled={election.status === "Active"}>
 
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className=" w-4 h-4">
                                     <path fillRule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clipRule="evenodd" />
@@ -353,7 +346,7 @@ export function PositionsTable(props) {
                     </table>
                 </CardBody>
                 <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                    <PaginationInTable dataPerPage={positionsPerPage} />
+                    <PaginationInTable dataPerPage={props.positionsPerPage} />
                 </CardFooter>
 
                 <DeleteModal

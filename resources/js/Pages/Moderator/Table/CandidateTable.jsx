@@ -192,9 +192,6 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             {isSuccessMessage && (
                 <CustomToast />
             )}
-
-
-
             <Card className="h-full w-full">
                 <CardHeader
                     floated={false}
@@ -464,7 +461,6 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             {/**Add Canidate*/}
 
             <AddCandidateModal open={open} handleOpen={handleOpen} handleSubmit={handleSubmit} candidateProfile={candidateProfile} handleFileUpload={handleFileUpload} DefaultCandidatePicture={DefaultCandidatePicture} data={data} setData={setData} partylist_list={partylist_list} position_list={position_list} errors={errors} processing={processing} />
-
 
             {/*Update Candidate */}
 

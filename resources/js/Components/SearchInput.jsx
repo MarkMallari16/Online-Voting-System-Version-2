@@ -7,18 +7,19 @@ const SearchInput = ({ searchQuery, setSearchQuery }) => {
     const handleClearInputSearch = () => {
         setSearchQuery("");
     }
-
+    const handleSearchInputChange = (e) => {
+        setSearchQuery(e.target.value);
+    }
+    
     return (
         <div className="w-[100%] md:w-72">
             <div className="relative ">
                 <TextInput
                     className=" pl-9 pr-3  rounded-lg border-transparent ring-1 ring-inset ring-gray-300  focus:ring-black focus:border-transparent focus:outline-none w-full"
-                    onChange={(e) => {
-                        setSearchQuery(e.target.value);
-                    }}
+                    onChange={handleSearchInputChange}
                     placeholder="Search"
                     value={searchQuery}
-                    
+
                 />
                 <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
                     <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
