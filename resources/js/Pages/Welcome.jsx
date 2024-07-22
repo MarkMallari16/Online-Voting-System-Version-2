@@ -21,23 +21,21 @@ export default function Welcome() {
     };
     return (
         <>
-
             <div style={bgStyle}>
                 <div
                     className="h-full w-full">
-                    
-
+                
                     <NavigationBarComponent/>
 
                     <HeroComponent />
 
                     <div
-                        className='h-auto w-full flex justify-center gap-5 my-24 overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)] '>
+                        className='h-auto w-full flex justify-center gap-5 my-24 overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]'>
                         {[...Array(3)].map((_, index) => (
-                            <div key={index} className='flex items-center justify-center md:justify-end gap-5 animate-infinite-scroll'>
+                            <div key={index} className='flex items-center justify-center md:justify-end gap-5 animate-infinite-scroll '>
                                 {[...Array(14)].map((_, index) => (
                                     <div key={index} className='w-28 object-cover '>
-                                        <img loading='lazy' src={index % 2 === 0 ? BacoorLogo : CouncilLogo} alt="Logo" className="pointer-events-none" />
+                                        <img loading='lazy' src={index % 2 === 0 ? BacoorLogo : CouncilLogo} alt="Logo" />
                                     </div>
                                 ))}
                             </div>
