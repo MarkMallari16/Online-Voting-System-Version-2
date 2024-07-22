@@ -34,13 +34,9 @@ import SearchInput from "@/Components/SearchInput";
 
 const TABLE_HEAD = ["Partylist ID", "Partylist Logo", "Partylist Name", "Partylist Description", "Action"];
 
-export function PartylistTable({ partylists, partylistsPerPage, voters }) {
-
+export function PartylistTable({ partylists, partylistsPerPage }) {
   const { election } = usePage().props;
-
   const { errors } = usePage().props
-
-
   const { data, setData, post, delete: destroy, progress, processing, reset } = useForm();
 
   const [openAddModal, setOpenAddModal] = useState(false);
@@ -55,7 +51,6 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
 
   const handleAddOpen = () => {
     setOpenAddModal(!openAddModal);
-
   };
   //modal update
   const handleUpdateOpen = (id) => {
@@ -76,9 +71,8 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
     post(route('partylist.store', data), {
       onSuccess: () => {
         setOpenAddModal(false);
-        toast.success("Partylist successfully added");
         setIsSuccessMessage(true);
-
+        toast.success("Partylist successfully added");
         reset();
       },
       onError: () => {
@@ -150,7 +144,6 @@ export function PartylistTable({ partylists, partylistsPerPage, voters }) {
                   Add partylist
                 </Button>
               </div>
-
               {/*Add Modal */}
               <Dialog open={openAddModal} handler={handleAddOpen}>
                 <form onSubmit={addSubmit}>

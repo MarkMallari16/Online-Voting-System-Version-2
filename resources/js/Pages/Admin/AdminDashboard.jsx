@@ -7,8 +7,6 @@ import LatestUsersTable from './LatestUsersTable';
 
 
 const AdminDashboard = ({ latestUsers, totalAdmins, totalModerators, totalStudents, totalVerifiedUsers, totalUnverifiedUsers }) => {
-
-    const TABLE_HEAD = ["ID", "Name", "Email", "Role", "Created At", "Updated At", "Email Status", "Action"];
     const LATEST_USER_TABLE_HEAD = ["ID", "Name", "Email", "Role", "Created At", "Updated At", "Email Status"]
     return (
         <div className="flex flex-col sm:flex-row">

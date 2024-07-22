@@ -42,7 +42,6 @@ class PartylistController extends Controller
     }
     public function store(Request $request)
     {
-       
         $validatedData = $request->validate([
             'name' => 'required|max:18|unique:partylists,name',
             'description' => 'required|max:500',
@@ -56,7 +55,6 @@ class PartylistController extends Controller
         $path = null;
 
         if ($request->hasFile('partylist_logo')) {
-
             $partylist_logo = $request->file('partylist_logo');
             $path = $partylist_logo->storeAs('partylist_logos', $partylist_logo->hashName(), 'public');
         } else {
@@ -85,12 +83,9 @@ class PartylistController extends Controller
     {
         $partylist = Partylist::findOrFail($id);
 
-        $oldName = $partylist->name;
-
         $validatedData = $request->validate([
             'name' => 'required|max:18',
             'description' => 'max:500',
-            // 'partylist_logo' => 'nullable|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $partylist->name = $validatedData['name'];

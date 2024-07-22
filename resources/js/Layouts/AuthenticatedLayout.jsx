@@ -276,7 +276,6 @@ export default function Authenticated({ user, header, children }) {
                 </div>
             </nav >
             <div className='z-40'>
-
             </div>
             {
                 header && (
@@ -285,7 +284,6 @@ export default function Authenticated({ user, header, children }) {
                     </header>
                 )
             }
-
             <main>{children}</main>
         </div >
     );
