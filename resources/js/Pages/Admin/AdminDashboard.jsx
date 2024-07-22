@@ -9,7 +9,7 @@ import LatestUsersTable from './LatestUsersTable';
 const AdminDashboard = ({ latestUsers, totalAdmins, totalModerators, totalStudents, totalVerifiedUsers, totalUnverifiedUsers }) => {
 
     const TABLE_HEAD = ["ID", "Name", "Email", "Role", "Created At", "Updated At", "Email Status", "Action"];
-
+    const LATEST_USER_TABLE_HEAD = ["ID", "Name", "Email", "Role", "Created At", "Updated At", "Email Status"]
     return (
         <div className="flex flex-col sm:flex-row">
             <div className="flex-1 ">
@@ -30,7 +30,7 @@ const AdminDashboard = ({ latestUsers, totalAdmins, totalModerators, totalStuden
                 </div>
 
                 <div className="mt-5 ring-1 ring-gray-300 rounded-lg">
-                    <LatestUsersTable TABLE_HEAD={TABLE_HEAD} users={latestUsers} />
+                    <LatestUsersTable TABLE_HEAD={LATEST_USER_TABLE_HEAD} users={latestUsers} />
                 </div>
             </div>
         </div>
