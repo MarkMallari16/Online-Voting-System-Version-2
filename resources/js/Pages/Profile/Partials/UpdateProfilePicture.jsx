@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { Avatar, Tooltip } from '@material-tailwind/react';
 import PrimaryButton from '@/Components/PrimaryButton';
+<<<<<<< HEAD
 
 import { useForm } from '@inertiajs/react';
+=======
+import defaultProfile from '../../../../../public/profile_photos/default_profile.png';
+import { useForm } from '@inertiajs/inertia-react';
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
 import InputError from '@/Components/InputError';
 import { Transition } from '@headlessui/react';
+import DefaultUserProfile from '@/Components/DefaultUserProfile';
 
 const UpdateProfilePicture = ({ user }) => {
   const { data, setData, post, errors, processing, progress, recentlySuccessful } = useForm({
@@ -26,6 +32,46 @@ const UpdateProfilePicture = ({ user }) => {
         <div className='text-lg font-medium text-gray-900 dark:text-gray-50'>Upload Profile Picture</div>
         <p className='mt-1 text-sm text-gray-600'>Update your profile picture.</p>
       </div>
+<<<<<<< HEAD
+      <div className='flex gap-2'>
+        <Avatar
+<<<<<<< HEAD
+          src={data.profile_picture ? URL.createObjectURL(data.profile_picture) : user.profile_picture ? `storage/${user.profile_picture}` : DefaultUserProfile}
+          alt="Default Profile Picture"
+=======
+          src={data.profile_picture ? URL.createObjectURL(data.profile_picture) : user.profile_picture ? user.profile_picture : defaultProfile}
+          alt='profile'
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
+          size='xxl'
+          withBorder={true}
+          color='blue'
+          className='p-0.5'
+        />
+        
+        <div className='mt-3s'>
+          <input
+            className='hidden'
+            type='file'
+            name='profile_picture'
+            id='profilePicture'
+            onChange={handleFileChange}
+          />
+          <label
+            htmlFor='profilePicture'
+            className='cursor-pointer text-blue-700 hover:text-blue-800 transition ease-in-out duration-300  font-bold py-2 px-2 rounded inline-flex items-center'
+          >
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              className='h-6 w-6 mr-2'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'
+            >
+              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 6v6m0 0v6m0-6h6m-6 0H6' />
+            </svg>
+            Upload Profile Picture
+          </label>
+=======
       <div className='flex gap-4 mb-10'>
         <div className='bg-[url("/sti-images/STIBacoorSHSCouncilLogo.png")] bg-cover h-96 w-full rounded-md relative'>
           <div className='relative '>
@@ -50,6 +96,7 @@ const UpdateProfilePicture = ({ user }) => {
               </Tooltip>
             </div>
           </div>
+>>>>>>> a5d97759504b06652679829a51d708a4355848c1
         </div>
 
 

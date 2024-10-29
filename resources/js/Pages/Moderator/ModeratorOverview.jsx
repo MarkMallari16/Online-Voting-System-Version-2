@@ -15,10 +15,20 @@ const ModeratorOverview = ({ voters, candidates, election, votersVotedCount, num
         <div className="grid grid-cols-1 grid-rows-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 dark:text-gray-50">
             <div className="w-full sm:w-full md:w-auto flex justify-between rounded-lg bg-white px-6 py-5  md:mb-0 ring-1 ring-inset ring-gray-300  dark:ring-gray-800 dark:bg-[#252525] ">
                 <div>
+<<<<<<< HEAD
+<<<<<<< HEAD
+                    <p className="text-lg mb-8 text-black">Election Status</p>
+                    <h2 className="text-4xl  font-medium">
+=======
+                    <h2 className="text-3xl mb-8 font-bold">
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
+                        {election ? election.status : "Inactive"}
+=======
                     <p className="text-lg mb-8">Election Status</p>
                     <h2 className={`text-4xl  font-medium ${new Date(election?.end_date) < new Date() ? 'text-red-700' : ''}`}>
                         {election ? (new Date(election?.end_date) < new Date() ? 'Ended' : election?.status) : 'Inactive'
                         }
+>>>>>>> a5d97759504b06652679829a51d708a4355848c1
                     </h2>
                 </div>
                 <div>
@@ -28,6 +38,10 @@ const ModeratorOverview = ({ voters, candidates, election, votersVotedCount, num
 
             <div className="w-full sm:w-full md:w-auto  flex justify-between  rounded-lg  bg-white  px-6 py-5  ring-1 ring-inset ring-gray-300  dark:ring-gray-800 col-span-1 dark:bg-[#252525]">
                 <div>
+<<<<<<< HEAD
+<<<<<<< HEAD
+                    <p className="text-lg mb-8 text-black">No. of Candidates</p>
+=======
                     <p className="text-lg mb-8 ">No. of  Partylists</p>
                     <h2 className="text-4xl  font-medium">{numberOfPartylists}</h2>
 
@@ -71,7 +85,11 @@ const ModeratorOverview = ({ voters, candidates, election, votersVotedCount, num
             <div className="w-full sm:w-full md:w-auto flex justify-between  px-6 py-5   bg-white  rounded-lg bg-whitemd:mb-0 ring-1 ring-inset ring-gray-300 dark:ring-gray-800 dark:bg-[#252525] ">
                 <div>
                     <p className="text-lg mb-8 ">No. of Candidates</p>
+>>>>>>> a5d97759504b06652679829a51d708a4355848c1
                     <h2 className="text-4xl  font-medium">
+=======
+                    <h2 className="text-4xl mb-8 font-bold">
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
                         {candidates.length}
                     </h2>
 
@@ -83,18 +101,39 @@ const ModeratorOverview = ({ voters, candidates, election, votersVotedCount, num
 
             <div className="w-full sm:w-full md:w-auto  flex justify-between   px-6 py-5  rounded-lg bg-white  ring-1 ring-inset ring-gray-300  dark:ring-gray-800 sm:col-span-2 dark:bg-[#252525] ">
                 <div>
+<<<<<<< HEAD
+<<<<<<< HEAD
+                    <p className="text-lg mb-8 text-black">Total Students</p>
+=======
                     <p className="text-lg mb-8 ">Total Students</p>
+>>>>>>> a5d97759504b06652679829a51d708a4355848c1
                     <h2 className="text-4xl  font-medium">{voters.length}</h2>
+=======
+                    <h2 className="text-3xl mb-8 font-bold">{voters.length}</h2>
+                    <p className="text-xl">Total Students</p>
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
                 </div>
                 <div>
                     <PiStudent className='bg-blue-200 dark:bg-blue-600 w-10 h-10 rounded-lg p-1' />
                 </div>
             </div>
+<<<<<<< HEAD
+
+<<<<<<< HEAD
+            <div className="w-full flex justify-between sm:w-full  rounded-lg  bg-white  px-6 py-5  ring-1 ring-inset ring-gray-300">
+=======
             <div className="w-full sm:w-full md:w-auto  flex justify-between   rounded-lg  bg-white  px-6 py-5  ring-1 ring-inset ring-gray-300 dark:ring-gray-800  sm:col-span-2 dark:bg-[#252525] ">
+>>>>>>> a5d97759504b06652679829a51d708a4355848c1
                 <div>
                     <p className="text-lg mb-8 ">Students Voted</p>
                     <h2 className="text-4xl  font-medium">{votersVotedCount}</h2>
 
+=======
+            <div className="w-full md:w-1/3 flex justify-between sm:w-full h-50  bg-cyan-200 rounded-lg p-10">
+                <div>
+                    <h2 className="text-3xl mb-8 font-bold">{votersVotedCount}</h2>
+                    <p className="text-xl ">Students Voted</p>
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
                 </div>
 
                 <div>

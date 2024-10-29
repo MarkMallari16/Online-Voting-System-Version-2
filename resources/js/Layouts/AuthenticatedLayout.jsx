@@ -112,8 +112,12 @@ export default function Authenticated({ user, header, children }) {
 
                                                 <div className='flex items-center'>
                                                     <div>
+<<<<<<< HEAD
                                                         <Avatar src={`/storage/${user.profile_picture}` ?
                                                             `/storage/${user.profile_picture}` : DefaultProfile} />
+=======
+                                                        <Avatar src={`/storage/${user.profile_picture}` } />
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
                                                     </div>
 
                                                 </div>

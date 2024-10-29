@@ -11,7 +11,20 @@ const AdminDashboardOverview = ({
 }) => {
     return (
         <>
+<<<<<<< HEAD
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-4">
+                <div className="flex justify-between shadow-sm bg-white ring-1 ring-inset ring-gray-300  rounded-lg p-5 ">
+                    <div>
+                        <div className="text-black">Number of Students</div>
+                        <div className="font-medium text-5xl  mt-5">{totalStudents ? totalStudents : 0}</div>
+                    </div>
+                    <PiStudentLight className='w-10 h-10 bg-blue-200 rounded-lg p-1' />
+                </div>
+=======
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+
+>>>>>>> a5d97759504b06652679829a51d708a4355848c1
+
                 <div className="flex justify-between shadow-sm bg-white  dark:bg-[#252525] dark:ring-gray-800 dark:text-gray-50 ring-1 ring-inset ring-gray-300  rounded-lg p-5 ">
                     <div>
                         <div >Number of Admins</div>

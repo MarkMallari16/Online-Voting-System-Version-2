@@ -15,18 +15,41 @@ import {
     IconButton,
     Tooltip,
 } from "@material-tailwind/react";
+<<<<<<< HEAD
+import TextInput from "@/Components/TextInput";
+import InputLabel from "@/Components/InputLabel";
+import InputError from "@/Components/InputError";
+<<<<<<< HEAD
+
+=======
+import DefaultCandidatePicture from "../../../../../public/profile_photos/default_profile.png";
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
+
+import { useForm, router, usePage } from "@inertiajs/react";
+=======
 
 import { useForm, usePage } from "@inertiajs/react";
+>>>>>>> c3a0e03082ee157ebe23e0553389d8dac406e292
 import DeleteModal from "@/Components/DeleteModal";
 import ExcelExport from "@/Components/ExcelExport";
+<<<<<<< HEAD
 import toast from "react-hot-toast";
 import CustomToast from "@/Components/CustomToast";
 import PaginationInTable from "@/Components/PaginationInTable";
 import SearchInput from "@/Components/SearchInput";
 import DefaultCandidatePicture from '../../../../../public/storage/images/default_profile.png';
 import AvatarComponent from "@/Components/AvatarComponent";
+<<<<<<< HEAD
+
+
+=======
+import InfoIcon from "@/Components/InfoIcon";
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
+
+=======
 import AddCandidateModal from "@/Components/AddCandidateModal";
 import UpdateCandidateModal from "@/Components/UpdateCandidateModal";
+>>>>>>> c3a0e03082ee157ebe23e0553389d8dac406e292
 
 export function CandidateTable({ partylist_list, position_list, candidates, candidatesPerPage }) {
     const TABLE_HEAD = [
@@ -111,7 +134,24 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        try {
+            await post(route("candidate.store"), data); // Await the post request
+            setOpen(false);
 
+<<<<<<< HEAD
+            // Reset form data and state for partylist and position
+            setData({
+                first_name: "",
+                middle_name: "",
+                last_name: "",
+                partylist_id: null,
+                position_id: null,
+                manifesto: "",
+                candidate_profile: null,
+            });
+            setMessage(`Candidate successfully added`);
+            setIsSuccessMessage(true);
+=======
         post(route("candidate.store", data), {
             onSuccess: () => {
                 setOpen(false);
@@ -122,11 +162,19 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             },
             onError: () => {
                 setOpen(true);
+>>>>>>> a5d97759504b06652679829a51d708a4355848c1
 
+<<<<<<< HEAD
             },
             preserveScroll: true
         });
+=======
+        } catch (error) {
+            console.error("Error submitting form:", error);
+        }
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
     };
+
 
 
     const handleUpdateSubmit = async (e) => {
@@ -176,7 +224,23 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
         );
 
     };
+    const handlePreviousClick = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+=======
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
+=======
     const exportCandidatesExcel = candidatesPerPage.data.map((candidate) => {
         return {
             'Election Name': candidate?.election?.title,
@@ -187,6 +251,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
             'Candidate Platform': candidate.manifesto,
         }
     })
+>>>>>>> a5d97759504b06652679829a51d708a4355848c1
     return (
         <div>
             {isSuccessMessage && (
@@ -225,6 +290,506 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                             </Button>
 
 
+<<<<<<< HEAD
+                            <Dialog
+                                size="xl"
+                                open={open}
+                                handler={handleOpen}
+                                className="overflow-y-auto md:h-[95vh] "
+                            >
+                                <form onSubmit={handleSubmit}>
+                                    <DialogHeader>Add Candidate</DialogHeader>
+                                    <hr />
+                                    <DialogBody>
+                                        <div>
+                                            <div className="mb-2">
+                                                <InputLabel
+                                                    htmlFor="candidateProfile"
+                                                    value="Candidate Profile"
+                                                    className="mb-4"
+                                                />
+                                                <div className="flex items-center gap-3">
+                                                    <div className="mb-2">
+<<<<<<< HEAD
+                                                        {candidateProfile ? (
+                                                            <Avatar
+                                                                src={URL.createObjectURL(candidateProfile)}
+                                                                alt="Candidate Avatar"
+                                                                size="xxl"
+                                                                withBorder={true}
+                                                                color="blue"
+                                                                className="p-0.5"
+                                                            />
+                                                        ) : (
+                                                            <Avatar
+                                                                src={DefaultCandidatePicture}
+                                                                alt="Default Candidate Avatar"
+                                                                size="xxl"
+                                                                withBorder={true}
+                                                                color="blue"
+                                                                className="p-0.5"
+                                                            />
+                                                        )}
+=======
+                                                        <Avatar
+                                                            src={candidateProfile ? URL.createObjectURL(candidateProfile) : DefaultProfileComponent}
+                                                            alt="Candidate Avatar"
+                                                            size="xxl"
+                                                            withBorder={true}
+                                                            color="blue"
+                                                            className="p-0.5"
+                                                        />
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
+                                                    </div>
+
+                                                    <div>
+                                                        <label
+                                                            htmlFor="candidateImage"
+                                                            className="relative cursor-pointer bg-gray-300 rounded-md font-medium py-2 px-4 mb-2 inline-flex items-center"
+                                                        >
+                                                            <span className="mr-2">
+                                                                Choose a file
+                                                            </span>
+                                                            <input
+                                                                type="file"
+                                                                id="candidateImage"
+                                                                name="candidate_profile"
+                                                                className="hidden"
+                                                                onChange={handleFileUpload}
+                                                            />
+                                                        </label>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="md:flex md:flex-wrap md:gap-2">
+                                                <div className="flex-1">
+                                                    <InputLabel
+                                                        htmlFor="firstName"
+                                                        value="Candidate First Name"
+                                                    />
+
+                                                    <TextInput
+                                                        id="firstName"
+                                                        className="mt-1 block w-full"
+                                                        name="first_name"
+                                                        value={
+                                                            data.first_name ||
+                                                            ""
+                                                        }
+                                                        onChange={(e) =>
+                                                            setData(
+                                                                "first_name",
+                                                                e.target.value
+                                                            )
+                                                        }
+
+                                                        autoFocus
+                                                        autoComplete="firstName"
+                                                        placeholder="Enter Candidate First Name"
+                                                    />
+
+                                                    <InputError className="mt-2" message={errors.first_name} />
+                                                </div>
+
+                                                <div className="flex-1">
+                                                    <InputLabel
+                                                        htmlFor="middle_name"
+                                                        value=" Candidate Middle Name (optional)"
+                                                    />
+
+                                                    <TextInput
+                                                        id="middleName"
+                                                        className="mt-1 block w-full"
+                                                        value={
+                                                            data.middle_name ||
+                                                            ""
+                                                        }
+                                                        name="middle_name"
+                                                        onChange={(e) =>
+                                                            setData(
+                                                                "middle_name",
+                                                                e.target.value
+                                                            )
+                                                        }
+
+                                                        autoFocus
+                                                        autoComplete="middleName"
+                                                        placeholder="Enter Candidate Middle Name"
+                                                    />
+
+                                                    <InputError className="mt-2" message={errors.middle_name} />
+                                                </div>
+
+                                                <div className="flex-1">
+                                                    <InputLabel
+                                                        htmlFor="lastName"
+                                                        value="Candidate Last Name"
+                                                    />
+
+                                                    <TextInput
+                                                        id="lastName"
+                                                        className="mt-1 block w-full"
+                                                        name="last_name"
+                                                        value={
+                                                            data.last_name || ""
+                                                        }
+                                                        onChange={(e) =>
+                                                            setData(
+                                                                "last_name",
+                                                                e.target.value
+                                                            )
+                                                        }
+
+                                                        autoFocus
+                                                        autoComplete="lastName"
+                                                        placeholder="Enter Candidate last Name"
+                                                    />
+
+                                                    <InputError className="mt-2" message={errors.last_name} />
+                                                </div>
+                                            </div>
+
+                                            <div className="mt-4">
+                                                <Select
+                                                    label="Select Partylist"
+                                                    value={data.partylist_id}
+                                                    onChange={(e) =>
+                                                        setData(
+                                                            "partylist_id",
+                                                            e
+                                                        )
+                                                    }
+                                                    name="partylist"
+                                                >
+                                                    {partylist_list?.map(
+                                                        (list) => (
+                                                            <Option
+                                                                key={list.id}
+                                                                value={list.id}
+                                                            >
+                                                                {list?.name}
+                                                            </Option>
+                                                        )
+                                                    )}
+                                                </Select>
+
+                                                <InputError className="mt-2" message={errors.partylist_id} />
+                                            </div>
+
+                                            <div className="mt-4">
+                                                <Select
+                                                    label="Select Position"
+                                                    value={data.position_id}
+                                                    onChange={(e) =>
+                                                        setData(
+                                                            "position_id",
+                                                            e
+                                                        )
+                                                    }
+                                                    name="position"
+                                                >
+                                                    {position_list?.map(
+                                                        (list) => (
+                                                            <Option
+                                                                key={list.id}
+                                                                value={list.id}
+                                                            >
+                                                                {list.name}
+                                                            </Option>
+                                                        )
+                                                    )}
+                                                </Select>
+
+                                                <InputError className="mt-2" message={errors.position_id} />
+                                            </div>
+                                            <div className="mt-2">
+                                                <InputLabel
+                                                    htmlFor="lastName"
+                                                    value="Candidate Platform"
+                                                />
+                                                <textarea
+                                                    className="w-full rounded-md resize-none h-40 mt-1"
+
+                                                    size="lg"
+                                                    label="Enter Candidate Platform"
+                                                    value={data.manifesto}
+                                                    onChange={(e) =>
+                                                        setData(
+                                                            "manifesto",
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    name="manifesto"
+                                                    placeholder="Enter candidate platform"
+                                                />
+                                                <InputError message={errors.manifesto} />
+                                            </div>
+                                        </div>
+                                    </DialogBody>
+                                    <DialogFooter>
+                                        <Button
+                                            variant="text"
+                                            color="red"
+                                            onClick={handleOpen}
+                                            className="mr-1"
+                                        >
+                                            <span>Cancel</span>
+                                        </Button>
+                                        <Button
+                                            variant="gradient"
+                                            color="blue"
+                                            type="submit"
+                                            disabled={processing}>
+                                            <span>Confirm</span>
+                                        </Button>
+                                    </DialogFooter>
+                                </form>
+                            </Dialog>
+
+                            {/*Update Candidate */}
+
+                            <Dialog
+                                size="xl"
+                                open={openUpdateModal}
+                                handler={handleUpdateOpen}
+                                className="overflow-y-auto"
+                            >
+                                <form onSubmit={handleUpdateSubmit}>
+                                    <DialogHeader>
+                                        Update Candidate
+                                    </DialogHeader>
+                                    <DialogBody>
+                                        <div>
+                                            <div className="mb-2">
+                                                <InputLabel
+                                                    htmlFor="candidateUpdateProfile"
+                                                    value="Update Candidate Profile"
+                                                    className="mb-4"
+                                                />
+                                                <div className="flex items-center gap-3">
+                                                    <div className="mb-2">
+                                                        <Avatar
+                                                            src={data.candidate_profile instanceof File ? URL.createObjectURL(data.candidate_profile) : (data.candidate_profile ? data.candidate_profile : DefaultCandidatePicture)}
+                                                            alt="Candidate Avatar"
+                                                            size="xxl"
+                                                            color="blue"
+                                                            withBorder={true}
+                                                            className="p-0.5"
+                                                        />
+
+                                                    </div>
+
+                                                    <div>
+                                                        <label
+                                                            htmlFor="candidateImage"
+                                                            className="relative cursor-pointer bg-gray-300 rounded-md font-medium py-2 px-4 mb-2 inline-flex items-center"
+                                                        >
+                                                            <span className="mr-2">
+                                                                Choose a file
+                                                            </span>
+                                                            <input
+                                                                type="file"
+                                                                id="candidateImage"
+                                                                name="candidate_profile"
+                                                                className="hidden"
+                                                                onChange={(e) => setData({ ...data, candidate_profile: e.target.files[0] })}
+                                                            />
+                                                        </label>
+
+
+                                                    </div>
+
+                                                </div>
+                                                <InputError className="mt-1" message={errors.candidate_profile} />
+                                            </div>
+
+                                            <div className="md:flex md:flex-wrap md:gap-2">
+                                                <div className="flex-1">
+                                                    <InputLabel
+                                                        htmlFor="firstName"
+                                                        value="Enter Candidate First Name"
+                                                    />
+
+                                                    <TextInput
+                                                        id="firstName"
+                                                        className="mt-1 block w-full"
+                                                        name="first_name"
+                                                        value={
+                                                            data.first_name ||
+                                                            ""
+                                                        }
+                                                        onChange={(e) =>
+                                                            setData(
+                                                                "first_name",
+                                                                e.target.value
+                                                            )
+                                                        }
+
+                                                        autoFocus
+                                                        autoComplete="firstName"
+                                                    />
+
+                                                    <InputError className="mt-2" />
+                                                </div>
+
+                                                <div className="flex-1">
+                                                    <InputLabel
+                                                        htmlFor="middleName"
+                                                        value="Enter Candidate Middle Name (optional)"
+                                                    />
+
+                                                    <TextInput
+                                                        id="middleName"
+                                                        className="mt-1 block w-full"
+                                                        value={
+                                                            data.middle_name ||
+                                                            ""
+                                                        }
+                                                        name="middle_name"
+                                                        onChange={(e) =>
+                                                            setData(
+                                                                "middle_name",
+                                                                e.target.value
+                                                            )
+                                                        }
+
+                                                        autoFocus
+                                                        autoComplete="middleName"
+                                                    />
+
+                                                    <InputError className="mt-2" />
+                                                </div>
+
+                                                <div className="flex-1">
+                                                    <InputLabel
+                                                        htmlFor="lastName"
+                                                        value="Enter Candidate Last Name"
+                                                    />
+
+                                                    <TextInput
+                                                        id="lastName"
+                                                        className="mt-1 block w-full"
+                                                        name="last_name"
+                                                        value={
+                                                            data.last_name || ""
+                                                        }
+                                                        onChange={(e) =>
+                                                            setData(
+                                                                "last_name",
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                        required
+                                                        autoFocus
+                                                        autoComplete="lastName"
+                                                    />
+
+                                                    <InputError className="mt-2" />
+                                                </div>
+                                            </div>
+
+                                            <div className="mt-4">
+                                                <Select
+                                                    label="Select Partylist"
+                                                    value={data.partylist_id}
+                                                    onChange={(e) =>
+                                                        setData(
+                                                            "partylist_id",
+                                                            e
+                                                        )
+                                                    }
+                                                    name="partylist"
+                                                >
+                                                    {partylist_list?.map(
+                                                        (list) => (
+                                                            <Option
+                                                                key={list.id}
+                                                                value={list.id}
+                                                            >
+                                                                {list?.name}
+                                                            </Option>
+                                                        )
+                                                    )}
+                                                </Select>
+
+                                                <InputError className="mt-2" />
+                                            </div>
+
+                                            <div className="mt-4">
+
+                                                <Select
+                                                    label="Select Position"
+                                                    value={data.position_id}
+                                                    onChange={(e) =>
+                                                        setData(
+                                                            "position_id",
+                                                            e
+                                                        )
+                                                    }
+                                                    name="position"
+                                                >
+                                                    {position_list?.map(
+                                                        (list) => (
+                                                            <Option
+                                                                key={list.id}
+                                                                value={list.id}
+                                                            >
+                                                                {list.name}
+                                                            </Option>
+                                                        )
+                                                    )}
+
+                                                </Select>
+
+                                                <InputError className="mt-2" />
+                                            </div>
+                                            <div className="mt-4">
+                                                <InputLabel
+                                                    htmlFor="lastName"
+                                                    value="Enter Candidate Platform"
+                                                />
+                                                <textarea
+                                                    className="w-full rounded-md resize-none h-40 mt-1"
+
+                                                    size="lg"
+                                                    label="Enter Candidate Platform"
+                                                    value={data.manifesto}
+                                                    onChange={(e) =>
+                                                        setData(
+                                                            "manifesto",
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    name="manifesto"
+                                                />
+                                                <InputError className="mt-1" />
+                                            </div>
+                                        </div>
+                                    </DialogBody>
+                                    <DialogFooter>
+                                        <Button
+                                            variant="text"
+                                            color="red"
+                                            onClick={handleUpdateOpen}
+                                            className="mr-1"
+                                        >
+                                            <span>Cancel</span>
+                                        </Button>
+                                        <Button
+                                            variant="gradient"
+                                            color="blue"
+                                            type="submit"
+                                            disabled={processing}
+                                        >
+                                            <span>Confirm</span>
+                                        </Button>
+                                    </DialogFooter>
+                                </form>
+                            </Dialog>
+=======
+>>>>>>> a5d97759504b06652679829a51d708a4355848c1
                         </div>
                     </div>
                     <div className="flex flex-col items-center justify-end gap-2 md:flex-row me-3 mb-1">
@@ -318,41 +883,144 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                                 ? "p-4"
                                                 : "p-4 border-b border-blue-gray-50";
 
-                                            return (
-                                                <tr key={id}>
-                                                    <td className={classes}>
-                                                        <div className="flex items-center gap-3">
-                                                            <div className="flex flex-col">
-                                                                <Typography
-                                                                    variant="small"
-                                                                    color="blue-gray"
-                                                                    className="font-normal"
-                                                                >
-                                                                    {id}
-                                                                </Typography>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td className={classes}>
+                                        return (
+                                            <tr key={id}>
+                                                <td className={classes}>
+                                                    <div className="flex items-center gap-3">
                                                         <div className="flex flex-col">
                                                             <Typography
                                                                 variant="small"
                                                                 color="blue-gray"
                                                                 className="font-normal"
                                                             >
+<<<<<<< HEAD
 
                                                                 <AvatarComponent Profile={candidate_profile} />
+=======
+                                                                {id}
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
                                                             </Typography>
                                                         </div>
-                                                    </td>
-                                                    <td className={classes}>
+                                                    </div>
+                                                </td>
+                                                <td className={classes}>
+                                                    <div className="flex flex-col">
                                                         <Typography
                                                             variant="small"
                                                             color="blue-gray"
                                                             className="font-normal"
                                                         >
-                                                            {first_name}
+                                                            <Avatar
+                                                                src={
+                                                                    candidate_profile
+                                                                        ? candidate_profile
+                                                                        : DefaultCandidatePicture
+                                                                }
+                                                            />
                                                         </Typography>
+<<<<<<< HEAD
+                                                    </div>
+                                                </td>
+                                                <td className={classes}>
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {first_name}
+                                                    </Typography>
+                                                </td>
+                                                <td className={classes}>
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {middle_name}
+                                                    </Typography>
+                                                </td>
+                                                <td className={classes}>
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {last_name}
+                                                    </Typography>
+                                                </td>
+                                                <td className={classes}>
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {partylistName}
+                                                    </Typography>
+                                                </td>
+                                                <td className={classes}>
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {positionName}
+                                                    </Typography>
+                                                </td>
+                                                <td className={classes}>
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {manifesto}
+                                                    </Typography>
+                                                </td>
+                                                <td className={classes}>
+                                                    <div className="flex gap-2">
+                                                        <Tooltip content="Edit Candidate">
+                                                            <IconButton
+                                                                variant="text"
+                                                                className="bg-amber-700 text-white"
+                                                                onClick={() =>
+                                                                    handleUpdateOpen(
+                                                                        id
+                                                                    )
+                                                                }
+                                                            >
+                                                                <PencilIcon className="h-5 w-5" />
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                        <Tooltip content="Delete Candidate">
+                                                            <IconButton
+                                                                variant="text"
+                                                                className="bg-red-700 text-white"
+                                                                onClick={() =>
+                                                                    handleDeleteOpen(
+                                                                        id
+                                                                    )
+                                                                }
+                                                            >
+                                                                <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    viewBox="0 0 24 24"
+                                                                    fill="currentColor"
+                                                                    className="w-5 h-5"
+                                                                >
+                                                                    <path
+                                                                        fillRule="evenodd"
+                                                                        d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
+                                                                        clipRule="evenodd"
+                                                                    />
+                                                                </svg>
+                                                            </IconButton>
+                                                        </Tooltip>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                    }
+                                )
+=======
                                                     </td>
                                                     <td className={classes}>
                                                         <Typography
@@ -446,6 +1114,7 @@ export function CandidateTable({ partylist_list, position_list, candidates, cand
                                             );
                                         }
                                     )
+>>>>>>> a5d97759504b06652679829a51d708a4355848c1
                             )}
                         </tbody>
 

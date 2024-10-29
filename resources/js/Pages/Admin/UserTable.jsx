@@ -25,6 +25,8 @@ import EditUserModal from "./EditUserModal";
 import DeleteUserModal from "./DeleteUserModal";
 import toast from 'react-hot-toast';
 import ExcelExport from "@/Components/ExcelExport";
+<<<<<<< HEAD
+import { router } from "@inertiajs/react";
 import CustomToast from "@/Components/CustomToast";
 import PaginationInTable from "@/Components/PaginationInTable";
 import SearchInput from "@/Components/SearchInput";
@@ -33,7 +35,21 @@ import FilterDropdown from "@/Components/FilterDropdown";
 import { useForm } from "@inertiajs/react";
 
 const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
+<<<<<<< HEAD
+    console.log(users);
+=======
 
+const UserTable = ({
+    TABLE_HEAD,
+    users,
+    currentPage,
+    totalPages,
+    setCurrentPage,
+}) => {
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
+=======
+
+>>>>>>> c3a0e03082ee157ebe23e0553389d8dac406e292
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedRoleFilter, setSelectedRoleFilter] = useState("");
 
@@ -89,6 +105,24 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
         toast.success("User successfully deleted");
         setIsSuccessMessage(true);
         setIsDeleteUserModalOpen(false);
+<<<<<<< HEAD
+
+<<<<<<< HEAD
+
+=======
+        } catch (error) {
+            console.error("Error deleting user:", error.message);
+            setIsSuccessMessage(false);
+        }
+    };
+
+    const handleFilter = (e) => {
+        const selectedValue = e.target.value;
+        setFilterValue(selectedValue);
+        console.log(selectedValue);
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
+=======
+>>>>>>> c3a0e03082ee157ebe23e0553389d8dac406e292
     };
 
     const roleOptions = [
@@ -247,6 +281,7 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
                                                 ? "p-4"
                                                 : "p-4 border-b border-blue-gray-50";
 
+<<<<<<< HEAD
                                             return (
                                                 <tr key={id}>
                                                     <td className="p-4 ">
@@ -254,6 +289,100 @@ const UserTable = ({ TABLE_HEAD, users, usersPerPage, }) => {
                                                             variant="small"
                                                             color="blue-gray"
                                                             className="font-normal"
+=======
+                                        return (
+                                            <tr key={id}>
+                                                <td className="p-4">
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {id}
+                                                    </Typography>
+                                                </td>
+                                                <td className="p-4">
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {name}
+                                                    </Typography>
+                                                </td>
+                                                <td className="p-4">
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        <Avatar
+                                                            src={
+                                                                profile_picture
+                                                            }
+                                                        />
+                                                    </Typography>
+                                                </td>
+                                                <td className="p-4">
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {email}
+                                                    </Typography>
+                                                </td>
+                                                <td className="p-4">
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {role}
+                                                    </Typography>
+                                                </td>
+                                                <td className="p-4 ">
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {new Date(
+                                                            created_at
+                                                        ).toLocaleString()}
+                                                    </Typography>
+                                                </td>
+                                                <td className="p-4">
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className="font-normal"
+                                                    >
+                                                        {new Date(
+                                                            updated_at
+                                                        ).toLocaleString()}
+                                                    </Typography>
+                                                </td>
+                                                <td className="p-5">
+                                                    <Typography
+                                                        variant="small"
+                                                        color="blue-gray"
+                                                        className={`text-white font-semibold text-center rounded-md  px-2 py-2  ${email_verified_at
+                                                            ? "bg-green-100 text-green-700"
+                                                            : "bg-red-100 text-red-700"
+                                                            }`}
+                                                    >
+                                                        {email_verified_at
+                                                            ? "VERIFIED"
+                                                            : "UNVERIFIED"}
+                                                    </Typography>
+                                                </td>
+                                                <td className={classes}>
+                                                    <div className="flex gap-3">
+                                                        <Tooltip
+                                                            content="Edit User"
+                                                            className="bg-amber-700"
+>>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
                                                         >
                                                             {id}
                                                         </Typography>
