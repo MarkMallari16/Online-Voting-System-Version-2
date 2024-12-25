@@ -6,7 +6,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 
 import { Avatar, Tooltip } from '@material-tailwind/react';
-import DefaultProfile from '../../../public/storage/images/default_profile.png'
+import DefaultProfile from '../../../public/images/default_profile.png';
 import ThemeSwitchComponent from '@/Components/ThemeSwitchComponent';
 import ModeratorNavigation from '@/Components/ModeratorNavigation';
 import TooltipComponent from '@/Components/TooltipComponent';
