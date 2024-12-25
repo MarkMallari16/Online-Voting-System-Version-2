@@ -184,7 +184,7 @@ const ActivityLog = ({ auth, logs }) => {
                                                                 </td>
                                                                 <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-900">
                                                                     <div className="flex items-center gap-2">
-                                                                        <AvatarComponent Profile={log?.user?.profile_picture} size="sm" />
+                                                                        <AvatarComponent Profile={log?.user?.profile_picture } size="sm" />
                                                                         <span>
                                                                             {
                                                                                 log
