@@ -45,8 +45,6 @@ export default function Authenticated({ user, header, children }) {
                                     </Tooltip>
                                 </NavLink>
 
-
-
                                 {user.role === 'admin' &&
                                     <>
 
@@ -112,7 +110,7 @@ export default function Authenticated({ user, header, children }) {
 
                                                 <div className='flex items-center'>
                                                     <div>
-                                                        <Avatar src={`/storage/${user.profile_picture}` ?
+                                                        <Avatar src={`/storage/app/public/${user.profile_picture}` ?
                                                             `/storage/${user.profile_picture}` : DefaultProfile} />
                                                     </div>
 

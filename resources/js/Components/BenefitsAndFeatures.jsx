@@ -32,8 +32,6 @@ const BenefitsAndFeatures = () => {
                     <div className="mb-8 lg:mb-0  bg-white p-10 rounded-lg ring-1 ring-inset ring-gray-300">
                         <div className='flex items-center gap-4' >
                             <span className='bg-gradient-to-b from-blue-200 to-blue-400 p-2 rounded-lg'>
-
-                               
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000" className="w-8 h-8"><path d="M480-720q-33 0-56.5-23.5T400-800q0-33 23.5-56.5T480-880q33 0 56.5 23.5T560-800q0 33-23.5 56.5T480-720ZM360-80v-520q-60-5-122-15t-118-25l20-80q78 21 166 30.5t174 9.5q86 0 174-9.5T820-720l20 80q-56 15-118 25t-122 15v520h-80v-240h-80v240h-80Z" /></svg>
                             </span>
 
