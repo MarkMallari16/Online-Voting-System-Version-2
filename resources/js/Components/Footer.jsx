@@ -13,15 +13,8 @@ const Footer = () => {
   };
   return (
     <>
-<<<<<<< HEAD
-      <footer className="mt-24 w-auto p-8 mx-0  md:mx-16" >
-=======
-<<<<<<< HEAD
-      <footer className="mt-24 w-auto p-8 mx-0  md:mx-6" >
-=======
       <footer className="mt-24 w-auto p-8 mx-0  md:mx-20" >
->>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
->>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
+
         <div className="flex flex-row flex-wrap items-center justify-between gap-y-6 gap-x-12 bg-white text-center md:justify-between">
           <img src={BacoorSHSLogo} alt="council-logo" className='w-36' />
           <ul className="flex flex-wrap items-center gap-y-12 gap-x-8">
@@ -61,7 +54,7 @@ const Footer = () => {
             <a href='https://www.facebook.com/stibacoorshssc' className='border border-1 border-gray-400 p-1 rounded-sm hover:border-blue-500 hover:text-blue-800 transition ease-in duration-100' >
               <span >    <FaFacebookSquare className=' text-3xl' /></span>
             </a>
-           
+
           </div>
         </div>
       </footer>

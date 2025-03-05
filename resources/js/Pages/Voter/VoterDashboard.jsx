@@ -9,15 +9,6 @@ import BarChartContainer from "../Moderator/BarChartContainer";
 import PartylistCarousel from "@/Components/PartylistCarousel";
 import Time from '../../assets/time.svg';
 import ElectionHeader from "@/Components/ElectionHeader";
-<<<<<<< HEAD
-import toast from "react-hot-toast";
-import CustomToast from "@/Components/CustomToast";
-import { Button } from "@material-tailwind/react";
-import VoteCandidateWinnerModal from "@/Components/VoteCandidateWinnerModal";
-import { LiaUserAltSlashSolid } from "react-icons/lia";
-
-=======
->>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
 
 const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionList, partyList, castedVotes, voteCounts, voterHasVoted, candidateWinners }) => {
 
@@ -77,23 +68,13 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
         election_id: electionId,
         candidate_ids: [],
     });
-<<<<<<< HEAD
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    
-=======
->>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
-    console.log(errors)
-=======
 
->>>>>>> a5d97759504b06652679829a51d708a4355848c1
     useEffect(() => {
         setData("candidate_ids", selectedCandidates);
     }, [selectedCandidates]);
 
-=======
->>>>>>> c3a0e03082ee157ebe23e0553389d8dac406e292
+
     const onSelectCandidate = (candidateId, positionId) => {
 
         const isCandidateSelected = selectedCandidates.some(
@@ -159,20 +140,7 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
         });
     };
 
-<<<<<<< HEAD
 
-<<<<<<< HEAD
-    // console.log(election)
-<<<<<<< HEAD
-    console.log(partyList)
-=======
-
->>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
-
-=======
->>>>>>> a5d97759504b06652679829a51d708a4355848c1
-=======
->>>>>>> ab8d40ed6a82537ca877ea80790e5934dae45d6e
     return (
         <div>
             {/* <div className="bg-white text-gray-900 dark:bg-[#252525] dark:ring-gray-800 dark:text-gray-100 ring-1 ring-gray-300 overflow-hidden shadow-sm rounded-lg mb-8 ">
@@ -190,24 +158,6 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
 
             {(election && election?.status === "Active") && isElectionStarted ? (
                 <div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    <PartylistCarousel partylistCarouselData={partyList}/>
-=======
-<<<<<<< HEAD
-                    <PartylistCarousel partyList={partyList}/>
-=======
-                    <PartylistCarousel />
->>>>>>> 2d24901e4dec103af57935fd35a96b1bbd3b614f
->>>>>>> 322bd4894822b2699a0f1730a42d9fab92e91933
-                    <ElectionHeader election={election} />
-=======
-
-
->>>>>>> a5d97759504b06652679829a51d708a4355848c1
-=======
->>>>>>> c3a0e03082ee157ebe23e0553389d8dac406e292
                     <div>
                         {isElectionEnded ? (
                             <>
