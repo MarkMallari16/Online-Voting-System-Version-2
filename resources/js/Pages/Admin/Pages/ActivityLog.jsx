@@ -305,7 +305,6 @@ const ActivityLog = ({ auth }) => {
                                     </div>
                                 </div>
                                 <div className="flex justify-center mt-8 ">
-
                                     <PaginationComponent
                                         dataPerPage={logs}
                                     />

@@ -6,7 +6,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 
 import { Avatar, Tooltip } from '@material-tailwind/react';
-import DefaultProfile from '../../../public/storage/images/default_profile.png'
+import DefaultProfile from '../../../public/images/default_profile.png';
 import ThemeSwitchComponent from '@/Components/ThemeSwitchComponent';
 import ModeratorNavigation from '@/Components/ModeratorNavigation';
 import TooltipComponent from '@/Components/TooltipComponent';
@@ -44,8 +44,6 @@ export default function Authenticated({ user, header, children }) {
                                         Dashboard
                                     </Tooltip>
                                 </NavLink>
-
-
 
                                 {user.role === 'admin' &&
                                     <>
@@ -113,7 +111,11 @@ export default function Authenticated({ user, header, children }) {
                                                 <div className='flex items-center'>
                                                     <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
                                                         <Avatar src={`/storage/${user.profile_picture}` ?
+=======
+                                                        <Avatar src={`/storage/app/public/${user.profile_picture}` ?
+>>>>>>> second-branch
                                                             `/storage/${user.profile_picture}` : DefaultProfile} />
 =======
                                                         <Avatar src={`/storage/${user.profile_picture}` } />

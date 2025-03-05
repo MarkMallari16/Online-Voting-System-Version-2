@@ -25,9 +25,7 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
     const [now, setNow] = useState(new Date());
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
-
     const electionId = election ? election.id : 0;
-
 
     const memoizedEndingDate = useMemo(() => {
 
@@ -177,14 +175,18 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
 >>>>>>> ab8d40ed6a82537ca877ea80790e5934dae45d6e
     return (
         <div>
-            <div className="bg-white text-gray-900 dark:bg-[#252525] dark:ring-gray-800 dark:text-gray-100 ring-1 ring-gray-300 overflow-hidden shadow-sm rounded-lg mb-8 ">
+            {/* <div className="bg-white text-gray-900 dark:bg-[#252525] dark:ring-gray-800 dark:text-gray-100 ring-1 ring-gray-300 overflow-hidden shadow-sm rounded-lg mb-8 ">
                 <div className="p-6 ">
                     <h1 className="text-xl font-medium">Welcome back, {authenticatedName}!</h1>
                 </div>
-            </div>
+            </div> */}
 
-            <PartylistCarousel partylistCarouselData={partyList} />
-            {isSuccessMessage && <CustomToast />}
+            {!isElectionEnded && (
+                <>
+                    <PartylistCarousel partylistCarouselData={partyList} />
+                    {shouldShowToast && <CustomToast />}
+                </>
+            )}
 
             {(election && election?.status === "Active") && isElectionStarted ? (
                 <div>
@@ -211,7 +213,7 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
                             <>
                                 <VoteCandidateWinnerModal isOpen={showCandidateWinnerModal} onClose={() => setShowCandidateWinnerModal(false)} candidateWinners={candidateWinners} electionTitle={election?.title} />
 
-                                <div ref={resultRef} className="mt-10">
+                                <div ref={resultRef} className="">
                                     <div className="text-end">
                                         <Button color="blue" variant="gradient" onClick={() => setShowCandidateWinnerModal(true)}>
                                             <div className="flex items-center gap-1">
@@ -277,9 +279,6 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
                                                                     No candidate available for this position
                                                                 </div>
                                                             </div>
-
-
-
                                                         </div>
                                                     </div>
                                                 )}

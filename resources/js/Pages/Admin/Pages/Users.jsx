@@ -19,8 +19,6 @@ const Users = ({ auth, usersPerPage, queryParams = null }) => {
             <div className="mt-10 max-w-full mx-auto px-4 sm:max-w-4xl md:max-w-4xl lg:max-w-6xl xl:max-w-7xl">
                 <UserTable TABLE_HEAD={TABLE_HEAD} queryParams={queryParams} users={users} usersPerPage={usersPerPage} />
             </div>
-
-
         </AuthenticatedLayout>
     )
 }
