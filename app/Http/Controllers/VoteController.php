@@ -67,4 +67,3 @@ class VoteController extends Controller
         return redirect()->back()->with('success', $result['success']);
     }
 }
-?>
