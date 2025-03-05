@@ -62,6 +62,8 @@ function AdminUserVerification({ auth, unverifiedUsers }) {
         })
 
     };
+
+    console.log(unverifiedUsers.data)
     return (
         <AuthenticatedLayout
             user={auth.user}
