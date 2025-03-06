@@ -43,6 +43,7 @@ class ElectionController extends Controller
             // 'start_date.after_or_equal' => 'The start date must be today or in the future.',
             'end_date.after_or_equal' => 'The end date must be after or equal to the start date.',
         ]);
+        
         try {
 
             $existingElection = Election::latest()->first();

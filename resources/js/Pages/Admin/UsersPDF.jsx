@@ -40,6 +40,7 @@ const UsersPDF = ({ users }) => {
             borderRadius: 4,
             marginBottom: 10,
         },
+        
         tableRow: {
             flexDirection: "row",
         },
