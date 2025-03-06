@@ -40,9 +40,8 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
 
     const isElectionEnded = election?.status === 'Inactive' || now > endDate;
     const isElectionStarted = now > new Date(election?.start_date);
-
-
     const [result, setResult] = useState(now > endDate);
+
 
     const resultRef = useRef(null);
 
@@ -145,7 +144,6 @@ const VoterDashboard = ({ authenticatedName, election, candidatesAll, positionLi
             {!isElectionEnded && (
                 <>
                     <PartylistCarousel partylistCarouselData={partyList} />
-                    {shouldShowToast && <CustomToast />}
                 </>
             )}
 
